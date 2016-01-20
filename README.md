@@ -1,5 +1,6 @@
 # NOKO
-Das NOKO Monster zum Nachbauen. Anleitungen dazu im WIKI.
+Das NOKO Monster zum Nachbauen. Beschreibung und Anleitungen dazu im WIKI.
+Jeder, der Lust hat, darf sich gerne beteiligen, ich bin für Vorschläge stets (Quell-)offen.
 
 Verzeichnisse:
 NOKO:
