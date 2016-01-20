@@ -4,6 +4,9 @@ Jeder, der Lust hat, darf sich gerne beteiligen, ich bin für Vorschläge stets 
 
 Verzeichnisse:
 
+- HOWTO_Compile:
+Hinweise und angepasste plattform.txt für die Kompilierung in der Arduino IDE
+
 - NOKO:
 Arduino-Quelltext mit allen Bibliotheken.
 
