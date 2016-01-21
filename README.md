@@ -3,7 +3,8 @@ Das NOKO Monster zum Nachbauen und gern haben. Beschreibung und Anleitungen dazu
 Jeder, der Lust hat, darf sich gerne beteiligen, ich bin für Vorschläge stets (Quell-)offen.
 
 ### Verzeichnisse:
----
+
+```
 NOKO
 ├── HOWTO_Compile: Hinweise und angepasste plattform.txt für die Kompilierung in der Arduino IDE
 ├── NOKO: Arduino-Quelltext mit allen Bibliotheken.
@@ -15,6 +16,7 @@ NOKO
 ├── Schaltplan: Schaltpläne der NOKO-Module. 
 |   ├── geda: Rohe Schaltpläne für gEDA
 ├── WIKI: Bilddateien, um öde, textlastige NOKO-WIKIs zu verschönern und veraunschaulichen. 
-...
+
+```
 
 WEITERE DATEIEN FOLGEN IN KÜRZE
