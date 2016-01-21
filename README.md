@@ -1,12 +1,12 @@
 # ![NOKO](http://www.nikolairadke.de/NOKO/noko_klein.png) NOKO
 
-Das **NOKO Monster** zum Nachbauen und gern haben. Beschreibung und Anleitungen dazu im [Wiki](https://github.com/NikolaiRadke/NOKO/wiki). Jeder, der Lust hat, darf sich gerne beteiligen, ich bin für Vorschläge stets (Quell-)offen. 
+Das **NOKO-Monster** zum Nachbauen und gern haben. Beschreibung und Anleitungen dazu im [Wiki](https://github.com/NikolaiRadke/NOKO/wiki). Jeder, der Lust hat, darf sich gerne beteiligen, ich bin für Vorschläge stets (Quell-)offen. 
 
 <table border="0">
   <tr>
     <td><img src="http://www.nikolairadke.de/NOKO/noko_nr2.png" /></td>
     <td>
-    NOKO ist ein multifunktionales Monster mit einem Arduino Nano als Mikrocontroller, Display, Uhr, Radio, MP3-Player,            Bedienelementen, Akku, Sprachset und vielen Gimmicks, verpackt in ein knuffiges Monsterkostüm - stabil, liebenswert und        manchmal auch lästig. Ganz, wie man ihn haben möchte. Er ist ein Kumpane fürs Leben und ein Begleiter am Tag und in der
+    NOKO ist ein multifunktionales Monster mit einem Arduino Nano als Mikrocontroller, Display, Uhr, Radio, MP3-Player,            Bedienelementen, Akku, Sprachset und vielen Gimmicks, verpackt in ein knuffiges Monsterkostüm - stabil, liebenswert und        manchmal auch lästig. Ganz, wie man ihn haben möchte. Er ist ein Kumpane für's Leben und ein Begleiter am Tag und in der
     Nacht. Alles, was er braucht, ist ab und zu ein bisschen Strom.<br />
     <br>
     NOKO soll unterhalten und nützlich sein, wird sich aber auch einmischen, denn sonst wird ihm schnell langweilig.<br />
@@ -41,7 +41,7 @@ NOKO/
 |   |       Hilfsprogramm, um die Textdatei über die serielle Verbindung an den Arduino zu senden.
 |   ├── NOKO_EEPROM_Disk0/
 |   |   Arduino-Sketch zum Schreiben der Grundeinstellungen in das Arduino-EEPROM und 
-│   |   zum Stellen der Echtzeituhr. Optional zum Beschrieben des AH24C32-EEPROMs auf dem Modul der Echtzeituhr.
+│   |   zum Stellen der Echtzeituhr. Optional zum Beschreiben des AH24C32-EEPROMs auf dem Modul der Echtzeituhr.
 |   |   ├── TTY/
 |   |       Hilfsprogramm, um die Textdatei über die serielle Verbindung an den Arduino zu senden.
 ├── Schaltplan/
