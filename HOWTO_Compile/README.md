@@ -1,7 +1,7 @@
 #Compiling options for NOKO
 ###NOTE: These options are used global for all sketches.
 
-To Compile NOKO.ino in the Arduino IDE 1.6.6, you need to modify the file **platform.txt**.
+To Compile NOKO.ino in the Arduino IDE 1.6.6 or 1.6.7, you need to modify the file **platform.txt**.
 - In Linux, it can be found under 
 > /usr/share/arduino/hardware/arduino/avr/platform.txt
 
