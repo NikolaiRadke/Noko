@@ -27,6 +27,10 @@ NOKO benötigt die [Arduino IDE 1.6.6](https://www.arduino.cc/en/Main/OldSoftwar
 
 ```
 NOKO/
+├── Anleitung/
+|   Die Anleitung zu NOKO als PDF und eine Verpackungsvorlage
+|   ├── scribus/
+|       Anleitungsquelldateien für Scribus mit allen Illustrationen
 ├── HOWTO_Compile/
 |   Hinweise und angepasste plattform.txt für die Kompilierung in der Arduino IDE
 ├── MP3/
