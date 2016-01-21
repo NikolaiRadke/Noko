@@ -1,11 +1,12 @@
-Sprachset für NOKO.
+#Sprachset für NOKO.
 
-001-010: Freie NOKIA-Wecktöne
-011-030: Reaktionen Bauchtaste
-031-060: Reaktionen Nasentaste
-061-080: Reatkionen Ultraschall
-081-110: Zeitevents
-110: Geburtstagssong
+| 001-010 | Freie NOKIA-Wecktöne   |
+| 011-030 | Reaktionen Bauchtaste  |
+| 031-060 | Reaktionen Nasentaste  |
+| 061-080 | Reatkionen Ultraschall |
+| 081-110 | Zeitevents             |
+| 110     | Geburtstagssong        |
+
 
 Diese Dateien kommen in den Ordner 001. Beim kopieren unbedingt die Reihenfolge einhalten.
 021 muss auch als 21. Datei kopiert werden! Siehe WIKI. 
