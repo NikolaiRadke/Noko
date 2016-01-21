@@ -17,7 +17,7 @@ Das **NOKO-Monster** zum Nachbauen und gern haben. Beschreibung und Anleitungen 
 </table>
 
 ###Hints in english 
-*Anything sourcode-related, the circut diagrams and comments on how to compile are written in english, the building documentation is in german. Feel free to ask me for translatation, if you need help. NOKO itself speaks and writes in german. However, someday, he may learn english or other languages... contribute!
+*Anything sourcode-related, the circut diagrams and comments on how to compile are written in english, the building documentation and the manual are in german. Feel free to ask me for translation, if you need help. NOKO itself speaks and writes in german. However, someday, he may learn english or other languages... contribute!
 Requirements: The [Arduino IDE 1.6.7](https://www.arduino.cc/en/Main/Software) or [Arduino IDE 1.6.6](https://www.arduino.cc/en/Main/OldSoftwareReleases#previous). Put the folder NOKO_Arduino_NOKO/ into your sketch folder. Right now, NOKO.ino won't compile without changing the local "platform.txt". See [HOWTO compile](https://github.com/NikolaiRadke/NOKO/tree/master/HOWTO_Compile) and change the file. Now NOKO.ino should compile.*
 
 ###Voraussetzungen
