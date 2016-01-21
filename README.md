@@ -52,6 +52,3 @@ NOKO/
 ```
 ###Los geht's!
 Interesse an NOKO? Fein. Hier geht es zum [Wiki](https://github.com/NikolaiRadke/NOKO/wiki).
-
-
-###WEITERE DATEIEN FOLGEN IN KÜRZE.
