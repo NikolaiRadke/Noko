@@ -2,10 +2,14 @@
 
 Das **NOKO Monster** zum Nachbauen und gern haben. Beschreibung und Anleitungen dazu im [Wiki](https://github.com/NikolaiRadke/NOKO/wiki). Jeder, der Lust hat, darf sich gerne beteiligen, ich bin für Vorschläge stets (Quell-)offen. 
 
-->![NOKO_Nr.2](http://www.nikolairadke.de/NOKO/noko_nr2.png)<-
-
-NOKO ist ein multifunktionales Monster mit einem Arduino Nano als Mikrocontroller, Display, Uhr, Radio, MP3-Player, Bedienelementen, Akku, Sprachset und vielen Gimmicks, verpackt in ein knuffiges Monsterkostüm - stabil, liebenswert und manchmal auch lästig. Ganz, wie man ihn haben möchte. 
-
+<table>
+  <tr>
+    <td>![NOKO_Nr.2](http://www.nikolairadke.de/NOKO/noko_nr2.png)</td>
+    <td>
+    NOKO ist ein multifunktionales Monster mit einem Arduino Nano als Mikrocontroller, Display, Uhr, Radio, MP3-Player,            Bedienelementen, Akku, Sprachset und vielen Gimmicks, verpackt in ein knuffiges Monsterkostüm - stabil, liebenswert und        manchmal auch lästig. Ganz, wie man ihn haben möchte. 
+    </td> 
+  </tr>
+</table>
 
 ###English 
 *Anything sourcode-related, the circut diagrams and comments on how to compile are written in english, the building documentation is in german. Feel free to ask me for translatation, if you need help. NOKO itself speaks and writes in german. However, someday, he may learn english or other languages... contribute!
