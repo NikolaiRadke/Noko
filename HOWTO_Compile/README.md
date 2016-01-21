@@ -28,3 +28,4 @@ compiler.ar.extra_flags=
 compiler.objcopy.eep.extra_flags=
 compiler.elf2hex.extra_flags=
 ```
+Without these options the compiled sketch would exceed the 32kb flash memory of the Arduino Nano.
