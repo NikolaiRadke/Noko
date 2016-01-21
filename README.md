@@ -1,9 +1,10 @@
 # ![NOKO](http://www.nikolairadke.de/NOKO/noko_klein.png) NOKO
 
+Das **NOKO Monster** zum Nachbauen und gern haben. Beschreibung und Anleitungen dazu im [Wiki](https://github.com/NikolaiRadke/NOKO/wiki). Jeder, der Lust hat, darf sich gerne beteiligen, ich bin für Vorschläge stets (Quell-)offen.
+
+###English 
 *Anything sourcode-related, the circut diagrams and comments on how to compile are written in english, the building documentation is in german. Feel free to ask me for translatation, if you need help. NOKO itself speaks and writes in german. However, someday, he may learn english or other languages... contribute!
 Requirements: The [Arduino IDE 1.6.6](https://www.arduino.cc/en/Main/OldSoftwareReleases#previous), i am planning to switch to 1.6.7 soon. Put the folder NOKO_Arduino_NOKO/ into your sketch folder. Right now, NOKO.ino won't compile without changing the local "platform.txt". See [HOWTO compile](https://github.com/NikolaiRadke/NOKO/tree/master/HOWTO_Compile) and change the file. Now NOKO.ino should compile.*
-
-Das **NOKO Monster** zum Nachbauen und gern haben. Beschreibung und Anleitungen dazu im [Wiki](https://github.com/NikolaiRadke/NOKO/wiki). Jeder, der Lust hat, darf sich gerne beteiligen, ich bin für Vorschläge stets (Quell-)offen.
 
 ###Voraussetzungen
 NOKO benötigt die [Arduino IDE 1.6.6](https://www.arduino.cc/en/Main/OldSoftwareReleases#previous), demnächst werde ich auf 1.6.7 umsteigen. Das Verzeichnis NOKO_Arduino/NOKO/ muss in den Sketch-Ordner kopiert werden. Noch kann NOKO.ino nicht kompiliert werden. Dazu muss die Datei "platform.txt" angepasst werden: [HOWTO Compile](https://github.com/NikolaiRadke/NOKO/tree/master/HOWTO_Compile). Nun sollte sich NOKO.ino kompilieren lassen.
