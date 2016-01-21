@@ -5,7 +5,7 @@ Das NOKO Monster zum Nachbauen und gern haben. Beschreibung und Anleitungen dazu
 
 ```
 NOKO/
-├── **HOWTO_Compile/**
+├── HOWTO_Compile/
 |   Hinweise und angepasste plattform.txt für die Kompilierung in der Arduino IDE
 ├── MP3/
 |   Sprachdateien für NOKO
