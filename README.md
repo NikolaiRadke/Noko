@@ -1,6 +1,6 @@
 # ![NOKO](https://github.com/NikolaiRadke/NOKO/blob/master/WIKI/noko_klein.png) NOKO
 
-*The sourcecode and comments on how to compile are written in english, the building documentation is in german. Feel free to ask me for translatation, if you need help. NOKO itself speaks and writes in german. Someday, he may learn english...*
+*Anythin sourcode-related, the circut diagrams and comments on how to compile are written in english, the building documentation is in german. Feel free to ask me for translatation, if you need help. NOKO itself speaks and writes in german. However, someday, he may learn english... contribute!*
 
 Das **NOKO Monster** zum Nachbauen und gern haben. Beschreibung und Anleitungen dazu im [Wiki](https://github.com/NikolaiRadke/NOKO/wiki). Jeder, der Lust hat, darf sich gerne beteiligen, ich bin für Vorschläge stets (Quell-)offen.
 
