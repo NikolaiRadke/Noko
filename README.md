@@ -21,7 +21,7 @@ Das **NOKO-Monster** zum Nachbauen und gern haben. Beschreibung und Anleitungen 
 Requirements: The [Arduino IDE 1.6.7](https://www.arduino.cc/en/Main/Software) or [Arduino IDE 1.6.6](https://www.arduino.cc/en/Main/OldSoftwareReleases#previous). Put the folder NOKO_Arduino_NOKO/ into your sketch folder. Right now, NOKO.ino won't compile without changing the local "platform.txt". See [HOWTO compile](https://github.com/NikolaiRadke/NOKO/tree/master/HOWTO_Compile) and change the file. Now NOKO.ino should compile.*
 
 ###Voraussetzungen
-NOKO benötigt die [Arduino IDE 1.6.7](https://www.arduino.cc/en/Main/Software) oder Arduino IDE 1.6.6](https://www.arduino.cc/en/Main/OldSoftwareReleases#previous). Das Verzeichnis NOKO_Arduino/NOKO/ muss in den Sketch-Ordner kopiert werden. Noch kann NOKO.ino nicht kompiliert werden. Dazu muss die Datei **platform.txt** angepasst werden: [HOWTO Compile](https://github.com/NikolaiRadke/NOKO/tree/master/HOWTO_Compile). Nun sollte sich NOKO.ino kompilieren lassen.
+NOKO benötigt die [Arduino IDE 1.6.7](https://www.arduino.cc/en/Main/Software) oder [Arduino IDE 1.6.6](https://www.arduino.cc/en/Main/OldSoftwareReleases#previous). Das Verzeichnis NOKO_Arduino/NOKO/ muss in den Sketch-Ordner kopiert werden. Noch kann NOKO.ino nicht kompiliert werden. Dazu muss die Datei **platform.txt** angepasst werden: [HOWTO Compile](https://github.com/NikolaiRadke/NOKO/tree/master/HOWTO_Compile). Nun sollte sich NOKO.ino kompilieren lassen.
 
 ### Verzeichnisse
 
