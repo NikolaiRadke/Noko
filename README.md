@@ -1,4 +1,4 @@
-# NOKO
+# ![NOKO](https://github.com/NikolaiRadke/NOKO/blob/master/WIKI/noko_klein.png) NOKO
 Das NOKO Monster zum Nachbauen und gern haben. Beschreibung und Anleitungen dazu im [Wiki](https://github.com/NikolaiRadke/NOKO/wiki). Jeder, der Lust hat, darf sich gerne beteiligen, ich bin für Vorschläge stets (Quell-)offen.
 
 ### Verzeichnisse
