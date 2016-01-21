@@ -1,6 +1,6 @@
 #Sprachset für NOKO
 
-Diese MP3s kommen in den Ordner 001. Beim kopieren unbedingt die Reihenfolge einhalten.
+Diese MP3s kommen in den Ordner 001. Beim Kopieren unbedingt die Reihenfolge einhalten.
 021 muss auch als 21. Datei kopiert werden! Siehe [Wiki](https://github.com/NikolaiRadke/NOKO/wiki/SDKarte).
 
 
