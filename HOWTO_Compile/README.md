@@ -14,8 +14,7 @@ Open your **platform.txt** and overwrite the lines after the line
 ```
 with the lines below.
 
-Alas, until now i wasn't able to find out more about *platform.local.txt*. 
-So backup you old platform.txt to save your old compiler options. 
+Alas, until now i wasn't able to find out more about *platform.local.txt*, which allows the user to define a specific platform.txt locally for each sketch. So better backup you old platform.txt to save your old compiler options. 
 
 ```
 # These can be overridden in platform.local.txt
