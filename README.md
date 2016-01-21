@@ -1,7 +1,5 @@
 # NOKO
-Das NOKO Monster zum Nachbauen und gern haben. Beschreibung und Anleitungen dazu im [Wiki](https://github.com/NikolaiRadke/NOKO/wiki).
-
-Jeder, der Lust hat, darf sich gerne beteiligen, ich bin für Vorschläge stets (Quell-)offen.
+Das NOKO Monster zum Nachbauen und gern haben. Beschreibung und Anleitungen dazu im [Wiki](https://github.com/NikolaiRadke/NOKO/wiki). Jeder, der Lust hat, darf sich gerne beteiligen, ich bin für Vorschläge stets (Quell-)offen.
 
 ### Verzeichnisse
 
