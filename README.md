@@ -1,4 +1,4 @@
-# ![NOKO](http:/www.nikolairadke/NOKO/noko_klein.png) NOKO
+# ![NOKO](http://www.nikolairadke.de/NOKO/noko_klein.png) NOKO
 
 *Anythin sourcode-related, the circut diagrams and comments on how to compile are written in english, the building documentation is in german. Feel free to ask me for translatation, if you need help. NOKO itself speaks and writes in german. However, someday, he may learn english... contribute!*
 
