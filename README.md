@@ -15,5 +15,6 @@ NOKO
 ├── Schaltplan: Schaltpläne der NOKO-Module. 
 |   ├── geda: Rohe Schaltpläne für gEDA
 ├── WIKI: Bilddateien, um öde, textlastige NOKO-WIKIs zu verschönern und veraunschaulichen. 
+...
 
 WEITERE DATEIEN FOLGEN IN KÜRZE
