@@ -2612,6 +2612,38 @@
             </para>
             <ITEXT CH="Tja. Hier ergibt sich eine Besonderheit: Sobald NOKO eingesteckt wird, öffnet das MP3-Modul eine Benutzeroberfläche, mit der einfach Dateien kopiert werden können. Sehr praktisch. Aber leider auf Chinesisch..."/>
             <para ALIGN="3"/>
+            <tab/>
+            <para/>
+            <tab/>
+            <ITEXT FCOLOR="Noko" CH="1."/>
+            <ITEXT CH=" Zweiten Tabulator anwählen."/>
+            <tab/>
+            <para/>
+            <tab/>
+            <ITEXT FCOLOR="Noko" CH="2."/>
+            <ITEXT CH=" Den Knopf rechts drücken."/>
+            <para/>
+            <tab/>
+            <ITEXT FCOLOR="Noko" CH="3."/>
+            <ITEXT CH=" Im Auswahlmenü das Quellverzeichnis und "/>
+            <tab/>
+            <tab/>
+            <tab/>
+            <ITEXT CH="    anschließend die MP3s zum Aufspielen wählen."/>
+            <para/>
+            <tab/>
+            <ITEXT FCOLOR="Noko" CH="4."/>
+            <ITEXT CH=" Ersten Tabulator anwählen."/>
+            <para/>
+            <tab/>
+            <ITEXT FCOLOR="Noko" CH="5."/>
+            <ITEXT CH=" Den Knopf drücken. "/>
+            <para/>
+            <para/>
+            <ITEXT CH="Nun werden die Datein hochgeladen, was anhand eines "/>
+            <ITEXT FCOLOR="Noko" CH="Fortschrittbalkens"/>
+            <ITEXT CH=" extrem eindrucksvoll dargestellt wird. Anschließend kann das Fenster geschlossen werden. Fertig."/>
+            <trail ALIGN="3"/>
             <PageItemAttributes/>
         </PAGEOBJECT>
         <PAGEOBJECT OwnPage="17" PTYPE="4" XPOS="140" YPOS="15795.38" WIDTH="165.75" HEIGHT="20" RADRECT="0" FRTYPE="0" CLIPEDIT="0" PWIDTH="1" PCOLOR="None" PCOLOR2="None" COLUMNS="1" COLGAP="0" NAMEDLST="" SHADE="100" SHADE2="100" GRTYP="0" ROT="0" PLINEART="1" PLINEEND="0" PLINEJOIN="0" LOCALSCX="1" LOCALSCY="1" LOCALX="0" LOCALY="0" PICART="1" PLTSHOW="0" BASEOF="0" textPathType="0" textPathFlipped="0" FLIPPEDH="0" FLIPPEDV="0" SCALETYPE="1" RATIO="1" PRINTABLE="1" ANNOTATION="0" ANNAME="" TEXTFLOWMODE="0" TEXTFLOW="0" TEXTFLOW2="0" TEXTFLOW3="0" AUTOTEXT="0" EXTRA="0" TEXTRA="7" BEXTRA="0" REXTRA="0" FLOP="0" PFILE="" PFILE2="" PFILE3="" PRFILE="" EPROF="" IRENDER="1" EMBEDDED="1" LOCK="0" LOCKR="0" REVERS="0" TransValue="0" TransValueS="0" TransBlend="0" TransBlendS="0" isTableItem="0" TopLine="0" LeftLine="0" RightLine="0" BottomLine="0" isGroupControl="0" NUMDASH="0" DASHS="" DASHOFF="0" NUMPO="16" POCOOR="0 0 0 0 165.75 0 165.75 0 165.75 0 165.75 0 165.75 20 165.75 20 165.75 20 165.75 20 0 20 0 20 0 20 0 20 0 0 0 0 " NUMCO="16" COCOOR="0 0 0 0 165.75 0 165.75 0 165.75 0 165.75 0 165.75 20 165.75 20 165.75 20 165.75 20 0 20 0 20 0 20 0 20 0 0 0 0 " NUMGROUP="0" GROUPS="" startArrowIndex="0" endArrowIndex="0" OnMasterPage="" ImageClip="" ImageRes="1" Pagenumber="0" isInline="0" fillRule="1" doOverprint="0" gXpos="0" gYpos="0" gWidth="0" gHeight="0" LAYER="0" BOOKMARK="0" NEXTITEM="-1" BACKITEM="-1">
