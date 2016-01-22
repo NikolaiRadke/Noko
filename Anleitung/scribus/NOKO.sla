@@ -240,7 +240,7 @@
             <para ALIGN="3"/>
             <ITEXT FONTSIZE="16" FCOLOR="NOKOdunkelgrau" CH="Distanzsensor"/>
             <para ALIGN="3"/>
-            <ITEXT CH="NOKO weiß, was um ihn herum geschieht. Wenn man sich ihm nähert, wird er sich äußern. Und in der Nacht macht er nach einem Wink das LIcht an. Wenn man will."/>
+            <ITEXT CH="NOKO weiß, was um ihn herum geschieht. Wenn man sich ihm nähert, wird er sich äußern. Und in der Nacht macht er auf einen Wink hin das LIcht an. Wenn man will."/>
             <para ALIGN="3"/>
             <para ALIGN="3"/>
             <para ALIGN="3"/>
@@ -255,7 +255,7 @@
             <para ALIGN="3"/>
             <ITEXT FONTSIZE="16" FCOLOR="NOKOdunkelgrau" CH="USB- und AUX-Anschluss"/>
             <para ALIGN="3"/>
-            <ITEXT CH="Hier kann NOKO aufgeladen werden, zudem kann er dort eine neue Firmware bekommen, um ihm seine Fehlerchen auszutreiben und man kann neue MP3-Dateien aufspielen. Mit dem AUX-Anschluss kann NOKO wiedergeben, was auch immer an eine 3,5mm-Klinke passt. Da kann kein Handylautsprecher oder IPott mithalten! "/>
+            <ITEXT CH="Hier kann NOKO aufgeladen werden, zudem kann er dort eine neue Firmware bekommen, um ihm seine Fehlerchen auszutreiben und man kann neue MP3-Dateien aufspielen. Mit dem AUX-Anschluss kann NOKO wiedergeben, was auch immer an eine 3,5mm-Klinke passt. Da kann kein Handylautsprecher oder I-Pott mithalten! "/>
             <trail ALIGN="3"/>
             <PageItemAttributes/>
         </PAGEOBJECT>
@@ -426,7 +426,7 @@
             <para ALIGN="3"/>
             <ITEXT CH="An­hand ei­nes Buch­sta­bens wer­den ak­tu­el­le Ein­stel­lun­gen dar­ge­stellt. Beim ers­ten Ein­schal­ten soll­te hier ein "/>
             <ITEXT FCOLOR="Noko" CH="n"/>
-            <ITEXT CH=" sein."/>
+            <ITEXT CH=" stehen."/>
             <para ALIGN="3"/>
             <para ALIGN="3"/>
             <ITEXT FONT="Frutiger Linotype Regular" FONTSIZE="15" FCOLOR="Noko" CH="n"/>
@@ -548,10 +548,10 @@
             <para ALIGN="3"/>
             <ITEXT FONTSIZE="16" FCOLOR="NOKOdunkelgrau" CH="Haupt­me­nü"/>
             <para ALIGN="3"/>
-            <ITEXT CH="Im Haupt­me­nü wer­den die Un­ter­menü­punk­te an­ge­zeigt. Der klei­ne Pfeil zeigt an, wel­ches Ele­ment ge­ra­de aus­ge­wählt ist. Mit"/>
-            <ITEXT FCOLOR="Noko" CH=" Lin­ker Hand "/>
-            <ITEXT CH="wird der Pfeil hoch, mit"/>
-            <ITEXT FCOLOR="Noko" CH=" Rech­ter Hand"/>
+            <ITEXT CH="Im Haupt­me­nü wer­den die Un­ter­menü­punk­te an­ge­zeigt. Der klei­ne Pfeil zeigt an, wel­ches Ele­ment ge­ra­de aus­ge­wählt ist. Mit der"/>
+            <ITEXT FCOLOR="Noko" CH=" lin­ken Hand "/>
+            <ITEXT CH="wird der Pfeil hoch, mit der"/>
+            <ITEXT FCOLOR="Noko" CH=" rech­ten Hand"/>
             <ITEXT CH=" run­ter be­wegt. Mit "/>
             <ITEXT FCOLOR="NOKOgrau" CH="der "/>
             <ITEXT FCOLOR="Noko" CH="Bauchtas­te"/>
@@ -712,7 +712,7 @@
             <ITEXT FONTSIZE="12" FCOLOR="Noko" CH="* Ge­schich­ten hö­ren"/>
             <tab FONTSIZE="12" FCOLOR="Noko"/>
             <para ALIGN="3"/>
-            <ITEXT CH="NO­KO kann Hör­spie­le er­zäh­len. Al­les hier in die­sem Un­ter­me­nü. Sofern Der Erbauer welche aufgespielt hat."/>
+            <ITEXT CH="NO­KO kann Hör­spie­le er­zäh­len. Al­les hier in die­sem Un­ter­me­nü. Sofern der Erbauer welche aufgespielt hat."/>
             <para ALIGN="3"/>
             <para ALIGN="3"/>
             <ITEXT FONTSIZE="16" FCOLOR="NOKOdunkelgrau" CH="Ra­dio hö­ren"/>
@@ -735,7 +735,7 @@
             <tab/>
             <ITEXT CH="zu fin­den. Da­zu muss das Ra­dio je­doch "/>
             <tab/>
-            <ITEXT CH="ein­ge­schal­tet sein."/>
+            <ITEXT CH="eingeschaltet sein."/>
             <para ALIGN="3">
                 <Tabs Type="0" Pos="68.75" Fill=""/>
             </para>
@@ -855,12 +855,12 @@
             <para ALIGN="3"/>
             <ITEXT CH="Sofern NOKO mit MP3s gefüttert wurde, spielt er sie auch dienstbereit ab. In der ersten Zeile zeigt NOKO den "/>
             <ITEXT FCOLOR="Noko" CH="Namen"/>
-            <ITEXT CH=" der Datei an. Allerdings nur die ersten acht Zeichen - zu mehr hat er einfach keine Lust. Darunter zeigt NOKO die Nummer an die die Anzahl aller MP3s, die er kennt."/>
+            <ITEXT CH=" der Datei an. Allerdings nur die ersten acht Zeichen - zu mehr hat er einfach keine Lust. Darunter zeigt NOKO die aktuelle Nummer an, sowie die  Anzahl aller MP3s, die er kennt."/>
             <para ALIGN="3"/>
             <para ALIGN="3"/>
             <ITEXT FONT="Courier New Regular" FONTSIZE="12" FCOLOR="Noko" SCALEH="119" KERN="2" CH="[&lt;][&gt;]"/>
             <tab FONT="Courier New Regular" FONTSIZE="12" FCOLOR="Noko" SCALEH="119" KERN="2"/>
-            <ITEXT CH="Titel aus­wahl. Läuft ei­n MP3 ge­ra­de, springt "/>
+            <ITEXT CH="Titel aus­wahl. Läuft ge­ra­de ein MP3, so springt "/>
             <tab/>
             <ITEXT CH="NO­KO zum nächs­ten/vor­he­ri­gen."/>
             <para ALIGN="3" INDENT="13.5" FIRST="-13.5">
@@ -939,7 +939,7 @@
             <ITEXT FCOLOR="Noko" CH="Geschichten"/>
             <ITEXT CH=", "/>
             <ITEXT FCOLOR="Noko" CH="Eigene MP3s"/>
-            <ITEXT CH=" und einige Luste Texte, Reime und Frechheiten, die er als "/>
+            <ITEXT CH=" und einige lustige Texte, Reime und Frechheiten, die er als "/>
             <ITEXT FCOLOR="Noko" CH="Events"/>
             <ITEXT CH=" auf dem Display von sich gibt. Aber keine Sorge: Im Großen und Ganzen bleibt NOKO doch immer derselbe."/>
             <trail ALIGN="3"/>
@@ -960,22 +960,23 @@
             <tab FONT="Frutiger Linotype Regular" FCOLOR="Noko"/>
             <tab FONT="Frutiger Linotype Regular"/>
             <ITEXT FONT="Frutiger Linotype Regular" CH="löst der Di­stanz­sen­sor kei­ne Spra­che aus"/>
+            <ITEXT CH="."/>
             <para ALIGN="3"/>
             <tab FONT="Frutiger Linotype Regular" FCOLOR="Noko"/>
             <ITEXT FONT="Frutiger Linotype Regular" FCOLOR="Noko" CH="•"/>
             <tab FONT="Frutiger Linotype Regular"/>
             <ITEXT FONT="Frutiger Linotype Regular" CH="sagt NO­KO nichts"/>
-            <ITEXT CH=", außer man drückt Tasten"/>
+            <ITEXT CH=", außer man drückt Tasten."/>
             <para ALIGN="3"/>
             <tab FONT="Frutiger Linotype Regular" FCOLOR="Noko"/>
             <ITEXT FONT="Frutiger Linotype Regular" FCOLOR="Noko" CH="•"/>
             <tab FONT="Frutiger Linotype Regular" FCOLOR="Noko"/>
-            <ITEXT CH="wird ein Strom­spar­mo­dus ak­tiv"/>
+            <ITEXT CH="wird ein Strom­spar­mo­dus ak­tiv."/>
             <para ALIGN="3"/>
             <tab/>
             <ITEXT FONT="Frutiger Linotype Regular" FCOLOR="Noko" CH="•"/>
             <tab FONT="Frutiger Linotype Regular" FCOLOR="Noko"/>
-            <ITEXT CH="kann das Dis­play au­to­ma­tisch dim­men"/>
+            <ITEXT CH="kann das Dis­play au­to­ma­tisch dim­men."/>
             <para ALIGN="3"/>
             <para ALIGN="3"/>
             <ITEXT FONT="Courier New Regular" FONTSIZE="12" FCOLOR="Noko" SCALEH="119" KERN="2" CH="[an]"/>
@@ -1372,7 +1373,7 @@
             </para>
             <ITEXT CH="Ein sehr wich­ti­ger Menü­punkt. Hier wird NO­KOs Kum­pel, sein Be­zugs­punkt oder auch, was er al­ler­dings we­ni­ger mag, sein Be­sit­zer samt Email an­ge­zeigt. Das ist so­gar so wich­tig, dass NO­KO nicht von al­lei­ne zur Uhr­zeit zu­rück­kehrt! Nach Drücken ei­ner "/>
             <ITEXT FCOLOR="Noko" CH="be­lie­bi­gen Tas­te "/>
-            <ITEXT CH=" wird noch die Firm­wa­re­ver­si­on und der Her­stel­ler an­ge­zeigt. Mit ei­nem Druck auf die "/>
+            <ITEXT CH=" werden noch die Firm­wa­re­ver­si­on und der Her­stel­ler an­ge­zeigt. Nach ei­nem Druck auf die "/>
             <ITEXT FCOLOR="Noko" CH="Na­sen­tas­te"/>
             <ITEXT CH=" ist der Spuk aber vor­bei und NOKO zeigt wie­der die Uhr­zeit an."/>
             <trail ALIGN="3">
@@ -1635,7 +1636,7 @@
             </para>
             <ITEXT CH="Das ist natürlich eine sehr stromsparende Maßnahme. Einfach am "/>
             <ITEXT FCOLOR="Noko" CH="Lautstärkeregeler"/>
-            <ITEXT CH=" ausschalten. Dadurch wird NOKO so espritvoll wie ein Stein, was ja nicht ganz Sinn der Sache ist, beispielsweise im Kino oder in der Oper aber angemessen wäre. Allerdings entläd sich so zwangsläufig die Pufferbatterie der Uhr. Sollte er nach zehn Jahren nicht wieder eingeschaltet werden, ist sie alle... "/>
+            <ITEXT CH=" ausschalten. Dadurch wird NOKO so espritvoll wie ein Stein, was ja nicht ganz Sinn der Sache ist, beispielsweise im Kino oder in der Oper aber angemessen wäre. Allerdings entläd sich so zwangsläufig die Pufferbatterie der Uhr. Sollte er nach zehn Jahren nicht wieder eingeschaltet werden, ist sie alle... ."/>
             <trail ALIGN="3">
                 <Tabs Type="0" Pos="95" Fill=""/>
                 <Tabs Type="0" Pos="95" Fill=""/>
@@ -1886,7 +1887,7 @@
             <ITEXT CH=" drücken."/>
             <para ALIGN="3"/>
             <para ALIGN="3"/>
-            <ITEXT FCOLOR="NOKOdunkelgrau" CH="Hil­fe! Das Me­nü ist trotz Di­stanz­licht dun­kel!"/>
+            <ITEXT FCOLOR="NOKOdunkelgrau" CH="Hil­fe! Das Me­nü ist trotz des Di­stanz­lichtes dun­kel!"/>
             <ITEXT CH=" "/>
             <para ALIGN="3"/>
             <ITEXT CH="Glei­ches Pro­blem wie oben: Er ist ge­dimmt. An hel­len Som­mer­ta­gen drau­ßen ist das kein Pro­blem. Ist die Dis­play­be­leuch­tung aus, weil man sich au­ßer­halb des "/>
@@ -2528,7 +2529,7 @@
                 <Tabs Type="0" Pos="95" Fill=""/>
                 <Tabs Type="0" Pos="95" Fill=""/>
             </para>
-            <ITEXT FONTSIZE="16" FCOLOR="NOKOdunkelgrau" CH="Eigene MP3 auf NOKO spielen"/>
+            <ITEXT FONTSIZE="16" FCOLOR="NOKOdunkelgrau" CH="Eigene MP3s auf NOKO spielen"/>
             <para ALIGN="3" INDENT="13.5" FIRST="-13.5">
                 <Tabs Type="0" Pos="12.5" Fill=""/>
                 <Tabs Type="0" Pos="13" Fill=""/>
