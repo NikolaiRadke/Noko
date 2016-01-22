@@ -28,13 +28,13 @@ NOKO benötigt die [Arduino IDE 1.6.7](https://www.arduino.cc/en/Main/Software) 
 ```
 NOKO/
 ├── Anleitung/
-|   Die Anleitung zu NOKO als PDF und eine Verpackungsvorlage
+|   Die Anleitung zu NOKO als PDF und eine Verpackungsvorlage.
 |   ├── scribus/
-|       Anleitungsquelldateien für Scribus mit allen Illustrationen
+|       Anleitungsquelldateien für Scribus mit allen Illustrationen und Schriften.
 ├── HOWTO_Compile/
-|   Hinweise und angepasste plattform.txt für die Kompilierung in der Arduino IDE
+|   Hinweise und angepasste plattform.txt für die Kompilierung in der Arduino IDE.
 ├── MP3/
-|   Sprachdateien für NOKO
+|   Sprachdateien für NOKO.
 ├── NOKO_Arduino/
 |   Arduino-Sketche
 |   ├── NOKO/
@@ -44,14 +44,14 @@ NOKO/
 │   |   ├── TTY/
 |   |       Hilfsprogramm, um die Textdatei über die serielle Verbindung an den Arduino zu senden.
 |   ├── NOKO_EEPROM_Disk0/
-|   |   Arduino-Sketch zum Schreiben der Grundeinstellungen in das Arduino-EEPROM und 
-│   |   zum Stellen der Echtzeituhr. Optional zum Beschreiben des AH24C32-EEPROMs auf dem Modul der Echtzeituhr.
+|   |   Arduino-Sketch zum Schreiben der Grundeinstellungen in das Arduino-EEPROM und zum Stellen 
+|   |   der Echtzeituhr. Optional zum Beschreiben des AH24C32-EEPROMs auf dem Modul der Echtzeituhr.
 |   |   ├── TTY/
 |   |       Hilfsprogramm, um die Textdatei über die serielle Verbindung an den Arduino zu senden.
 ├── Schaltplan/
 |   Schaltpläne der NOKO-Module. 
 |   ├── geda/
-|   Rohe Schaltpläne für gEDA
+|   Rohe Schaltpläne für gEDA.
 
 ```
 ###Los geht's!
