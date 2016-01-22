@@ -957,12 +957,11 @@
             <ITEXT CH="Manch­mal ist NO­KO ganz schön red­se­lig. Zum Glück gibt es den Nacht­mo­dus! In ei­nem an­ge­ge­be­nen Zeit­raum, vor­ein­ge­stellt ist 22:00 bis 09:00 Uhr, hält NO­KO sich vor­nehm zu­rück. In die­sem Zeit­raum"/>
             <para ALIGN="3"/>
             <para ALIGN="3"/>
-            <tab FONT="Frutiger Linotype Regular"/>
-            <ITEXT FONT="Frutiger Linotype Regular" FCOLOR="Noko" CH="•"/>
+            <tab FONT="Frutiger Linotype Regular" FCOLOR="Noko"/>
             <tab FONT="Frutiger Linotype Regular"/>
             <ITEXT FONT="Frutiger Linotype Regular" CH="löst der Di­stanz­sen­sor kei­ne Spra­che aus"/>
             <para ALIGN="3"/>
-            <tab/>
+            <tab FONT="Frutiger Linotype Regular" FCOLOR="Noko"/>
             <ITEXT FONT="Frutiger Linotype Regular" FCOLOR="Noko" CH="•"/>
             <tab FONT="Frutiger Linotype Regular"/>
             <ITEXT FONT="Frutiger Linotype Regular" CH="sagt NO­KO nichts"/>
@@ -1017,10 +1016,10 @@
             <ITEXT CH=" ne­ben der Uhr ein "/>
             <ITEXT FCOLOR="Noko" CH="N"/>
             <ITEXT CH=" und der Nacht­mo­dus ver­rich­tet sei­nen Dienst."/>
-            <breakline/>
             <para ALIGN="3" INDENT="0" FIRST="0">
                 <Tabs Type="0" Pos="92" Fill=""/>
             </para>
+            <breakline/>
             <ITEXT CH="Der Zeit­raum wird, wie bei der Uhr­zeit oder dem Alarm auch, wie­der mit den "/>
             <ITEXT FCOLOR="Noko" CH="Hand­tas­ten"/>
             <ITEXT CH=" und der "/>
@@ -1165,19 +1164,19 @@
             <tab/>
             <ITEXT CH="so da. Und bei "/>
             <ITEXT FCOLOR="Noko" CH="9"/>
-            <ITEXT CH="? So ziemlich je­de Mi­nu­te. Bei "/>
+            <ITEXT CH="? So ziem­lich je­de Mi­nu­te. Bei "/>
             <ITEXT FCOLOR="Noko" CH="4"/>
-            <ITEXT CH=" et­wa al­le hal­be Stun­de. Aber das be­stimmt der Zu­fall. Im Nachtmodus macht NOKO keine Events."/>
+            <ITEXT CH=" et­wa al­le hal­be Stun­de. Aber das be­stimmt der Zu­fall. Im Nacht­mo­dus macht NO­KO kei­ne Events."/>
             <para ALIGN="3">
                 <Tabs Type="0" Pos="92" Fill=""/>
             </para>
             <para ALIGN="3">
                 <Tabs Type="0" Pos="92" Fill=""/>
             </para>
-            <ITEXT FCOLOR="NOKOdunkelgrau" CH="Hinweis"/>
+            <ITEXT FCOLOR="NOKOdunkelgrau" CH="Hin­weis"/>
             <ITEXT CH=": "/>
             <ITEXT FCOLOR="Noko" CH="Events"/>
-            <ITEXT CH=" lassen sich mit einem Druck auf die Nasentaste unterbrechen, falls die eine Minute mal zu lang werden sollte. Dann zeigt NOKO wieder die Uhrzeit."/>
+            <ITEXT CH=" las­sen sich mit ei­nem Druck auf die Na­sen­tas­te un­ter­bre­chen, falls die ei­ne Mi­nu­te mal zu lang wer­den soll­te. Dann zeigt NO­KO wie­der die Uhr­zeit."/>
             <para ALIGN="3">
                 <Tabs Type="0" Pos="92" Fill=""/>
             </para>
@@ -1196,11 +1195,11 @@
             <ITEXT FCOLOR="Noko" CH="9"/>
             <ITEXT CH=" be­stimmt. Mit "/>
             <ITEXT FCOLOR="Noko" CH="0"/>
-            <ITEXT CH=" wird er aus­ge­schal­tet. NO­KO be­merkt nicht, wenn man ihn in die Hand nimmt, auch das Dis­play wird nicht ein­ge­schal­tet, wenn es ge­dimmt wur­de. Die anderen Werte von "/>
+            <ITEXT CH=" wird er aus­ge­schal­tet. NO­KO be­merkt nicht, wenn man ihn in die Hand nimmt, auch das Dis­play wird nicht ein­ge­schal­tet, wenn es ge­dimmt wur­de. Die an­de­ren Wer­te von "/>
             <ITEXT FCOLOR="Noko" CH="1"/>
             <ITEXT CH=" bis "/>
             <ITEXT FCOLOR="Noko" CH="9"/>
-            <ITEXT CH=" ent­sprechen dabei je­weils etwa "/>
+            <ITEXT CH=" ent­spre­chen da­bei je­weils et­wa "/>
             <ITEXT FCOLOR="Noko" CH="10 cm"/>
             <ITEXT CH=", bei "/>
             <ITEXT FCOLOR="Noko" CH="5"/>
@@ -1211,7 +1210,7 @@
             <para ALIGN="3">
                 <Tabs Type="0" Pos="91.25" Fill=""/>
             </para>
-            <ITEXT FCOLOR="NOKOdunkelgrau" CH="Hinweis"/>
+            <ITEXT FCOLOR="NOKOdunkelgrau" CH="Hin­weis"/>
             <ITEXT CH=": Bei "/>
             <ITEXT FCOLOR="Noko" CH="0"/>
             <ITEXT CH=" wird auch in der Uhr­an­zei­ge ein "/>
@@ -1221,12 +1220,12 @@
             <ITEXT CH=" än­dert nichts, die Emp­find­lich­keit muss hier erst wie­der hoch­ge­stellt wer­den."/>
             <para ALIGN="3"/>
             <para/>
-            <ITEXT FCOLOR="Noko" CH="weiter..."/>
+            <ITEXT FCOLOR="Noko" CH="wei­ter..."/>
             <tab FCOLOR="Noko"/>
             <para ALIGN="3">
                 <Tabs Type="0" Pos="91.25" Fill=""/>
             </para>
-            <ITEXT CH="Ja. Dieser Eintrag führt zu weiteren Einstellungen. Ausprobieren. Nur Mut."/>
+            <ITEXT CH="Die­ser Ein­trag führt zu wei­te­ren Ein­stel­lun­gen. Aus­pro­bie­ren. Nur Mut."/>
             <para ALIGN="3">
                 <Tabs Type="0" Pos="91.25" Fill=""/>
             </para>
@@ -1839,23 +1838,31 @@
             <para ALIGN="3"/>
             <ITEXT CH="Das könn­te ver­schie­de­ne Ur­sa­chen ha­ben: "/>
             <para ALIGN="3"/>
+            <para ALIGN="3"/>
+            <tab/>
             <ITEXT CH="Viel­leicht ist er auf "/>
             <ITEXT FCOLOR="Noko" CH="Stumm"/>
-            <ITEXT CH=" ge­stellt. "/>
+            <ITEXT CH=" ge­stellt? "/>
             <para ALIGN="3"/>
+            <tab/>
             <ITEXT CH="Viel­leicht ist der "/>
             <ITEXT FCOLOR="Noko" CH="Nacht­mo­dus"/>
-            <ITEXT CH=" ak­tiv. "/>
+            <ITEXT CH=" ak­tiv? "/>
             <para ALIGN="3"/>
+            <tab/>
             <ITEXT CH="Viel­leicht ist die "/>
             <ITEXT FCOLOR="Noko" CH="Laut­stär­ke­re­ge­lung"/>
-            <ITEXT CH=" auf Mi­ni­mum."/>
+            <ITEXT CH=" auf Mi­ni­mum?"/>
             <para ALIGN="3"/>
+            <tab/>
             <ITEXT CH="Viel­leicht ist er ge­dimmt im "/>
             <ITEXT FCOLOR="Noko" CH="Ak­kuspar­mo­dus"/>
-            <ITEXT CH="."/>
+            <ITEXT CH="?"/>
             <para ALIGN="3"/>
-            <ITEXT CH="Viel­leicht ist er aus."/>
+            <tab/>
+            <ITEXT CH="Viel­leicht ist er "/>
+            <ITEXT FCOLOR="Noko" CH="aus"/>
+            <ITEXT CH="?"/>
             <para ALIGN="3"/>
             <para ALIGN="3"/>
             <ITEXT FCOLOR="NOKOdunkelgrau" CH="Hil­fe! Ich drücke ei­ne Tas­te, aber es pas­siert nichts!"/>
@@ -1935,15 +1942,16 @@
             <para ALIGN="3"/>
             <para ALIGN="3"/>
             <para ALIGN="3"/>
-            <ITEXT CH="Ladespannung "/>
+            <ITEXT CH="Ladespannung: "/>
             <tab/>
             <ITEXT CH="5V 1A"/>
             <para ALIGN="3"/>
-            <ITEXT CH="Akku"/>
+            <para ALIGN="3"/>
+            <ITEXT CH="Akku:"/>
             <tab/>
             <tab/>
             <tab/>
-            <ITEXT CH="LiPo 1800 mAh 4,2V mit"/>
+            <ITEXT CH="LiPo 1800 mAh 3,7V mit"/>
             <tab/>
             <tab/>
             <tab/>
@@ -1977,12 +1985,13 @@
             <para ALIGN="3"/>
             <para ALIGN="3"/>
             <para ALIGN="3"/>
-            <para ALIGN="3"/>
-            <para ALIGN="3"/>
-            <para ALIGN="3"/>
             <ITEXT CH="NOKO wurde entworfen, programmiert und gebaut von Niko, genäht hat ihn Nora. Danke an: Nikos Vater (Bau und Test), Carsten Caniglia (Stimme)."/>
             <para ALIGN="3"/>
             <para ALIGN="3"/>
+            <ITEXT CH="Interesse an NOKO?"/>
+            <breakline/>
+            <ITEXT FCOLOR="Noko" CH="https://github.com/NikolaiRadke/NOKO"/>
+            <para/>
             <ITEXT CH="Baut NOKOs. Denkt auch an Eure Freunde."/>
             <trail/>
             <PageItemAttributes/>
