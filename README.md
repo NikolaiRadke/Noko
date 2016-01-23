@@ -31,28 +31,32 @@ NOKO/
 |   Die Anleitung zu NOKO als PDF und eine Verpackungsvorlage.
 |   ├── scribus/
 |       Anleitungsquelldateien für Scribus mit allen Illustrationen und Schriften.
+|
 ├── HOWTO_Compile/
 |   Hinweise und angepasste plattform.txt für die Kompilierung in der Arduino IDE.
+|
 ├── MP3/
 |   Sprachdateien für NOKO.
-├── NOKO_Arduino/
+|
+├── src/
 |   Arduino-Sketche
 |   ├── NOKO/
 |   |   Arduino-Quelltext mit allen Bibliotheken.
 |   ├── NOKO_Disk1/
 |   |   Arduino-Sketch zum Beschreiben des 24LC256-EEPROMs.
-│   |   ├── TTY/
-|   |       Hilfsprogramm, um die Textdatei über die serielle Verbindung an den Arduino zu senden.
+│   |   
 |   ├── NOKO_EEPROM_Disk0/
 |   |   Arduino-Sketch zum Schreiben der Grundeinstellungen in das Arduino-EEPROM und zum Stellen 
 |   |   der Echtzeituhr. Optional zum Beschreiben des AH24C32-EEPROMs auf dem Modul der Echtzeituhr.
-|   |   ├── TTY/
-|   |       Hilfsprogramm, um die Textdatei über die serielle Verbindung an den Arduino zu senden.
+|   |       
 ├── Schaltplan/
 |   Schaltpläne der NOKO-Module. 
 |   ├── geda/
 |   Rohe Schaltpläne für gEDA.
-
+|
+├── Write_EEPROM/
+    ├── Schaltplan/
+    Hilfsprogramme, um Daten über die serielle Verbindung zum Arduino und den EEPROMs zu senden. 
 ```
 ###Los geht's!
 Interesse an NOKO? Fein. Hier geht es zum [Wiki](https://github.com/NikolaiRadke/NOKO/wiki).
