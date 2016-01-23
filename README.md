@@ -6,8 +6,8 @@ Das **NOKO-Monster** zum Nachbauen und gern haben. Beschreibung und Anleitungen 
   <tr>
     <td><img src="http://www.nikolairadke.de/NOKO/noko_nr2.png" /></td>
     <td>
-    NOKO ist ein multifunktionales Monster mit einem Arduino Nano als Mikrocontroller, Display, Uhr, Radio, MP3-Player,      Bedienelementen, Akku, Sprachset und vielen Gimmicks, verpackt in ein knuffiges Monsterkostüm - stabil, liebenswert      und manchmal auch lästig. Ganz, wie man ihn, sie oder es haben möchte. Es ist ein Kumpane für's Leben und ein
-    Begleiter am Tag und in der Nacht. Alles, was er braucht, ist ab und zu ein bisschen Strom.<br />
+    NOKO ist ein multifunktionales Monster mit einem Arduino Nano als Mikrocontroller, Display, Uhr, Radio, MP3-Player,      Bedienelementen, Akku, Sprachset und vielen Gimmicks, verpackt in ein knuffiges Monsterkostüm - stabil, liebenswert      und manchmal auch lästig. Ganz, wie man es haben möchte. Der, die oder das NOKO - darüber entscheidet das Sprachset.     In diesen Repository ist er ein Kerl. Ein ganzer! Er ist ein Kumpane für's Leben und ein Begleiter am Tag und in 
+    der Nacht. Alles, was er braucht, ist ab und zu ein bisschen Strom.<br />
     <br>
     NOKO soll unterhalten und nützlich sein, wird sich aber auch einmischen, denn sonst wird ihm schnell 
     langweilig.<br />
