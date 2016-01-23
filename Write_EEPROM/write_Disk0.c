@@ -2,9 +2,9 @@
 // Writes file "texte" with a delay of 5ms for each char to 
 // specified destination
 //
-// Compile with "gcc schreiben.c" 
-// Rename with "mv a.out schreiben"
-// Set schreiben with "chmod 755 schreiben" to be executeable
+// Compile with "gcc write_Disk0.c" 
+// Rename with "mv a.out write_Disk0"
+// Set schreiben with "chmod 755 write_Disk0" to be executeable
 // Use with "./schreiben > /dev/ttyUSBX (X=used USB port, see
 // port number in Arduino IDE
 
@@ -15,7 +15,7 @@ int main()
    int c;
    FILE *datei;
    usleep(5000000);	
-   datei=fopen("texte","r");
+   datei=fopen("Disk0","r");
    if(datei != NULL)
       {
          while((c=fgetc(datei))!= EOF)
