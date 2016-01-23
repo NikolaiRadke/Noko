@@ -12,7 +12,7 @@ if another USB port is used by NOKO, modify /dev/USB0 to /dev/USB1 or whatever t
 
 5. Write the text file to EEPROM with the command  
 ``` ./write_Disk0 > /dev/ttyUSB0 ```  
-or
+or  
 ``` ./write_Disk1 > /dev/ttyUSB0 ```  
 
 
