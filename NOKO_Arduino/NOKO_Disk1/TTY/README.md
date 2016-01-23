@@ -10,10 +10,8 @@ if another USB port is used by NOKO, modify /dev/USB0 to /dev/USB1 or whatever t
 
 4. chance the directoy to NOKO/NOKO_Disk1/TTY or NOKO/NOKO_EEPROM_DISK0/TTY
 
-5. Write the text file to EEPROM with the command
-```
-./burn > /dev/ttyUSB0
-```
+5. Write the text file to EEPROM with the command  
+``` ./burn > /dev/ttyUSB0 ```  
 
 ###NOTE 
 *burn* was compiled with *x86_64*. For other platforms, see *burn.c* comments to compile it (easy) for yourself.
