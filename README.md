@@ -44,7 +44,6 @@ NOKO/
 |   |   Arduino-Quelltext mit allen Bibliotheken.
 |   ├── NOKO_Disk1/
 |   |   Arduino-Sketch zum Beschreiben des 24LC256-EEPROMs.
-│   |   
 |   ├── NOKO_EEPROM_Disk0/
 |   |   Arduino-Sketch zum Schreiben der Grundeinstellungen in das Arduino-EEPROM und zum Stellen 
 |   |   der Echtzeituhr. Optional zum Beschreiben des AH24C32-EEPROMs auf dem Modul der Echtzeituhr.
