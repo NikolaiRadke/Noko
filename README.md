@@ -37,25 +37,25 @@ NOKO/
 |
 ├── MP3/
 |   Sprachdateien für NOKO.
-|
-├── src/
-|   Arduino-Sketche
-|   ├── NOKO/
-|   |   Arduino-Quelltext mit allen Bibliotheken.
-|   ├── NOKO_Disk1/
-|   |   Arduino-Sketch zum Beschreiben des 24LC256-EEPROMs.
-|   ├── NOKO_EEPROM_Disk0/
-|   |   Arduino-Sketch zum Schreiben der Grundeinstellungen in das Arduino-EEPROM und zum Stellen 
-|   |   der Echtzeituhr. Optional zum Beschreiben des AH24C32-EEPROMs auf dem Modul der Echtzeituhr.
-|   |       
+|          
 ├── Schaltplan/
+|   Schaltpläne für NOKO
 |   Schaltpläne der NOKO-Module. 
 |   ├── geda/
-|   Rohe Schaltpläne für gEDA.
+|       Rohe Schaltpläne für gEDA.
 |
 ├── Write_EEPROM/
-    ├── Schaltplan/
-    Hilfsprogramme, um Daten über die serielle Verbindung zum Arduino und den EEPROMs zu senden. 
+|   Hilfsprogramme, um Daten über die serielle Verbindung zum Arduino und den EEPROMs zu senden. 
+|
+├── src/
+    Arduino-Sketche
+    ├── NOKO/
+    |   Arduino-Quelltext mit allen Bibliotheken.
+    ├── NOKO_Disk1/
+    |   Arduino-Sketch zum Beschreiben des 24LC256-EEPROMs.
+    ├── NOKO_EEPROM_Disk0/
+        Arduino-Sketch zum Schreiben der Grundeinstellungen in das Arduino-EEPROM und zum Stellen 
+        der Echtzeituhr. Optional zum Beschreiben des AH24C32-EEPROMs auf dem Modul der Echtzeituhr.
 ```
 ###Los geht's!
 Interesse an NOKO? Fein. Hier geht es zum [Wiki](https://github.com/NikolaiRadke/NOKO/wiki).
