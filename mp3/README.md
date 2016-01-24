@@ -1,18 +1,17 @@
-#Sprachset für NOKO
+#Voice set for NOKO - german
 
-Diese MP3s kommen in den Ordner **001**. Beim Kopieren unbedingt die Reihenfolge einhalten.
-021.mp3 muss auch als 21. Datei kopiert werden! Siehe [Wiki](https://github.com/NikolaiRadke/NOKO/wiki/SDKarte).
+Copy theese mp3s into the folder **001** on your microSD card. Strictly observe the sequence!
+021.mp3 must be copied as the 21. file. See the [Wiki](https://github.com/NikolaiRadke/NOKO/wiki/SDKarte).
 
 
-| Nummer  | Zuordung               |
-| --------|-----------------------:|
-| 001-010 | Freie NOKIA-Wecktöne   |
-| 011-030 | Reaktionen Bauchtaste  |
-| 031-060 | Reaktionen Nasentaste  |
-| 061-080 | Reatkionen Ultraschall |
-| 081-110 | Zeitevents             |
-| 110     | Geburtstagssong        |
+| Number  | Assignment              |
+| --------|------------------------:|
+| 001-010 | Free NOKIA-Alarm sounds |
+| 011-030 | Response belly button   |
+| 031-060 | Response nose button    |
+| 061-080 | Response ultrasonic     |
+| 081-110 | Time based events       |
+| 110     | Birthday song           |
 
-011-110 wurden von meinem Kollegen [Carsten Caniglia](http://www.carstencaniglia.com) geprochen. Warum? 
-Er macht das super - zudem möchte man nicht jeden Tag ständig seine eigene Stimme hören, vor allem dann
-nicht, wenn die Entwicklung über ein Jahr dauert.
+011-110 has been spoken by my fellow actor [Carsten Caniglia](http://www.carstencaniglia.com) Why? 
+He has done a great job. - moreover i don't want to listen to my own voice every day, especially when development takes more than a year!
