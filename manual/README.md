@@ -1,5 +1,5 @@
 #Manual for NOKO
-This folder contains the 19 page manual as PDF, written in german. Box.pdf is a design template to place NOKO in a
+This folder contains the 19 page manual as PDF, written in German. Box.pdf is a design template to place NOKO in a
 pretty matching gift box.
 
 Both PDF have been written with [Scribus](http://www.scribus.net). The source files, fonts and illustrations are
