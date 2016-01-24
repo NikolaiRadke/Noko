@@ -3,7 +3,7 @@
 * **NOKO.png**:
 NOKO's main schematic.
 * **NOKO_Amp.png**:
-Amplifier with TDA7053a and ADC-schematic vor the buttons.
+Amplifier with TDA7053a and ADC-schematic for the buttons.
 * **NOKO_USB.png**:
 Power source and USB hub.
 
