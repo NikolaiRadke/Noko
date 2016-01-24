@@ -1,4 +1,4 @@
-#How to set a serial connection to NOKO (Linux)
+#Setup a serial connection and write to EEPROMs (Linux)
 
 1. Open the NOKO writer in the Arduino IDE and start it. 
 
@@ -18,6 +18,5 @@ if another USB port is used by NOKO, modify /dev/USB0 to /dev/USB1 or whatever t
 or  
 ``` ./write_Disk1 > /dev/ttyUSB0 ```  
 
-
 ### NOTE 
-*burn* was compiled with *x86_64*. For other platforms, see *burn.c* comments to compile it easy for yourself.
+*write_DiskX* was compiled with *x86_64*. For other platforms, see *burn.c* comments to compile it easy for yourself.
