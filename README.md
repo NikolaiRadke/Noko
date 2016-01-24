@@ -1,6 +1,6 @@
 # ![NOKO](http://www.nikolairadke.de/NOKO/noko_klein.png) NOKO
 
-The **NOKO Monster**, lovely and naughty, to build on your own. Everyone is invited to contribute. NOKO is for everyone. 
+The **NOKO Monster**, lovely and naughty, to build on your own. Everyone is invited to **contribute**. NOKO is for everyone. 
 
 <table border="0">
   <tr>
