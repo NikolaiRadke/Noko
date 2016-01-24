@@ -56,5 +56,5 @@ NOKO/
 ###Let's get started!
 
 Interested in NOKO? Great. Start here:  
-[German wiki](https://github.com/NikolaiRadke/NOKO/wiki).
+[German wiki](https://github.com/NikolaiRadke/NOKO/wiki).  
 English wiki will follow...
