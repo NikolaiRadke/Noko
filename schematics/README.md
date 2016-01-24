@@ -1,10 +1,10 @@
-# Schaltpläne
+# Schematics
 
 * **NOKO.png**:
-NOKOS Grundschaltung
+NOKO's main schematic.
 * **NOKO_Amp.png**:
-Verstärker auf TDA7053a-Basis und ADC-Schaltung der Druckknöpfe
+Amplifier with TDA7053a and ADC-schematic vor the buttons.
 * **NOKO_USB.png**:
-Stromversorgung und USB-Hub
+Power source and USB hub.
 
-Diese Schaltpläne wurden mit [gEDA](http://www.geda-project.org/) erstellt. Die Quelldateien liegen im Verzeichnis [geda/](https://github.com/NikolaiRadke/NOKO/tree/master/Schaltplan/geda).
+These schematics have been written with [gEDA](http://www.geda-project.org/). You can find the source files in folder [geda/](https://github.com/NikolaiRadke/NOKO/tree/master/schematics/geda).
