@@ -1,6 +1,6 @@
-#Anleitung für NOKO
-Hier liegt die 19-seitige Bedienungsanleitung im PDF-Format. 
-Kiste.pdf ist eine Designvorlage, um NOKO eine schicke Geschenkverpackung zu verpassen.
+#Manual for NOKO
+This folder contains the 19 page manual as PDF, written in german. Box.pdf is a design template to place NOKO in a
+pretty matching gift box.
 
-Beide PDF wurden mit [Scribus](http://www.scribus.net) erstellt. Die Quelldateien, Schriften und
-Illustrationen liegen im Verzeichnis [/scribus](https://github.com/NikolaiRadke/NOKO/tree/master/Anleitung/scribus).
+Both PDF have been written with [Scribus](http://www.scribus.net). The source files, fonts and illustrations are
+in the folder [/scribus](https://github.com/NikolaiRadke/NOKO/tree/master/manual/scribus), so you can change the manual as you wish or translate it in any language. Please fork or send a copy.
