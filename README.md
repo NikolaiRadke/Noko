@@ -6,7 +6,7 @@ The **NOKO Monster**, lovely and naughty, to build on your own. Everyone is invi
   <tr>
     <td><img src="http://www.nikolairadke.de/NOKO/noko_nr2.png" /></td>
     <td>
-    NOKO is a multi functional monster with an Arduino Nano as microcontroller, display, clock, radio, mp3 player,           four buttons as user interface, battery, voice set and  tons of gimmicks, packed in a cuddly monster suit - sturdy,
+    NOKO is a multifunctional monster with an Arduino Nano as microcontroller, display, clock, radio, mp3 player,           four buttons as user interface, battery, voice set and  tons of gimmicks, packed in a cuddly monster suit - sturdy,
     lovely and sometimes a bit mean and annoying. Just the way you want him to be. He, she or it - this is your decision     and only depends on the voice set. In this repository NOKO is a lad, a real bloke! A buddy for life and a companion      by day and night. All he needs is a litte power every now an then.<br />
     <br>
     <b>NOKO</b> stands for <b>NO</b>ra's and ni<b>KO</b>'s Monster.
@@ -15,7 +15,7 @@ The **NOKO Monster**, lovely and naughty, to build on your own. Everyone is invi
 </table>
 
 ###Hints for english NOKO builders
-*Anything source code-related, the circut diagrams, READMEs and comments on how to compile are written in english. Right now, the building wiki and the manual are in german, i'll try to translate when the german wiki is completed. Feel free to ask me for translation, if you need help. NOKO itself speaks and writes in german. However, someday, he may learn english or other languages... contribute!*
+*Anything source code-related, the circut diagrams, READMEs and comments on how to compile are written in English. Right now, the building wiki and the manual are in German, i'll try to translate when the german wiki is completed. Feel free to ask me for translation, if you need help. NOKO itself speaks and writes in German. However, someday, he may learn English or other languages... contribute!*
 
 ### Prerequisites
 NOKO needs [Arduino IDE 1.6.7](https://www.arduino.cc/en/Main/Software) or [Arduino IDE 1.6.6](https://www.arduino.cc/en/Main/OldSoftwareReleases#previous). Put the folder NOKO/src/NOKO/ into your sketch folder. At this moment, *NOKO.ino* won't compile without changing the local "platform.txt". See [howto_compile](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile) and change the file. Now NOKO.ino should compile.
@@ -33,7 +33,7 @@ NOKO/
 |       Source documents for Scribus with all illustrations and fonts.
 |
 ├── mp3/
-|   Voiceset for NOKO in german. English needed? Contribute!
+|   Voiceset for NOKO in German. English needed? Contribute!
 |          
 ├── schematics/
 |   schematics for the NOKO modules.
