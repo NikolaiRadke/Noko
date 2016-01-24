@@ -1,6 +1,6 @@
 #Voice set for NOKO - german
 
-Copy theese mp3s into the folder **001** on your microSD card. Strictly observe the sequence!
+Copy these mp3s into the folder **001** on your microSD card. Strictly observe the sequence!
 021.mp3 must be copied as the 21. file. See the [Wiki](https://github.com/NikolaiRadke/NOKO/wiki/SDKarte).
 
 
