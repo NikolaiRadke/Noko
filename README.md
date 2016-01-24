@@ -6,7 +6,7 @@ The **NOKO Monster**, lovely and naughty, to build on your on. Everyone ist invi
   <tr>
     <td><img src="http://www.nikolairadke.de/NOKO/noko_nr2.png" /></td>
     <td>
-    NOKO is a multi functional Monster with an Arduino Nano as microcontroller, display, clock, radio, mp3 player,           four buttons as user interface, battery, voice set and  tons of gimmicks, packted in a cuddly monstersuit - sturdy,
+    NOKO is a multi functional Monster with an Arduino Nano as microcontroller, display, clock, radio, mp3 player,           four buttons as user interface, battery, voice set and  tons of gimmicks, packed in a cuddly monster suit - sturdy,
     lovely and sometimes a bit mean and annoying. Just the way you want him to be. He, she or it - that is your decision     and only depends on the voice set. In this repository NOKO ist a Lad, a real bloke! A buddy for life and a companion     by day and nicht. All he needs is a litte power every know an then.<br />
     <br>
     <b>NOKO</b> stands for <b>NO</b>ra's and ni<b>KO</b>'s Monster.
@@ -15,7 +15,7 @@ The **NOKO Monster**, lovely and naughty, to build on your on. Everyone ist invi
 </table>
 
 ###Hints for english NOKO builders
-*Anything sourcode-related, the circut diagrams and comments on how to compile are written in english. Right now, the building documentation and the manual are in german. Feel free to ask me for translation, if you need help. NOKO itself speaks and writes in german. However, someday, he may learn english or other languages... contribute!*
+*Anything sourcode-related, the circut diagrams, READMEs and comments on how to compile are written in english. Right now, the building wiki and the manual are in german, i'll try to translate when the german wiki is completed. Feel free to ask me for translation, if you need help. NOKO itself speaks and writes in german. However, someday, he may learn english or other languages... contribute!*
 
 ### Prerequisites
 NOKO needs [Arduino IDE 1.6.7](https://www.arduino.cc/en/Main/Software) or [Arduino IDE 1.6.6](https://www.arduino.cc/en/Main/OldSoftwareReleases#previous). Put the folder NOKO/src/NOKO/ into your sketch folder. Right now, NOKO.ino won't compile without changing the local "platform.txt". See [howto_compile](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile) and change the file. Now NOKO.ino should compile.
