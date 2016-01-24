@@ -55,6 +55,6 @@ NOKO/
 ```
 ###Let's get started!
 
-Interested in NOKO? Great. Start here:  
+Interested in NOKO? Great! Let's start:  
 [German wiki](https://github.com/NikolaiRadke/NOKO/wiki).  
 English wiki will follow...
