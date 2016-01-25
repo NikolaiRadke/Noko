@@ -45,9 +45,9 @@ NOKO/
 |   ├── NOKO/
 |   |   Main sourcecode with all the required libraries.
 |   ├── NOKO_Disk1/
-|   |   Scetch to write the DISK1 textfile to 24LC256-EEPROMs.
+|   |   Sketch to write the DISK1 textfile to 24LC256-EEPROMs.
 |   └── NOKO_EEPROM_Disk0/
-|       Scetch to write NOKO presets to the Arduino EEPROM and the DISK0 textfile to the
+|       Sketch to write NOKO presets to the Arduino EEPROM and the DISK0 textfile to the
 |       AH24C32 EEPROM.
 |
 └── write_EEPROM/
