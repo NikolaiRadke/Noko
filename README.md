@@ -19,14 +19,14 @@ The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyo
 
 ###Project status
 
-|Topic                   |          status |
+|Topic                   |          Status |
 |------------------------|------------------|
-| Code                   | ✔ **complete**   |
-| Schematics             | ✔ **complete**   |
-| EEPROM tools           | ✓ only Linux     |
-| Manual                 | ✓ only in German |
-| Voice set              | ✓ only in German |
-| Building instructions  | in progress...   |
+| Code                   | ✔ **Complete**   |
+| Schematics             | ✔ **Complete**   |
+| EEPROM tools           | ✓ Only Linux     |
+| Manual                 | ✓ Only in German |
+| Voice set              | ✓ Only in German |
+| Building instructions  | In progress...   |
 | Working NOKOs          | **3**            |
 
 ### Prerequisites
