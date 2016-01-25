@@ -1,6 +1,6 @@
 # ![NOKO](http://www.nikolairadke.de/NOKO/noko_klein.png) NOKO
 
-The **NOKO Monster**, lovely and naughty, to build on your own. Everyone is invited to **contribute**. NOKO is for everyone. 
+The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. NOKO is for everyone. 
 
 <table border="0">
   <tr>
@@ -16,6 +16,18 @@ The **NOKO Monster**, lovely and naughty, to build on your own. Everyone is invi
 
 ###Hints for non-German NOKO builders
 *Anything source code-related, the circut diagrams, READMEs and comments on how to compile are written in English. Right now, the building wiki and the manual are in German, i'll try to translate when the German wiki is completed. Feel free to ask me for translation, if you need help. NOKO itself speaks and writes in German. However, someday, he may learn English or other languages... contribute!*
+
+###Project satus
+
+|Topic                   |             status |
+|------------------------|--------------------|
+| Code                   | complete           |
+| Schematics             | complete           |
+| EEPROM tools           | only Linux         |
+| Manual                 | only in German     |
+| Voice set              | only in German     |
+| Building instructions  | in progress        |
+| Working NOKOs          | 3                  |
 
 ### Prerequisites
 NOKO needs [Arduino IDE 1.6.7](https://www.arduino.cc/en/Main/Software) or [Arduino IDE 1.6.6](https://www.arduino.cc/en/Main/OldSoftwareReleases#previous). Copy the folder `NOKO/src/NOKO/` into your sketch folder. At this moment, *NOKO.ino* won't compile without changing the local *platform.txt*. See [howto_compile](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile) and change the file. Now NOKO.ino should compile.
