@@ -26,7 +26,7 @@ The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyo
 | EEPROM tools           | ✓ only Linux     |
 | Manual                 | ✓ only in German |
 | Voice set              | ✓ only in German |
-| Building instructions  | ! in progress    |
+| Building instructions  | in progress...   |
 | Working NOKOs          | **3**            |
 
 ### Prerequisites
