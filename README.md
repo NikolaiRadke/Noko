@@ -19,15 +19,15 @@ The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyo
 
 ###Project status
 
-|Topic                   |             status |
-|------------------------|--------------------|
-| Code                   | complete           |
-| Schematics             | complete           |
-| EEPROM tools           | only Linux         |
-| Manual                 | only in German     |
-| Voice set              | only in German     |
-| Building instructions  | in progress        |
-| Working NOKOs          | 3                  |
+|Topic                   |          status |
+|------------------------|------------------|
+| Code                   | ✔ complete       |
+| Schematics             | ✔ complete       |
+| EEPROM tools           | ✓ only Linux     |
+| Manual                 | ✓ only in German |
+| Voice set              | ✓ only in German |
+| Building instructions  | ! in progress    |
+| Working NOKOs          | 3                |
 
 ### Prerequisites
 NOKO needs [Arduino IDE 1.6.7](https://www.arduino.cc/en/Main/Software) or [Arduino IDE 1.6.6](https://www.arduino.cc/en/Main/OldSoftwareReleases#previous). Copy the folder `NOKO/src/NOKO/` into your sketch folder. At this moment, *NOKO.ino* won't compile without changing the local *platform.txt*. See [howto_compile](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile) and change the file. Now NOKO.ino should compile.
