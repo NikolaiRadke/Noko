@@ -1,10 +1,10 @@
 #Setup a serial connection and write to EEPROMs (Linux)
 
-1. Open the NOKO writer in the Arduino IDE and start it. 
+1. Open **NOKO_EEPROM_Disk0.ino** or **NOKO_Disk1.ino** in the Arduino IDE and upload the sketch to your Arduino. 
 
 2. Open a terminal  
 
-3. To communicate through the connection, the user must be a member of the group **Dialout**. This can easily be done once-for-all with this command:  
+3. To communicate through the connection, the user must be a member of the group **dialout**. This can easily be done once-for-all with this command:  
 ``` sudo usermod -aG dialout $(whoami) ```  
 
 4. Set parameter of serial communication with  
