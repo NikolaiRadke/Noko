@@ -17,7 +17,7 @@ The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyo
 ###Hints for non-German NOKO builders
 *Anything source code-related, the circut diagrams, READMEs and comments on how to compile are written in English. Right now, the building wiki and the manual are in German, i'll try to translate when the German wiki is completed. Feel free to ask me for translation, if you need help. NOKO itself speaks and writes in German. However, someday, he may learn English or other languages... contribute!*
 
-###Project satus
+###Project status
 
 |Topic                   |             status |
 |------------------------|--------------------|
