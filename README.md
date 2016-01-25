@@ -29,7 +29,7 @@ NOKO/
 |
 ├── manual/
 |   NOKO manual in PDF format and a template for a packaging desin.
-|   ├── scribus/
+|   └── scribus/
 |       Source documents for Scribus with all illustrations and fonts.
 |
 ├── mp3/
@@ -37,7 +37,7 @@ NOKO/
 |          
 ├── schematics/
 |   schematics for the NOKO modules.
-|   ├── geda/
+|   └── geda/
 |       Source documents for gEDA.
 |
 ├── src/
@@ -46,12 +46,12 @@ NOKO/
 |   |   Main sourcecode with all the required libraries.
 |   ├── NOKO_Disk1/
 |   |   Scetch to write the DISK1 textfile to 24LC256-EEPROMs.
-|   ├── NOKO_EEPROM_Disk0/
+|   └── NOKO_EEPROM_Disk0/
 |       Scetch to write NOKO presets to the Arduino EEPROM and the DISK0 textfile to the
 |       AH24C32 EEPROM.
 |
-├── write_EEPROM/
-|   Tools to write data through serial connection to the Arduino and the EEPROMs. 
+└── write_EEPROM/
+    Tools to write data through serial connection to the Arduino and the EEPROMs. 
 ```
 ###Let's get started!
 
