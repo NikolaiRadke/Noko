@@ -26,7 +26,7 @@ The program sends the contend of the text file **Disk0** or **Disk1** via Arduin
 The Disk0 file contains the author and title of the stories. Every item has exactly **2x20** characters, including unused spaces. The next item follows immediately. Do not use the return key, the file is like a single long string.
 
 ### DISK1 format
-Nearly the same as DISK0.  
+Nearly the same as DISK0. No return key, just space bar. 
 * **0000-3999** are for the swearword generator:  
 *German version*  
 **0000-0999** 10 chars for an adjective. If it's male, the funtions adds an "r" and a space.  
