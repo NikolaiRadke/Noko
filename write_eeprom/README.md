@@ -1,4 +1,4 @@
-#Setup a serial connection and write to EEPROMs (Linux)
+#Setting up a serial connection and writing to EEPROMs (Linux)
 
 1. Open the NOKO writer in the Arduino IDE and start it. 
 
