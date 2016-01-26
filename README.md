@@ -14,7 +14,7 @@ The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyo
   </tr>
 </table>
 
-###Hints for non-German NOKO builders
+###Hints for non-German NOKO makers
 There are a German and an English version. Right now, the building wiki, the voice set, the manual and the optional EEPROM textfiles are in German. I'll try to translate the wiki and the manual when the German wiki is completed. Until then, feel free to ask me for translation, if you need help.  **Contribute!** I need an English Voice set and English text files. In addition, any other language is welcome, NOKO is to be a cosmopolitan!
 
 ### Prerequisites
