@@ -6,7 +6,7 @@
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.696 (1.6.7 | Linux X86_64) 
+ * Flash-Usage: 28.678 (1.6.7 | Linux X86_64) 
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
@@ -84,7 +84,7 @@
 // Softwareversion
 #define Firmware "-260116"
 #define Version 10  // 1.0
-#define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars
+#define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
 // Monster type - each voice set has 100 files
 // 0 = standard, 100 second type, ...
@@ -385,7 +385,6 @@ while(1)
       if (!dimm) 
       {    
         datum();                              // Draw date
-        if (ha==1) echtzeit();                // Read RTC every hour     
         if ((gm==tm.Month) && (gt==tm.Day))   // Check for birthday
         {
           geburtstag=true;
@@ -467,7 +466,7 @@ byte taste(boolean leise)  // Read pressed button und debounce | leise = NOKO st
   if ((!(PIND & (1<<4))) && (!radio) && (!aux) && (!alarm_jetzt)) 
   {
     PORTD |= (1<<6); // Amplifier off
-    echtzeit();      // TESTEM: Warum hier?
+    echtzeit();      // Read RTC - powerdowndelay() messes up the internal time!
   }
   if (check_alarm()) return 4; // Check alarm
   tastenwert=(analogRead(Tasten));
