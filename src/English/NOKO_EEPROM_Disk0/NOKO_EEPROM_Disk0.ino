@@ -202,7 +202,7 @@ void setup()
      if ((addr+1)%20==0) Serial.println();
     }
     Serial.println();  
-    Serial.println("Author and Titel - Start Script. After the process close this windows.");
+    Serial.println("Author and Titel - Start the writing tool. After the process close this windows.");
     addr=100; // Starting adress
   #endif
 }
