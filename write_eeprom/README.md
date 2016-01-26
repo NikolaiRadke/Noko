@@ -1,6 +1,8 @@
 #Setting up a serial connection and writing to EEPROMs (Linux)
 
 1. Open the NOKO writer in the Arduino IDE and start it. 
+If you are running *NOKO_EEPROM_DISK0.ino*, you may open a **serial monitor** and see, whats the script writing to the Arduino-EEPROM. After that, it will tell you when you can go further with the next step. But you don't need the monitor, you can also wait for *10 seconds*.  
+When running *NOKO_DISK1.ino* you don't need the serial monitor, you can go on at once.
 
 2. Open a terminal  
 
