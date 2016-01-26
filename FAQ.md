@@ -1,7 +1,7 @@
 # FAQ
 
 ### Why Arduino? A Raspberry PI is much more powerful.
-Yes, but much more complicated to install, larger and takes MUCH more battery power. Are there any features missing? I don't think so. NOKO is good as it is.
+Yes, but much more complicated to install, larger and takes MUCH more battery power. Are there any features missing? I don't think so. NOKO is as good as it is.
 
 ### Why this crappy LCD? There a cheap colorful touchscreens.
 Yes, there are, but the LC display should be an easy-to-read clock and a lightsource. NOKO doesn't need a touchscreen. He has buttons for a more haptical experience.
