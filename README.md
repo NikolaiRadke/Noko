@@ -25,7 +25,7 @@ NOKO needs [Arduino IDE 1.6.7](https://www.arduino.cc/en/Main/Software) or [Ardu
 ```
 NOKO/
 ├── howto_compile/
-|   hints and a modified plattform.txt to compile the sketches in your Arduino IDE.
+|   Hints and a modified plattform.txt to compile the sketches in your Arduino IDE.
 |
 ├── manual/
 |   NOKO manual in PDF format and a template for a packaging desin.
@@ -36,7 +36,7 @@ NOKO/
 |   Voiceset for NOKO in German. English needed? Contribute!
 |          
 ├── schematics/
-|   schematics for the NOKO modules.
+|   The Schematics for the NOKO modules.
 |   └── geda/
 |       Source documents for gEDA.
 |
@@ -63,6 +63,6 @@ NOKO/
 ```
 ###Let's get started!
 
-Interested in NOKO? Great! Let's start:  
+Interested in NOKO? Great! Let's start here:  
 [German wiki](https://github.com/NikolaiRadke/NOKO/wiki).  
 English wiki will follow...
