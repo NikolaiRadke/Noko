@@ -23,7 +23,7 @@ The program sends the contend of the text file **Disk0** or **Disk1** via Arduin
 *write_DiskX* was compiled with *x86_64*. For other platforms, see *write_DiskX.c* comments to compile it easy for yourself.
 
 ### DISK0 format
-The Disk0 file contains the author and title of the stories. Every item has exactly **2x20** characters, including unused spaces. The next item follows immediately. Do not use the return key, the file is like a single long string.
+The Disk0 file contains the author and title of the stories. Every item has exactly **2x20** characters, including unused spaces. The next item follows immediately. Do not use the return key, the file is like a single long string. It has to be plain text, don't use a Word processor, just a simple text editor. **Note:** NOKO counts from zero, maybe your editor starts with 1.  
 
 ### DISK1 format
 Nearly the same as DISK0. No return key, just space bar. 
@@ -47,6 +47,4 @@ Just **4x20** chars. NOKO pretends to be sophisticated.
 * **18000-20079** for the poems:   
 Again **4x20**. Try to be lyrical.
 
-Both files have to be plain text, don't use a Word processor, just a simple text editor.  
-**Note:** NOKO counts from zero, maybe your editor starts with 1.  
 if you want to write less items, just chance the starting adresses in *NOKO.ino*. Right now, the swearword generator needs 4000 chars, so the phrases always start at 4000. Chance the adresses of the quotations and poems in line **99 and 100**.
