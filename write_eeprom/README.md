@@ -46,3 +46,7 @@ Just **4x20** chars. NOKO pretends to be sophisticated.
 
 **18000-20079** for the poems:   
 Again **4x20**. Try to be lyrical.
+
+Both files have to be plain text, don't use a Word processor, just a simple text editor.  
+**Note:** NOKO counts from zero, maybe your editor starts with 1.  
+if you want to write less items, just chance the starting adresses in *NOKO.ino*. Right now, the swearword generator needs 4000 chars, so the phrases always start at 4000. Chance the adresses of the quotations and poems in line **99 and 100**.
