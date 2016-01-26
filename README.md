@@ -15,10 +15,12 @@ The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyo
 </table>
 
 ###Hints for non-German NOKO builders
-*Anything source code-related, the circut diagrams, READMEs and comments on how to compile are written in English. Right now, the building wiki and the manual are in German, i'll try to translate when the German wiki is completed. Feel free to ask me for translation, if you need help. NOKO itself speaks and writes in German. However, someday, he may learn English or other languages... contribute!*
+There are a German and an English version. Right now, the building wiki, the voice set and the manual are in German. 
+I'll try to translate everything when the German wiki is completed. Feel free to ask me for translation, if you need
+help. NOKO However, someday, he may learn other languages... contribute!*
 
 ### Prerequisites
-NOKO needs [Arduino IDE 1.6.7](https://www.arduino.cc/en/Main/Software) or [Arduino IDE 1.6.6](https://www.arduino.cc/en/Main/OldSoftwareReleases#previous). Copy the folder `NOKO/src/NOKO/` into your sketch folder. At this moment, *NOKO.ino* won't compile without changing the local *platform.txt*. See [howto_compile](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile) and change the file. Now NOKO.ino should compile.
+NOKO needs [Arduino IDE 1.6.7](https://www.arduino.cc/en/Main/Software) or [Arduino IDE 1.6.6](https://www.arduino.cc/en/Main/OldSoftwareReleases#previous). Copy the folder `NOKO/src/[language]/NOKO/` into your sketch folder. At this moment, *NOKO.ino* won't compile without changing the local *platform.txt*. See [howto_compile](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile) and change the file. Now NOKO.ino should compile.
 
 ### Content
 
@@ -42,14 +44,22 @@ NOKO/
 |
 ├── src/
 |   Arduino sketches
-|   ├── NOKO/
-|   |   Main sourcecode with all the required libraries.
-|   ├── NOKO_Disk1/
-|   |   Sketch to write the DISK1 textfile to 24LC256-EEPROMs.
-|   └── NOKO_EEPROM_Disk0/
-|       Sketch to write NOKO presets to the Arduino EEPROM and the DISK0 textfile to the
-|       AH24C32 EEPROM.
-|
+|   ├── Deutsch/
+|   |   German verion
+|   |   ├── NOKO/
+|   |   |   Main sourcecode with all the required libraries.
+|   |   ├── NOKO_Disk1/
+|   |   |   Sketch to write the DISK1 textfile to 24LC256-EEPROMs.
+|   |   └── NOKO_EEPROM_Disk0/
+|   |       Sketch to write NOKO presets to the Arduino EEPROM and the DISK0 textfile to the
+|   |       AH24C32 EEPROM.
+|   |
+|   └── English/
+|       English verion. Same files but translated. 
+|       ├── NOKO/
+|       ├── NOKO_Disk1/
+|       └── NOKO_EEPROM_Disk0/
+|      
 └── write_EEPROM/
     Tools to write data through serial connection to the Arduino and the EEPROMs. 
 ```
