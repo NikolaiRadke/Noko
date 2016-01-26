@@ -27,20 +27,22 @@ The Disk0 file contains the author and title of the stories. Every item has exac
 
 ### DISK1 format
 Nearly the same as DISK0.  
-* **0000-3999** are for the swearword generator 
+* **0000-3999** are for the swearword generator:  
 *German version*  
 **0000-0999** 10 chars for an adjective. If it's male, the funtions adds an "r" and a space.  
 **1000-1999** 10 chars for the first part of the noun.  
 **2000-2999** 10 chars for male noun.  
-**3000-3999** 10 chars for female noun. 
+**3000-3999** 10 chars for female noun.  
 *English version*  
-**0000-0999** 10 chars for an adjective. The function adds a space.
-**1000-1999** 10 chars for the first part of the noun. The function adds a space.
-**2000-3999** 10 chars for noun.
+**0000-0999** 10 chars for an adjective. The function adds a space.  
+**1000-1999** 10 chars for the first part of the noun. The function adds a space.  
+**2000-3999** 10 chars for noun.  
 
-* **4000-9999** for the phrases 
+* **4000-9999** for the phrases:  
 Every phrase starts with "Wusstest Du, dass..." in German an "Did you know that..." in English. So each item has **3x20** Characters.
 
-* **10000-17999** for the quotations  
+* **10000-17999** for the quotations:    
+Just **4x20** chars. NOKO pretends to be sophisticated.
 
-**18000-20079** for the poems  
+**18000-20079** for the poems:   
+Again **4x20**. Try to be lyrical.
