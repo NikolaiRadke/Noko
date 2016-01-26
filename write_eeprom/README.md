@@ -23,7 +23,7 @@ The program sends the contend of the text file **Disk0** or **Disk1** via Arduin
 *write_DiskX* was compiled with *x86_64*. For other platforms, see *write_DiskX.c* comments to compile it easy for yourself.
 
 ### DISK0 format
-The Disk0 file contains the author and title of the stories. Every item has exactly **2x20** characters, including unused spaces. The next item follows immediately. Do not use the return key, the file is like a single long string. It has to be plain text, don't use a Word processor, just a simple text editor. **Note:** NOKO counts from zero, maybe your editor starts with 1.  
+The Disk0 file contains the author and title of the stories. Every item has exactly **2x20** characters, including unused spaces. The next item follows immediately. Do not use the return key, the file is like a single long string. It has to be plain text, don't use a Word processor, just a simple text editor. **Note:** NOKO counts from zero, maybe your editor starts with 1 - change nothing. Just type.
 
 ### DISK1 format
 Nearly the same as DISK0. No return key, just space bar. 
