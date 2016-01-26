@@ -6,7 +6,7 @@ Yes, but much more complicated to install, larger and takes MUCH more battery po
 ### Why this crappy LCD? There a cheap colorful touchscreens.
 Yes, there are, but the LC display should be an easy-to-read clock and a lightsource. NOKO doesn't need a touchscreen. He has buttons for a more haptical experience.
 
-### Why does it not do or has XXX?
+### Why does it not do or have XXX?
 You got a good idea? Write me!
 
 ###When did your work on NOKO start?
