@@ -18,7 +18,7 @@ The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyo
 There are a German and an English version. Right now, the building wiki, the voice set, the manual and the optional EEPROM textfiles are in German. I'll try to translate the wiki and the manual when the German wiki is completed. Until then, feel free to ask me for translation, if you need help.  **Contribute!** I need an English Voice set and English text files. In addition, any other language is welcome, NOKO is to be a cosmopolitan!
 
 ### Prerequisites
-NOKO needs [Arduino IDE 1.6.7](https://www.arduino.cc/en/Main/Software) or [Arduino IDE 1.6.6](https://www.arduino.cc/en/Main/OldSoftwareReleases#previous). Copy the folder `NOKO/src/[language]/NOKO/` into your sketch folder. At this moment, *NOKO.ino* won't compile without changing the local *platform.txt*. See [howto_compile](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile) and change the file. Now NOKO.ino should compile.
+NOKO needs [Arduino IDE 1.6.7](https://www.arduino.cc/en/Main/Software) or [Arduino IDE 1.6.6](https://www.arduino.cc/en/Main/OldSoftwareReleases#previous). Copy the folder `NOKO/src/[language]/NOKO/` into your sketch folder. At this moment, *NOKO.ino* won't compile without changing your *platform.txt*. See [howto_compile](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile) and change the file. Now *NOKO.ino* should compile.
 
 ### Content
 
@@ -43,7 +43,7 @@ NOKO/
 ├── src/
 |   Arduino sketches
 |   ├── Deutsch/
-|   |   German verion
+|   |   German version
 |   |   ├── NOKO/
 |   |   |   Main sourcecode with all the required libraries.
 |   |   ├── NOKO_Disk1/
@@ -53,7 +53,7 @@ NOKO/
 |   |       AH24C32 EEPROM.
 |   |
 |   └── English/
-|       English verion. Same files but translated. 
+|       English version. Same files but translated. 
 |       ├── NOKO/
 |       ├── NOKO_Disk1/
 |       └── NOKO_EEPROM_Disk0/
