@@ -15,9 +15,7 @@ The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyo
 </table>
 
 ###Hints for non-German NOKO builders
-There are a German and an English version. Right now, the building wiki, the voice set and the manual are in German. 
-I'll try to translate everything when the German wiki is completed. Feel free to ask me for translation, if you need
-help. NOKO However, someday, he may learn other languages... contribute!*
+There are a German and an English version. Right now, the building wiki, the voice set, the manual and the additional EEPROM textfiles are in German. I'll try to translate everything when the German wiki is completed. Feel free to ask me for translation, if you need help. NOKO However, someday, he may learn other languages... *contribute!*
 
 ### Prerequisites
 NOKO needs [Arduino IDE 1.6.7](https://www.arduino.cc/en/Main/Software) or [Arduino IDE 1.6.6](https://www.arduino.cc/en/Main/OldSoftwareReleases#previous). Copy the folder `NOKO/src/[language]/NOKO/` into your sketch folder. At this moment, *NOKO.ino* won't compile without changing the local *platform.txt*. See [howto_compile](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile) and change the file. Now NOKO.ino should compile.
