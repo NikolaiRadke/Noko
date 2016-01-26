@@ -1,12 +1,12 @@
 /*
- * NOKO Settings EEPROM and Disk0 V1.0 12.01.2016 - Nikolai Radke
+ * NOKO Settings EEPROM and Disk0 V1.0 12.01.2016 - Nikolai Radke - Deutsch
  * 
  * This sketch writes the presets into Arduino EEPROM and the owner name in email
  * into the AT24C32-EEPROM. If there are stories on the SD card an def_stories is
  * set to 1, additional informations can be written to AT24C32, which is limited 
  * to 4kb. 
  * 
- * To write these information, see README in folder TTY.
+ * To write these information, see README in folder Write_EEPROM
  * 
  * Arduino-EEPROM:
  * The variables are described in the NOKO sketch.
