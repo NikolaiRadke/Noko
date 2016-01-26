@@ -43,7 +43,7 @@ NOKO/
 ├── src/
 |   Arduino sketches
 |   ├── Deutsch/
-|   |   German verion
+|   |   German version
 |   |   ├── NOKO/
 |   |   |   Main sourcecode with all the required libraries.
 |   |   ├── NOKO_Disk1/
@@ -53,7 +53,7 @@ NOKO/
 |   |       AH24C32 EEPROM.
 |   |
 |   └── English/
-|       English verion. Same files but translated. 
+|       English version. Same files but translated. 
 |       ├── NOKO/
 |       ├── NOKO_Disk1/
 |       └── NOKO_EEPROM_Disk0/
