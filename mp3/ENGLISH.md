@@ -6,9 +6,9 @@
 3. Read the translation written here. 
 4. Record your own mp3-file.
 
-:-) Means *onomatopoeia* - translate it as you wish,
+:-) Means: the translation would be *onomatopoeia* - translate it as you wish,
 
-#011-030 Response to belly button
+###011-030 Response to belly button
 [011.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/11.mp3): :-)  
 [012.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/12.mp3): :-)  
 [013.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/13.mp3): No, i am ticklish  
@@ -63,25 +63,57 @@
 [060.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/60.mp3): Well...!  
 
 ###061-080 Resonse to ultrasonic sensor
-[061.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/61.mp3): Entertain me.   
-[062.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/62.mp3): Ouch.  
+[061.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/61.mp3): Entertain me.  
+[062.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/62.mp3): Skretch my back, will you?   
 [063.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/63.mp3): :-)  
-[064.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/64.mp3): :-)  
-[065.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/65.mp3): :-)  
-[066.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/66.mp3): :-)  
-[067.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/67.mp3): :-)  
-[068.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/68.mp3): Ouch!!! 
-[069.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/69.mp3): Man! 
-[060.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/70.mp3): Oh no! 
-[071.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/71.mp3): Gosh!  
-[072.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/72.mp3): Let it be!
-[073.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/73.mp3): Jeeeez!   
-[074.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/74.mp3): That pricks!  
-[075.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/75.mp3): No!  
-[076.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/76.mp3): Nooooo!  
-[077.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/77.mp3): :-)  
-[078.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/78.mp3): :-)  
-[079.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/79.mp3): Man!  
-[080.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/80.mp3): Well...!  
+[064.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/64.mp3): You smell funny.    
+[065.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/65.mp3): Do you have any biscuits?  
+[066.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/66.mp3): Would you pass me a beer?  
+[067.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/67.mp3): Actually I want to sleep!  
+[068.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/68.mp3): I hope you've washed your hands.  
+[069.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/69.mp3): Attention! Behind you!  
+[060.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/70.mp3): Hey you! Come here!   
+[071.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/71.mp3): Let me sleep!  
+[072.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/72.mp3): Fondle me!  
+[073.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/73.mp3): Jump up!   
+[074.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/74.mp3): What do you want from me?  
+[075.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/75.mp3): I love you.  
+[076.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/76.mp3): Whatsup?  
+[077.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/77.mp3): Look up!    
+[078.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/78.mp3): Call of nature...    
+[079.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/79.mp3): :-)    
+[080.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/80.mp3): Stinks, right?  
+
+#081-111 Time based events
+[081.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/81.mp3): Ouchy!  
+[082.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/82.mp3): My nose!  
+[083.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/83.mp3): Stop that!  
+[084.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/84.mp3): I do not like that!  
+[085.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/85.mp3): Hey!  
+[086.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/86.mp3): Ouch ouch ouch!  
+[087.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/87.mp3): Don't break my nose!  
+[088.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/88.mp3): Ouch!!!  
+[089.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/89.mp3): Back off!  
+[090.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/90.mp3): :-)  
+[091.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/91.mp3): Stay away from my nose!  
+[092.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/92.mp3): Ouch.  
+[093.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/93.mp3): :-)  
+[094.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/94.mp3): :-)  
+[095.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/95.mp3): :-)  
+[096.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/96.mp3): :-)  
+[097.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/97.mp3): :-)  
+[098.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/98.mp3): Ouch!!! 
+[099.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/99.mp3): Man! 
+[100.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/100.mp3): Oh no! 
+[101.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/101.mp3): Gosh!  
+[102.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/102.mp3): Let it be!
+[103.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/103.mp3): Jeeeez!   
+[104.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/104.mp3): That pricks!  
+[105.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/105.mp3): No!  
+[106.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/106.mp3): Nooooo!  
+[107.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/107.mp3): :-)  
+[108.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/108.mp3): :-)  
+[109.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/109.mp3): Man!  
+[110.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/110.mp3): Well...!  
 
 
