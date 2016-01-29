@@ -6,7 +6,7 @@
 3. Read the translation written here. 
 4. Record your own mp3-file.
 
-:-) Means: the translation would be *onomatopoeia* - translate it as you wish,
+*:-)* means: the written translation would be *onomatopoeia* - translate it as you wish,
 
 ###011-030 Response to belly button
 [011.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/11.mp3): :-)  
