@@ -9,11 +9,11 @@
 #011-030 Response to belly button
 [011.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/11.mp3): Heh heh heh heh heh  
 [012.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/12.mp3): Hah hah hah hah hah  
-[013.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/13.mp3): No, i am ticklish 
+[013.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/13.mp3): No, i am ticklish  
 [014.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/14.mp3): Uouh uouh uoh, that tickles  
 [015.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/15.mp3): Out! Heh heh! End! Hah hah *sight*  
 [016.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/16.mp3): Heh heh heh heh heh heh, my stomach  
-[017.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/17.mp3): Not my stomach! Heh heh heh heh 
+[017.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/17.mp3): Not my stomach! Heh heh heh heh  
 [018.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/18.mp3): Hah hah hah hah hah Haaaah hah hah hah hah  
 [019.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/19.mp3): Stop immediately! Heh heh heh heh  
 [020.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/20.mp3): That's not funny! Heh heh heh heh heh  
