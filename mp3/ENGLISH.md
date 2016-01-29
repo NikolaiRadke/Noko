@@ -1,4 +1,4 @@
-# How to translate the German NOKO Voice Set into English or any other language
+# How to translate the German NOKO voice set into English or any other language
 ##WARNING: Spoiler! 
 
 1. Click on the Link.  
