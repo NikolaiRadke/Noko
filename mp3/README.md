@@ -15,3 +15,6 @@ Copy these mp3s into the folder **001** on your microSD card. Strictly observe t
 
 011-110 has been spoken by my fellow actor [Carsten Caniglia](http://www.carstencaniglia.com). Why? 
 He has done a great job - moreover i don't want to listen to my own voice every day, especially when development takes more than a year!
+
+###Your own voice set
+See [ENGLISH.md](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/ENGLISH.md) for details.
