@@ -6,7 +6,7 @@
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.768 (1.6.7 | Linux X86_64) 
+ * Flash-Usage: 28.806 (1.6.7 | Linux X86_64) 
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
@@ -1725,17 +1725,21 @@ void menue_Uhrzeit()  // Set time and nightmode
           case 3: (ma<49)? ma+=10:ma%=10; break;
           case 4: (ma%10==9)? ma-=9:ma++; break;
           case 5:
-            (dd<21)? dd+=10:dd%=10;
+            (dd<22)? dd+=10:dd%=10;
             if (dd==0) dd=1;
             break;
-          case 6: (dd<31)? dd++:dd=1; break;
+          case 6: 
+            (dd%10==9)? dd-=9:dd++; 
+            if (dd>31) dd=30; 
+            if (dd==0) dd=1; 
+            break;
           case 7:
             (dm<3)? dm+=10:dm%=10;
             if (dm==0) dm=1;
             break;
-          case 8: (dm<12)? dm++:dm=1; break;
+          case 8: (dm<12)? dm++:dm=10; break;
           case 9: (j<89)? j+=10:j%=10; break;
-          case 10: (j<99)? j++:j=0; break;
+          case 10: (j%10==9)? j-=9:j++; break;
         }
         break;
       case 2: if (menue<10) menue++; break;
@@ -2381,5 +2385,6 @@ byte readDisk(uint8_t disknummer, int adresse) // Read an EEPROM
   if (Wire.available()) rdata = Wire.read();
   return rdata;
 }
+
 
 

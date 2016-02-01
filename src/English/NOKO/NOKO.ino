@@ -1687,18 +1687,22 @@ void menue_Uhrzeit()  // Set time and nightmode
                   if (ha==24) ha=20; break;
           case 3: (ma<49)? ma+=10:ma%=10; break;
           case 4: (ma%10==9)? ma-=9:ma++; break;
-          case 5: (j<89)? j+=10:j%=10; break;
-          case 6: (j<99)? j++:j=0; break;
+          case 5:
+            (dd<22)? dd+=10:dd%=10;
+            if (dd==0) dd=1;
+            break;
+          case 6: 
+            (dd%10==9)? dd-=9:dd++; 
+            if (dd>31) dd=30; 
+            if (dd==0) dd=1; 
+            break;
           case 7:
             (dm<3)? dm+=10:dm%=10;
             if (dm==0) dm=1;
             break;
-          case 8: (dm<12)? dm++:dm=1; break;
-          case 9: 
-            (dd<21)? dd+=10:dd%=10;
-            if (dd==0) dd=1;
-            break;
-          case 10: (dd<31)? dd++:dd=1; break;
+          case 8: (dm<12)? dm++:dm=10; break;
+          case 9: (j<89)? j+=10:j%=10; break;
+          case 10: (j%10==9)? j-=9:j++; break;
         }
         break;
       case 2: if (menue<10) menue++; break;
