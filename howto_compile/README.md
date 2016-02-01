@@ -30,7 +30,7 @@ compiler.elf2hex.extra_flags=
 Without these options the compiled sketch would exceed the 32kb flash memory of the Arduino Nano.
 
 ###Note:
-The sketch will **not** run without the Si4703 radio module. If you want to test it anyway, you have tomodify *NOKO,ino*. Change the line  
+The sketch will **not** run without the Si4703 radio module. If you want to test it anyway, you have to modify *NOKO,ino*. Change the line  
 ```#define def_radio 1           // Using Radio?```   
 in the beginning of the sketch into   
 ```//#define def_radio 1           // Using Radio?```  
