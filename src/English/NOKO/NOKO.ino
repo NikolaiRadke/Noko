@@ -91,7 +91,7 @@
 #define def_type 0
 
 // Features on/off - comment out to disable
-#define def_radio
+#define def_radio 1           // Using Radio?   
 #define def_external_eeprom 1 // Using external EEPROM?
 #define def_stories 1         // Stories on SD card?
 
@@ -2345,3 +2345,4 @@ byte readDisk(uint8_t disknummer, int adresse) // Read an EEPROM
   if (Wire.available()) rdata = Wire.read();
   return rdata;
 }
+
