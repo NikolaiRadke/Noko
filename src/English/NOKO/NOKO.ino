@@ -1,12 +1,12 @@
 /*
- * NOKO V1.0 26.01.2016 - Nikolai Radke
+ * NOKO V1.0 01.02.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.518 (1.6.7 | Linux X86_64) 
+ * Flash-Usage: 28.612 (1.6.7 | Linux X86_64) 
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
@@ -82,7 +82,7 @@
 */
 
 // Softwareversion
-#define Firmware "-260116"
+#define Firmware "-010216"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -91,6 +91,7 @@
 #define def_type 0
 
 // Features on/off - comment out to disable
+#define def_radio
 #define def_external_eeprom 1 // Using external EEPROM?
 #define def_stories 1         // Stories on SD card?
 
@@ -217,7 +218,9 @@ byte custom_char[18][8]=
 
 tmElements_t tm;
 
-Si4703 Radio(5,A4,A5);  // RST, SDA, SCL
+#ifdef def_radio
+  Si4703 Radio(5,A4,A5);  // RST, SDA, SCL
+#endif
 LiquidCrystal_I2C lcd(0x27,2,1,0,4,5,6,7,3,POSITIVE);
 JQ6500_Serial mp3(2,3); // Software serial connection
 
@@ -253,14 +256,16 @@ init();
   mp3.begin(9600);
   mp3.pause();
   mp3.reset();
-  Radio.newdelay(500);
+  newdelay(500);
   mp3.setVolume(vol);
   mp3.setLoopMode(MP3_LOOP_NONE);           // Run only once
   files=mp3.countFiles(MP3_SRC_SDCARD)-151; // Number of files on SD card
 
   // Start Radio
-  Radio.powerOn();  // Needs to start once!
-  Radio.powerOff();
+  #ifdef def_radio
+    Radio.powerOn();  // Needs to start once!
+    Radio.powerOff();
+  #endif
  
   // Read Arduino EEPROM
   stumm=EEPROM.read(1); 
@@ -514,7 +519,7 @@ byte taste(boolean leise)  // Read pressed button und debounce | leise = NOKO st
  void ton(uint16_t h,uint16_t l,boolean stopd,uint16_t d) 
 {
   NewTone(Speaker,h,l);
-  if (!stopd) Radio.newdelay(d);
+  if (!stopd) newdelay(d);
   else if (wahl!=4) stopdelay(d);
 }
 
@@ -686,6 +691,12 @@ byte newrandom(byte a,byte b) // Better XOR random number generator
     return (rnd/65535.0)*(b-a)+a;
 }
 
+void newdelay(uint16_t z)  // New delay function to save flash
+{
+  unsigned long zmillis=millis();
+  while (millis()-zmillis<z);
+}
+
 void stopdelay(uint16_t z) // Delay with stop when Nose is pressed
 {
   unsigned long zmillis=millis();
@@ -719,7 +730,7 @@ void schlafe(byte wdt_time) // Sleepmode to save power
 
 void powerdowndelay(byte ms) // Calls schlafe() with watchdog-times
 {
-  if (PIND & (1<<4)) Radio.newdelay(ms); // If MP3 is playing only plain delay
+  if (PIND & (1<<4)) newdelay(ms); // If MP3 is playing only plain delay
   else                                   // Sleep times steps are pre-defined, max 8s
   {                                      // NOKO uses max 120ms
     // if (ms>=256) {schlafe(WDTO_250MS); ms-=250;}
@@ -962,7 +973,10 @@ void alarm() // Play alarm
     tm.Minute=minute();
   }
   if (!mp3_an) mp3.pause();
-  else if (klang==1) Radio.powerOff(); 
+  else if (klang==1) 
+    #ifdef def_radio
+      Radio.powerOff(); 
+    #endif
   if (aux) PORTD |= (1<<7); // AUX on;
   alarm_jetzt=false;
   if ((alarmmm==tm.Minute) && (alarmhh==tm.Hour)) alarm_mute=true;
@@ -997,7 +1011,7 @@ void menue_Hauptmenue() // Main menue
   lcd.print(F("Play something")); // Play menue
   lcd.setCursor(2,1);
   lcd.print(F("Set alarm")); // Alarm menue
-  lcd.setCursor(1,2);
+  lcd.setCursor(2,2);
   lcd.print(F("Set clock"));  // Time and nightmode menue
   lcd.setCursor(2,3);
   lcd.print(F("Set NOKO"));  // Settings menue
@@ -1032,26 +1046,30 @@ void menue_Hauptmenue() // Main menue
 void menue_Abspielen() // Play menue "Play something"
 {
   byte menue=0;
-  byte maxmenue=2;
   lcd.createChar(0,custom_char[15]);
   lcd.clear();
-  lcd.setCursor(2,0);
-  lcd.print(F("Play Radio"));         // Radio menue
-  lcd.setCursor(2,1);              // MP3 menue
-  lcd.print(F("Play own files"));
-  lcd.setCursor(2,2);              // Toggle AUX
+  lcd.setCursor(2,0);                 // Radio menue
+  lcd.print(F("Play radio"));         
+  lcd.setCursor(2,1);                 // MP3 menue
+  lcd.print(F("Play own files"));    
+  lcd.setCursor(2,2);                 // Toggle AUX
   lcd.print(F("AUX input"));
-  #ifdef def_stories               // Are there stories on SD Card?
-    lcd.setCursor(2,3);           
-    lcd.print(F("Play Stories")); // Story menue
-    maxmenue=3;
-  #endif
+  lcd.setCursor(2,3);                 // Story menue
+  lcd.print(F("Play stories")); 
   while (wahl!=4)
   {
-    zeichen(1,0, radio? 0:32); // Ternary saves flash! Well. Sometimes.
+     #ifndef def_radio                // Is the radio available?
+      zeichen(1,0,120);
+      #else
+      zeichen(1,0, radio? 0:32);      // Ternary saves flash! Well. Sometimes.
+    #endif   
     zeichen(1,1, eigenes_an? 0:32);
     zeichen(1,2, aux? 0:32); 
-    zeichen(1,3, geschichte_an? 0:32); 
+    #ifndef def_stories               // Are there stories on SD Card?
+      zeichen(1,3,120); 
+      #else
+      zeichen(1,3, geschichte_an? 0:32); 
+    #endif
     zeichen(0,menue,126);
     schleife(true,true);
     switch(wahl) 
@@ -1076,7 +1094,7 @@ void menue_Abspielen() // Play menue "Play something"
               PORTD &= ~(1<<7);   // AUX aus
             }
             aux=!aux;
-            Radio.newdelay(500);
+            newdelay(500);
             break;
           #ifdef def_stories
             case 3: menue_mp3(1); break;
@@ -1085,7 +1103,7 @@ void menue_Abspielen() // Play menue "Play something"
         break;
       case 2:
         zeichen(0,menue,32);
-        if (menue<maxmenue) menue++;
+        if (menue<3) menue++;
         break;
       case 3:
         zeichen(0,menue,32);
@@ -1098,6 +1116,7 @@ void menue_Abspielen() // Play menue "Play something"
 
 void menue_Radio() // Radio menue "Play radio"
 {
+  #ifdef def_radio
   char rdsStation[10]; // RDS Station name
   char rdsText[64];    // RDS text 16*4 charactors
   boolean save2=false;
@@ -1255,6 +1274,7 @@ void menue_Radio() // Radio menue "Play radio"
   }
   save2=false;
   init_char();
+  #endif
 }
 
 // Story menu & MP3 menu: "Play stories" "Play own files"
@@ -1450,7 +1470,9 @@ void menue_Alarm()  // Set alarm - no alarm allowd in this menue
     lcd.print(alarmhh);
     lcd.print(char(58));
     if (alarmmm<10) null();
-    (alarm_an)? lcd.print(F("  [on ]")):lcd.print(F("  [off]")); // Alarm on/off?
+    lcd.print(alarmmm);
+    leer(7,2,6);
+    (alarm_an)? lcd.print(F("[on ]")):lcd.print(F("[off]")); // Alarm on/off?
     switch(menue)
     {
       case 0: lcd.setCursor(2,2); break;
@@ -1512,11 +1534,17 @@ void menue_Alarmwahl() // Which alarm type? No alarm allowed hier
       zeichen(3,help,32);
     zeichen(3,klang,88);
     zeichen(0,menue,126);
+    #ifndef def_radio
+      zeichen(3,1,45);
+    #endif
     lcd.setCursor(3,menue);
     schleife(false,true);
     switch(wahl) 
     {
       case 1:
+        #ifndef def_radio
+          if (menue==1) break;
+        #endif
         klang=menue;
         EEPROM.write(6,klang);
         if (klang==0) menue_Alarmton(1);
@@ -1590,7 +1618,7 @@ void menue_Uhrzeit()  // Set time and nightmode
   byte dm=tm.Month;
   boolean save=false;
   icon(custom_char[16]);
-  lcd.print(F("New Time/Date"));
+  lcd.print(F("New time/date"));
   lcd.setCursor(2,1);
   lcd.print(F("Nightmode [   ]")); // To nightmode menue
   lcd.blink();
@@ -1604,14 +1632,15 @@ void menue_Uhrzeit()  // Set time and nightmode
     if (ma<10) null();
     lcd.print(ma);
     lcd.setCursor(2,3);  
-    if (dd<10) null();
-    lcd.print(dd);
-    lcd.print(char(46));
-    if (dm<10) null();
-    lcd.print(dm);
-    lcd.print(F(".20"));
+    lcd.print(F("20"));
     if (j<10) null();
     lcd.print(j);
+    lcd.print(char(47));
+    if (dm<10) null();
+    lcd.print(dm);
+    lcd.print(char(47));
+    if (dd<10) null();
+    lcd.print(dd);
     lcd.setCursor(13,1);
     (nachtmodus)? lcd.print(F("on ")):lcd.print(F("off"));
     if (menue==0)                
@@ -1633,15 +1662,15 @@ void menue_Uhrzeit()  // Set time and nightmode
     lcd.print(char(126));
     switch(menue)
     {
-      case 0: lcd.setCursor(14,1); break;
+      case 0: lcd.setCursor(13,1); break;
       case 1: lcd.setCursor(2,2); break;
       case 2: lcd.setCursor(3,2); break;
       case 3: lcd.setCursor(5,2); break;
       case 4: lcd.setCursor(6,2); break;
-      case 5: lcd.setCursor(2,3); break;
-      case 6: lcd.setCursor(3,3); break;
-      case 7: lcd.setCursor(5,3); break;
-      case 8: lcd.setCursor(6,3); break;
+      case 5: lcd.setCursor(4,3); break;
+      case 6: lcd.setCursor(5,3); break;
+      case 7: lcd.setCursor(7,3); break;
+      case 8: lcd.setCursor(8,3); break;
       case 9: lcd.setCursor(10,3); break;
       case 10: lcd.setCursor(11,3); break;
     }
@@ -1658,18 +1687,18 @@ void menue_Uhrzeit()  // Set time and nightmode
                   if (ha==24) ha=20; break;
           case 3: (ma<49)? ma+=10:ma%=10; break;
           case 4: (ma%10==9)? ma-=9:ma++; break;
-          case 5:
-            (dd<21)? dd+=10:dd%=10;
-            if (dd==0) dd=1;
-            break;
-          case 6: (dd<31)? dd++:dd=1; break;
+          case 5: (j<89)? j+=10:j%=10; break;
+          case 6: (j<99)? j++:j=0; break;
           case 7:
             (dm<3)? dm+=10:dm%=10;
             if (dm==0) dm=1;
             break;
           case 8: (dm<12)? dm++:dm=1; break;
-          case 9: (j<89)? j+=10:j%=10; break;
-          case 10: (j<99)? j++:j=0; break;
+          case 9: 
+            (dd<21)? dd+=10:dd%=10;
+            if (dd==0) dd=1;
+            break;
+          case 10: (dd<31)? dd++:dd=1; break;
         }
         break;
       case 2: if (menue<10) menue++; break;
@@ -1701,7 +1730,7 @@ void menue_Nachtmodus() // Set Nightmode
   byte menue=0;
   boolean save=false;
   icon(custom_char[16]);
-  lcd.print(F("Set Nightmode"));
+  lcd.print(F("Set nightmode"));
   lcd.setCursor(2,1);
   lcd.print(F("[   ] Dim [ ]")); // dim light wenn NOKO enters nightmode
   lcd.setCursor(2,2);
@@ -1750,15 +1779,15 @@ void menue_Nachtmodus() // Set Nightmode
     switch (menue)
     {
       case 0: lcd.setCursor(3,1); break;
-      case 1: lcd.setCursor(16,1); break;
-      case 2: lcd.setCursor(6,2); break;
-      case 3: lcd.setCursor(7,2); break;
-      case 4: lcd.setCursor(9,2); break;
-      case 5: lcd.setCursor(10,2); break;
-      case 6: lcd.setCursor(6,3); break;
-      case 7: lcd.setCursor(7,3); break;
-      case 8: lcd.setCursor(9,3); break;
-      case 9: lcd.setCursor(10,3); break;
+      case 1: lcd.setCursor(13,1); break;
+      case 2: lcd.setCursor(8,2); break;
+      case 3: lcd.setCursor(9,2); break;
+      case 4: lcd.setCursor(11,2); break;
+      case 5: lcd.setCursor(12,2); break;
+      case 6: lcd.setCursor(8,3); break;
+      case 7: lcd.setCursor(9,3); break;
+      case 8: lcd.setCursor(11,3); break;
+      case 9: lcd.setCursor(12,3); break;
     }
     schleife(false,true);
     switch(wahl)
@@ -1823,8 +1852,8 @@ void menue_Einstellungen()  // Settings "Set NOKO"
     lcd.setCursor(16,2);
     lcd.print(ultra_distanz);
     lcd.setCursor(16,menue);
-    while ((wahl=taste(false))==0) Radio.newdelay(100); // No powerdown while LED is in use!
-    Radio.newdelay(50);
+    while ((wahl=taste(false))==0) newdelay(100); // No powerdown while LED is in use!
+    newdelay(50);
     switch(wahl)
     {
       case 1:  
@@ -2157,10 +2186,12 @@ void feiern() // Birthdaytime! Party! Party!
 {
   byte help,ma;
   lcd.createChar(0,custom_char[14]);
-  if (radio) Radio.powerOff();
+  #ifdef def_radio
+    if (radio) Radio.powerOff();
+  #endif
   if (aux) PORTD &= ~(1<<7); // AUX aus;
   if ((!stumm) && (!mp3_an)) JQ6500_play(111); // Play birthday song
-  Radio.newdelay(2000);
+  newdelay(2000);
   ma=minute();
   while (((ma==minute()) || (PIND & (1<<4))) && (wahl!=4))
   {  
@@ -2239,14 +2270,18 @@ float getTemperature() // Internal temperature
 
 void radio_ein() // Radio on
 {
-  Radio.powerOn();
-  Radio.setChannel(freq);
+  #ifdef def_radio
+    Radio.powerOn();
+    Radio.setChannel(freq);
+  #endif
 }
 
  void radio_aus() // Radio off
 {
-  Radio.powerOff();
-  radio=false;
+  #ifdef def_radio
+    Radio.powerOff();
+    radio=false;
+  #endif
 }
 
  void aux_aus() // AUX-relais off
@@ -2268,7 +2303,7 @@ void radio_ein() // Radio on
 void sound_an() // Turns amplifier on with a small delay for beep tones
 {
   PORTD &= ~(1<<6); // Amplifier ein
-  Radio.newdelay(reaktionszeit);
+  newdelay(reaktionszeit);
 }
 
 void JQ6500_play(byte v) // Plays MP3 nr. v

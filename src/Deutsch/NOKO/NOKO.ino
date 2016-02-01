@@ -1,12 +1,12 @@
 /*
- * NOKO V1.0 26.01.2016 - Nikolai Radke
+ * NOKO V1.0 01.02.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.678 (1.6.7 | Linux X86_64) 
+ * Flash-Usage: 28.768 (1.6.7 | Linux X86_64) 
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
@@ -82,7 +82,7 @@
 */
 
 // Softwareversion
-#define Firmware "-260116"
+#define Firmware "-010216"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -91,6 +91,7 @@
 #define def_type 0
 
 // Features on/off - comment out to disable
+#define def_radio 1           // Using Radio?
 #define def_external_eeprom 1 // Using external EEPROM?
 #define def_stories 1         // Stories on SD card?
 
@@ -232,7 +233,9 @@ byte custom_char[18][8]=
 
 tmElements_t tm;
 
-Si4703 Radio(5,A4,A5);  // RST, SDA, SCL
+#ifdef def_radio
+  Si4703 Radio(5,A4,A5);  // RST, SDA, SCL
+#endif
 LiquidCrystal_I2C lcd(0x27,2,1,0,4,5,6,7,3,POSITIVE);
 JQ6500_Serial mp3(2,3); // Software serial connection
 
@@ -268,14 +271,16 @@ init();
   mp3.begin(9600);
   mp3.pause();
   mp3.reset();
-  Radio.newdelay(500);
+  newdelay(500);
   mp3.setVolume(vol);
   mp3.setLoopMode(MP3_LOOP_NONE);           // Run only once
   files=mp3.countFiles(MP3_SRC_SDCARD)-151; // Number of files on SD card
 
   // Start Radio
-  Radio.powerOn();  // Needs to start once!
-  Radio.powerOff();
+  #ifdef def_radio
+    Radio.powerOn();  // Needs to start once!
+    Radio.powerOff();
+  #endif
  
   // Read Arduino EEPROM
   stumm=EEPROM.read(1); 
@@ -529,7 +534,7 @@ byte taste(boolean leise)  // Read pressed button und debounce | leise = NOKO st
  void ton(uint16_t h,uint16_t l,boolean stopd,uint16_t d) 
 {
   NewTone(Speaker,h,l);
-  if (!stopd) Radio.newdelay(d);
+  if (!stopd) newdelay(d);
   else if (wahl!=4) stopdelay(d);
 }
 
@@ -709,6 +714,12 @@ byte newrandom(byte a,byte b) // Better XOR random number generator
     return (rnd/65535.0)*(b-a)+a;
 }
 
+void newdelay(uint16_t z)  // New delay function to save flash
+{
+  unsigned long zmillis=millis();
+  while (millis()-zmillis<z);
+}
+
 void stopdelay(uint16_t z) // Delay with stop when Nose is pressed
 {
   unsigned long zmillis=millis();
@@ -742,7 +753,7 @@ void schlafe(byte wdt_time) // Sleepmode to save power
 
 void powerdowndelay(byte ms) // Calls schlafe() with watchdog-times
 {
-  if (PIND & (1<<4)) Radio.newdelay(ms); // If MP3 is playing only plain delay
+  if (PIND & (1<<4)) newdelay(ms); // If MP3 is playing only plain delay
   else                                   // Sleep times steps are pre-defined, max 8s
   {                                      // NOKO uses max 120ms
     // if (ms>=256) {schlafe(WDTO_250MS); ms-=250;}
@@ -838,7 +849,7 @@ void datum() // Draw date
   tm.Day=day();
   tm.Month=month();
   lcd.setCursor(0,3);
-  lcd.print(dayStr(weekday())); // dayStr has changed to german above
+  lcd.print(tagStr(weekday())); // dayStr has changed to german above
   lcd.setCursor(10,3);
   if (tm.Day<10) null();
   lcd.print(tm.Day);
@@ -848,6 +859,13 @@ void datum() // Draw date
   lcd.print(char(46));
   lcd.print(j);
   if (power<10) lcd.setCursor(18,0);
+}
+
+char* tagStr(uint8_t day) // Use german day strings above instead of time.h strings
+{
+   char buffer[9];
+   strcpy_P(buffer, (PGM_P)pgm_read_word(&(dayNames_P[day])));
+   return buffer;
 }
 
 void anzeigen() // Draw the enire display new
@@ -986,7 +1004,10 @@ void alarm() // Play alarm
     tm.Minute=minute();
   }
   if (!mp3_an) mp3.pause();
-  else if (klang==1) Radio.powerOff(); 
+  else if (klang==1) 
+    #ifdef def_radio
+      Radio.powerOff(); 
+    #endif
   if (aux) PORTD |= (1<<7); // AUX on;
   alarm_jetzt=false;
   if ((alarmmm==tm.Minute) && (alarmhh==tm.Hour)) alarm_mute=true;
@@ -1057,29 +1078,33 @@ void menue_Hauptmenue() // Main menue
 void menue_Abspielen() // Play menue "Spiel was vor"
 {
   byte menue=0;
-  byte maxmenue=2;
   lcd.createChar(0,custom_char[15]);
   lcd.clear();
   lcd.setCursor(2,0);
-  lcd.print(F("Radio h"));         // Radio menue
+  lcd.print(F("Radio h"));           // Radio menue
   hoeren();
-  lcd.setCursor(2,1);              // MP3 menue
-  lcd.print(F("Eigenes h"));
+  lcd.setCursor(2,1);                // MP3 menue
+  lcd.print(F("Eigenes h"));  
   hoeren();
-  lcd.setCursor(2,2);              // Toggle AUX
+  lcd.setCursor(2,2);                // Toggle AUX
   lcd.print(F("AUX-Eingang"));
-  #ifdef def_stories               // Are there stories on SD Card?
-    lcd.setCursor(2,3);           
-    lcd.print(F("Geschichten h")); // Story menue
-    hoeren();
-    maxmenue=3;
-  #endif
+  lcd.setCursor(2,3);                // Story menue
+  lcd.print(F("Geschichten h"));     
+  hoeren();
   while (wahl!=4)
   {
-    zeichen(1,0, radio? 0:32); // Ternary saves flash! Well. Sometimes.
+    #ifndef def_radio                // Is the radio available?
+      zeichen(1,0,120);
+      #else
+      zeichen(1,0, radio? 0:32);     // Ternary saves flash! Well. Sometimes.
+    #endif   
     zeichen(1,1, eigenes_an? 0:32);
     zeichen(1,2, aux? 0:32); 
-    zeichen(1,3, geschichte_an? 0:32); 
+    #ifndef def_stories              // Are there stories on SD Card?
+      zeichen(1,3,120);
+      #else
+      zeichen(1,3, geschichte_an? 0:32); 
+    #endif
     zeichen(0,menue,126);
     schleife(true,true);
     switch(wahl) 
@@ -1104,7 +1129,7 @@ void menue_Abspielen() // Play menue "Spiel was vor"
               PORTD &= ~(1<<7);   // AUX aus
             }
             aux=!aux;
-            Radio.newdelay(500);
+            newdelay(500);
             break;
           #ifdef def_stories
             case 3: menue_mp3(1); break;
@@ -1113,7 +1138,7 @@ void menue_Abspielen() // Play menue "Spiel was vor"
         break;
       case 2:
         zeichen(0,menue,32);
-        if (menue<maxmenue) menue++;
+        if (menue<3) menue++;
         break;
       case 3:
         zeichen(0,menue,32);
@@ -1126,6 +1151,7 @@ void menue_Abspielen() // Play menue "Spiel was vor"
 
 void menue_Radio() // Radio menue "Radio hoeren"
 {
+  #ifdef def_radio
   char rdsStation[10]; // RDS Station name
   char rdsText[64];    // RDS text 16*4 charactors
   boolean save2=false;
@@ -1284,6 +1310,7 @@ void menue_Radio() // Radio menue "Radio hoeren"
   }
   save2=false;
   init_char();
+  #endif
 }
 
 // Story menu & MP3 menu: "Geschichten hören" "Eigenes hören"
@@ -1544,11 +1571,17 @@ void menue_Alarmwahl() // Which alarm type? No alarm allowed hier
       zeichen(3,help,32);
     zeichen(3,klang,88);
     zeichen(0,menue,126);
+    #ifndef def_radio
+      zeichen(3,1,45);
+    #endif
     lcd.setCursor(3,menue);
     schleife(false,true);
     switch(wahl) 
     {
       case 1:
+        #ifndef def_radio
+          if (menue==1) break;
+        #endif
         klang=menue;
         EEPROM.write(6,klang);
         if (klang==0) menue_Alarmton(1);
@@ -1858,8 +1891,8 @@ void menue_Einstellungen()  // Settings "NOKO stellen"
     lcd.setCursor(15,2);
     lcd.print(ultra_distanz);
     lcd.setCursor(15,menue);
-    while ((wahl=taste(false))==0) Radio.newdelay(100); // No powerdown while LED is in use!
-    Radio.newdelay(50);
+    while ((wahl=taste(false))==0) newdelay(100); // No powerdown while LED is in use!
+    newdelay(50);
     switch(wahl)
     {
       case 1:  
@@ -2193,10 +2226,12 @@ void feiern() // Birthdaytime! Party! Party!
 {
   byte help,ma;
   lcd.createChar(0,custom_char[14]);
-  if (radio) Radio.powerOff();
+  #ifdef def_radio
+    if (radio) Radio.powerOff();
+  #endif
   if (aux) PORTD &= ~(1<<7); // AUX aus;
   if ((!stumm) && (!mp3_an)) JQ6500_play(111); // Play birthday song
-  Radio.newdelay(2000);
+  newdelay(2000);
   ma=minute();
   while (((ma==minute()) || (PIND & (1<<4))) && (wahl!=4))
   {  
@@ -2275,14 +2310,18 @@ float getTemperature() // Internal temperature
 
 void radio_ein() // Radio on
 {
-  Radio.powerOn();
-  Radio.setChannel(freq);
+  #ifdef def_radio
+    Radio.powerOn();
+    Radio.setChannel(freq);
+  #endif
 }
 
  void radio_aus() // Radio off
 {
-  Radio.powerOff();
-  radio=false;
+  #ifdef def_radio
+    Radio.powerOff();
+    radio=false;
+  #endif
 }
 
  void aux_aus() // AUX-relais off
@@ -2304,7 +2343,7 @@ void radio_ein() // Radio on
 void sound_an() // Turns amplifier on with a small delay for beep tones
 {
   PORTD &= ~(1<<6); // Amplifier ein
-  Radio.newdelay(reaktionszeit);
+  newdelay(reaktionszeit);
 }
 
 void JQ6500_play(byte v) // Plays MP3 nr. v
@@ -2342,3 +2381,5 @@ byte readDisk(uint8_t disknummer, int adresse) // Read an EEPROM
   if (Wire.available()) rdata = Wire.read();
   return rdata;
 }
+
+
