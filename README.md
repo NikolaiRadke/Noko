@@ -36,7 +36,7 @@ NOKO/
 |   Voiceset for NOKO in German. English needed? Contribute!
 |          
 ├── schematics/
-|   The Schematics for the NOKO modules.
+|   The Schematics for the NOKO modules and the NOKO sewing pattern.
 |   └── geda/
 |       Source documents for gEDA.
 |
