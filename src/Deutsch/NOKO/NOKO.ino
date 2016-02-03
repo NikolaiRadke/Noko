@@ -1,12 +1,12 @@
 /*
- * NOKO V1.0 01.02.2016 - Nikolai Radke
+ * NOKO V1.0 03.02.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.806 (1.6.7 | Linux X86_64) 
+ * Flash-Usage: 28.796 (1.6.7 | Linux X86_64) 
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
@@ -192,21 +192,6 @@ int      power;               // Voltage * 100
 unsigned long dimmmillis;     // Milliseconds until display mutes
 
 const byte eventtrigger[10]={0,120,60,45,30,15,10,5,3,1};
-
-// German day strings for time.h
-const char dayStr0[] PROGMEM = "Err";
-const char dayStr1[] PROGMEM = "Sonntag";
-const char dayStr2[] PROGMEM = "Montag";
-const char dayStr3[] PROGMEM = "Dienstag";
-const char dayStr4[] PROGMEM = "Mittwoch";
-const char dayStr5[] PROGMEM = "Donn.tag";
-const char dayStr6[] PROGMEM = "Freitag";
-const char dayStr7[] PROGMEM = "Samstag";
-
-const PROGMEM char * const PROGMEM dayNames_P[] =
-{
-   dayStr0,dayStr1,dayStr2,dayStr3,dayStr4,dayStr5,dayStr6,dayStr7
-};
 
 // Custom charactors. Number set was made by Ishan Karve. Awesome!
 byte custom_char[18][8]=
@@ -849,7 +834,17 @@ void datum() // Draw date
   tm.Day=day();
   tm.Month=month();
   lcd.setCursor(0,3);
-  lcd.print(tagStr(weekday())); // dayStr has changed to german above
+  switch(weekday()) //German day strings
+  {
+    case 1: lcd.print(F("Sonntag")); break;
+    case 2: lcd.print(F("Montag")); break;
+    case 3: lcd.print(F("Dienstag")); break;
+    case 4: lcd.print(F("Mittwoch")); break;
+    case 5: lcd.print(F("Donn.tag")); break;
+    case 6: lcd.print(F("Freitag")); break;
+    case 7: lcd.print(F("Samstag")); break;
+    
+  }
   lcd.setCursor(10,3);
   if (tm.Day<10) null();
   lcd.print(tm.Day);
@@ -859,13 +854,6 @@ void datum() // Draw date
   lcd.print(char(46));
   lcd.print(j);
   if (power<10) lcd.setCursor(18,0);
-}
-
-char* tagStr(uint8_t day) // Use german day strings above instead of time.h strings
-{
-   char buffer[9];
-   strcpy_P(buffer, (PGM_P)pgm_read_word(&(dayNames_P[day])));
-   return buffer;
 }
 
 void anzeigen() // Draw the enire display new
