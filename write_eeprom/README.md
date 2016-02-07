@@ -1,6 +1,6 @@
 #Setting up a serial connection and writing to EEPROMs
 
-###Linux - Windows will follow soon
+##Linux
 
 1. Open the NOKO writer in the Arduino IDE and start it. 
 If you are running *NOKO_EEPROM_Disk0.ino*, you may open a **serial monitor** and see, whats the script writing to the Arduino-EEPROM. After that, it will tell you when you can go further with the next step. But you don't need the monitor, you can also wait for *10 seconds*.  
@@ -21,10 +21,31 @@ if another USB port is used by NOKO, modify /dev/USB0 to /dev/USB1 or whatever t
 ``` ./write_Disk0 > /dev/ttyUSB0 ```  
 or  
 ``` ./write_Disk1 > /dev/ttyUSB0 ```  
-The program sends the contend of the text file **Disk0** or **Disk1** via Arduino to the EEPROM. You can watch your Arduino's RX and TX LEDs blinking flurry. This may take a while, Disk1 needs about 15 minutes... *yawn*
+The program sends the contend of the text file **Disk0** or **Disk1** via Arduino to the EEPROM. You can watch your Arduino's RX and TX LEDs blinking flurry. This may take a while, Disk1 needs about 20 minutes... *yawn*
 
 ### NOTE 
 *write_DiskX* was compiled with *x86_64*. For other platforms, see *write_DiskX.c* comments to compile it easy for yourself.
+
+## Windows
+
+1. Open the NOKO writer in the Arduino IDE and start it. 
+If you are running *NOKO_EEPROM_Disk0.ino*, you may open a **serial monitor** and see, whats the script writing to the Arduino-EEPROM. After that, it will tell you when you can go further with the next step. But you don't need the monitor, you can also wait for *10 seconds*.  
+When running *NOKO_Disk1.ino* you don't need the serial monitor, you can go on at once.
+
+2. Open a command line. Click on *Start* and type **cmd**.
+
+3. Chance the directoy to NOKO/write_eeprom/ 
+
+4. Write the text file to EEPROM with the command  
+``` write_Disk0 > COM1 ```  
+or  
+``` ./write_Disk1 > COM1 ```  
+If another USB port is used by NOKO, modify COM1 to COM2 or whatever the IDE tells you. The program sends the contend of the text file **Disk0** or **Disk1** via Arduino to the EEPROM. You can watch your Arduino's RX and TX LEDs blinking flurry. This may take a while, Disk1 needs about 20 minutes... *yawn*
+
+### NOTE 
+*write_DiskX.exe* was compiled with *x86_64*. For other platforms, see *write_DiskX.c* comments to compile it easy for yourself.
+
+## The textfiles DISK0 and DISK1
 
 ### DISK0 format
 The Disk0 file contains the author and title of the stories. Every item has exactly **2x20** characters, including unused spaces. The next item follows immediately. Do not use the return key, the file is like a single long string. It has to be plain text, don't use a word processor, just a simple text editor. **Note:** NOKO counts from zero, maybe your editor starts with 1 - change nothing. Just type.
