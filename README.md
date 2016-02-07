@@ -25,7 +25,11 @@ NOKO needs [Arduino IDE 1.6.7](https://www.arduino.cc/en/Main/Software) or [Ardu
 ```
 NOKO/
 ├── howto_compile/
-|   Hints and a modified plattform.txt to compile the sketches in your Arduino IDE.
+|   Hints compile the sketches in your Arduino IDE.
+|   ├── linux/
+|   |   Modified platform.txt for Linux
+|   └── windows/
+|       Modified platform.txt for Windows
 |
 ├── manual/
 |   NOKO manual in PDF format and a template for a packaging desin.
