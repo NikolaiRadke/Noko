@@ -12,9 +12,11 @@ Open your **platform.txt** and overwrite the lines after the line
 ```
 # These can be overridden in platform.local.txt
 ```
-with the lines below.
+with the lines below. Without these options the compiled sketch would exceed the 32kb flash memory of the Arduino Nano.
 
 Alas, until now i wasn't able to find out more about *platform.local.txt*, which allows the user to define a specific platform.txt locally for each sketch. So better backup your old platform.txt to save your old compiler options. 
+
+### Linux  
 
 ```
 # These can be overridden in platform.local.txt
@@ -27,7 +29,19 @@ compiler.ar.extra_flags=
 compiler.objcopy.eep.extra_flags=
 compiler.elf2hex.extra_flags=
 ```
-Without these options the compiled sketch would exceed the 32kb flash memory of the Arduino Nano.
+### Windows
+```
+# These can be overridden in platform.local.txt
+# Compiling options for NOKO and NOKO.ino
+compiler.c.extra_flags=-funsafe-math-optimizations -mcall-prologues -maccumulate-args -ffunction-sections -fdata-sections -fmerge-constants
+compiler.c.elf.extra_flags=-funsafe-math-optimizations -mcall-prologues -maccumulate-args -ffunction-sections -fdata-sections -fmerge-constants
+compiler.S.extra_flags=
+compiler.cpp.extra_flags=-funsafe-math-optimizations -mcall-prologues -maccumulate-args -ffunction-sections -fdata-sections -fmerge-constants
+compiler.ar.extra_flags=
+compiler.objcopy.eep.extra_flags=
+compiler.elf2hex.extra_flags=
+```
+Unfortunately, on Windows I couldn't enable Link Time Optimizations with the *-flto* switch. The sketch fits barely into into flash memory, but now **Optiboot** is a **must have**!
 
 ###Note:
 The sketch will **not** run without the Si4703 radio module. If you want to test it anyway, you have to modify *NOKO,ino*. Change the line  
