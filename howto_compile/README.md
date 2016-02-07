@@ -41,7 +41,7 @@ compiler.ar.extra_flags=
 compiler.objcopy.eep.extra_flags=
 compiler.elf2hex.extra_flags=
 ```
-Unfortunately, on Windows I couldn't enable Link Time Optimizations with the *-flto* switch. The sketch fits barely into flash memory, but now **Optiboot** is a **must have**! See [Issue 3](https://github.com/NikolaiRadke/NOKO/issues/3).  
+Unfortunately, on Windows I couldn't enable Link Time Optimizations with the *-flto* switch. The sketch fits barely into flash memory, **Optiboot** is now a **must have**! See [Issue 3](https://github.com/NikolaiRadke/NOKO/issues/3).  
 
 ###Note:
 The sketch will **not** run without the Si4703 radio module. If you want to test it anyway, you have to modify *NOKO,ino*. Change the line  
