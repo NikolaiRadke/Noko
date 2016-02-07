@@ -19,7 +19,7 @@ if another USB port is used by NOKO, modify /dev/USB0 to /dev/USB1 or whatever t
 ``` ./write_Disk0 > /dev/ttyUSB0 ```  
 or  
 ``` ./write_Disk1 > /dev/ttyUSB0 ```  
-The program sends the contend of the text file **Disk0** or **Disk1** via Arduino to the EEPROM. You can watch your Arduino's TX-LED blinking flurry. This may take a while, Disk1 needs about 10 Minutes. 
+The program sends the contend of the text file **Disk0** or **Disk1** via Arduino to the EEPROM. You can watch your Arduino's RX and TX LEDs blinking flurry. This may take a while, Disk1 needs about 10 Minutes. 
 
 ### NOTE 
 *write_DiskX* was compiled with *x86_64*. For other platforms, see *write_DiskX.c* comments to compile it easy for yourself.
