@@ -42,7 +42,7 @@ compiler.objcopy.eep.extra_flags=
 compiler.elf2hex.extra_flags=
 ```
 Unfortunately, on Windows I couldn't enable Link Time Optimizations with the *-flto* switch. The sketch fits barely into flash memory, now **Optiboot** is a **must have**! See [Issue 3](https://github.com/NikolaiRadke/NOKO/issues/3).  
-An intruction on how to flash a new bootloader will follow in the Wiki. Until than take a look [here](https://www.arduino.cc/en/Tutorial/ArduinoISP).
+You can find an intruction on how to flash a new bootloader in German [here in the wiki](https://github.com/NikolaiRadke/NOKO/wiki/Optiboot). An English instruction will follow. Until than take a look [here](https://www.arduino.cc/en/Tutorial/ArduinoISP).
 
 ###Note:
 The sketch will **not** run without the Si4703 radio module. If you want to test it anyway, you have to modify *NOKO,ino*. Change the line  
