@@ -59,7 +59,7 @@
  * Amplifier GND    GND
  * Amplifier VCC    6,2V
  * Amplifier MOSFET D6    (LOW=ON, HIGH=OFF)
- * AUX Relaisg      D7    
+ * AUX Relay        D7    
  * SW1 Belly        A0    (Menue) connected via ADC with 3 x 2,2kOhm
  * SW2 Right        A0    (Mute ULTRA | next menue)
  * SW3 Left         A0    (Mute LCD | prev menue)
@@ -113,7 +113,7 @@
 #define LED 10            // LED -> PWM
 #define inPin 12          // Ultrasonic
 #define USB 6             // Is NOKO connected to USB?
-#define Akku 7            // Batterypower
+#define Akku 7            // Battery power
 #define Speaker 11        // PWM beep 
 #define Tasten A0         // ADC buttons
 #define Disk0 0x57        // AH24C32 4 kByte EEPROM
@@ -153,7 +153,7 @@ byte     klang,klang_ton,klang_mp3;// Alarm: Which type, which tone or mp3
 byte     alarmmm,alarmhh;     // Alarm time hh:mm
 byte     nachtahh,nachtbhh;   // Nachtmodus from hh:mm
 byte     nachtamm,nachtbmm;   // to hh:mm
-byte     ultra_distanz;       // Ultrasonic reaktion ditance 0-9 
+byte     ultra_distanz;       // Ultrasonic reaction distance 0-9 
 byte     eventsteller;        // Chance of time event 0-9
 
 boolean  ultra_event=false;   // Has there been am ultrasonic event this minute?
@@ -166,21 +166,21 @@ boolean  mp3_an=false;        // Is the MP3-Module itself running anything?
 boolean  geburtstag=false;    // Is it your birthday today?
 boolean  gefeiert=false;      // Was it already celebrated?
 boolean  alarm_mute=false;    // No alarm here?
-boolean  powersave;           // Powersavemode?
+boolean  powersave;           // Powersave mode?
 boolean  lcddimm=false;       // Only dim the display?
 boolean  dimm=false;          // Is powersave active?
 boolean  ultra_dimm=false;    // Ultrasonic off?
 boolean  cpu_slow=false;      // CPU at 2 MHz?
 boolean  alarm_jetzt=false;   // Is the alarm running?
 boolean  aux=false;           // Is AUX active?
-boolean  sommer;              // Sommertime?
+boolean  sommer;              // Summertime?
 boolean  alarm_an;            // Is the Alarm set?
 boolean  nacht;               // Is it nighttime? (Time of Nachtmodus)
 boolean  nachtwechsel;        // Has the nightmode switched?
 boolean  nachtmodus;          // Is nightmode set?
 boolean  nachtdimm;           // Will the display mute at nighttime?
 boolean  stumm;               // All sound off?
-boolean  laden;               // Is NOKO battery charging?
+boolean  laden;               // Is NOKO's battery charging?
 
 uint16_t freq;                // Used frequency * 100
 uint16_t rnd;                 // Random number
@@ -353,7 +353,7 @@ while(1)
     else uhrzeit();
   } 
   if ((dimm) && (!radio) && (!mp3_an) && (!aux) && (!(PIND & (1<<4))) && (!cpu_slow)) powerdown();
-                                             // powerdown while MP3 is running und NOKO is set to mute
+                                             // Power down while MP3 is running und NOKO is set to mute
 // Every minute                                             
   if (ma!=tm.Minute)                        
   { 
@@ -404,7 +404,7 @@ while(1)
   if ((!dimm) && (!ultra_dimm) && (ultra_distanz>0)) check_ultra(); 
                                               // Ultrasonic event
   if ((lcddimm) && (ultra_light) && (millis()>dimmmillis+500)) lcd.noBacklight();  
-                                              // Switch of display light after 500ms
+                                              // Switch off display light after 500ms
   ma=tm.Minute;
   ha=tm.Hour;
   wahl=taste(false);                          // Read buttons
@@ -420,7 +420,7 @@ while(1)
         uhrzeit();
       }
       break;
-    case 3:                                   // Left: toggle display & Powersafe
+    case 3:                                   // Left: toggle display & power save
       if (dimm) powerup();
       else if ((powersave) && (!laden)) powerdown();
       else
@@ -442,7 +442,7 @@ while(1)
       break;
     //case 4: break; // Nose unused - only voice as random event
     }
-   if (((!dimm) && (!lcddimm)) || (led_dimm==0)) powerdowndelay(120); // Main loop powersave!    
+   if (((!dimm) && (!lcddimm)) || (led_dimm==0)) powerdowndelay(120); // Main loop power save!    
    // TESTEN: led_dimm==0!
 }}
 
@@ -500,7 +500,7 @@ byte taste(boolean leise)  // Read pressed button und debounce | leise = NOKO st
   lcd.print(char(c));
 }
 
- void leer(byte x,byte y, byte anz) // anz space from x,y
+ void leer(byte x,byte y, byte anz) // anz spaces from x,y
 {
   byte a;
   lcd.setCursor(x,y);
@@ -526,7 +526,7 @@ byte taste(boolean leise)  // Read pressed button und debounce | leise = NOKO st
 // Constantly used strings. Saves a lot of flash space. 
 void null()  {lcd.print(char(48));} // Prints a "0" - saves flash. However.
  
-void zeige_speichern() // Prints "speichern..."
+void zeige_speichern() // Prints "saving..."
 {
   lcd.setCursor(1,1);
   lcd.print(F("saving..."));
@@ -662,7 +662,7 @@ void cpu_up()   // 16 MHz
   CLKPR = B00000000;  
 }
 
-void powerdown() // powersafe on
+void powerdown() // power save on
 {
   lcd.off();        // Turn off display
   powerdowndelay(pwd_delay); 
@@ -674,7 +674,7 @@ void powerdown() // powersafe on
   }  
 }
 
-void powerup()  // powersafe off
+void powerup()  // power save off
 {
   cpu_up();           // 16 MHz
   lcd.on();           // Turn on display
@@ -697,7 +697,7 @@ void newdelay(uint16_t z)  // New delay function to save flash
   while (millis()-zmillis<z);
 }
 
-void stopdelay(uint16_t z) // Delay with stop when Nose is pressed
+void stopdelay(uint16_t z) // Delay with stop when nose is pressed
 {
   unsigned long zmillis=millis();
   while ((millis()-zmillis<z) && (taste(true)!=4));
@@ -731,8 +731,8 @@ void schlafe(byte wdt_time) // Sleepmode to save power
 void powerdowndelay(byte ms) // Calls schlafe() with watchdog-times
 {
   if (PIND & (1<<4)) newdelay(ms); // If MP3 is playing only plain delay
-  else                                   // Sleep times steps are pre-defined, max 8s
-  {                                      // NOKO uses max 120ms
+  else                             // Sleep times steps are pre-defined, max 8s
+  {                                // NOKO uses max 120ms
     // if (ms>=256) {schlafe(WDTO_250MS); ms-=250;}
     // if (ms>=128) {schlafe(WDTO_120MS); ms-=120;}
     if (ms>=64) {schlafe(WDTO_60MS); ms-=60;} // Right now there is no delay >128ms
@@ -755,7 +755,7 @@ boolean sommerzeit() // Summertime?
   return false;
 }
 
- void check_sommerzeit() // Compare summertime() with EEPROM and set clock
+ void check_sommerzeit() // Compare summertime with EEPROM and set clock
 {
   if (((sommer!=sommerzeit()) && (tm.Hour>=4))) // Summertime changed?
   {
@@ -768,7 +768,7 @@ boolean sommerzeit() // Summertime?
   }
 }
 
-void uhrzeit() // Draw clock, powerlevel and flags
+void uhrzeit() // Draw clock, power level and flags
 {
   byte help;
   zeit();
@@ -795,7 +795,7 @@ void uhrzeit() // Draw clock, powerlevel and flags
   if (pause) lcd.print(char(112));
   if (stumm) lcd.print(char(83));
   if ((mp3_an) || (aux) || (radio)) lcd.print(char(80));
-  //--- powerlevel and charging
+  //--- power level and charging
   power=analogRead(Akku); // Calculate powerlevel from 5 measurements
   for (help=4;help>0;help--)
   {
@@ -838,7 +838,7 @@ void datum() // Draw date
    if (power<10) lcd.setCursor(18,0);
 }
 
-void anzeigen() // Draw the enire display new
+void anzeigen() // Draw the entire display new
 {
   lcd.clear();
   init_char();
@@ -852,7 +852,7 @@ void zeit() // Read internal time
   tm.Hour=hour();
 }
 
-void zeige_station(byte s) // Print the sations frequencies
+void zeige_station(byte s) // Print the stations frequencies
 {
   lcd.setCursor(1,1);
   lcd.print(F("Station "));
@@ -969,7 +969,7 @@ void alarm() // Play alarm
     stopdelay(500);
     leer(5,2,9); // Clear "Alarm" to let it blink
     analogWrite(LED,0); // Let the LED blink
-    stopdelay(500); // Is nose pressed? Wait 500ms else set wahl=4
+    stopdelay(500); // Is the nose pressed? Wait 500ms else set wahl=4
     tm.Minute=minute();
   }
   if (!mp3_an) mp3.pause();
@@ -1091,7 +1091,7 @@ void menue_Abspielen() // Play menue "Play something"
             else
             {
               PORTD |= (1<<6);    // Amplifier off
-              PORTD &= ~(1<<7);   // AUX aus
+              PORTD &= ~(1<<7);   // AUX off
             }
             aux=!aux;
             newdelay(500);
@@ -1117,7 +1117,7 @@ void menue_Abspielen() // Play menue "Play something"
 void menue_Radio() // Radio menue "Play radio"
 {
   #ifdef def_radio
-  char rdsStation[10]; // RDS Station name
+  char rdsStation[10]; // RDS station name
   char rdsText[64];    // RDS text 16*4 charactors
   boolean save2=false;
   boolean save=false;
@@ -1302,7 +1302,7 @@ void menue_Radio() // Radio menue "Play radio"
       if (geschichte<10) null();
       lcd.print(geschichte); // Print story number
       lcd.print(char(32));
-      lcd.print(readDisk(Disk0,((geschichten-1)*80+100)+((geschichte-1)*2))); // Print lenght in Minutes
+      lcd.print(readDisk(Disk0,((geschichten-1)*80+100)+((geschichte-1)*2))); // Print lenght in minutes
       lcd.print(char(58));
       help=readDisk(Disk0,3781+((geschichten-1)*80+101)+((geschichte-1)*2)); // And print seconds
       if (help<10) null();
@@ -1729,7 +1729,7 @@ void menue_Uhrzeit()  // Set time and nightmode
   ma=255;
 }
 
-void menue_Nachtmodus() // Set Nightmode
+void menue_Nachtmodus() // Set nightmode
 {
   byte menue=0;
   boolean save=false;
@@ -1905,7 +1905,7 @@ void menue_Einstellungen2() // "more..." - more settings
   lcd.setCursor(2,2);
   lcd.print(F("Distance light [ ]")); // Use ultrasonic to turn on light when it's off
   lcd.setCursor(2,3);
-  lcd.print(F("My NOKO"));          // About NOKO menue
+  lcd.print(F("My NOKO"));            // About NOKO menue
   while (wahl!=4)
   {
     zeichen(18,0, powersave? 88:32);
@@ -1920,7 +1920,7 @@ void menue_Einstellungen2() // "more..." - more settings
       case 1:
         switch(menue) 
         {
-          case 0: // Set powersave mode
+          case 0: // Set power save mode
             powersave=!powersave; 
             EEPROM.write(10,powersave);
             powerdowndelay(pwd_delay);
@@ -1976,7 +1976,7 @@ void menue_NOKO() // "My NOKO" - about NOKO and secret menue
   bignum(3,0,0);
   bignum(6,0,12);
   bignum(8,0,0);
-  bignum(13,0,Version/10); // Draw version number - Version/10
+  bignum(13,0,Version/10); // Draw version number - version/10
   zeichen(16,1,4);
   bignum(17,0,Version%10);
   lcd.setCursor(0,3);
@@ -2049,7 +2049,7 @@ void event() // Time bases events
       case 0: gedicht(); break;     // Poem "Alle Kinder..."
       case 1: schimpfwort(); break; // Swearword generator
       case 2: phrase(); break;      // Phrase "Wusstest Du schon..."
-      case 3: zitat(); break;       // Quotation - without source :-(
+      case 3: zitat(); break;       // Quotation - without source. Shame on me. :-(
     #endif
     case 4:  // Ich bin hier!
       lcd.setCursor(5,1);
@@ -2062,7 +2062,7 @@ void event() // Time bases events
       stopdelay(2000);
       analogWrite(LED,0);   
       break;
-    case 5:  // Monsterparty
+    case 5:  // Monster party
       ma=minute();
       lcd.createChar(0,custom_char[13]);
       while ((ma==minute()) && (wahl!=4))
@@ -2194,7 +2194,7 @@ void feiern() // Birthdaytime! Party! Party!
     if (radio) Radio.powerOff();
   #endif
   if (aux) PORTD &= ~(1<<7); // AUX aus;
-  if ((!stumm) && (!mp3_an)) JQ6500_play(111); // Play birthday song
+  if ((!stumm) && (!mp3_an)) JQ6500_play(111); // Play birthday song 111
   newdelay(2000);
   ma=minute();
   while (((ma==minute()) || (PIND & (1<<4))) && (wahl!=4))
@@ -2288,7 +2288,7 @@ void radio_ein() // Radio on
   #endif
 }
 
- void aux_aus() // AUX-relais off
+ void aux_aus() // AUX relay off
 {
   PORTD &= ~(1<<7); 
   aux=false;
