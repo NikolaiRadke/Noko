@@ -69,7 +69,7 @@ const char name[]={"Nikolai Radke       "};
 //                 {"                                        "}
 const char email[]={"kontakt@            nikolairadke.de     "};
 
-// Birthday
+// Birthday: gt=day, gm=month
 const byte gt=7; // Ich
 const byte gm=12;
 

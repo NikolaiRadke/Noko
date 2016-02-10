@@ -17,7 +17,7 @@
  *              110=n 120=x | 225=ä 226=ß 239=ö 245=ü (German only)
  *         
  * TODO:        
- * MP3s - Geschichten - neu sortieren
+ * Test new amplifier together with LED
  *         
  * KNOWN BUGS:
  * Due to bad programming the summertime/wintertime will switch at 04:00, not 02:00.
@@ -49,7 +49,7 @@
  * ULTRA PingPin    D13   (Trigger)
  * ULTRA inPin      D12   (Echo)
  * 24LC256      1   5V
- * 24LC256      2   GND
+ * 24LC256      2   GND   Pin 2 set to HIGH would enable write protection
  * 24LC256      3   A5    (SCL)
  * 24LC256      4   A4    (SDA)
  * 24LC256      5   GND   5-8 must be connected to GND for the correct I2C-adress
@@ -443,7 +443,6 @@ while(1)
     //case 4: break; // Nose unused - only voice as random event
     }
    if (((!dimm) && (!lcddimm)) || (led_dimm==0)) powerdowndelay(120); // Main loop power save!    
-   // TESTEN: led_dimm==0!
 }}
 
 //-------------------------------------------------------------------------------------
@@ -675,7 +674,7 @@ void powerdown() // power save on
   lcd.off();        // Turn off display
   powerdowndelay(pwd_delay); 
   dimm=true;
-  if ((!radio) && (!(PIND & (1<<4)))) // TESTEN: No LED when MP3 is playing to prevend noise!
+  if ((!radio) && (!(PIND & (1<<4)))) // TEST: No LED when MP3 is playing to prevend noise!
   {
     analogWrite(LED,led_dimm*28);     // Else turn on LED 0..9 * 28 (max 255)
     cpu_down(); // 2 Mhz
@@ -1883,7 +1882,7 @@ void menue_Einstellungen()  // Settings "NOKO stellen"
     lcd.setCursor(15,2);
     lcd.print(ultra_distanz);
     lcd.setCursor(15,menue);
-    while ((wahl=taste(false))==0) newdelay(100); // No powerdown while LED is in use!
+    while ((wahl=taste(false))==0) newdelay(100); // No power down while LED is in use!
     newdelay(50);
     switch(wahl)
     {
@@ -2332,13 +2331,13 @@ void radio_ein() // Radio on
   mp3.setLoopMode(MP3_LOOP_NONE); // Change loop mode to once
 }
 
-void sound_an() // Turns amplifier on with a small delay for beep tones
+void sound_an() // Turns on amplifier with a small delay for beep tones
 {
   PORTD &= ~(1<<6); // Amplifier ein
   newdelay(reaktionszeit);
 }
 
-void JQ6500_play(byte v) // Plays MP3 nr. v
+void JQ6500_play(byte v) // Plays MP3 number v
 {
   if (dimm) cpu_up();
   analogWrite(LED,0);
