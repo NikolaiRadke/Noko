@@ -7,7 +7,7 @@ The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyo
     <td><img src="http://www.nikolairadke.de/NOKO/noko_nr2.png" /></td>
     <td>
     NOKO is a multifunctional monster with an <b>Arduino Nano</b> as microcontroller, display, clock, radio, mp3 player,           four buttons as user interface, battery, voice set and  tons of gimmicks, packed in a cuddly monster suit - sturdy,
-    lovely and sometimes a bit mean and annoying. Just the way you want him to be. He, she or it - this is your decision     and only depends on the voice set. In this repository NOKO is a lad, a real bloke! A buddy for life and a companion      by day and night. All he needs is a litte power every now and then.<br />
+    lovely and sometimes a bit mean and annoying. Just the way you want him to be. He, she or it - this is your decision     and only depends on the voice set. In this repository NOKO is a lad, a real bloke! A buddy for life and a companion      by day and night. All he needs is a little power every now and then.<br />
     <br>
     <b>NOKO</b> stands for <b>NO</b>ra's and ni<b>KO</b>'s monster.
     </td> 
