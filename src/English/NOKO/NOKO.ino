@@ -1,12 +1,12 @@
 /*
- * NOKO V1.0 01.02.2016 - Nikolai Radke
+ * NOKO V1.0 11.02.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.612 (1.6.7 | Linux X86_64) 
+ * Flash-Usage: 28.660 (1.6.7 | Linux X86_64) 
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
@@ -38,7 +38,6 @@
  * Radio SCL        A5    (SCL)
  * Radio RST        D5  
  * JQ6500 GND   13  GND
- * JQ6500 VCC   14  5V    
  * JQ6500 TX    26  D2    (Software-TX), connect with 1kOhm resistor
  * JQ6500 RX    25  D3    (Software-RX)
  * JQ6500 Busy  23  D4    with 4,7kOhm connected to 5V to get a clear HIGH
@@ -82,7 +81,7 @@
 */
 
 // Softwareversion
-#define Firmware "-010216"
+#define Firmware "-110216"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -258,8 +257,8 @@ init();
   mp3.reset();
   newdelay(500);
   mp3.setVolume(vol);
-  mp3.setLoopMode(MP3_LOOP_NONE);           // Run only once
-  files=mp3.countFiles(MP3_SRC_SDCARD)-151; // Number of files on SD card
+  mp3.setLoopMode(MP3_LOOP_NONE);  // Run only once
+  files=mp3.countFiles(MP3_SRC_SDCARD)-111-geschichten; // Number own of files on SD card
 
   // Start Radio
   #ifdef def_radio
@@ -294,8 +293,11 @@ init();
   //Read AT24C32 
   gt=readDisk(Disk0,0);          // Birthday day
   gm=readDisk(Disk0,1);          // Birthday month
-  geschichten=readDisk(Disk0,2); // Numnber of stories
- 
+  #ifdef def_stories
+    geschichten=readDisk(Disk0,2); // Numnber of stories
+  #else
+    geschichten=0;
+  #endif
   // Start RTC and switch off useless functions for power saving
   Wire.beginTransmission(0x68); 
   Wire.write("\x0F\xF7");       // 32kHz off         
