@@ -90,7 +90,7 @@
 #define def_type 0
 
 // Features on/off - comment out to disable
-//#define def_radio 1           // Using Radio?
+#define def_radio 1           // Using Radio?
 #define def_external_eeprom 1 // Using external EEPROM?
 #define def_stories 1         // Stories on SD card?
 
@@ -106,7 +106,7 @@
 #define pwd_delay     50  // Button debounce
 #define reaktionszeit 70  // Startup time for the amlifier
 #define sensor        10  // Ultrasonic: with cover 10, without 25
-#define vol           20  // JQ6500 volume 0-30
+#define vol           30  // JQ6500 volume 0-30
 
 // Hardwareadress PINS
 #define LED 10            // LED -> PWM
@@ -258,9 +258,7 @@ init();
   newdelay(500);
   mp3.setVolume(vol);
   mp3.setLoopMode(MP3_LOOP_NONE); // Run only once
-  files=mp3.countFiles(MP3_SRC_SDCARD)-111-geschichten; // Number own of files on SD card
-
-
+  
   // Start Radio
   #ifdef def_radio
     Radio.powerOn();  // Needs to start once!
@@ -342,6 +340,8 @@ init();
   
   zeit(); // Read RTC
   nachtwechsel=nachtjetzt(); // Has nightmode switched before startup?
+
+  files=mp3.countFiles(MP3_SRC_SDCARD)-(111+geschichten); // Number own of files on SD card
 }
 
 // MAIN LOOP
@@ -1330,13 +1330,13 @@ void menue_Radio() // Radio menue "Radio hoeren"
       lcd.print(char(32));
       lcd.print(readDisk(Disk0,((geschichten-1)*80+100)+((geschichte-1)*2))); // Print lenght in minutes
       lcd.print(char(58));
-      help=readDisk(Disk0,3781+((geschichten-1)*80+101)+((geschichte-1)*2)); // And print seconds
+      help=readDisk(Disk0,((geschichten-1)*80+101)+((geschichte-1)*2)); // And print seconds
       if (help<10) null();
       lcd.print(help);
       for (help=0;help<20;help++) // Print name and author
       {
-        zeichen(help,1,(readDisk(Disk0,2180+((geschichte-1)*geschichten)+help)));
-        zeichen(help,2,(readDisk(Disk0,2180+((geschichte-1)*geschichten)+help+20)));
+        zeichen(help,1,(readDisk(Disk0,100+((geschichte-1)*geschichten)+help)));
+        zeichen(help,2,(readDisk(Disk0,100+((geschichte-1)*geschichten)+help+20)));
       }  
     }
     if (modus==2) // MP3 menue "Eigenes hören"

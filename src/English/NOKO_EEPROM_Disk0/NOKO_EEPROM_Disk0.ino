@@ -81,7 +81,7 @@ const byte laenge[]={53,6, 45,6, 53,23, 48,40, 48,22, 47,9, 52,44, 43,56, 48,28,
 50,15, 52,46, 52,29, 53,8, 50,15, 52,20, 35,25, 50,27, 51,33, 51,23, 48,4, 25,20, 42,39, 47,4, 52,14, 49,36,
 53,51, 50,3, 49,27, 52,47, 49,53, 31,13, 32,14, 50,38, 51,8, 47,45, 65,12};
 
-unsigned int addr,zeichen;
+unsigned int addr,c;
 
 const char *monthName[12] = {
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -211,9 +211,16 @@ void loop()
 {
   #ifdef def_stories
     while(Serial.available() == 0);
-    zeichen=Serial.read();
-    Serial.print(char(zeichen));
-    writeDisk(Disk0,addr,zeichen);
+    c=Serial.read();
+    switch(c) // Convert Umlaute
+    {
+      case 35:c=225;break; // #=ä
+      case 36:c=239;break; // $=ö
+      case 37:c=245;break; // %=ü
+      case 42:c=226;break; // *=ß
+    }
+    Serial.print(char(c));
+    writeDisk(Disk0,addr,c);
     // delay(30);
     addr++;
     if (addr%20==0) Serial.println();

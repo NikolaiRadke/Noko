@@ -258,7 +258,6 @@ init();
   newdelay(500);
   mp3.setVolume(vol);
   mp3.setLoopMode(MP3_LOOP_NONE);  // Run only once
-  files=mp3.countFiles(MP3_SRC_SDCARD)-111-geschichten; // Number own of files on SD card
 
   // Start Radio
   #ifdef def_radio
@@ -341,6 +340,8 @@ init();
   
   zeit(); // Read RTC
   nachtwechsel=nachtjetzt(); // Has nightmode switched before startup?
+
+  files=mp3.countFiles(MP3_SRC_SDCARD)-(111+geschichten); // Number own of files on SD card
 }
 
 // MAIN LOOP
@@ -1305,13 +1306,13 @@ void menue_Radio() // Radio menue "Play radio"
       lcd.print(char(32));
       lcd.print(readDisk(Disk0,((geschichten-1)*80+100)+((geschichte-1)*2))); // Print lenght in minutes
       lcd.print(char(58));
-      help=readDisk(Disk0,3781+((geschichten-1)*80+101)+((geschichte-1)*2)); // And print seconds
+      help=readDisk(Disk0,((geschichten-1)*80+101)+((geschichte-1)*2)); // And print seconds
       if (help<10) null();
       lcd.print(help);
       for (help=0;help<20;help++) // Print name and author
       {
-        zeichen(help,1,(readDisk(Disk0,2180+((geschichte-1)*geschichten)+help)));
-        zeichen(help,2,(readDisk(Disk0,2180+((geschichte-1)*geschichten)+help+20)));
+        zeichen(help,1,(readDisk(Disk0,100+((geschichte-1)*geschichten)+help)));
+        zeichen(help,2,(readDisk(Disk0,100+((geschichte-1)*geschichten)+help+20)));
       }  
     }
     if (modus==2) // MP3 menue "Play own files"
