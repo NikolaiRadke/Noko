@@ -48,20 +48,18 @@ NOKO/
 |   Arduino sketches
 |   ├── Deutsch/
 |   |   German version
-|   |   ├── NOKO/
-|   |   |   Main sourcecode with all the required libraries.
-|   |   ├── NOKO_Disk1/
-|   |   |   Sketch to write the DISK1 textfile to 24LC256-EEPROMs.
-|   |   └── NOKO_EEPROM_Disk0/
-|   |       Sketch to write NOKO presets to the Arduino EEPROM and the DISK0 textfile to the
-|   |       AH24C32 EEPROM.
-|   |
-|   └── English/
-|       English version. Same files but translated. 
-|       ├── NOKO/
-|       ├── NOKO_Disk1/
-|       └── NOKO_EEPROM_Disk0/
-|      
+|   |   └── NOKO/
+|   |       Main sourcecode with all the required libraries.
+|   ├── English/
+|   |   English version. 
+|   |   └── NOKO/
+|   |       Same files but translated. 
+|   ├── NOKO_Disk1/
+|   |   Sketch to write the Disk1 textfile to 24LC256-EEPROMs.
+|   └── NOKO_EEPROM_Disk0/
+|       Sketch to write NOKO presets to the Arduino EEPROM and the Disk0 textfile to the
+|       AH24C32 EEPROM.
+
 └── write_EEPROM/
     Tools to write data through serial connection to the Arduino and the EEPROMs. 
 ```
