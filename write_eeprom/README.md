@@ -2,9 +2,8 @@
 
 ##Linux
 
-1. Open the NOKO writer in the Arduino IDE and start it. 
-If you are running *NOKO_EEPROM_Disk0.ino*, you may open a **serial monitor** and see, whats the script writing to the Arduino-EEPROM. After that, it will tell you when you can go further with the next step. But you don't need the monitor, you can also wait for *10 seconds*.  
-When running *NOKO_Disk1.ino* you don't need the serial monitor, you can go on at once.
+1. Open the NOKO writer sketch **NOKO_EEPROM_Disk0.ino** or **NOKO_Disk1.ino** in the Arduino IDE and start it. 
+Wait for *10 seconds*. When running *NOKO_Disk1.ino* you don't need the serial monitor, you can go on at once.
 
 2. Open a terminal  
 
@@ -28,9 +27,8 @@ The program sends the content of the text file **Disk0** or **Disk1** via Arduin
 
 ## Windows
 
-1. Open the NOKO writer in the Arduino IDE and start it. 
-If you are running *NOKO_EEPROM_Disk0.ino*, you may open a **serial monitor** and see, whats the script writing to the Arduino-EEPROM. After that, it will tell you when you can go further with the next step. But you don't need the monitor, you can also wait for *10 seconds*.  
-When running *NOKO_Disk1.ino* you don't need the serial monitor, you can go on at once.
+1. Open the NOKO writer sketch **NOKO_EEPROM_Disk0.ino** or **NOKO_Disk1.ino** in the Arduino IDE and start it. 
+Wait for *10 seconds*. When running *NOKO_Disk1.ino* you don't need the serial monitor, you can go on at once.
 
 2. Open a command line. Click on *Start* and type ``` cmd ```.  
 
