@@ -13,7 +13,6 @@
 #include <Wire.h>
 
 #define Disk1 0x50  // 24LC512
-//#define def_debug 1 // Debugging mode 
 
 unsigned int addr=0;
 byte c;
@@ -37,10 +36,8 @@ void loop()
       case 37:c=245;break; // %=ü
       case 42:c=226;break; // *=ß
   }
-  Serial.print(char(c));
   writeDisk(Disk1,addr,c);
   addr++;
-  if (addr%20==0) Serial.println();
 }
 
 void writeDisk(int disknummer, unsigned int adresse, byte data) 

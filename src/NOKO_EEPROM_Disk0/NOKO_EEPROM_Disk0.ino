@@ -64,7 +64,7 @@
 
 // Personal informations
 //                {"                    "}
-const char name[]={"Nikolai Radke       "};
+const char name[]={"Bernd Potzkoten     "};
 
 //                 {"                                        "}
 const char email[]={"kontakt@            nikolairadke.de     "};
@@ -96,32 +96,17 @@ void setup()
   bool config=false;
 
   // Read time from computer
-  if (getDate(__DATE__) && getTime(__TIME__)) {
+  if (getDate(__DATE__) && getTime(__TIME__)) 
+  {
     parse = true;
     RTC.write(tm);
     config = true;
   }
   
   // Read RTC
-    Serial.begin(9600);
+   Serial.begin(9600);
   while (!Serial);
-  delay(200);
-  if (parse && config) {
-    Serial.print("DS3231: Zeit=");
-    Serial.print(__TIME__);
-    Serial.print(", Datum=");
-    Serial.println(__DATE__);
-    if (sommer()) Serial.println("Sommerzeit");
-    else Serial.println("Winterzeit");
-  } else if (parse) {
-    Serial.println("Fehler! RTC nicht gefunden.");
-  } else {
-    Serial.print("Konnte die Zeit nicht auslesen, Zeit=\"");
-    Serial.print(__TIME__);
-    Serial.print("\",Datum=\"");
-    Serial.print(__DATE__);
-    Serial.println("\"");
-  }
+  
   // Write EEPROM
   EEPROM.write(1,0);
   EEPROM.write(2,6);
@@ -151,12 +136,8 @@ void setup()
   EEPROM.write(26,0);
   EEPROM.write(27,1);
   EEPROM.write(28,0);
-  Serial.println("Grundeinstellungen wurden ins EEPROM geschrieben.");
   
   // Write AT24C32
-  Serial.println("AT24C32 beschreiben:");
-  Serial.println("NOKO wird personalisiert...");
-  Serial.print("Geburtstag: ");
   Serial.print(gt);
   Serial.print(".");
   Serial.print(gm);
@@ -167,43 +148,25 @@ void setup()
   delay(30);
 
   // Write owner name
-  Serial.print("Name: ");
   for (addr=0;addr<20;addr++)
   {
     writeDisk(Disk0,addr+20,name[addr]);
-    Serial.print(name[addr]);
     delay(50);
   }
 
   // Write owner email
-  Serial.println();
-  Serial.print("Email: ");
-  delay(100);
-  
   for (addr=0;addr<40;addr++)
   {
     writeDisk(Disk0,addr+40,email[addr]);
-    Serial.print(email[addr]);
     delay(50);
   }
 
   //Write number of stories
   writeDisk(Disk0,2,geschichten);
   delay(30);
-  
-  Serial.println();
-
   #ifdef def_stories
-    Serial.println("Länge der Geschichten...");
     for (addr=0;addr<(geschichten*2);addr++)
-    {
-     writeDisk(Disk0,addr+(geschichten-1)*80+100,laenge[addr]);
-     Serial.print(laenge[addr]);
-     Serial.print(" ");
-     if ((addr+1)%20==0) Serial.println();
-    }
-    Serial.println();  
-    Serial.println("Autor und Titel - Script starten (zum Beenden Fenster schliessen)...");
+      writeDisk(Disk0,addr+(geschichten-1)*80+100,laenge[addr]);
     addr=100; // Starting adress
   #endif
 }
@@ -220,13 +183,10 @@ void loop()
       case 37:c=245;break; // %=ü
       case 42:c=226;break; // *=ß
     }
-    Serial.print(char(c));
     writeDisk(Disk0,addr,c);
     // delay(30);
     addr++;
-    if (addr%20==0) Serial.println();
   #else
-    Serial.println("Fertig.");
     while(1)
   #endif
 }

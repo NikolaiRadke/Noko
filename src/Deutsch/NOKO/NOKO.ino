@@ -223,7 +223,6 @@ tmElements_t tm;
 LiquidCrystal_I2C lcd(0x27,2,1,0,4,5,6,7,3,POSITIVE);
 JQ6500_Serial mp3(2,3); // Software serial connection
 
-
 //-------------------------------------------------------------------------
 // Using main() and init() instead of setup() and loop() saves flash space
 
@@ -297,6 +296,7 @@ init();
   #else
     geschichten=0;
   #endif
+  
   // Start RTC and switch off useless functions for power saving
   Wire.beginTransmission(0x68); 
   Wire.write("\x0F\xF7");       // 32kHz off         
