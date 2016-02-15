@@ -881,7 +881,7 @@ boolean nachtjetzt() // Is it nighttime?
   }
   if (ja!=nachtwechsel) // When nightmode changes play sound
   {
-    ja? JQ6500_play(111):JQ6500_play(142);
+    ja? JQ6500_play(71):JQ6500_play(102);
     nachtwechsel=ja;
   }
   return ja;

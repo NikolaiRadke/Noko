@@ -6,7 +6,7 @@
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.810 (1.6.7 | Linux X86_64) 
+ * Flash-Usage: 28.802 (1.6.7 | Linux X86_64) 
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
@@ -418,7 +418,6 @@ while(1)
         ultra_dimm=!ultra_dimm;
         uhrzeit();
       }
-      lcd.clear();
       break;
     case 3:                                   // Left: toggle display & power save
       if (dimm) powerup();
@@ -900,7 +899,7 @@ boolean nachtjetzt() // Is it nighttime?
   }
   if (ja!=nachtwechsel) // When nightmode changes play sound
   {
-    ja? JQ6500_play(111):JQ6500_play(142);
+    ja? JQ6500_play(71):JQ6500_play(102);
     nachtwechsel=ja;
   }
   return ja;
