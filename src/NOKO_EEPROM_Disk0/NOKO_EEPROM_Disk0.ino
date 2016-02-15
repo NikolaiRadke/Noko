@@ -105,6 +105,8 @@ void setup()
   
   // Read RTC
   Serial.begin(9600);
+  Wire.begin();
+  delay(100);
   
   // Write EEPROM
   EEPROM.write(1,0);

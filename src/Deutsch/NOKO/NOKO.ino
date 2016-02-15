@@ -1,12 +1,12 @@
 /*
- * NOKO V1.0 11.02.2016 - Nikolai Radke
+ * NOKO V1.0 15.02.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.844 (1.6.7 | Linux X86_64) 
+ * Flash-Usage: 28.810 (1.6.7 | Linux X86_64) 
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
@@ -81,7 +81,7 @@
 */
 
 // Softwareversion
-#define Firmware "-110216"
+#define Firmware "-150216"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -419,7 +419,6 @@ while(1)
         uhrzeit();
       }
       lcd.clear();
-      schimpfwort();
       break;
     case 3:                                   // Left: toggle display & power save
       if (dimm) powerup();

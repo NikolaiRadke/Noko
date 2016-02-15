@@ -20,6 +20,8 @@ byte c;
 void setup() 
 {
   Serial.begin(9600);
+  Wire.begin();
+  delay(100);
 }
 
 void loop() 
