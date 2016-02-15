@@ -14,7 +14,7 @@ Wait for *10 seconds*. When running *NOKO_Disk1.ino* you can go on at once.
 ``` stty -F /dev/ttyUSB0 cs8 9600 ignbrk -brkint -imaxbel -opost -onlcr -isig -icanon -iexten -echo -echoe -echok -echoctl -echoke noflsh -ixon -crtscts ```  
 if another USB port is used by NOKO, modify /dev/USB0 to /dev/USB1 or whatever the IDE tells you.
 
-4. Chance the directoy to NOKO/write_eeprom/
+4. Chance the directoy to ` NOKO/write_eeprom/ `
 
 5. Write the text file to EEPROM with the command  
 ``` ./write_Disk0 > /dev/ttyUSB0 ```  
@@ -29,7 +29,7 @@ The program sends the content of the text file **Disk0** or **Disk1** via Arduin
 
 1. Open a command line. Click on *Start* and type ``` cmd ```.  
 
-2. Chance the directoy to NOKO/write_eeprom/ 
+2. Chance the directoy to ` NOKO/write_eeprom/  `  
 
 3. Write the text file to EEPROM with the command  
 ``` write_Disk0 > COM1 ```  
