@@ -47,14 +47,14 @@
  * ULTRA VCC        5V
  * ULTRA PingPin    D13   (Trigger)
  * ULTRA inPin      D12   (Echo)
- * 24LC256      1   5V
- * 24LC256      2   GND   Pin 2 set to HIGH would enable write protection 
- * 24LC256      3   A5    (SCL)
- * 24LC256      4   A4    (SDA)
- * 24LC256      5   GND   5-8 must be connected to GND for the correct I2C-adress
- * 24LC256      6   GND
- * 24LC256      7   GND
- * 24LC256      8   GND
+ * 24LC256      1   GND   1-3 must be connected to GND for the correct I2C-adress
+ * 24LC256      2   GND
+ * 24LC256      3   GND
+ * 24LC256      4   GND
+ * 24LC256      5   A4    (SDA)
+ * 24LC256      6   A5    (SCL)
+ * 24LC256      7   GND   Pin 7 set to HIGH would enable write protection
+ * 24LC256      8   5V
  * Amplifier GND    GND
  * Amplifier VCC    6,2V
  * Amplifier MOSFET D6    (LOW=ON, HIGH=OFF)
@@ -84,10 +84,6 @@
 #define Firmware "-110216"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
-
-// Monster type - each voice set has 100 files
-// 0 = standard, 100 second type, ...
-#define def_type 0
 
 // Features on/off - comment out to disable
 #define def_radio 1           // Using Radio?   
@@ -469,7 +465,7 @@ byte taste(boolean leise)  // Read pressed button und debounce | leise = NOKO st
     if (analogRead(Tasten)>150)
     {
       if ((!(PIND & (1<<4))) && (!stumm) && (!leise) && (!pause))
-        if (newrandom(1,5)==4) JQ6500_play(newrandom(31+def_type,71+def_type));
+        if (newrandom(1,5)==4) JQ6500_play(newrandom(31,71));
       return 4;
     }
   }
@@ -489,7 +485,7 @@ byte taste(boolean leise)  // Read pressed button und debounce | leise = NOKO st
     if (analogRead(Tasten)>0)
     {
       if ((!(PIND & (1<<4))) && (!stumm) && (!leise) && (!pause))
-        if (newrandom(1,8)==4) JQ6500_play(newrandom(11+def_type,31+def_type)); 
+        if (newrandom(1,8)==4) JQ6500_play(newrandom(11,31)); 
       return 1;
     }
   }
@@ -907,7 +903,7 @@ void check_ultra() // Ultrasonic event - ultra_distanz= 0..9 * 10cm
     }
     if ((!nacht) && (!ultra_event) && (!radio) && (!pause) && (!stumm) && (!(PIND & (1<<4))))
     {
-      JQ6500_play(newrandom(61+def_type,81+def_type)); // Play random voice event. Voice 61-80
+      JQ6500_play(newrandom(61,81)); // Play random voice event. Voice 61-80
       ultra_event=true; // Set ultra_evet flag to prevent more events than one in a minute
     }
   }
@@ -2104,7 +2100,7 @@ void event() // Time bases events
       stopdelay(2000);
       break;
     default:
-      JQ6500_play(newrandom(81+def_type,111+def_type)); // Voice event - NOKO says something. Voice 81-110
+      JQ6500_play(newrandom(81,111)); // Voice event - NOKO says something. Voice 81-110
       break;
   }
   if (help2<8) 

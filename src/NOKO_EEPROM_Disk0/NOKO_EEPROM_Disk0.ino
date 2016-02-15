@@ -64,7 +64,7 @@
 
 // Personal informations
 //                {"                    "}
-const char name[]={"Bernd Potzkoten     "};
+const char name[]={"Nikolai Radke       "};
 
 //                 {"                                        "}
 const char email[]={"kontakt@            nikolairadke.de     "};
@@ -104,8 +104,7 @@ void setup()
   }
   
   // Read RTC
-   Serial.begin(9600);
-  while (!Serial);
+  Serial.begin(9600);
   
   // Write EEPROM
   EEPROM.write(1,0);
@@ -138,10 +137,6 @@ void setup()
   EEPROM.write(28,0);
   
   // Write AT24C32
-  Serial.print(gt);
-  Serial.print(".");
-  Serial.print(gm);
-  Serial.println(".");
   writeDisk(Disk0,0,gt);
   delay(30);
   writeDisk(Disk0,1,gm);
@@ -174,7 +169,7 @@ void setup()
 void loop() 
 {
   #ifdef def_stories
-    while(Serial.available() == 0);
+    while(Serial.available()==0);
     c=Serial.read();
     switch(c) // Convert Umlaute
     {
@@ -221,7 +216,7 @@ bool getDate(const char *str) // Read date
   return true;
 }
 
-bool sommer() // Check summertime
+bool sommer() // Check summer time
 {
   if ((tm.Month<3) || (tm.Month>10)) return false;
   if ((tm.Month>3) && (tm.Month<10)) return true;
