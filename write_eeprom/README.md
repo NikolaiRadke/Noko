@@ -1,22 +1,22 @@
 #Setting up a serial connection and writing to EEPROMs
 
+Open the NOKO writer sketch **NOKO_EEPROM_Disk0.ino** or **NOKO_Disk1.ino** in the Arduino IDE and start it. 
+Wait for *10 seconds*. When running *NOKO_Disk1.ino* you can go on at once.
+
 ##Linux
 
-1. Open the NOKO writer sketch **NOKO_EEPROM_Disk0.ino** or **NOKO_Disk1.ino** in the Arduino IDE and start it. 
-Wait for *10 seconds*. When running *NOKO_Disk1.ino* you don't need the serial monitor, you can go on at once.
+1. Open a terminal  
 
-2. Open a terminal  
-
-3. To communicate through the connection, the user must be a member of the group **Dialout**. This can easily be done once-for-all with this command:  
+2. To communicate through the connection, the user must be a member of the group **Dialout**. This can easily be done once-for-all with this command:  
 ``` sudo usermod -aG dialout $(whoami) ```  
 
-4. Set parameter of serial communication with  
+3. Set parameter of serial communication with  
 ``` stty -F /dev/ttyUSB0 cs8 9600 ignbrk -brkint -imaxbel -opost -onlcr -isig -icanon -iexten -echo -echoe -echok -echoctl -echoke noflsh -ixon -crtscts ```  
 if another USB port is used by NOKO, modify /dev/USB0 to /dev/USB1 or whatever the IDE tells you.
 
-5. Chance the directoy to NOKO/write_eeprom/
+4. Chance the directoy to NOKO/write_eeprom/
 
-6. Write the text file to EEPROM with the command  
+5. Write the text file to EEPROM with the command  
 ``` ./write_Disk0 > /dev/ttyUSB0 ```  
 or  
 ``` ./write_Disk1 > /dev/ttyUSB0 ```  
@@ -27,14 +27,11 @@ The program sends the content of the text file **Disk0** or **Disk1** via Arduin
 
 ## Windows
 
-1. Open the NOKO writer sketch **NOKO_EEPROM_Disk0.ino** or **NOKO_Disk1.ino** in the Arduino IDE and start it. 
-Wait for *10 seconds*. When running *NOKO_Disk1.ino* you don't need the serial monitor, you can go on at once.
+1. Open a command line. Click on *Start* and type ``` cmd ```.  
 
-2. Open a command line. Click on *Start* and type ``` cmd ```.  
+2. Chance the directoy to NOKO/write_eeprom/ 
 
-3. Chance the directoy to NOKO/write_eeprom/ 
-
-4. Write the text file to EEPROM with the command  
+3. Write the text file to EEPROM with the command  
 ``` write_Disk0 > COM1 ```  
 or  
 ``` ./write_Disk1 > COM1 ```  
