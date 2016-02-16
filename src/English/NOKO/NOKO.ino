@@ -1,12 +1,12 @@
 /*
- * NOKO V1.0 15.02.2016 - Nikolai Radke
+ * NOKO V1.0 16.02.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.660 (1.6.7 | Linux X86_64) 
+ * Flash-Usage: 28.654 (1.6.7 | Linux X86_64) 
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
@@ -81,7 +81,7 @@
 */
 
 // Softwareversion
-#define Firmware "-150216"
+#define Firmware "-160216"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -2169,13 +2169,13 @@ void zitat() // Quotation event on display
 void gedicht() // Poem event on display
 {
   byte help;
-  byte help2=newrandom(1,27);
+  byte help2=newrandom(0,26);
   for (help=0;help<20;help++)
   {
-    zeichen(help,0,(readDisk(Disk1,poem_adress+((help2-1)*80)+help)));
-    zeichen(help,1,(readDisk(Disk1,poem_adress+((help2-1)*80)+help+20)));
-    zeichen(help,2,(readDisk(Disk1,poem_adress+((help2-1)*80)+help+40)));
-    zeichen(help,3,(readDisk(Disk1,poem_adress+((help2-1)*80)+help+60)));
+    zeichen(help,0,(readDisk(Disk1,poem_adress+(help2*80)+help)));
+    zeichen(help,1,(readDisk(Disk1,poem_adress+(help2*80)+help+20)));
+    zeichen(help,2,(readDisk(Disk1,poem_adress+(help2*80)+help+40)));
+    zeichen(help,3,(readDisk(Disk1,poem_adress+(help2*80)+help+60)));
   }
   sound_an();
   ton(880,80,false,150);
