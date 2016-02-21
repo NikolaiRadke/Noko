@@ -67,4 +67,4 @@ Just **4x20** chars. NOKO pretends to be sophisticated.
 * **18000-20079** are for the poems:   
 Again **4x20**. Try to be lyrical.
 
-if you want to write less items, just change the starting adresses in *NOKO.ino*. Right now, the swearword generator needs 4000 chars, so the phrases always start at 4000. Change the adresses of the quotations and poems in line **99 and 100**.
+if you want to write less items, just change the starting adresses in *NOKO.ino*. Right now, the swearword generator needs 4000 chars, so the phrases always start at 4000. Change the adresses of the quotations and poems in line **95 and 96**.
