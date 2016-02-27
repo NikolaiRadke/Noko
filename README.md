@@ -1,3 +1,5 @@
+*26.02.2016 - Working in Swizerland for the next 8 days. NOKO must wait.*
+
 # ![NOKO](http://www.nikolairadke.de/NOKO/noko_klein.png) NOKO
 
 The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. NOKO is for everyone. 
