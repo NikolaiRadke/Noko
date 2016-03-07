@@ -2,7 +2,7 @@
 
 The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. NOKO is for everyone. Right now, i am writing the building instructions.
 
-*26.02.2016 - Working in Swizerland for the next 8 days. The wiki must wait.*
+*07.03.2016 - Back from Swizerland. Working on building instructions and schematics.*
 
 <table border="0">
   <tr>
