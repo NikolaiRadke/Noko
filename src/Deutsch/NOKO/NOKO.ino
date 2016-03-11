@@ -6,7 +6,7 @@
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.796 (1.6.7 | Linux X86_64) 
+ * Flash-Usage: 28.796 (1.6.7 | AVR-Boards 1.6.9 | Linux X86_64) 
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
@@ -25,7 +25,7 @@
  * Circuit:
  * 6,2V             VIN   
  * LCD GND          GND
- * LCD VCC          6,2 with an diode to level down Voltage to 5,5V. 
+ * LCD VCC          5V
  * LCD SDA          A4    (SDA)
  * LCD SCL          A5    (SCL)
  * RTC GND          GND
@@ -56,7 +56,7 @@
  * 24LC256      7   GND   Pin 7 set to HIGH would enable write protection
  * 24LC256      8   5V
  * Amplifier GND    GND
- * Amplifier VCC    6,2V
+ * Amplifier VCC    6V
  * Amplifier MOSFET D6    (LOW=ON, HIGH=OFF)
  * AUX Relay        D7    
  * SW1 Belly        A0    (Menue) connected via ADC with 3 x 2,2kOhm
