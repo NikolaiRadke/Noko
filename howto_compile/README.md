@@ -1,7 +1,8 @@
 #Compiling options for NOKO
 ###NOTE: These options are used global for all sketches.
 
-**Prerequisits:** IDE 1.6.6 or 1.6.7 and AVR Boards Core 1.6.9
+**Prerequisits:**  
+IDE 1.6.6 or 1.6.7 and AVR Boards Core 1.6.9.
 
 To Compile NOKO.ino, you need to modify the file **platform.txt**.
 - In Linux, it can be found under 
