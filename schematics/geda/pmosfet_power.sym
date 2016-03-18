@@ -1,0 +1,77 @@
+v 20111231 2
+T 600 400 8 10 1 1 0 0 1
+value=IRF9520N
+T 300 3000 5 8 0 0 0 0 1
+description=Power MOSFET, p-channel
+T 300 2800 5 8 0 0 0 0 1
+documentation=http://www.irf.com/product-info/datasheets/data/irf9520n.pdf
+T 300 1800 5 8 0 0 0 0 1
+author=Kai-Martin Knaak, kmk@lilalaser.de
+T 300 1600 5 8 0 0 0 0 1
+dist-license=GPL 3, see http://www.gnu.org/licenses/gpl-3.0.txt
+T 300 1400 5 8 0 0 0 0 1
+use-license=free, no restrictions
+T 600 200 8 8 1 1 0 0 1
+footprint=TO220_GDS
+L 250 600 500 600 3 10 0 0 -1 -1
+L 250 200 500 200 3 10 0 0 -1 -1
+P 0 200 200 200 1 0 0
+{
+T 100 300 5 10 0 1 0 4 1
+pinnumber=G
+T 100 300 5 10 0 1 0 4 1
+pinlabel=G
+T 100 400 5 10 0 1 0 0 1
+pinseq=1
+T 0 0 5 10 0 1 0 0 1
+pintype=pas
+}
+P 500 600 500 800 1 0 1
+{
+T 400 700 5 10 0 1 0 3 1
+pinnumber=D
+T 400 700 5 10 0 1 0 3 1
+pinlabel=D
+T 600 800 5 10 0 1 0 3 1
+pinseq=2
+T 700 800 5 10 0 1 0 0 1
+pintype=pas
+}
+P 500 200 500 0 1 0 1
+{
+T 400 0 5 10 0 1 0 3 1
+pinnumber=S
+T 400 0 5 10 0 1 0 3 1
+pinlabel=S
+T 600 100 5 10 0 1 0 0 1
+pinseq=3
+T 600 0 5 10 0 1 0 0 1
+pintype=pas
+}
+T 600 600 8 10 1 1 0 0 1
+refdes=Q?
+L 250 675 250 525 3 30 0 0 -1 -1
+L 250 475 250 325 3 30 0 0 -1 -1
+L 250 275 250 125 3 30 0 0 -1 -1
+L 250 400 320 400 3 10 0 0 -1 -1
+L 400 400 400 200 3 10 0 0 -1 -1
+L 500 200 500 370 3 10 0 0 -1 -1
+L 460 370 540 370 3 10 0 0 -1 -1
+L 500 450 500 600 3 10 0 0 -1 -1
+H 3 0 0 0 -1 -1 1 -1 -1 -1 -1 -1 4
+M 400,400
+L 320,380
+L 320,420
+z
+L 500 370 460 450 3 10 2 0 -1 -1
+L 460 450 540 450 3 10 2 0 -1 -1
+L 500 370 540 450 3 10 2 0 -1 -1
+L 200 600 200 200 3 10 1 0 -1 -1
+T 300 2000 5 8 0 0 0 0 1
+symversion=1.0
+T 300 2400 5 8 0 0 0 0 1
+footprints=SOT23_GSD, TO92_DGS, DPAK_GDS, TO220_GDS
+T 300 2600 5 8 0 0 0 0 1
+comment=check the data sheet for pinout!
+T 300 2200 5 8 0 0 0 0 1
+values=IRF9520N, SUD50P04
