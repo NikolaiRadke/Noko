@@ -257,6 +257,7 @@ init();
   // Start Radio
   #ifdef def_radio
     Radio.powerOn();  // Needs to start once!
+    Radio.setVolume(10);
     Radio.powerOff();
   #endif
  
