@@ -2,7 +2,7 @@
 
 The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. NOKO is for everyone. Right now, i am writing the building instructions.
 
-*27.03.2016Ü* - Back from Portugal. Working on a new power supply. The 2A step up module was a complete fail. Who the hell builds something like this??
+*27.03.2016* - Back from Portugal. Working on a new power supply. The 2A step up module was a complete fail. Who the hell builds something like this??
 
 <table border="0">
   <tr>
