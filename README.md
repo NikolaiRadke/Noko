@@ -22,7 +22,7 @@ The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyo
 There are a German and an English version. Right now, the building wiki, the voice set, the manual and the optional EEPROM text files are in German. I'll try to translate the wiki and the manual when the German wiki is completed. Until then, feel free to ask me for translation, if you need help.  **Contribute!** I need an English voice set and English text files. In addition, any other language is welcome, NOKO is to be a cosmopolitan!
 
 ### Prerequisites
-NOKO needs [Arduino IDE 1.6.7](https://www.arduino.cc/en/Main/Software) or [Arduino IDE 1.6.6](https://www.arduino.cc/en/Main/OldSoftwareReleases#previous) with AVR Boards Core 1.6.9. Copy the folder `NOKO/src/[language]/NOKO/` into your sketch folder. At this moment, *NOKO.ino* won't compile, if you are a Windows user. The sketch size is too large. See [how to compile](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile) to solve this issue.
+NOKO needs [Arduino IDE 1.6.8](https://www.arduino.cc/en/Main/Software) or 1.6.7, 1.6.6 with AVR Boards Core 1.6.9. Copy the folder `NOKO/src/[language]/NOKO/` into your sketch folder. At this moment, *NOKO.ino* won't compile, if you are a Windows user. The sketch size is too large. See [how to compile](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile) to solve this issue.
 
 ### Content
 
