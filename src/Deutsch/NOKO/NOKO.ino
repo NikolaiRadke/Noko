@@ -1,12 +1,12 @@
 /*
- * NOKO V1.0 12.03.2016 - Nikolai Radke
+ * NOKO V1.0 29.03.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.824 (1.6.7 | AVR-Boards 1.6.9 | Linux X86_64) 
+ * Flash-Usage: 28.800 (1.6.8 | AVR-Boards 1.6.9 | Linux X86_64) 
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
@@ -81,7 +81,7 @@
 */
 
 // Softwareversion
-#define Firmware "-120316"
+#define Firmware "-290316"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -237,20 +237,18 @@ init();
   //power_adc_disable(); // Buttons are now ADC!
 
   // Portdefinitions - direct manipulation is much faster and saves flash
-  DDRD=B11001000;   // 1=OUTPUT
-  DDRB=B00101100;
-  //DDRC=B00000000;   
-  PORTD=B10000000;  // 1=HIGH
+  DDRD=B11001000;   // D0-D7 | 1=OUTPUT
+  DDRB=B00101100;   // D8-D13
+  //DDRC=B00000000;   // A0-A7  
+  //PORTD=B00000000;  // 1=HIGH
   //PORTB=B00000000; 
-  //PORTC=B00000000;
-  DDRC &= ~(1<<0);  // INPUT_PULLUP
-  PORTC |= (1<<0);
-  
+  PORTC=B00000001; // A0: INPUT_PULLUP 
+
   // Start JQ6500
   mp3.begin(9600);
   mp3.pause();
   mp3.reset();
-  newdelay(500);
+  NewDelay(500);
   mp3.setVolume(vol);
   mp3.setLoopMode(MP3_LOOP_NONE); // Run only once
   
@@ -518,7 +516,7 @@ byte taste(boolean leise)  // Read pressed button und debounce | leise = NOKO st
  void ton(uint16_t h,uint16_t l,boolean stopd,uint16_t d) 
 {
   NewTone(Speaker,h,l);
-  if (!stopd) newdelay(d);
+  if (!stopd) NewDelay(d);
   else if (wahl!=4) stopdelay(d);
 }
 
@@ -698,7 +696,7 @@ byte newrandom(byte a,byte b) // Better XOR random number generator
     return (rnd/65535.0)*(b-a)+a;
 }
 
-void newdelay(uint16_t z)  // New delay function to save flash
+void NewDelay(uint16_t z)  // New delay function to save flash
 {
   unsigned long zmillis=millis();
   while (millis()-zmillis<z);
@@ -737,7 +735,7 @@ void schlafe(byte wdt_time) // Sleepmode to save power
 
 void powerdowndelay(byte ms) // Calls schlafe() with watchdog-times
 {
-  if (PIND & (1<<4)) newdelay(ms); // If MP3 is playing only plain delay
+  if (PIND & (1<<4)) NewDelay(ms); // If MP3 is playing only plain delay
   else                             // Sleep times steps are pre-defined, max 8s
   {                                // NOKO uses max 120ms
     // if (ms>=256) {schlafe(WDTO_250MS); ms-=250;}
@@ -1116,7 +1114,7 @@ void menue_Abspielen() // Play menue "Spiel was vor"
               PORTD &= ~(1<<7);   // AUX off
             }
             aux=!aux;
-            newdelay(500);
+            NewDelay(500);
             break;
           #ifdef def_stories
             case 3: menue_mp3(1); break;
@@ -1882,8 +1880,8 @@ void menue_Einstellungen()  // Settings "NOKO stellen"
     lcd.setCursor(15,2);
     lcd.print(ultra_distanz);
     lcd.setCursor(15,menue);
-    while ((wahl=taste(false))==0) newdelay(100); // No power down while LED is in use!
-    newdelay(50);
+    while ((wahl=taste(false))==0) NewDelay(100); // No power down while LED is in use!
+    NewDelay(50);
     switch(wahl)
     {
       case 1:  
@@ -2222,7 +2220,7 @@ void feiern() // Birthdaytime! Party! Party!
   #endif
   if (aux) PORTD &= ~(1<<7); // AUX aus;
   if ((!stumm) && (!mp3_an)) JQ6500_play(111); // Play birthday song 111
-  newdelay(2000);
+  NewDelay(2000);
   ma=minute();
   while (((ma==minute()) || (PIND & (1<<4))) && (wahl!=4))
   {  
@@ -2334,7 +2332,7 @@ void radio_ein() // Radio on
 void sound_an() // Turns on amplifier with a small delay for beep tones
 {
   PORTD &= ~(1<<6); // Amplifier ein
-  newdelay(reaktionszeit);
+  NewDelay(reaktionszeit);
 }
 
 void JQ6500_play(byte v) // Plays MP3 number v
