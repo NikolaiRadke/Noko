@@ -1,7 +1,8 @@
 # Thanks
 
-These people helped me bringing NOKO to life:
+These people help me bring life to NOKO:
 
-- **Nora Linder** - creating the monster suit
-- **Hans Radke** - hardware construction and a lot of soldering
+- **Hans Radke** - (my dad) hardware construction and a lot of soldering
+- **Nora Linder** - creating and sewing the monster suit
 - **Carsten Caniglia** - the voice of NOKO
+- **Ian Berell** - helping me with english translations. Look at his [bike locks](https://twitter.com/sphykeian)!
