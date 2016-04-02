@@ -1,5 +1,5 @@
 /*
- * NOKO V1.0 29.03.2016 - Nikolai Radke
+ * NOKO V1.0 02.04.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
@@ -62,7 +62,7 @@
  * SW1 Belly        A0    (Menue) connected via ADC with 3 x 2,2kOhm
  * SW2 Right        A0    (Mute ULTRA | next menue)
  * SW3 Left         A0    (Mute LCD | prev menue)
- * SW4 Nose         A0    (quit)
+ * SW4 Nose         A0    (Quit)
  * LED VCC          D10   (PWM)
  * LED GND          GND
  * Speaker VCC      D11   (PWM)
@@ -81,7 +81,7 @@
 */
 
 // Softwareversion
-#define Firmware "-290316"
+#define Firmware "-020416"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -102,7 +102,8 @@
 #define pwd_delay     50  // Button debounce
 #define reaktionszeit 70  // Startup time for the amlifier
 #define sensor        10  // Ultrasonic: with cover 10, without 25
-#define vol           30  // JQ6500 volume 0-30
+#define vol_mp3       30  // JQ6500 volume 0-30
+#define vol_radio     10  // Si4703 volume 0-15
 
 // Hardwareadress PINS
 #define LED 10            // LED -> PWM
@@ -188,7 +189,7 @@ unsigned long dimmmillis;     // Milliseconds until display mutes
 
 const byte eventtrigger[10]={0,120,60,45,30,15,10,5,3,1};
 
-// Custom charactors. Number set was made by Ishan Karve. Awesome!
+// Custom characters. Number set was made by Ishan Karve. Awesome!
 byte custom_char[18][8]=
 {
   {B00111,B01111,B11111,B11111,B11111,B11111,B11111,B11111},
@@ -249,13 +250,13 @@ init();
   mp3.pause();
   mp3.reset();
   NewDelay(500);
-  mp3.setVolume(vol);
+  mp3.setVolume(vol_mp3);
   mp3.setLoopMode(MP3_LOOP_NONE); // Run only once
   
   // Start Radio
   #ifdef def_radio
     Radio.powerOn();  // Needs to start once!
-    Radio.setVolume(10);
+    Radio.setVolume(vol_radio);
     Radio.powerOff();
   #endif
  
@@ -302,7 +303,7 @@ init();
   Wire.endTransmission();
   echtzeit();                   // Read RTC
   
-  // Start LCD and create custom charactors 
+  // Start LCD and create custom characters 
   lcd.begin(20,4);    
   init_char();
 
@@ -1085,7 +1086,7 @@ void menue_Abspielen() // Play menue "Spiel was vor"
     #endif   
     zeichen(1,1, eigenes_an? 0:32);
     zeichen(1,2, aux? 0:32); 
-    #ifndef def_stories              // Are there stories on SD Card?
+    #ifndef def_stories              // Are there stories on SD card?
       zeichen(1,3,120);
       #else
       zeichen(1,3, geschichte_an? 0:32); 
@@ -1138,7 +1139,7 @@ void menue_Radio() // Radio menue "Radio hoeren"
 {
   #ifdef def_radio
   char rdsStation[10]; // RDS station name
-  char rdsText[64];    // RDS text 16*4 charactors
+  char rdsText[64];    // RDS text 16*4 characters
   boolean save2=false;
   boolean save=false;
   boolean rds=false;
