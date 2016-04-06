@@ -1,7 +1,7 @@
 #Setting up a serial connection and writing to EEPROMs
 
 Open the NOKO writer sketch **NOKO_EEPROM_Disk0.ino** or **NOKO_Disk1.ino** in the Arduino IDE and start it. 
-Wait for *10 seconds*. When running *NOKO_Disk1.ino* you can go on at once.
+Wait for *10 seconds*. When running *NOKO_Disk1.ino* you can go on immediately.
 
 ##Linux
 
@@ -14,16 +14,16 @@ Wait for *10 seconds*. When running *NOKO_Disk1.ino* you can go on at once.
 ``` stty -F /dev/ttyUSB0 cs8 9600 ignbrk -brkint -imaxbel -opost -onlcr -isig -icanon -iexten -echo -echoe -echok -echoctl -echoke noflsh -ixon -crtscts ```  
 if another USB port is used by NOKO, modify /dev/USB0 to /dev/USB1 or whatever the IDE tells you.
 
-4. Chance the directoy to ` NOKO/write_eeprom/ `
+4. Change the directoy to ` NOKO/write_eeprom/ `
 
 5. Write the text file to EEPROM with the command  
 ``` ./write_Disk0 > /dev/ttyUSB0 ```  
 or  
 ``` ./write_Disk1 > /dev/ttyUSB0 ```  
-The program sends the content of the text file **Disk0** or **Disk1** via Arduino to the EEPROM. You can watch your Arduino's RX and TX LEDs blinking flurry. This may take a while, Disk1 needs about 20 minutes... *yawn*
+The program sends the content of the text file **Disk0** or **Disk1** via Arduino to the EEPROM. You can watch your Arduino's RX and TX LEDs blinking furiously. This may take a while, Disk1 needs about 20 minutes... *yawn*
 
 ### NOTE 
-*write_DiskX* was compiled with *x86_64*. For other platforms, see *write_DiskX.c* comments to compile it easy for yourself.
+*write_DiskX* was compiled with *x86_64*. For other platforms, see *write_DiskX.c* comments to compile it for yourself.
 
 ## Windows
 
@@ -35,10 +35,10 @@ The program sends the content of the text file **Disk0** or **Disk1** via Arduin
 ``` write_Disk0 > COM1 ```  
 or  
 ``` ./write_Disk1 > COM1 ```  
-If another USB port is used by NOKO, modify COM1 to COM2 or whatever the IDE tells you. The program sends the content of the text file **Disk0** or **Disk1** via Arduino to the EEPROM. You can watch your Arduino's RX and TX LEDs blinking flurry. This may take a while, Disk1 needs about 20 minutes... *yawn*
+If another USB port is used by NOKO, modify COM1 to COM2 or whatever the IDE tells you. The program sends the content of the text file **Disk0** or **Disk1** via Arduino to the EEPROM. You can watch your Arduino's RX and TX LEDs blinking furiously. This may take a while, Disk1 needs about 20 minutes... *yawn*
 
 ### NOTE 
-*write_DiskX.exe* was compiled with *x86_64*. For other platforms, see *write_DiskX.c* comments to compile it easy for yourself.
+*write_DiskX.exe* was compiled with *x86_64*. For other platforms, see *write_DiskX.c* comments to compile it for yourself.
 
 ## The textfiles DISK0 and DISK1
 
