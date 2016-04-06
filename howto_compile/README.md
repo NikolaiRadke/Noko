@@ -1,5 +1,5 @@
 #Compiling options for NOKO
-###NOTE: These options are used global for all sketches.
+###NOTE: These options are used globally for all sketches.
 
 **Prerequisits:**  
 IDE 1.6.8, 1.6.7 or 1.6.6 and AVR Boards Core 1.6.9 - 1.6.10 does *not* work at once.
@@ -17,7 +17,7 @@ Open your **platform.txt** and overwrite the lines after the line
 ```
 with the lines below. Without these options the compiled sketch would exceed the 32kb flash memory of the Arduino Nano.
 
-Alas, until now i wasn't able to find out more about *platform.local.txt*, which allows the user to define a specific platform.txt locally for each sketch. So better backup your old platform.txt to save your old compiler options. 
+Alas, until now I wasn't able to find out more about *platform.local.txt*, which allows the user to define a specific platform.txt locally for each sketch. So better backup your old platform.txt to save your old compiler options. 
 
 ### Linux  
 
