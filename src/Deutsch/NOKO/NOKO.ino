@@ -67,8 +67,8 @@
  * LED GND          GND
  * Speaker VCC      D11   (PWM)
  * Speaker GND      GND
- * USB VCC          A6    with 1kOhm and zenerdiode
- * Battery VCC      A7    
+ * Battery VCC      A6    
+ * USB VCC          A7    with 1kOhm and zenerdiode
  * 
  * Unused           A1.A2,A3,D8,D9,(ICSP)
  * 
@@ -86,7 +86,7 @@
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
 // Features on/off - comment out to disable
-#define def_radio 1           // Using Radio?
+//#define def_radio 1           // Using Radio?
 #define def_external_eeprom 1 // Using external EEPROM?
 #define def_stories 1         // Stories on SD card?
 
@@ -108,8 +108,8 @@
 // Hardwareadress PINS
 #define LED 10            // LED -> PWM
 #define inPin 12          // Ultrasonic
-#define USB 6             // Is NOKO connected to USB?
-#define Akku 7            // Battery power
+#define Akku 6            // Battery power
+#define USB 7             // Is NOKO connected to USB?
 #define Speaker 11        // PWM beep 
 #define Tasten A0         // ADC buttons
 #define Disk0 0x57        // AH24C32 4 kByte EEPROM

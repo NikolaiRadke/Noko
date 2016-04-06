@@ -1,5 +1,5 @@
 /*
- * NOKO V1.0 02.04.2016 - Nikolai Radke
+ * NOKO V1.0 06.04.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module!
@@ -67,8 +67,8 @@
  * LED GND          GND
  * Speaker VCC      D11   (PWM)
  * Speaker GND      GND
- * USB VCC          A6    with 1kOhm and zenerdiode
- * Battery VCC      A7    
+ * Battery VCC      A6    
+ * USB VCC          A7    with 1kOhm and zenerdiode
  * 
  * Unused           A1.A2,A3,D8,D9,(ICSP)
  * 
@@ -81,7 +81,7 @@
 */
 
 // Softwareversion
-#define Firmware "-020416"
+#define Firmware "-060416"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -108,8 +108,8 @@
 // Hardwareadress PINS
 #define LED 10            // LED -> PWM
 #define inPin 12          // Ultrasonic
-#define USB 6             // Is NOKO connected to USB?
-#define Akku 7            // Battery power
+#define Akku 6            // Battery power
+#define USB 7             // Is NOKO connected to USB?
 #define Speaker 11        // PWM beep 
 #define Tasten A0         // ADC buttons
 #define Disk0 0x57        // AH24C32 4 kByte EEPROM
