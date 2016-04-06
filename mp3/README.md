@@ -1,7 +1,7 @@
 #Voice set for NOKO - German
 
 Copy these mp3s into the folder **001** on your microSD card. Strictly observe the sequence!
-021.mp3 must be copied as the 21. file. See the [Wiki](https://github.com/NikolaiRadke/NOKO/wiki/SDKarte) for more detailed instructions.
+021.mp3 must be copied as the 21st file. See the [Wiki](https://github.com/NikolaiRadke/NOKO/wiki/SDKarte) for more detailed instructions.
 
 
 | Number  | Assignment               |
@@ -14,7 +14,7 @@ Copy these mp3s into the folder **001** on your microSD card. Strictly observe t
 | 110     | Birthday song            |
 
 011-110 has been spoken by my fellow actor [Carsten Caniglia](http://www.carstencaniglia.com). Why? 
-He has done a great job - moreover i don't want to listen to my own voice every day, especially when development takes more than a year!
+He has done a great job - moreover I don't want to listen to my own voice every day, especially when development takes more than a year! (Ian said I sound really weird in real life. Thanks, mate.)
 
 ###Your own voice set
 See [ENGLISH.md](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/ENGLISH.md) for details.
