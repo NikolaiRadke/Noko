@@ -4,8 +4,7 @@ The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyo
   
   
 **Diary**  
-*02.04.2016* - Power supply and amplifier are working great! Next week, the new easy-to-build-NOKO should be finished, so i can go on with the schematics and building instructions in the wiki.  
-*29.03.2016* - Tested new 1.6.8 IDE. Works with AVR Boards 1.6.9.  
+*07.04.2016* - Finished new schematics. NOKO is working fine! Now I can go on with the Wiki!  
 
   
 <table border="0">
