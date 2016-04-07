@@ -1,5 +1,5 @@
 /*
- * NOKO V1.0 06.04.2016 - Nikolai Radke
+ * NOKO V1.0 07.04.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module!
@@ -81,7 +81,7 @@
 */
 
 // Softwareversion
-#define Firmware "-060416"
+#define Firmware "-070416"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -113,7 +113,7 @@
 #define Speaker 11        // PWM beep 
 #define Tasten A0         // ADC buttons
 #define Disk0 0x57        // AH24C32 4 kByte EEPROM
-#define Disk1 0x50        // 24LC256 32 kBye EEPROM
+#define Disk1 0x50        // 24LC256 32 kByte EEPROM
 
 // Libraries
 // I2CIO.h and LCD.h are used by LiquidCrystal_I2C.h
@@ -136,21 +136,21 @@ SIGNAL(WDT_vect) // Watchdog to wake NOKO from powerdowndelay()
   WDTCSR &= ~_BV(WDIE);
 }
 
-byte     wahl=0;              // Which menu item selected
-byte     xlcd=0;              // X and
-byte     ylcd=0;              // Y position of LCD cursor
-byte     geschichte=1;        // Selected story
-byte     geschichten;         // Number of stories
-byte     eigenes=1;           // Selected MP3
-byte     files;               // Number of own MP3s files on SD card
-byte     led_dimm;            // LED brightness 0-9
-byte     gt,gm;               // Birthday gt=day, gm=month
-byte     klang,klang_ton,klang_mp3;// Alarm: Which type, which tone or mp3
-byte     alarmmm,alarmhh;     // Alarm time hh:mm
-byte     nachtahh,nachtbhh;   // Nachtmodus from hh:mm
-byte     nachtamm,nachtbmm;   // to hh:mm
-byte     ultra_distanz;       // Ultrasonic reaction distance 0-9 
-byte     eventsteller;        // Chance of time event 0-9
+uint8_t     wahl=0;              // Which menu item selected
+uint8_t     xlcd=0;              // X and
+uint8_t     ylcd=0;              // Y position of LCD cursor
+uint8_t     geschichte=1;        // Selected story
+uint8_t     geschichten;         // Number of stories
+uint8_t     eigenes=1;           // Selected MP3
+uint8_t     files;               // Number of own MP3s files on SD card
+uint8_t     led_dimm;            // LED brightness 0-9
+uint8_t     gt,gm;               // Birthday gt=day, gm=month
+uint8_t     klang,klang_ton,klang_mp3;// Alarm: Which type, which tone or mp3
+uint8_t     alarmmm,alarmhh;     // Alarm time hh:mm
+uint8_t     nachtahh,nachtbhh;   // Nachtmodus from hh:mm
+uint8_t     nachtamm,nachtbmm;   // to hh:mm
+uint8_t     ultra_distanz;       // Ultrasonic reaction distance 0-9 
+uint8_t     eventsteller;        // Chance of time event 0-9
 
 boolean  ultra_event=false;   // Has there been am ultrasonic event this minute?
 boolean  ultra_light;         // Swich on LCD light with ultrasonic?
@@ -182,15 +182,15 @@ uint16_t freq;                // Used frequency * 100
 uint16_t rnd;                 // Random number
 uint16_t station[3];          // 3 radiostations
 
-int      j;                   // Year is integer type
-int      power;               // Voltage * 100
+int16_t  j;                   // Year is integer type
+int16_t  power;               // Voltage * 100
 
-unsigned long dimmmillis;     // Milliseconds until display mutes
+uint32_t dimmmillis;     // Milliseconds until display mutes
 
-const byte eventtrigger[10]={0,120,60,45,30,15,10,5,3,1};
+const uint8_t eventtrigger[10]={0,120,60,45,30,15,10,5,3,1};
 
 // Custom characters. Number set was made by Ishan Karve. Awesome!
-byte custom_char[18][8]=
+uint8_t custom_char[18][8]=
 {
   {B00111,B01111,B11111,B11111,B11111,B11111,B11111,B11111},
   {B11111,B11111,B11111,B00000,B00000,B00000,B00000,B00000},
@@ -224,9 +224,9 @@ JQ6500_Serial mp3(2,3); // Software serial connection
 // Using main() and init() instead of setup() and loop() saves flash space
 
 int main(void) {  
-byte ma=99;
-byte ha=99;
-byte help;
+uint8_t ma=99;
+uint8_t ha=99;
+uint8_t help;
 init();
 {  
   // Powersafe options
@@ -446,7 +446,7 @@ while(1)
 
 //-------------------------------------------------------------------------------------
 
-byte taste(boolean leise)  // Read pressed button und debounce | leise = NOKO stays silent
+uint8_t taste(boolean leise)  // Read pressed button und debounce | leise = NOKO stays silent
 {
   uint16_t tastenwert;
   if ((!pause) && (!(PIND & (1<<4))) && (mp3_an)) mp3_an=false;
@@ -492,20 +492,20 @@ byte taste(boolean leise)  // Read pressed button und debounce | leise = NOKO st
 }
 
 // Constantly used functions - saves a lot of flash.
- void zeichen(byte x,byte y,byte c) // Char c at x,y
+ void zeichen(uint8_t x,uint8_t y,uint8_t c) // Char c at x,y
 {
   lcd.setCursor(x,y);
   lcd.print(char(c));
 }
 
- void leer(byte x,byte y, byte anz) // anz spaces from x,y
+ void leer(uint8_t x,uint8_t y, uint8_t anz) // anz spaces from x,y
 {
-  byte a;
+  uint8_t a;
   lcd.setCursor(x,y);
   for (a=anz;a>0;a--) lcd.print(char(32));
 }
 
- void icon(byte c[]) // Icon c at 0,0
+ void icon(uint8_t c[]) // Icon c at 0,0
 {
   lcd.createChar(0,c);
   lcd.clear();
@@ -533,11 +533,11 @@ void zeige_speichern() // Prints "saving..."
 
  void init_char() // Read custom chars again
 {
-  for (byte help=0;help<8;help++)
+  for (uint8_t help=0;help<8;help++)
     lcd.createChar(help,custom_char[help]);
 }
 
- void clearnum(byte x,byte y) // Delete a big number at x,y
+ void clearnum(uint8_t x,uint8_t y) // Delete a big number at x,y
 {
   xlcd=x;
   ylcd=y;
@@ -545,7 +545,7 @@ void zeige_speichern() // Prints "saving..."
   leer(xlcd,ylcd+1,3);
 }
 
- void bignum(byte x,byte y,byte num) // Draws a big number at x,y; num 0-9
+ void bignum(uint8_t x,uint8_t y,uint8_t num) // Draws a big number at x,y; num 0-9
 {
   xlcd=x;
   ylcd=y;
@@ -682,7 +682,7 @@ void powerup()  // power save off
   anzeigen();         // Draw clock and date
 }
 
-byte newrandom(byte a,byte b) // Better XOR random number generator 
+uint8_t newrandom(uint8_t a,uint8_t b) // Better XOR random number generator 
 {
     rnd+=micros();
     rnd^=rnd<<2;rnd^=rnd>>7;rnd^=rnd<<7;
@@ -691,20 +691,20 @@ byte newrandom(byte a,byte b) // Better XOR random number generator
 
 void NewDelay(uint16_t z)  // New delay function to save flash
 {
-  unsigned long zmillis=millis();
+  uint32_t zmillis=millis();
   while (millis()-zmillis<z);
 }
 
 void stopdelay(uint16_t z) // Delay with stop when nose is pressed
 {
-  unsigned long zmillis=millis();
+  uint32_t zmillis=millis();
   while ((millis()-zmillis<z) && (taste(true)!=4));
   if (taste(true)==4) wahl=4;
 }
 
 void schleife(boolean leise, boolean timeout) // Wait for nose until timeout 1 minute
 {
-  unsigned long ende=millis()+60000; // 2 MHz -> 60s:8
+  uint32_t ende=millis()+60000; // 2 MHz -> 60s:8
   wahl=0;
   while (wahl==0) 
   {
@@ -715,7 +715,7 @@ void schleife(boolean leise, boolean timeout) // Wait for nose until timeout 1 m
   powerdowndelay(pwd_delay);
 }
 
-void schlafe(byte wdt_time) // Sleepmode to save power
+void schlafe(uint8_t wdt_time) // Sleepmode to save power
 {
   wdt_enable(wdt_time); // Watchdog wakes NOKO after wdt_time
   wdt_reset();
@@ -726,7 +726,7 @@ void schlafe(byte wdt_time) // Sleepmode to save power
   WDTCSR &= ~_BV(WDIE);
 }
 
-void powerdowndelay(byte ms) // Calls schlafe() with watchdog-times
+void powerdowndelay(uint8_t ms) // Calls schlafe() with watchdog-times
 {
   if (PIND & (1<<4)) NewDelay(ms); // If MP3 is playing only plain delay
   else                             // Sleep times steps are pre-defined, max 8s
@@ -768,7 +768,7 @@ boolean sommerzeit() // Summertime?
 
 void uhrzeit() // Draw clock, power level and flags
 {
-  byte help;
+  uint8_t help;
   zeit();
   nacht=nachtjetzt();
   (tm.Hour<10)? bignum(1,0,0):bignum(1,0,tm.Hour/10);
@@ -801,7 +801,7 @@ void uhrzeit() // Draw clock, power level and flags
     power+=analogRead(Akku);
   }
   // Voltage: 2.5 to 4.2. (4.1=100%)
-  power=(int)(((((power/5)*(5.0/1024))-2.5)/1.6)*100); 
+  power=(int16_t)(((((power/5)*(5.0/1024))-2.5)/1.6)*100); 
   power=constrain(power,1,99);
   // 50% Voltage are about 80% capacity!
   if (power>50) power=map(power,50,99,20,99); 
@@ -850,7 +850,7 @@ void zeit() // Read internal time
   tm.Hour=hour();
 }
 
-void zeige_station(byte s) // Print the stations frequencies
+void zeige_station(uint8_t s) // Print the stations frequencies
 {
   lcd.setCursor(1,1);
   lcd.print(F("Station "));
@@ -994,8 +994,8 @@ void alarm() // Play alarm
 
 void menue_Hauptmenue() // Main menue
 {
-  byte menue=0; // Selected menue number 0..3
-  byte help=0;
+  uint8_t menue=0; // Selected menue number 0..3
+  uint8_t help=0;
   powerdowndelay(80); // Debounce
   lcd.noBlink();
   lcd.clear();
@@ -1043,7 +1043,7 @@ void menue_Hauptmenue() // Main menue
 
 void menue_Abspielen() // Play menue "Play something"
 {
-  byte menue=0;
+  uint8_t menue=0;
   lcd.createChar(0,custom_char[15]);
   lcd.clear();
   lcd.setCursor(2,0);                 // Radio menue
@@ -1120,8 +1120,8 @@ void menue_Radio() // Radio menue "Play radio"
   boolean save2=false;
   boolean save=false;
   boolean rds=false;
-  byte menue=2;
-  byte help,help2,count;
+  uint8_t menue=2;
+  uint8_t help,help2,count;
   lcd.createChar(1,custom_char[9]);
   lcd.createChar(2,custom_char[11]);
   lcd.createChar(3,custom_char[12]);
@@ -1277,11 +1277,11 @@ void menue_Radio() // Radio menue "Play radio"
 
 // Story menu & MP3 menu: "Play stories" "Play own files"
 // 1=Story 2=MP3 3=No MP3 files found
- void menue_mp3(byte modus) 
+ void menue_mp3(uint8_t modus) 
 {
   if (!mp3_an) while (PIND & (1<<4));
-  byte menue=1;
-  byte help;
+  uint8_t menue=1;
+  uint8_t help;
   char buff[12];
   lcd.createChar(1,custom_char[9]);
   lcd.createChar(2,custom_char[10]);
@@ -1438,7 +1438,7 @@ void menue_Radio() // Radio menue "Play radio"
 
 void menue_Alarm()  // Set alarm - no alarm allowd in this menue
 {
-  byte menue=0;
+  uint8_t menue=0;
   alarm_jetzt=true;
   boolean save=false;
   icon(custom_char[17]);
@@ -1516,7 +1516,7 @@ void menue_Alarm()  // Set alarm - no alarm allowd in this menue
 
 void menue_Alarmwahl() // Which alarm type? No alarm allowed hier
 {
-  byte menue=0;
+  uint8_t menue=0;
   boolean alarm_an2=alarm_an;
   alarm_an=false;
   lcd.clear();
@@ -1528,7 +1528,7 @@ void menue_Alarmwahl() // Which alarm type? No alarm allowed hier
   lcd.print(F("[ ] MP3"));     // MP3 0-9
   while (wahl!=4)
   {
-    for (byte help=0;help>2;help++) 
+    for (uint8_t help=0;help>2;help++) 
       zeichen(3,help,32);
     zeichen(3,klang,88);
     zeichen(0,menue,126);
@@ -1564,7 +1564,7 @@ void menue_Alarmwahl() // Which alarm type? No alarm allowed hier
 
 // Select sound number
 // 1=Tone 0-5; 2=MP3 0-9
-void menue_Alarmton(byte modus)
+void menue_Alarmton(uint8_t modus)
 {
   boolean save=false;
   lcd.clear();
@@ -1609,11 +1609,11 @@ void menue_Alarmton(byte modus)
 
 void menue_Uhrzeit()  // Set time and nightmode
 {
-  byte menue=0;
-  byte ha=tm.Hour;
-  byte ma=tm.Minute;
-  byte dd=tm.Day;
-  byte dm=tm.Month;
+  uint8_t menue=0;
+  uint8_t ha=tm.Hour;
+  uint8_t ma=tm.Minute;
+  uint8_t dd=tm.Day;
+  uint8_t dm=tm.Month;
   boolean save=false;
   icon(custom_char[16]);
   lcd.print(F("New time/date"));
@@ -1729,7 +1729,7 @@ void menue_Uhrzeit()  // Set time and nightmode
 
 void menue_Nachtmodus() // Set nightmode
 {
-  byte menue=0;
+  uint8_t menue=0;
   boolean save=false;
   icon(custom_char[16]);
   lcd.print(F("Set nightmode"));
@@ -1831,7 +1831,7 @@ void menue_Nachtmodus() // Set nightmode
 
 void menue_Einstellungen()  // Settings "Set NOKO"
 {
-  byte menue=0;
+  uint8_t menue=0;
   lcd.clear();
   lcd.setCursor(2,0);
   lcd.print(F("LED      +/- [ ]")); // LED brightness 0-9 * 28 (0..255)
@@ -1894,7 +1894,7 @@ void menue_Einstellungen()  // Settings "Set NOKO"
 
 void menue_Einstellungen2() // "more..." - more settings
 {
-  byte menue=0;
+  uint8_t menue=0;
   lcd.clear();
   lcd.setCursor(2,0);
   lcd.print(F("Power save     [ ]")); // Battery saving - not only lights out
@@ -1957,7 +1957,7 @@ void menue_Einstellungen2() // "more..." - more settings
 
 void menue_NOKO() // "My NOKO" - about NOKO and secret menue
 {
-  byte help;
+  uint8_t help;
   icon(custom_char[13]);
   lcd.print(F("NOKO belongs to"));
   lcd.setCursor(0,1);
@@ -2031,8 +2031,8 @@ void menue_NOKO() // "My NOKO" - about NOKO and secret menue
 
 void event() // Time bases events
 {
-  byte help2,ma;
-  byte help=4;
+  uint8_t help2,ma;
+  uint8_t help=4;
   #ifdef def_external_eeprom  // Check if EEPROM is used and defined
     help=0;  
   #endif
@@ -2113,7 +2113,7 @@ void event() // Time bases events
 void schimpfwort() // Swearword event on display
 {
   uint16_t num;
-  byte geschlecht=newrandom(0,2);
+  uint8_t geschlecht=newrandom(0,2);
   lcd.setCursor(0,1);
   num=(newrandom(0,101)*10);
   schreibe_schimpfwort(num);
@@ -2129,7 +2129,7 @@ void schimpfwort() // Swearword event on display
 
 void schreibe_schimpfwort(uint16_t num) // Helps swearword event
 {
-  byte c;
+  uint8_t c;
   uint16_t help;
   for (help=num;help<num+10;help++)
   {
@@ -2140,8 +2140,8 @@ void schreibe_schimpfwort(uint16_t num) // Helps swearword event
 
 void phrase() // Phrase event on display
 {
-  byte help;
-  byte help2=newrandom(0,100);
+  uint8_t help;
+  uint8_t help2=newrandom(0,100);
   lcd.print(F("Did you know that..."));
   for (help=0;help<20;help++)
   {
@@ -2154,8 +2154,8 @@ void phrase() // Phrase event on display
 
 void zitat() // Quotation event on display
 {
-  byte help;
-  byte help2=newrandom(0,100);
+  uint8_t help;
+  uint8_t help2=newrandom(0,100);
   for (help=0;help<20;help++)
   {
     zeichen(help,0,(readDisk(Disk1,quote_adress+(help2*80)+help)));
@@ -2168,8 +2168,8 @@ void zitat() // Quotation event on display
 
 void gedicht() // Poem event on display
 {
-  byte help;
-  byte help2=newrandom(0,26);
+  uint8_t help;
+  uint8_t help2=newrandom(0,26);
   for (help=0;help<20;help++)
   {
     zeichen(help,0,(readDisk(Disk1,poem_adress+(help2*80)+help)));
@@ -2186,7 +2186,7 @@ void gedicht() // Poem event on display
 
 void feiern() // Birthdaytime! Party! Party!
 {
-  byte help,ma;
+  uint8_t help,ma;
   lcd.createChar(0,custom_char[14]);
   #ifdef def_radio
     if (radio) Radio.powerOff();
@@ -2216,9 +2216,9 @@ void feiern() // Birthdaytime! Party! Party!
   anzeigen();
 }
 
-void alarmton(byte klangnummer) // 6 alarm tunes
+void alarmton(uint8_t klangnummer) // 6 alarm tunes
 {
-  byte help;
+  uint8_t help;
   switch (klangnummer)
   {
     case 0:
@@ -2261,7 +2261,7 @@ void alarmton(byte klangnummer) // 6 alarm tunes
 
 float getTemperature() // Internal temperature
 {
-  byte help;
+  uint8_t help;
   Wire.beginTransmission(0x68);
   Wire.write(byte(0x11));
   Wire.endTransmission();
@@ -2308,7 +2308,7 @@ void sound_an() // Turns on amplifier with a small delay for beep tones
   NewDelay(reaktionszeit);
 }
 
-void JQ6500_play(byte v) // Plays MP3 number v
+void JQ6500_play(uint8_t v) // Plays MP3 number v
 {
   if (dimm) cpu_up();
   analogWrite(LED,0);
@@ -2325,19 +2325,19 @@ void JQ6500_play(byte v) // Plays MP3 number v
   if (geschichte_an) mp3.setLoopMode(MP3_LOOP_NONE);  
 }
 
-int freeRam() // Free RAM in bytes
+int16_t freeRam() // Free RAM in bytes
 {
-  extern byte __heap_start,*__brkval;
-  int v;
-  return (int)&v-(__brkval==0? (int)&__heap_start:(int)__brkval);
+  extern uint8_t __heap_start,*__brkval;
+  int16_t v;
+  return (int16_t)&v-(__brkval==0? (int16_t)&__heap_start:(int16_t)__brkval);
 }
 
-byte readDisk(uint8_t disknummer, int adresse) // Read an EEPROM
+uint8_t readDisk(uint8_t disknummer, uint16_t adresse) // Read an EEPROM
 {
   uint8_t rdata = 0xFF; 
   Wire.beginTransmission(disknummer);
-  Wire.write((int)(adresse >> 8));   
-  Wire.write((int)(adresse & 0xFF)); 
+  Wire.write((uint16_t)(adresse >> 8));   
+  Wire.write((uint16_t)(adresse & 0xFF)); 
   Wire.endTransmission();
   Wire.requestFrom(disknummer,1);
   if (Wire.available()) rdata = Wire.read();
