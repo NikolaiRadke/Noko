@@ -6,7 +6,7 @@
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.658 (1.6.8 AVR-Boards 1.6.9 | Linux X86_64) 
+ * Flash-Usage: 28.688 (1.6.8 AVR-Boards 1.6.9 | Linux X86_64) 
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
@@ -240,10 +240,10 @@ init();
   // Portdefinitions - direct manipulation is much faster and saves flash
   DDRD=B11001000;   // D0-D7 | 1=OUTPUT
   DDRB=B00101100;   // D8-D13
-  //DDRC=B00000000;   // A0-A7  
-  //PORTD=B00000000;  // 1=HIGH
+  //DDRC=B00000000; // A0-A7  
+  PORTD=B01000000;  // D6 MOSFET HIGH: Turn of amplifier to prevent startup noise
   //PORTB=B00000000; 
-  PORTC=B00000001; // A0: INPUT_PULLUP 
+  PORTC=B00000001;  // A0: INPUT_PULLUP 
   
   // Start JQ6500
   mp3.begin(9600);
@@ -330,6 +330,7 @@ init();
   }
 
   // Starting sound
+  sound_an();
   ton(600,80,false,80);
   ton(880,150,false,150);
   PORTD |= (1<<6); // Amplifier HIGH=off
