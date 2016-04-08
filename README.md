@@ -4,7 +4,7 @@ The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyo
   
   
 **Diary**  
-*07.04.2016* - Finished new schematics. NOKO is working fine! Now I can go on with the Wiki!  
+*08.04.2016* - Sleepless night. Some small reworks and backported step up module made NOKO perfect now! But he still needs some testing.   
 
   
 <table border="0">
