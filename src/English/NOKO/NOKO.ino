@@ -459,7 +459,7 @@ uint8_t taste(boolean leise)  // Read pressed button und debounce | leise = NOKO
   }
   if (check_alarm()) return 4; // Check alarm
   tastenwert=(analogRead(Tasten));
-  if (tastenwert>500) return 0;
+  if (tastenwert>300) return 0;
   else if (tastenwert>150)    // SW4 nose -> voice 31-60
   {
     powerdowndelay(pwd_delay);
