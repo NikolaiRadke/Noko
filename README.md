@@ -3,8 +3,8 @@
 The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. NOKO is for everyone. Right now, i am writing the building instructions.
   
   
-**Diary**  
-*08.04.2016* - Sleepless night. Some small reworks and backported step up module made NOKO perfect now! But he still needs some testing.   
+**Diary** 
+*10.04.2016* - Writing schematics and instructions. I'll try to finish the wiki within the next week.
 
   
 <table border="0">
