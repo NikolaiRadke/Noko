@@ -3,8 +3,8 @@
 The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. NOKO is for everyone. Right now, i am writing the building instructions.
   
   
-**Diary** 
-*12.04.2016* - Noko ist ready! Now I'm writing the instructions. I'll try to finish the wiki within the next week.
+**Diary**  
+*12.04.2016* - NOKO is ready! Now I'm writing the instructions. I'll try to finish the wiki within the next week.
 
   
 <table border="0">
