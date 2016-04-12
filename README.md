@@ -4,7 +4,7 @@ The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyo
   
   
 **Diary** 
-*10.04.2016* - Writing schematics and instructions. I'll try to finish the wiki within the next week.
+*12.04.2016* - Noko ist ready! Now I'm writing the instructions. I'll try to finish the wiki within the next week.
 
   
 <table border="0">
