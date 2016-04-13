@@ -1,12 +1,12 @@
 /*
- * NOKO V1.0 07.04.2016 - Nikolai Radke
+ * NOKO V1.0 13.04.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.830 (1.6.8 | AVR-Boards 1.6.9 | Linux X86_64) 
+ * Flash-Usage: 28.630 (1.6.8 | AVR-Boards 1.6.9 | Linux X86_64) 
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
@@ -17,7 +17,6 @@
  *              110=n 120=x | 225=ä 226=ß 239=ö 245=ü (German only)
  *         
  * TODO:        
- * Test new amplifier together with LED
  *         
  * KNOWN BUGS:
  * Due to bad programming the summertime/wintertime will switch at 04:00, not 02:00.
@@ -81,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-070416"
+#define Firmware "-130416"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -362,7 +361,7 @@ while(1)
       else 
       {
         lcd.noBacklight();
-        if ((!radio) && (!(PIND & (1<<4)))) analogWrite(LED,led_dimm*28);
+        analogWrite(LED,led_dimm*28);
         lcddimm=true;
       }
     }
@@ -433,7 +432,7 @@ while(1)
         }        
         else
         {
-          if ((!radio) && (!(PIND & (1<<4)))) analogWrite(LED,led_dimm*28);
+          analogWrite(LED,led_dimm*28);
           lcd.noBacklight();
         }        
         powerdowndelay(pwd_delay);
@@ -459,35 +458,40 @@ uint8_t taste(boolean leise)  // Read pressed button und debounce | leise = NOKO
   if (check_alarm()) return 4; // Check alarm
   tastenwert=(analogRead(Tasten));
   if (tastenwert>300) return 0;
-  else if (tastenwert>150)    // SW4 nose -> voice 31-60
+  else 
   {
-    powerdowndelay(pwd_delay);
-    if (analogRead(Tasten)>150)
+    if (dimm) cpu_up();
+    if (tastenwert>150)    // SW4 nose -> voice 31-60
     {
-      if ((!(PIND & (1<<4))) && (!stumm) && (!leise) && (!pause))
-        if (newrandom(1,5)==4) JQ6500_play(newrandom(31,71));
-      return 4;
+      powerdowndelay(pwd_delay);
+      if (analogRead(Tasten)>150)
+      {
+       if ((!(PIND & (1<<4))) && (!stumm) && (!leise) && (!pause))
+         if (newrandom(1,5)==4) JQ6500_play(newrandom(31,71));
+       return 4;
+      }
     }
-  }
-  else if (tastenwert>100)    // SW3 left hand
-  {
-    powerdowndelay(pwd_delay);
-    if (analogRead(Tasten)>100) return 3;
-  }
-  else if ((tastenwert>50))    // SW2 right hand
-  {
-    powerdowndelay(pwd_delay);
-    if (analogRead(Tasten)>50)  return 2;
-  }
-  else if (tastenwert>0)    // SW1 belly -> voice 11-30
-  {
-    powerdowndelay(pwd_delay);
-    if (analogRead(Tasten)>0)
+    else if (tastenwert>100)    // SW3 left hand
+    { 
+      powerdowndelay(pwd_delay);
+      if (analogRead(Tasten)>100) return 3;
+    }
+    else if ((tastenwert>50))   // SW2 right hand
     {
-      if ((!(PIND & (1<<4))) && (!stumm) && (!leise) && (!pause))
-        if (newrandom(1,8)==4) JQ6500_play(newrandom(11,31)); 
+      powerdowndelay(pwd_delay);
+      if (analogRead(Tasten)>50)  return 2;
+    }
+    else                        // SW1 belly -> voice 11-30
+    {
+      powerdowndelay(pwd_delay);
+      if (analogRead(Tasten)>0)
+      {
+        if ((!(PIND & (1<<4))) && (!stumm) && (!leise) && (!pause))
+          if (newrandom(1,8)==4) JQ6500_play(newrandom(11,31)); 
       return 1;
+      }
     }
+    if (dimm) cpu_down();
   }
 }
 
@@ -673,11 +677,8 @@ void powerdown() // power save on
   lcd.off();        // Turn off display
   powerdowndelay(pwd_delay); 
   dimm=true;
-  if ((!radio) && (!(PIND & (1<<4)))) // TEST: No LED when MP3 is playing to prevend noise!
-  {
-    analogWrite(LED,led_dimm*28);     // Else turn on LED 0..9 * 28 (max 255)
-    cpu_down(); // 2 Mhz
-  }  
+  analogWrite(LED,led_dimm*28);     // Turn on LED 0..9 * 28 (max 255)
+  cpu_down(); // 2 Mhz  
 }
 
 void powerup()  // power save off
@@ -736,12 +737,12 @@ void schlafe(uint8_t wdt_time) // Sleepmode to save power
 
 void powerdowndelay(uint8_t ms) // Calls schlafe() with watchdog-times
 {
-  if (PIND & (1<<4)) NewDelay(ms); // If MP3 is playing only plain delay
-  else                             // Sleep times steps are pre-defined, max 8s
-  {                                // NOKO uses max 120ms
+  if ((dimm) || (PIND & (1<<4))) NewDelay(ms); // If MP3 is playing only plain delay
+  else                                         // Sleep times steps are pre-defined, max 8s
+  {                                            // NOKO uses max 120ms
     // if (ms>=256) {schlafe(WDTO_250MS); ms-=250;}
     // if (ms>=128) {schlafe(WDTO_120MS); ms-=120;}
-    if (ms>=64) {schlafe(WDTO_60MS); ms-=60;} // Right now there is no delay >128ms
+    if (ms>=64) {schlafe(WDTO_60MS); ms-=60;}  // Right now there is no delay >128ms
     if (ms>=32) {schlafe(WDTO_30MS); ms-=30;}
     if (ms>=16) {schlafe(WDTO_15MS); ms-=15;}
   }
@@ -998,7 +999,7 @@ void alarm() // Play alarm
   alarm_jetzt=false;
   if ((alarmmm==tm.Minute) && (alarmhh==tm.Hour)) alarm_mute=true;
   lcd.clear();
-  if ((dimm) && (!radio) && (!(PIND & (1<<4))))
+  if (dimm) 
   {
     PORTD |= (1<<6); // Amplifier off
     analogWrite(LED,led_dimm*28);
@@ -1103,7 +1104,6 @@ void menue_Abspielen() // Play menue "Spiel was vor"
           case 2: 
             if (!aux)
             {
-              if (lcddimm) analogWrite(LED,led_dimm*28); // Still needed?
               if (radio) radio_aus();
               if ((!pause) && (PIND & (1<<4))) mp3_aus();
               PORTD &= ~(1<<6);   // Amplifier on
@@ -1170,7 +1170,6 @@ void menue_Radio() // Radio menue "Radio hoeren"
     if (save) 
     {
       PORTD &= ~(1<<6); // Amplifier on
-      analogWrite(LED,0);
       radio_ein();
       leer(9,0,10);
       Radio.readRDS(rdsStation,1000); // Read station name, timeout 1000ms
@@ -1242,7 +1241,6 @@ void menue_Radio() // Radio menue "Radio hoeren"
             if (radio) 
             {
               radio_aus();
-              if (lcddimm) analogWrite(LED,led_dimm*28);
               save=false;
             }
             else
@@ -1409,11 +1407,7 @@ void menue_Radio() // Radio menue "Radio hoeren"
             }
             mp3_an=true;
           }
-          else 
-          {
-            mp3_aus();
-            if (lcddimm) analogWrite(LED,led_dimm*28);
-          }
+          else mp3_aus();
           aux_aus();
           break;
         case 2: // Pause
@@ -2339,7 +2333,6 @@ void sound_an() // Turns on amplifier with a small delay for beep tones
 void JQ6500_play(uint8_t v) // Plays MP3 number v
 {
   if (dimm) cpu_up();
-  analogWrite(LED,0);
   PORTD &= ~(1<<6); // Amplifier on
   mp3.playFileByIndexNumber(v);
   powerdowndelay(100);
@@ -2348,7 +2341,6 @@ void JQ6500_play(uint8_t v) // Plays MP3 number v
     while (PIND & (1<<4));
     cpu_down();
   }
-  if ((!mp3_an) && ((dimm) || (lcddimm))) analogWrite(LED,led_dimm*28);
   if (eigenes_an) mp3.setLoopMode(MP3_LOOP_FOLDER);
   if (geschichte_an) mp3.setLoopMode(MP3_LOOP_NONE);  
 }
