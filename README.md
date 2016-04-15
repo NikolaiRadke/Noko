@@ -4,7 +4,7 @@ The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyo
   
   
 **Diary**  
-*15.04.2016* - Today I will finish the technical building instructions! 
+*15.04.2016* - Finished the German technical building instructions! Now spellchecking.
 *14.04.2016* - NOKO is back to life. Phew. Only a small bug.
 *14.04.2016* - Wrtiing instructions while NOKO is in hospital.  
 *13.04.2016* - Damn! A short circuit on the small board. Wiki must wait...  
@@ -76,4 +76,4 @@ NOKO/
 
 Interested in NOKO? Great! Let's start here:  
 [German wiki](https://github.com/NikolaiRadke/NOKO/wiki).  
-English wiki will follow...
+English wiki will follow. One day...
