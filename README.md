@@ -4,7 +4,8 @@ The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyo
   
   
 **Diary**  
-*14.04.2016* - NOKO is back to life!
+*15.04.2016* - Today I will finish the technical building instructions! 
+*14.04.2016* - NOKO is back to life. Phew. Only a small bug.
 *14.04.2016* - Wrtiing instructions while NOKO is in hospital.  
 *13.04.2016* - Damn! A short circuit on the small board. Wiki must wait...  
 *12.04.2016* - NOKO is ready! Now I'm writing the instructions. I'll try to finish the wiki within the next week.
