@@ -467,7 +467,7 @@ uint8_t taste(boolean leise)  // Read pressed button und debounce | leise = NOKO
       if (analogRead(Tasten)>150)
       {
        if ((!(PIND & (1<<4))) && (!stumm) && (!leise) && (!pause))
-         if (newrandom(1,5)==4) JQ6500_play(newrandom(31,71));
+         if (newrandom(1,5)==4) JQ6500_play(newrandom(31,61));
        return 4;
       }
     }
