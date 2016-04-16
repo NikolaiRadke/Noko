@@ -4,7 +4,7 @@ The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyo
   
   
 **Diary**  
-*16,04.2016* - Bugfixing day :-)
+*16,04.2016* - Bugfixing day :-)  
 *15.04.2016* - Finished the German technical building instructions!
 
 <table border="0">
