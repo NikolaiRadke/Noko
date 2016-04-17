@@ -1,5 +1,5 @@
 /*
- * NOKO V1.0 15.04.2016 - Nikolai Radke
+ * NOKO V1.0 17.04.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module!
@@ -81,7 +81,7 @@
 */
 
 // Softwareversion
-#define Firmware "-150416"
+#define Firmware "-170416"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -806,8 +806,8 @@ void uhrzeit() // Draw clock, power level and flags
   power=(int16_t)(((((power/5)*(5.0/1024))-2.5)/1.6)*100); 
   power=constrain(power,1,99);
   // 50% Voltage are about 80% capacity!
-  if (power>50) power=map(power,50,99,20,99); 
-  else power=map(power,1,49,1,19);
+  if (power>60) power=map(power,60,99,20,99); 
+  else power=map(power,1,59,1,19);
   lcd.setCursor(17,0);
   if (power<10) 
   {
