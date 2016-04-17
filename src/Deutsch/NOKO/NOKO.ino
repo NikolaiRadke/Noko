@@ -1,12 +1,12 @@
 /*
- * NOKO V1.0 15.04.2016 - Nikolai Radke
+ * NOKO V1.0 17.04.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.622 (1.6.8 | AVR-Boards 1.6.9 | Linux X86_64) 
+ * Flash-Usage: 28.626 (1.6.8 | AVR-Boards 1.6.9 | Linux X86_64) 
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-150416"
+#define Firmware "-170416"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -228,17 +228,18 @@ uint8_t help;
 init();
 {  
   // Powersafe options
-  SPCR=0;
-  ACSR = B10000000;
-  power_spi_disable();    
+  SPCR=0;               
+  ACSR=B10000000;        // Disable analog comparator
+  DIDR0=B00000000;       // Disable digital input buffer on all analog ports
+  power_spi_disable();       
   power_usart0_disable(); 
   power_timer2_disable();
   //power_adc_disable(); // Buttons are now ADC!
 
   // Portdefinitions - direct manipulation is much faster and saves flash
-  DDRD=B11001000;   // D0-D7 | 1=OUTPUT
-  DDRB=B00101100;   // D8-D13
-  //DDRC=B00000000; // A0-A7  
+  DDRD=B11001000;   // D7-D0 | 1=OUTPUT
+  DDRB=B00101100;   // D13-D8
+  //DDRC=B00000000; // A7-A0  
   PORTD=B01000000;  // D6 MOSFET HIGH: Turn of amplifier to prevent startup noise
   //PORTB=B00000000; 
   PORTC=B00000001;  // A0: INPUT_PULLUP 
@@ -742,7 +743,7 @@ void powerdowndelay(uint8_t ms) // Calls schlafe() with watchdog-times
   {                                            // NOKO uses max 120ms
     // if (ms>=256) {schlafe(WDTO_250MS); ms-=250;}
     // if (ms>=128) {schlafe(WDTO_120MS); ms-=120;}
-    if (ms>=64) {schlafe(WDTO_60MS); ms-=60;}  // Right now there is no delay >128ms
+    if (ms>=64) {schlafe(WDTO_60MS); ms-=60;}  // Right now there is no delay >120ms
     if (ms>=32) {schlafe(WDTO_30MS); ms-=30;}
     if (ms>=16) {schlafe(WDTO_15MS); ms-=15;}
   }
@@ -810,11 +811,11 @@ void uhrzeit() // Draw clock, power level and flags
     power+=analogRead(Akku);
   }
   // Voltage: 2.5 to 4.2. (4.1=100%)
-  power=(uint16_t)(((((power/5)*(5.0/1024))-2.5)/1.6)*100); 
+  power=(int16_t)(((((power/5)*(5.0/1024))-2.5)/1.6)*100); 
   power=constrain(power,1,99);
-  // 50% Voltage are about 80% capacity!
-  if (power>50) power=map(power,50,99,20,99); 
-  else power=map(power,1,49,1,19);
+  // 60% Voltage are about 80% capacity!
+  if (power>60) power=map(power,60,99,20,99); 
+  else power=map(power,1,59,1,19);
   lcd.setCursor(17,0);
   if (power<10) 
   {

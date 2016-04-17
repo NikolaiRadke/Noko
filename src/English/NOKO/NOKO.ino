@@ -6,7 +6,7 @@
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.498 (1.6.8 AVR-Boards 1.6.9 | Linux X86_64) 
+ * Flash-Usage: 28.502 (1.6.8 AVR-Boards 1.6.9 | Linux X86_64) 
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
@@ -231,16 +231,17 @@ init();
 {  
   // Powersafe options
   SPCR=0;
-  ACSR = B10000000;
+  ACSR=B10000000;        // Disable analog comparator
+  DIDR0=B00000000;       // Disable digital input buffer on all analog ports
   power_spi_disable();    
   power_usart0_disable(); 
   power_timer2_disable();
   //power_adc_disable(); // Buttons are now ADC!
 
   // Portdefinitions - direct manipulation is much faster and saves flash
-  DDRD=B11001000;   // D0-D7 | 1=OUTPUT
-  DDRB=B00101100;   // D8-D13
-  //DDRC=B00000000; // A0-A7  
+  DDRD=B11001000;   // D7-D0 | 1=OUTPUT
+  DDRB=B00101100;   // D13-D8
+  //DDRC=B00000000; // A7-A0  
   PORTD=B01000000;  // D6 MOSFET HIGH: Turn of amplifier to prevent startup noise
   //PORTB=B00000000; 
   PORTC=B00000001;  // A0: INPUT_PULLUP 
@@ -735,7 +736,7 @@ void powerdowndelay(uint8_t ms) // Calls schlafe() with watchdog-times
   {                                            // NOKO uses max 120ms
     // if (ms>=256) {schlafe(WDTO_250MS); ms-=250;}
     // if (ms>=128) {schlafe(WDTO_120MS); ms-=120;}
-    if (ms>=64) {schlafe(WDTO_60MS); ms-=60;}  // Right now there is no delay >128ms
+    if (ms>=64) {schlafe(WDTO_60MS); ms-=60;}  // Right now there is no delay >120ms
     if (ms>=32) {schlafe(WDTO_30MS); ms-=30;}
     if (ms>=16) {schlafe(WDTO_15MS); ms-=15;}
   }
