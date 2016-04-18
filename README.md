@@ -2,8 +2,6 @@
 
 The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. NOKO is for everyone.  
 
-[German](https://github.com/NikolaiRadke/NOKO/wiki)
-
 <table border="0">
   <tr>
     <td><img src="http://www.nikolairadke.de/NOKO/noko_echt.png" /></td>
