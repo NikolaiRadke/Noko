@@ -1,13 +1,6 @@
 # ![NOKO](http://www.nikolairadke.de/NOKO/noko_klein.png) NOKO
 
-The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. NOKO is for everyone. Right now, i am writing the building instructions.
-  
-  
-**Diary**  
-*18.04.2016* - Finished the Wiki and NOKO itself! Yeehaw!  
-*17.04.2016* - Working on NOKOs Suit.  
-*16.04.2016* - Bugfixing day :-)  
-*15.04.2016* - Finished the German technical building instructions!  
+The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. NOKO is for everyone.  
 
 <table border="0">
   <tr>
