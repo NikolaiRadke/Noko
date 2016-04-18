@@ -99,7 +99,7 @@
 
 // Developer options
 #define pwd_delay     50  // Button debounce
-#define reaktionszeit 70  // Startup time for the amlifier
+#define reaktionszeit 70  // Startup time for the amplifier
 #define sensor        10  // Ultrasonic: with cover 10, without 25
 #define vol_mp3       30  // JQ6500 volume 0-30
 #define vol_radio     10  // Si4703 volume 0-15
@@ -811,11 +811,11 @@ void uhrzeit() // Draw clock, power level and flags
     power+=analogRead(Akku);
   }
   // Voltage: 2.5 to 4.2. (4.1=100%)
-  power=(int16_t)(((((power/5)*(5.0/1024))-2.5)/1.6)*100); 
+  power=(uint16_t)(((((power/5)*(5.0/1024))-2.5)/1.6)*100); 
   power=constrain(power,1,99);
-  // 60% Voltage are about 80% capacity!
-  if (power>60) power=map(power,60,99,20,99); 
-  else power=map(power,1,59,1,19);
+  // <60% Voltage are about 20% of overall capacity.
+  if (power>60) power=map(power,50,99,20,99); 
+  else power=map(power,1,49,1,19);
   lcd.setCursor(17,0);
   if (power<10) 
   {
