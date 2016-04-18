@@ -4,6 +4,7 @@ The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyo
   
   
 **Diary**  
+*18.04.2016* - Finished the Wiki and NOKO itself! Yeehaw!  
 *17.04.2016* - Working on NOKOs Suit.  
 *16.04.2016* - Bugfixing day :-)  
 *15.04.2016* - Finished the German technical building instructions!  
