@@ -23,7 +23,7 @@
  * Due to bad programming the summertime/wintertime will switch at 04:00, not 02:00.
  * 
  * Circuit:
- * 6,2V             VIN   
+ * 5V               5V    Regulated    
  * LCD GND          GND
  * LCD VCC          5V 
  * LCD SDA          A4    (SDA)
@@ -56,7 +56,7 @@
  * 24LC256      7   GND   Pin 7 set to HIGH would enable write protection
  * 24LC256      8   5V
  * Amplifier GND    GND
- * Amplifier VCC    6V
+ * Amplifier VCC    6,5V
  * Amplifier MOSFET D6    (LOW=ON, HIGH=OFF)
  * AUX Relay        D7    
  * SW1 Belly        A0    (Menue) connected via ADC with 3 x 2,2kOhm
@@ -497,6 +497,7 @@ uint8_t taste(boolean leise)  // Read pressed button und debounce | leise = NOKO
       return 1;
       }
     }
+    powerdowndelay(pwd_delay);
     if (dimm) cpu_down();
   }
 }
@@ -1003,7 +1004,6 @@ void menue_Hauptmenue() // Main menue
 {
   uint8_t menue=0; // Selected menue number 0..3
   uint8_t help=0;
-  powerdowndelay(80); // Debounce
   lcd.noBlink();
   lcd.clear();
   if (stumm) // Sound off? Disable play menue
