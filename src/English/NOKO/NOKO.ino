@@ -1,16 +1,16 @@
 /*
- * NOKO V1.0 17.04.2016 - Nikolai Radke
+ * NOKO V1.0 22.04.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.502 (1.6.8 AVR-Boards 1.6.9 | Linux X86_64) 
+ * Flash-Usage: 28.504 (1.6.8 AVR-Boards 1.6.9 | Linux X86_64) 
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
- * These options save a LOT of flash. Without them the sketch would exceed 32k. 
+ * These options save a LOT of flash. Without them the sketch would exceed 32kB. 
  * See file README_platoform.txt how to modify your platform.txt
  * 
  * char()-list: 32=space 37=% 46=. 47=/ 48=0 58=: 68=D 78=N 80=P 82=R 83=S 86=V 87=W
@@ -81,7 +81,7 @@
 */
 
 // Softwareversion
-#define Firmware "-170416"
+#define Firmware "-220416"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -105,7 +105,11 @@
 #define vol_mp3       30  // JQ6500 volume 0-30
 #define vol_radio     10  // Si4703 volume 0-15
 
-// Hardwareadress PINS
+//Battery calculation
+#define minV          2.85
+#define maxV          4.16
+
+// Hardwareadresses PINS
 #define LED 10            // LED -> PWM
 #define inPin 12          // Ultrasonic
 #define Akku 6            // Battery power
@@ -232,7 +236,7 @@ init();
   // Powersafe options
   SPCR=0;
   ACSR=B10000000;        // Disable analog comparator
-  DIDR0=B00000000;       // Disable digital input buffer on all analog ports
+  DIDR0=0x3F;       // Disable digital input buffer on all analog ports
   power_spi_disable();    
   power_usart0_disable(); 
   power_timer2_disable();
@@ -723,7 +727,7 @@ void schlafe(uint8_t wdt_time) // Sleepmode to save power
   wdt_enable(wdt_time); // Watchdog wakes NOKO after wdt_time
   wdt_reset();
   WDTCSR |= _BV(WDIE);
-  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+  set_sleep_mode(SLEEP_MODE_STANDBY); // PWR_DOWN needs too much time to wake up
   sleep_mode();
   wdt_disable();
   WDTCSR &= ~_BV(WDIE);
@@ -803,11 +807,11 @@ void uhrzeit() // Draw clock, power level and flags
     powerdowndelay(10);
     power+=analogRead(Akku);
   }
-  // Voltage: 2.5 to 4.2. (4.1=100%)
-  power=(uint16_t)(((((power/5)*(5.0/1024))-2.5)/1.6)*100); 
+  // Voltage: maxV to maxV
+  power=(uint16_t)(((power/5)*(5.0/1024)-minV)/((maxV-minV)/100)); 
   power=constrain(power,1,99);
-  // 60% Voltage = 20% capacity left.
-  if (power>60) power=map(power,50,99,20,99); 
+  // <50% Voltage are about 20% of overall capacity.
+  if (power>50) power=map(power,50,99,20,99); 
   else power=map(power,1,49,1,19);
   lcd.setCursor(17,0);
   if (power<10) 
