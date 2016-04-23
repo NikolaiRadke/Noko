@@ -105,7 +105,7 @@
 #define vol_mp3       30  // JQ6500 volume 0-30
 #define vol_radio     10  // Si4703 volume 0-15
 
-//Battery calculation
+// Battery calculation
 #define minV          2.85
 #define maxV          4.16
 
@@ -289,7 +289,7 @@ init();
   ultra_light=EEPROM.read(27);
   nachtdimm=EEPROM.read(28);
 
-  //Read AT24C32 
+  //  Read AT24C32 
   gt=readDisk(Disk0,0);          // Birthday day
   gm=readDisk(Disk0,1);          // Birthday month
   #ifdef def_stories
@@ -312,7 +312,7 @@ init();
   lcd.begin(20,4);    
   init_char();
 
-  //Check for update and compare with internal version number
+  // Check for update and compare with internal version number
   help=EEPROM.read(20);
   if (Version>help) // New version > internal version?
   {
