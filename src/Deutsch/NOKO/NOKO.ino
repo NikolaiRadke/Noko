@@ -819,7 +819,7 @@ void uhrzeit() // Draw clock, power level and flags
   power=constrain(power,1,99);
   // >57% Voltage are about 92% of overall capacity. Drops at 3,63V
   if (power>57) power=map(power,57,99,8,99); 
-  else power=map(power,1,56,1,8);
+  else power=map(power,1,56,1,7);
   lcd.setCursor(17,0);
   if (power<10) 
   {
