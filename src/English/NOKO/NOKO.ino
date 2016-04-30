@@ -1,5 +1,5 @@
 /*
- * NOKO V1.0 25.04.2016 - Nikolai Radke
+ * NOKO V1.0 30.04.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module!
@@ -81,7 +81,7 @@
 */
 
 // Softwareversion
-#define Firmware "-250416"
+#define Firmware "-300416"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -898,7 +898,7 @@ boolean nachtjetzt() // Is it nighttime?
 void check_ultra() // Ultrasonic event - ultra_distanz= 0..9 * 10cm
 {
   PORTB &= ~(1<<5); // (pingPin,LOW);
-  delayMicroseconds(2);
+  delayMicroseconds(5);
   PORTB |= (1<<5);  // (pingPin,HIGH);
   delayMicroseconds(10);
   PORTB &= ~(1<<5); // (pingPin,LOW);

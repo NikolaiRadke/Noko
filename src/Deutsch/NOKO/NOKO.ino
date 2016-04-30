@@ -1,5 +1,5 @@
 /*
- * NOKO V1.0 24.04.2016 - Nikolai Radke
+ * NOKO V1.0 30.04.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-240416"
+#define Firmware "-300416"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -100,13 +100,13 @@
 // Developer options
 #define pwd_delay     50  // Button debounce
 #define reaktionszeit 70  // Startup time for the amplifier
-#define sensor        10  // Ultrasonic: with cover 10, without 25
+#define sensor        25  // Ultrasonic: with cover 10, without 25
 #define vol_mp3       30  // JQ6500 volume 0-30
 #define vol_radio     10  // Si4703 volume 0-15
 
 // Battery calculation
 #define minV          2.85
-#define maxV          4.16
+#define maxV          4.15
 
 // Hardwareadresses PINS
 #define LED 10            // LED -> PWM
@@ -819,7 +819,7 @@ void uhrzeit() // Draw clock, power level and flags
   power=constrain(power,1,99);
   // >57% Voltage are about 92% of overall capacity. Drops at 3,63V
   if (power>57) power=map(power,57,99,8,99); 
-  else power=map(power,1,56,1,7);
+  else power=map(power,1,56,1,8);
   lcd.setCursor(17,0);
   if (power<10) 
   {
@@ -914,7 +914,7 @@ boolean nachtjetzt() // Is it nighttime?
 void check_ultra() // Ultrasonic event - ultra_distanz= 0..9 * 10cm
 {
   PORTB &= ~(1<<5); // (pingPin,LOW);
-  delayMicroseconds(2);
+  delayMicroseconds(5);
   PORTB |= (1<<5);  // (pingPin,HIGH);
   delayMicroseconds(10);
   PORTB &= ~(1<<5); // (pingPin,LOW);
