@@ -1,5 +1,5 @@
 /*
- * NOKO V1.0 30.04.2016 - Nikolai Radke
+ * NOKO V1.0 06.05.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module!
@@ -446,7 +446,7 @@ while(1)
       break;
     //case 4: break; // Nose unused - only voice as random event
     }
-   if (((!dimm) && (!lcddimm)) || (led_dimm==0)) powerdowndelay(120); // Main loop power save!    
+   powerdowndelay(dimm? 240:120); // Main loop power save!    
 }}
 
 //-------------------------------------------------------------------------------------
@@ -466,7 +466,6 @@ uint8_t taste(boolean leise)  // Read pressed button und debounce | leise = NOKO
   if (tastenwert>300) return 0;
   else 
   {
-    if (dimm) cpu_up();
     if (tastenwert>150)    // SW4 nose -> voice 31-60
     {
       powerdowndelay(pwd_delay);
@@ -498,7 +497,6 @@ uint8_t taste(boolean leise)  // Read pressed button und debounce | leise = NOKO
       }
     }
     powerdowndelay(pwd_delay);
-    if (dimm) cpu_down();
   }
 }
 
@@ -657,32 +655,16 @@ void zeige_speichern() // Prints "saving..."
   }    
 }
 
-void cpu_down()  // 2 MHz
-{
-  cpu_slow=true;
-  CLKPR = (1<<CLKPCE);
-  CLKPR = B00000011;  
-}
-
-void cpu_up()   // 16 MHz 
-{
-  cpu_slow=false;
-  CLKPR = (1<<CLKPCE);
-  CLKPR = B00000000;  
-}
-
 void powerdown() // power save on
 {
   lcd.off();        // Turn off display
   powerdowndelay(pwd_delay); 
   dimm=true;
-  analogWrite(LED,led_dimm*28);     // Else turn on LED 0..9 * 28 (max 255)
-  cpu_down(); // 2 Mhz  
+  analogWrite(LED,led_dimm*28);     // Else turn on LED 0..9 * 28 (max 255)  
 }
 
 void powerup()  // power save off
 {
-  cpu_up();           // 16 MHz
   lcd.on();           // Turn on display
   analogWrite(LED,0); // Turn off LED
   dimm=false;
@@ -738,10 +720,10 @@ void powerdowndelay(uint8_t ms) // Calls schlafe() with watchdog-times
 {
   if ((dimm) || (PIND & (1<<4))) NewDelay(ms); // If MP3 is playing only plain delay
   else                                         // Sleep times steps are pre-defined, max 8s
-  {                                            // NOKO uses max 120ms
+  {                                            // NOKO uses max 240ms
     // if (ms>=256) {schlafe(WDTO_250MS); ms-=250;}
-    // if (ms>=128) {schlafe(WDTO_120MS); ms-=120;}
-    if (ms>=64) {schlafe(WDTO_60MS); ms-=60;}  // Right now there is no delay >120ms
+    if (ms>=128) {schlafe(WDTO_120MS); ms-=120;}
+    if (ms>=64) {schlafe(WDTO_60MS); ms-=60;}  
     if (ms>=32) {schlafe(WDTO_30MS); ms-=30;}
     if (ms>=16) {schlafe(WDTO_15MS); ms-=15;}
   }
@@ -935,11 +917,7 @@ void check_ultra() // Ultrasonic event - ultra_distanz= 0..9 * 10cm
 
 void alarm() // Play alarm
 {
-  if (dimm)                     // Power up and display on
-  {
-    cpu_up();
-    lcd.on();
-  }
+  if (dimm) lcd.on();           // Display on
   if (lcddimm) lcd.backlight(); // Light on
   PORTD &= ~(1<<6);             // Amplifier on
   lcd.createChar(0,custom_char[17]);
@@ -991,7 +969,6 @@ void alarm() // Play alarm
   {
     PORTD |= (1<<6); // Amplifier off
     analogWrite(LED,led_dimm*28);
-    cpu_down(); // Power down again
   }
   if (dimm) lcd.off();
   if (lcddimm) lcd.noBacklight();
@@ -2311,15 +2288,9 @@ void sound_an() // Turns on amplifier with a small delay for beep tones
 
 void JQ6500_play(uint8_t v) // Plays MP3 number v
 {
-  if (dimm) cpu_up();
   sound_an(); // Amplifier on
   mp3.playFileByIndexNumber(v);
   powerdowndelay(100);
-  if ((dimm) && (!radio) && (!alarm_jetzt))
-  {
-    while (PIND & (1<<4));
-    cpu_down();
-  }
   if (eigenes_an) mp3.setLoopMode(MP3_LOOP_FOLDER);
   if (geschichte_an) mp3.setLoopMode(MP3_LOOP_NONE);  
 }
