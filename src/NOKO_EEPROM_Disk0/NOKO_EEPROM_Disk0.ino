@@ -1,5 +1,5 @@
 /*
- * NOKO Settings EEPROM and Disk0 V1.0 12.01.2016 - Nikolai Radke - Deutsch
+ * NOKO Settings EEPROM and Disk0 V1.0 12.01.2016 - Nikolai Radke
  * 
  * This sketch writes the presets into Arduino EEPROM and the owner name in email
  * into the AT24C32-EEPROM. If there are stories on the SD card an def_stories is
@@ -84,8 +84,8 @@ const byte laenge[]={53,6, 45,6, 53,23, 48,40, 48,22, 47,9, 52,44, 43,56, 48,28,
 unsigned int addr,c;
 
 const char *monthName[12] = {
-  "Jan", "Feb", "Mar", "Apr", "Mai", "Jun",
-  "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 };
 
 tmElements_t tm;
@@ -93,20 +93,30 @@ tmElements_t tm;
 void setup() 
 {
   bool parse=false;
-  bool config=false;
 
   // Read time from computer
   if (getDate(__DATE__) && getTime(__TIME__)) 
   {
-    parse = true;
+    parse=true;
     RTC.write(tm);
-    config = true;
   }
   
   // Read RTC
   Serial.begin(9600);
   Wire.begin();
   delay(100);
+
+  while (!Serial);
+  delay(200);
+  if (parse)
+  {
+    Serial.print(__TIME__);
+    Serial.println(__DATE__);
+    if (sommer()) Serial.println("Summertime");
+    else Serial.println("Wintertime");
+  } 
+  else Serial.print("ERROR!");
+    
   
   // Write EEPROM
   EEPROM.write(1,0);

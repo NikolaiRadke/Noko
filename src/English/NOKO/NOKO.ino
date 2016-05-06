@@ -6,7 +6,7 @@
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.504 (1.6.8 AVR-Boards 1.6.9 | Linux X86_64) 
+ * Flash-Usage: 28.370 (1.6.8 AVR-Boards 1.6.9 | Linux X86_64) 
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
@@ -463,7 +463,7 @@ uint8_t taste(boolean leise)  // Read pressed button und debounce | leise = NOKO
   }
   if (check_alarm()) return 4; // Check alarm
   tastenwert=(analogRead(Tasten));
-  if (tastenwert>300) return 0;
+  if (tastenwert>200) return 0;
   else 
   {
     if (tastenwert>150)    // SW4 nose -> voice 31-60
