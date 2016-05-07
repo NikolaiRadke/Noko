@@ -54,8 +54,8 @@
 
 #include <Wire.h>
 #include <EEPROM.h>
-#include <Time.h>
-#include <DS3231RTC.h>
+#include "Time.h"
+#include "DS3231RTC.h"
 
 #define Disk0 0x57    // AH24C32
 #define def_stories 1 // Stories on SD card?

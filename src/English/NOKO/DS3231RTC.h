@@ -6,7 +6,7 @@
 #ifndef DS3231RTC_h
 #define DS3231RTC_h
 
-#include <Time.h>
+#include "Time.h"
 
 /*
 status register 0Fh
