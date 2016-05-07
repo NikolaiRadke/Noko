@@ -1,12 +1,12 @@
 /*
- * NOKO V1.0 06.05.2016 - Nikolai Radke
+ * NOKO V1.0 07.05.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.496 (1.6.8 | AVR-Boards 1.6.9 | Linux X86_64) 
+ * Flash-Usage: 28.432 (1.6.8 | AVR-Boards 1.6.9 | Linux X86_64) 
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-060516"
+#define Firmware "-070516"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -169,7 +169,6 @@ boolean  powersave;           // Powersavemode?
 boolean  lcddimm=false;       // Only dim the display?
 boolean  dimm=false;          // Is powersave active?
 boolean  ultra_dimm=false;    // Ultrasonic off?
-boolean  cpu_slow=false;      // CPU at 2 MHz?
 boolean  alarm_jetzt=false;   // Is the alarm running?
 boolean  aux=false;           // Is AUX active?
 boolean  sommer;              // Summertime?
@@ -355,7 +354,7 @@ while(1)
     else if ((analogRead(USB)>800) && (dimm)) powerup();
     else uhrzeit();
   } 
-  if ((dimm) && (!radio) && (!mp3_an) && (!aux) && (!(PIND & (1<<4))) && (!cpu_slow)) powerdown();
+  //if ((dimm) && (!radio) && (!mp3_an) && (!aux) && (!(PIND & (1<<4)))) powerdown(); 
                                              // Power down while MP3 is running und NOKO is set to mute
 // Every minute                                             
   if (ma!=tm.Minute)                        
@@ -363,10 +362,9 @@ while(1)
     if ((nacht) && (nachtdimm) && (!dimm))   // Power down at nightmode
     {
       if ((powersave) && (!laden)) powerdown();
-      else 
+      else if (!lcddimm)
       {
         lcd.noBacklight();
-        analogWrite(LED,led_dimm*28);
         lcddimm=true;
       }
     }
@@ -397,8 +395,7 @@ while(1)
       if ((power<10) && (!laden))             // Read battery power
       {
         sound_an();
-        if (dimm) ton(920*8,80/8,false,80/8); // Power <10% beep
-        else ton(920,80,false,80); 
+        ton(920,80,false,80);                 // Power <10% beep
       }
       if ((!(PIND & (1<<4))) && (!pause) && (!radio) && (power>1) && ((newrandom(1,eventtrigger[eventsteller]+1)==eventtrigger[eventsteller])))
         event();                              // Time based event
@@ -432,19 +429,20 @@ while(1)
         uhrzeit();
         if (!lcddimm)
         {
-          lcd.backlight();
           analogWrite(LED,0);
-        }        
-        else
+          lcd.backlight();  
+        }
+        else 
         {
           analogWrite(LED,led_dimm*28);
           lcd.noBacklight();
-        }        
+        }
         powerdowndelay(pwd_delay);
       }
       break;
     //case 4: break; // Nose unused - only voice as random event
     }
+    //analogWrite(LED,lcddimm? led_dimm*28:0);   
     powerdowndelay(dimm? 240:120); // Main loop power save!    
 }}
 
@@ -454,7 +452,7 @@ uint8_t taste(boolean leise)  // Read pressed button und debounce | leise = NOKO
 {
   uint16_t tastenwert;
   if ((!pause) && (!(PIND & (1<<4))) && (mp3_an)) mp3_an=false;
-  if (power==1) leise=true;
+  if (power<5) leise=true;
   if ((!(PIND & (1<<4))) && (!radio) && (!aux) && (!alarm_jetzt)) 
   {
     PORTD |= (1<<6); // Amplifier off
@@ -663,16 +661,16 @@ void zeige_speichern() // Prints "speichern..."
 
 void powerdown() // power save on
 {
+  analogWrite(LED,0);
   lcd.off();        // Turn off display
-  powerdowndelay(pwd_delay); 
-  dimm=true;
-  analogWrite(LED,led_dimm*28);     // Turn on LED 0..9 * 28 (max 255)
+  dimm=true;  
+  lcddimm=false;
+  // More powersaving options?
 }
 
 void powerup()  // power save off
 {
-  lcd.on();           // Turn on display
-  analogWrite(LED,0); // Turn off LED
+  lcd.on();           // Turn on display  
   dimm=false;
   lcddimm=false;
   anzeigen();         // Draw clock and date
@@ -716,23 +714,23 @@ void schlafe(uint8_t wdt_time) // Sleepmode to save power
   wdt_enable(wdt_time); // Watchdog wakes NOKO after wdt_time
   wdt_reset();
   WDTCSR |= _BV(WDIE);
-  set_sleep_mode(SLEEP_MODE_STANDBY); // PWR_DOWN needs too much time to wake up
+  if (lcddimm) set_sleep_mode(SLEEP_MODE_IDLE);        // Lowest level for the LED
+  else if (dimm) set_sleep_mode(SLEEP_MODE_PWR_DOWN);  // Highest level
+  else set_sleep_mode(SLEEP_MODE_STANDBY);             // Lower level to wake up faster
   sleep_mode();
   wdt_disable();
   WDTCSR &= ~_BV(WDIE);
 }
 
 void powerdowndelay(uint8_t ms) // Calls schlafe() with watchdog-times
+// Sleep times steps are pre-defined, max 8s
 {
-  if ((dimm) || (PIND & (1<<4))) NewDelay(ms); // If MP3 is playing only plain delay
-  else                                         // Sleep times steps are pre-defined, max 8s
-  {                                            // NOKO uses max 240ms
-    // if (ms>=256) {schlafe(WDTO_250MS); ms-=250;}
-    if (ms>=128) {schlafe(WDTO_120MS); ms-=120;}
-    if (ms>=64) {schlafe(WDTO_60MS); ms-=60;} 
-    if (ms>=32) {schlafe(WDTO_30MS); ms-=30;}
-    if (ms>=16) {schlafe(WDTO_15MS); ms-=15;}
-  }
+  if (lcddimm) NewDelay(50);                      // Workaround. Not sure if IDLE is working...
+  // if (ms>=256) {schlafe(WDTO_250MS); ms-=250;} // NOKO uses max 240ms
+  if (ms>=128) {schlafe(WDTO_120MS); ms-=120;}
+  if (ms>=64) {schlafe(WDTO_60MS); ms-=60;} 
+  if (ms>=32) {schlafe(WDTO_30MS); ms-=30;}
+  if (ms>=16) {schlafe(WDTO_15MS); ms-=15;}
 }
 
 void echtzeit() // Read RTC and store time
@@ -982,11 +980,7 @@ void alarm() // Play alarm
   alarm_jetzt=false;
   if ((alarmmm==tm.Minute) && (alarmhh==tm.Hour)) alarm_mute=true;
   lcd.clear();
-  if (dimm) 
-  {
-    PORTD |= (1<<6); // Amplifier off
-    analogWrite(LED,led_dimm*28);
-  }
+  if ((dimm) && (!radio) && (!(PIND & (1<<4)))) PORTD |= (1<<6); // Amplifier off
   if (dimm) lcd.off();
   if (lcddimm) lcd.noBacklight();
   anzeigen();
@@ -2339,6 +2333,5 @@ uint8_t readDisk(uint8_t disknummer, uint16_t adresse) // Read an EEPROM
   if (Wire.available()) rdata = Wire.read();
   return rdata;
 }
-
 
 
