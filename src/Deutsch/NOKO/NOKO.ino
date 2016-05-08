@@ -1,17 +1,17 @@
 /*
- * NOKO V1.0 07.05.2016 - Nikolai Radke
+ * NOKO V1.0 08.05.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.432 (1.6.8 | AVR-Boards 1.6.9 | Linux X86_64) 
+ * Flash-Usage: 28.450 (1.6.8 | AVR-Boards 1.6.9 | Linux X86_64) 
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
  * These options save a LOT of flash. Without them the sketch would exceed 32kB. 
- * See file README_platoform.txt how to modify your platform.txt
+ * See file README_platform.txt how to modify your platform.txt
  * 
  * char()-list: 32=space 37=% 46=. 47=/ 48=0 58=: 68=D 78=N 80=P 82=R 83=S 86=V 87=W
  *              110=n 120=x | 225=ä 226=ß 239=ö 245=ü (German only)
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-070516"
+#define Firmware "-080516"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -243,7 +243,7 @@ init();
   DDRD=B11001000;   // D7-D0 | 1=OUTPUT
   DDRB=B00101100;   // D13-D8
   //DDRC=B00000000; // A7-A0  
-  PORTD=B01000000;  // D6 MOSFET HIGH: Turn of amplifier to prevent startup noise
+  PORTD=B01000000;  // D6 MOSFET HIGH: Turn off amplifier to prevent startup noise
   //PORTB=B00000000; 
   PORTC=B00000001;  // A0: INPUT_PULLUP 
 
@@ -403,8 +403,8 @@ while(1)
   }
   if ((!dimm) && (!ultra_dimm) && (ultra_distanz>0)) check_ultra(); 
                                               // Ultrasonic event
-  if ((lcddimm) && (ultra_light) && (millis()>dimmmillis+500)) lcd.noBacklight();  
-                                              // Switch off display light after 500ms
+  if ((lcddimm) && (ultra_light) && (millis()>dimmmillis+150)) lcd.noBacklight();  
+                                              // Switch off display light after ~1s. 150 is a workaround for stupid IDLE mode.
   ma=tm.Minute;
   ha=tm.Hour;
   wahl=taste(false);                          // Read buttons
@@ -442,7 +442,6 @@ while(1)
       break;
     //case 4: break; // Nose unused - only voice as random event
     }
-    //analogWrite(LED,lcddimm? led_dimm*28:0);   
     powerdowndelay(dimm? 240:120); // Main loop power save!    
 }}
 
@@ -725,12 +724,13 @@ void schlafe(uint8_t wdt_time) // Sleepmode to save power
 void powerdowndelay(uint8_t ms) // Calls schlafe() with watchdog-times
 // Sleep times steps are pre-defined, max 8s
 {
-  if (lcddimm) NewDelay(50);                      // Workaround. Not sure if IDLE is working...
+  if (lcddimm)  PRR = PRR | 0b00100000;           // Workaround. Not sure if IDLE is working...
   // if (ms>=256) {schlafe(WDTO_250MS); ms-=250;} // NOKO uses max 240ms
   if (ms>=128) {schlafe(WDTO_120MS); ms-=120;}
   if (ms>=64) {schlafe(WDTO_60MS); ms-=60;} 
   if (ms>=32) {schlafe(WDTO_30MS); ms-=30;}
   if (ms>=16) {schlafe(WDTO_15MS); ms-=15;}
+  if (lcddimm) PRR = PRR & 0b00000000;            // End workaround. Stupid stupid Atmel!
 }
 
 void echtzeit() // Read RTC and store time
@@ -2333,5 +2333,6 @@ uint8_t readDisk(uint8_t disknummer, uint16_t adresse) // Read an EEPROM
   if (Wire.available()) rdata = Wire.read();
   return rdata;
 }
+
 
 

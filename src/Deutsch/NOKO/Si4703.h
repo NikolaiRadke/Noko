@@ -16,7 +16,7 @@ The Si4703 breakout does work with line out into a stereo or other amplifier. Be
 cables. Too short of a cable may degrade reception.
 
 Nikolai's comments...
-This Library was slightly modified for use with NOKO. Thanks to Nathan's great RDS text funtion. Function delay() ist
+This Library was slightly modified for use with NOKO. Thanks to Nathan's great RDS text funtion. Function delay() is
 used by this library. However, NOKO uses newdelay() to save a lot of flash space. So newdelay() was
 added. 
 
@@ -113,6 +113,7 @@ class Si4703
 };
 
 #endif
+
 
 
 

@@ -11,7 +11,7 @@
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
  * These options save a LOT of flash. Without them the sketch would exceed 32kB. 
- * See file README_platoform.txt how to modify your platform.txt
+ * See file README_platform.txt how to modify your platform.txt
  * 
  * char()-list: 32=space 37=% 46=. 47=/ 48=0 58=: 68=D 78=N 80=P 82=R 83=S 86=V 87=W
  *              110=n 120=x | 225=ä 226=ß 239=ö 245=ü (German only)
@@ -245,7 +245,7 @@ init();
   DDRD=B11001000;   // D7-D0 | 1=OUTPUT
   DDRB=B00101100;   // D13-D8
   //DDRC=B00000000; // A7-A0  
-  PORTD=B01000000;  // D6 MOSFET HIGH: Turn of amplifier to prevent startup noise
+  PORTD=B01000000;  // D6 MOSFET HIGH: Turn off amplifier to prevent startup noise
   //PORTB=B00000000; 
   PORTC=B00000001;  // A0: INPUT_PULLUP 
   
@@ -405,8 +405,8 @@ while(1)
   }
   if ((!dimm) && (!ultra_dimm) && (ultra_distanz>0)) check_ultra(); 
                                               // Ultrasonic event
-  if ((lcddimm) && (ultra_light) && (millis()>dimmmillis+500)) lcd.noBacklight();  
-                                              // Switch off display light after 500ms
+  if ((lcddimm) && (ultra_light) && (millis()>dimmmillis+1000)) lcd.noBacklight();  
+                                              // Switch off display light after 1s
   ma=tm.Minute;
   ha=tm.Hour;
   wahl=taste(false);                          // Read buttons
@@ -444,7 +444,6 @@ while(1)
       break;
     //case 4: break; // Nose unused - only voice as random event
     }
-    analogWrite(LED,lcddimm? led_dimm*28:0);  
     powerdowndelay(dimm? 240:120); // Main loop power save!    
 }}
 
