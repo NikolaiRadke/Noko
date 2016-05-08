@@ -1,12 +1,12 @@
 /*
- * NOKO V1.0 07.05.2016 - Nikolai Radke
+ * NOKO V1.0 08.05.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.336 (1.6.8 AVR-Boards 1.6.9 | Linux X86_64) 
+ * Flash-Usage: 28.316 (1.6.8 AVR-Boards 1.6.9 | Linux X86_64) 
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
@@ -81,7 +81,7 @@
 */
 
 // Softwareversion
-#define Firmware "-070516"
+#define Firmware "-080516"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -405,8 +405,8 @@ while(1)
   }
   if ((!dimm) && (!ultra_dimm) && (ultra_distanz>0)) check_ultra(); 
                                               // Ultrasonic event
-  if ((lcddimm) && (ultra_light) && (millis()>dimmmillis+1000)) lcd.noBacklight();  
-                                              // Switch off display light after 1s
+ if ((lcddimm) && (ultra_light) && (millis()>dimmmillis+150)) lcd.noBacklight();  
+                                              // Switch off display light after ~1s. 150 is a workaround for stupid IDLE mode.
   ma=tm.Minute;
   ha=tm.Hour;
   wahl=taste(false);                          // Read buttons
@@ -719,12 +719,13 @@ void schlafe(uint8_t wdt_time) // Sleepmode to save power
 void powerdowndelay(uint8_t ms) // Calls schlafe() with watchdog-times
 // Sleep times steps are pre-defined, max 8s
 {
-  if (lcddimm) NewDelay(50);                      // Workaround. Not sure if IDLE is working...
+  if (lcddimm)  PRR = PRR | 0b00100000;           // Workaround. Not sure if IDLE is working...
   // if (ms>=256) {schlafe(WDTO_250MS); ms-=250;} // NOKO uses max 240ms
   if (ms>=128) {schlafe(WDTO_120MS); ms-=120;}
   if (ms>=64) {schlafe(WDTO_60MS); ms-=60;} 
   if (ms>=32) {schlafe(WDTO_30MS); ms-=30;}
   if (ms>=16) {schlafe(WDTO_15MS); ms-=15;}
+  if (lcddimm) PRR = PRR & 0b00000000;            // End workaround. Stupid stupid Atmel!
 }
 
 void echtzeit() // Read RTC and store time
