@@ -85,9 +85,9 @@
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
 // Features on/off - comment out to disable
-#define def_radio 1           // Using Radio?
-#define def_external_eeprom 1 // Using external EEPROM?
-#define def_stories 1         // Stories on SD card?
+#define def_radio             // Using Radio?
+#define def_external_eeprom   // Using external EEPROM?
+#define def_stories           // Stories on SD card?
 
 // 24LC256 EEPROM adresses
 #define phrase_adress 4000    // Starting adress of the phrases in 24LC256

@@ -25,7 +25,7 @@ powerOff()        was added
 setSoftMuteOff()  was added (but unused)
 setSoftMuteOn()   was added (but unused)
 Set to STEREO     Line 174 in Si4703.cpp
-Maybe i will test RDS performance mode?
+Maybe one day I will test RDS performance mode?
 */
 
 #ifndef Si4703_h
@@ -113,7 +113,6 @@ class Si4703
 };
 
 #endif
-
 
 
 
