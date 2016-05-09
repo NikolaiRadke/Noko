@@ -1,5 +1,5 @@
 /*
- * NOKO V1.0 08.05.2016 - Nikolai Radke
+ * NOKO V1.0 09.05.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-080516"
+#define Firmware "-090516"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
@@ -682,10 +682,14 @@ uint8_t newrandom(uint8_t a,uint8_t b) // Better XOR random number generator
     return (rnd/65535.0)*(b-a)+a;
 }
 
-void NewDelay(uint16_t z)  // New delay function to save flash
+void NewDelay(uint16_t z)  // New delay function to save flash - it's also in the Radio library
 {
-  uint32_t zmillis=millis();
-  while (millis()-zmillis<z);
+  #ifdef def_radio 
+    Radio.newdelay(z); 
+  #else 
+    uint32_t zmillis=millis();
+    while (millis()-zmillis<z);
+  #endif
 }
 
 void stopdelay(uint16_t z) // Delay with stop when nose is pressed
@@ -2333,6 +2337,5 @@ uint8_t readDisk(uint8_t disknummer, uint16_t adresse) // Read an EEPROM
   if (Wire.available()) rdata = Wire.read();
   return rdata;
 }
-
 
 
