@@ -1,12 +1,12 @@
 /*
- * NOKO V1.0 09.05.2016 - Nikolai Radke
+ * NOKO V1.0 12.05.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.252 (1.6.8 AVR-Boards 1.6.9 | Linux X86_64) 
+ * Flash-Usage: 28.256 (1.6.8 AVR-Boards 1.6.9 | Linux X86_64) 
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
@@ -81,7 +81,7 @@
 */
 
 // Softwareversion
-#define Firmware "-090516"
+#define Firmware "-120516"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -244,7 +244,7 @@ init();
   // Portdefinitions - direct manipulation is much faster and saves flash
   DDRD=B11001000;   // D7-D0 | 1=OUTPUT
   DDRB=B00101100;   // D13-D8
-  //DDRC=B00000000; // A7-A0  
+  DDRC=B00111110;   // A7-A0 | Set analog pins to output to prevent catching noise from open ports
   PORTD=B01000000;  // D6 MOSFET HIGH: Turn off amplifier to prevent startup noise
   //PORTB=B00000000; 
   PORTC=B00000001;  // A0: INPUT_PULLUP 
