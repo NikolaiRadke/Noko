@@ -18,7 +18,7 @@ Open your **platform.txt** and overwrite the lines after the line
 ```
 # These can be overridden in platform.local.txt
 ```
-with the lines below. Without these options the compiled sketch would exceed the 32kb flash memory of the Arduino Nano.
+with the lines below. Without these options the compiled sketch would exceed the 30kb flash memory of the Arduino Nano. With Optiboot, it would just fit.
 
 Alas, until now I wasn't able to find out more about *platform.local.txt*, which allows the user to define a specific platform.txt locally for each sketch. So better backup your old platform.txt to save your old compiler options. 
 
