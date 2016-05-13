@@ -2,7 +2,10 @@
 ###NOTE: These options are used globally for all sketches.
 
 **Prerequisits:**  
-IDE 1.6.6 - 1.6.9 and AVR Boards Core 1.6.9 - 1.6.10 and 1.6.11 do *not* work at once.
+IDE 1.6.6 - 1.6.9 and AVR Boards Core 1.6.9.  
+1.6.10 and 1.6.11 do *not* work without Optiboot.
+If you have Optiboot installt, you don't need to Change anything. But it's still recomennded.  
+
 
 To Compile NOKO.ino, you need to modify the file **platform.txt**.
 - In Linux, it can be found under 
