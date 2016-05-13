@@ -4,7 +4,7 @@
 **Prerequisits:**  
 IDE 1.6.6 - 1.6.9 and AVR Boards Core 1.6.9.  
 1.6.10 and 1.6.11 do *not* work without Optiboot.
-If you have Optiboot installed, you don't need to Change anything. But it's still recomennded.  
+If you have Optiboot installed, you don't need to Change anything. But it's still recomennded to do both.
 
 
 To Compile NOKO.ino, you need to modify the file **platform.txt**.
@@ -18,7 +18,7 @@ Open your **platform.txt** and overwrite the lines after the line
 ```
 # These can be overridden in platform.local.txt
 ```
-with the lines below. Without these options the compiled sketch would exceed the 30kb flash memory of the Arduino Nano. With Optiboot, it would just fit.
+with the lines below. Without these options the compiled sketch would exceed the 30kb flash memory of the Arduino Nano. With Optiboot, it will just fit.
 
 Alas, until now I wasn't able to find out more about *platform.local.txt*, which allows the user to define a specific platform.txt locally for each sketch. So better backup your old platform.txt to save your old compiler options. 
 
