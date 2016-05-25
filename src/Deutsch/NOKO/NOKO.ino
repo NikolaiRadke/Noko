@@ -10,7 +10,7 @@
  * 
  * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
                      -ffunction-sections -fdata-sections -fmerge-constants
- * These options save a LOT of flash. Without them the sketch would exceed 32kB. 
+ * These options save a LOT of flash. Without them the sketch would exceed 30kB and needs Optiboot. 
  * See file README_platform.txt how to modify your platform.txt
  * 
  * char()-list: 32=space 37=% 46=. 47=/ 48=0 58=: 68=D 78=N 80=P 82=R 83=S 86=V 87=W
@@ -231,9 +231,9 @@ uint8_t help;
 init();
 {  
   // Powersafe options
-  SPCR=0;               
-  ACSR=B10000000;   // Disable analog comparator
-  DIDR0=0x3F;       // Disable digital input buffer on all analog ports
+  SPCR=0;                // Disable SPI
+  ACSR=B10000000;        // Disable analog comparator
+  DIDR0=0x3F;            // Disable digital input buffer on all analog ports
   power_spi_disable();       
   power_usart0_disable(); 
   power_timer2_disable();
@@ -242,7 +242,7 @@ init();
   // Portdefinitions - direct manipulation is much faster and saves flash
   DDRD=B11001000;   // D7-D0 | 1=OUTPUT
   DDRB=B00101100;   // D13-D8
-  DDRC=B00111110;   // A7-A0 | Set analog pins to output to prevent catching noise from open ports
+  DDRC=B00111110;   // A7-A0 | Set unused analog pins to output to prevent catching noise from open ports
   PORTD=B01000000;  // D6 MOSFET HIGH: Turn off amplifier to prevent startup noise
   //PORTB=B00000000; 
   PORTC=B00000001;  // A0: INPUT_PULLUP 
@@ -253,7 +253,7 @@ init();
   mp3.reset();
   NewDelay(500);
   mp3.setVolume(vol_mp3);
-  mp3.setLoopMode(MP3_LOOP_NONE); // Run only once
+  mp3.setLoopMode(MP3_LOOP_NONE); // Play only once
   
   // Start Radio
   #ifdef def_radio
@@ -502,7 +502,7 @@ uint8_t taste(boolean leise)  // Read pressed button und debounce | leise = NOKO
   lcd.print(char(c));
 }
 
- void leer(uint8_t x,uint8_t y, uint8_t anz) // anz spaces from x,y
+ void leer(uint8_t x,uint8_t y,uint8_t anz) // anz spaces from x,y
 {
   uint8_t a;
   lcd.setCursor(x,y);
@@ -699,7 +699,7 @@ void stopdelay(uint16_t z) // Delay with stop when nose is pressed
   if (taste(true)==4) wahl=4;
 }
 
-void schleife(boolean leise, boolean timeout) // Wait for nose until timeout 1 minute
+void schleife(boolean leise,boolean timeout) // Wait for nose until timeout 1 minute
 {
   uint32_t ende=millis()+60000; // 2 MHz -> 60s:8
   wahl=0;
@@ -1063,10 +1063,10 @@ void menue_Abspielen() // Play menue "Spiel was vor"
     #ifndef def_radio                // Is the radio available?
       zeichen(1,0,120);
       #else
-      zeichen(1,0, radio? 0:32);     // Ternary saves flash! Well. Sometimes.
+      zeichen(1,0,radio? 0:32);      // Ternary saves flash! Well. Sometimes.
     #endif   
-    zeichen(1,1, eigenes_an? 0:32);
-    zeichen(1,2, aux? 0:32); 
+    zeichen(1,1,eigenes_an? 0:32);
+    zeichen(1,2,aux? 0:32); 
     #ifndef def_stories              // Are there stories on SD card?
       zeichen(1,3,120);
       #else
@@ -1142,8 +1142,8 @@ void menue_Radio() // Radio menue "Radio hoeren"
     lcd.print(F("[1|s] [2|s] [3|s] "));
     leer(1,1,19);
     lcd.blink();
-    zeichen(8,2, radio? 1:4);
-    zeichen(11,2, radio? 82:32);
+    zeichen(8,2,radio? 1:4);
+    zeichen(11,2,radio? 82:32);
     lcd.setCursor(2,0);
     lcd.print(float(freq)/10,2);
     lcd.print(char(32));
@@ -1349,7 +1349,7 @@ void menue_Radio() // Radio menue "Radio hoeren"
     }
     lcd.setCursor(15,0);
     if (pause) lcd.print(F("PAUSE")); else leer(15,0,5);
-    zeichen(8,3, ((PIND & (1<<4)) || (pause))? 1:3);
+    zeichen(8,3,((PIND & (1<<4)) || (pause))? 1:3);
     lcd.setCursor(5+(menue*3),3);
     schleife(true,true);
     switch(wahl)
@@ -1742,7 +1742,7 @@ void menue_Nachtmodus() // Set nightmode
   {
     lcd.setCursor(3,1);
     (nachtmodus)? lcd.print(F("an ")):lcd.print(F("aus")); // Nightmode on or off?
-    zeichen(16,1, nachtdimm? 88:32);
+    zeichen(16,1,nachtdimm? 88:32);
     lcd.setCursor(6,2);  
     if (nachtahh<10) null();
     lcd.print(nachtahh);
@@ -1907,9 +1907,9 @@ void menue_Einstellungen2() // "weiter..." - more settings
   lcd.print(F("Mein NOKO"));          // About NOKO menue
   while (wahl!=4)
   {
-    zeichen(18,0, powersave? 88:32);
-    zeichen(18,1, stumm? 88:32);
-    zeichen(18,2, ultra_light? 88:32);
+    zeichen(18,0,powersave? 88:32);
+    zeichen(18,1,stumm? 88:32);
+    zeichen(18,2,ultra_light? 88:32);
     zeichen(0,menue,126);
     lcd.setCursor(18,menue);
     (menue<3)? lcd.blink():lcd.noBlink();  
@@ -2326,7 +2326,7 @@ int16_t freeRam() // Free RAM in bytes
   return (int16_t)&v-(__brkval==0? (int16_t)&__heap_start:(int16_t)__brkval);
 }
 
-uint8_t readDisk(uint8_t disknummer, uint16_t adresse) // Read an EEPROM
+uint8_t readDisk(uint8_t disknummer,uint16_t adresse) // Read an EEPROM
 {
   uint8_t rdata = 0xFF; 
   Wire.beginTransmission(disknummer);
