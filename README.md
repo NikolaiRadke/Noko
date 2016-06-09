@@ -52,6 +52,8 @@ NOKO/
 |   |   English version. 
 |   |   └── NOKO/
 |   |       Same files but translated. 
+|   ├── I2C-Scanner/
+|   |   Sketch to scan adresses of all connected I2C-devices.
 |   ├── NOKO_Disk1/
 |   |   Sketch to write the Disk1 textfile to 24LC256-EEPROMs.
 |   └── NOKO_EEPROM_Disk0/
