@@ -74,7 +74,7 @@
  * 
  * I2C Adress list:
  * SI4703           0x10 (Radio)
- * LCD              0x27 (Yes it's the LCD)
+ * LCD              0x27 (Yes it's the LCD. Some Displays have 0x3F!)
  * 24LC256          0x50 (EEPROM 32kb)
  * AT24C32          0x57 (EEPROM 4kb on RTC module)
  * DS3231           0x68 (RTC chip on RTC module)
@@ -140,21 +140,21 @@ SIGNAL(WDT_vect) // Watchdog to wake NOKO from powerdowndelay()
   WDTCSR &= ~_BV(WDIE);
 }
 
-uint8_t     wahl=0;              // Which menu item selected
-uint8_t     xlcd=0;              // X and
-uint8_t     ylcd=0;              // Y position of LCD cursor
-uint8_t     geschichte=1;        // Selected story
-uint8_t     geschichten;         // Number of stories
-uint8_t     eigenes=1;           // Selected MP3
-uint8_t     files;               // Number of own MP3s files on SD card
-uint8_t     led_dimm;            // LED brightness 0-9
-uint8_t     gt,gm;               // Birthday gt=day, gm=month
-uint8_t     klang,klang_ton,klang_mp3;// Alarm: Which type, which tone or mp3
-uint8_t     alarmmm,alarmhh;     // Alarm time hh:mm
-uint8_t     nachtahh,nachtbhh;   // Nachtmodus from hh:mm
-uint8_t     nachtamm,nachtbmm;   // to hh:mm
-uint8_t     ultra_distanz;       // Ultrasonic reaction distance 0-9 
-uint8_t     eventsteller;        // Chance of time event 0-9
+uint8_t  wahl=0;              // Which menu item selected
+uint8_t  xlcd=0;              // X and
+uint8_t  ylcd=0;              // Y position of LCD cursor
+uint8_t  geschichte=1;        // Selected story
+uint8_t  geschichten;         // Number of stories
+uint8_t  eigenes=1;           // Selected MP3
+uint8_t  files;               // Number of own MP3s files on SD card
+uint8_t  led_dimm;            // LED brightness 0-9
+uint8_t  gt,gm;               // Birthday gt=day, gm=month
+uint8_t  klang,klang_ton,klang_mp3;// Alarm: Which type, which tone or mp3
+uint8_t  alarmmm,alarmhh;     // Alarm time hh:mm
+uint8_t  nachtahh,nachtbhh;   // Nachtmodus from hh:mm
+uint8_t  nachtamm,nachtbmm;   // to hh:mm
+uint8_t  ultra_distanz;       // Ultrasonic reaction distance 0-9 
+uint8_t  eventsteller;        // Chance of time event 0-9
 
 boolean  ultra_event=false;   // Has there been am ultrasonic event this minute?
 boolean  ultra_light;         // Swich on LCD light with ultrasonic?
@@ -220,7 +220,7 @@ tmElements_t tm;
 #ifdef def_radio
   Si4703 Radio(5,A4,A5);  // RST, SDA, SCL
 #endif
-LiquidCrystal_I2C lcd(0x27,2,1,0,4,5,6,7,3,POSITIVE);
+LiquidCrystal_I2C lcd(0x27,2,1,0,4,5,6,7,3,POSITIVE); // Some Displays have 0x3F
 JQ6500_Serial mp3(2,3); // Software serial connection
 
 //-------------------------------------------------------------------------
