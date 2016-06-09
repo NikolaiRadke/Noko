@@ -59,7 +59,7 @@ NOKO/
 |   └── NOKO_EEPROM_Disk0/
 |       Sketch to write NOKO presets to the Arduino EEPROM and the Disk0 textfile to the
 |       AH24C32 EEPROM.
-
+|
 └── write_EEPROM/
     Tools to write data through serial connection to the Arduino and the EEPROMs. 
 ```
