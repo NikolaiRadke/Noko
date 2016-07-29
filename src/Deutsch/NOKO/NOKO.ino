@@ -1,17 +1,17 @@
-/*
- * NOKO V1.0 12.05.2016 - Nikolai Radke
+/* NOKO V1.0 12.05.2016 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.380 (1.6.10 | AVR-Boards 1.6.9 | Linux X86_64) 
+ * Flash-Usage: 28.380 (1.6.10 | AVR Core 1.6.9  | Linux x86_64) 
+ *              29.030 (1.6.10 | AVR Core 1.6.12 | Linux x86_64, Windows 10)
  * 
- * Compiler options: -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
-                     -ffunction-sections -fdata-sections -fmerge-constants
+ * (Only 1.6.9 or below) -flto -funsafe-math-optimizations -mcall-prologues -maccumulate-args
+ * Compiler Options:     -ffunction-sections  -fdata-sections -fmerge-constants
  * These options save a LOT of flash. Without them the sketch would exceed 30kB and needs Optiboot. 
- * See file README_platform.txt how to modify your platform.txt
+ * See https://github.com/NikolaiRadke/NOKO/blob/master/howto_compile/README.md
  * 
  * char()-list: 32=space 37=% 46=. 47=/ 48=0 58=: 68=D 78=N 80=P 82=R 83=S 86=V 87=W
  *              110=n 120=x | 225=ä 226=ß 239=ö 245=ü (German only)
