@@ -8,7 +8,7 @@ Linux: with IDE 1.6.6-1.6.9 use AVR Core uns see intructions below.
 Windows: 1.6.9 - 1.6.9 do *not* work without Optiboot. Install Optiboot and see intructions below.
 
 **Instructions**  
-To Compile NOKO.ino, you need to modify the file **platform.txt**.
+To compile NOKO.ino, you need to modify the file **platform.txt**.
 - In Linux, it can be found under 
 `/usr/share/arduino/hardware/arduino/avr/platform.txt`
 
