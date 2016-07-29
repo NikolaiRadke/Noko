@@ -54,6 +54,7 @@ You can find an intruction on how to flash a new bootloader in German [here in t
 The sketch will **not** run without the Si4703 radio module. If you want to test it anyway, you have to modify *NOKO,ino*. Change the line  
 ```#define def_radio 1           // Using Radio?```   
 in the beginning of the sketch into   
-```//#define def_radio 1           // Using Radio?```  
+```//#define def_radio 1           // Using Radio?```    
+
 Now, the radio functions are commented out and disabled.
 
