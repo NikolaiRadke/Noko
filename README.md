@@ -17,7 +17,7 @@ NOKO needs Arduino IDE 1.6.6 - [1.6.10](https://www.arduino.cc/en/Main/Software)
 
 **Option 1:** Install IDE [1.6.10](https://www.arduino.cc/en/Main/Software) an relax.  
 **Option 2:** If you are using AVR Boards Core 1.6.10 or higher, you need to install [Optiboot](https://github.com/Optiboot/optiboot) onto your Nano.   
-**Option 3:** If you are using Linux, install **AVR Core 1.6.9** and see [how to compile](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile) - this, together with Optiboot, is the most efficient Option.
+**Option 3:** If you are using Linux, install AVR Core 1.6.9 and see [how to compile](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile) - this, together with Optiboot, is the most efficient Option.
 
 **In any Case, Optiboot is strongly recommended.**
 
