@@ -15,7 +15,7 @@ There are a German and an English version. Right now, the building wiki, the voi
 ### Prerequisites
 NOKO needs Arduino IDE 1.6.6 - [1.6.10](https://www.arduino.cc/en/Main/Software) Copy the folder `NOKO/src/[language]/NOKO/` into your sketch folder. When using 1.6.10 with AVR core 1.6.12, everythin will compile out-of-the-box. With 1.6.9 of lower, *NOKO.ino* won't compile, the sketch size is too large. 
 
-**Option 1:** Install 1.6.10 an relax.
+**Option 1:** Install IDE [1.6.10](https://www.arduino.cc/en/Main/Software) an relax.  
 **Option 2:** If you are using AVR Boards Core 1.6.10 or higher, you need to install [Optiboot](https://github.com/Optiboot/optiboot) onto your Nano.   
 **Option 3:** If you are using Linux, install **AVR Core 1.6.9** and see [how to compile](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile) - this, together with Optiboot, is the most efficient Option.
 
