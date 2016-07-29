@@ -1,12 +1,13 @@
 #Compiling options for NOKO
 ###NOTE: These options are used globally for all sketches.
 
-**Prerequisits:**  
-If you have Optiboot installed, you don't need to change anything. If you have IDE 1.6.10 with AVR Core 1.6.12, relax. But it's still recomended to do both. 
+**Prerequisits**  
+If you have Optiboot installed, you don't need to change anything. If you have IDE 1.6.10 with AVR Core 1.6.12, relax. But it's still recomended to do both, install Optiboot and set compiler Options.
 
 Linux: with IDE 1.6.6-1.6.9 use AVR Core uns see intructions below.
 Windows: 1.6.9 - 1.6.9 do *not* work without Optiboot. Install Optiboot and see intructions below.
 
+**Instructions**  
 To Compile NOKO.ino, you need to modify the file **platform.txt**.
 - In Linux, it can be found under 
 `/usr/share/arduino/hardware/arduino/avr/platform.txt`
@@ -22,7 +23,20 @@ with the lines below. Without these options the compiled sketch would exceed the
 
 Alas, until now I wasn't able to find out more about *platform.local.txt*, which allows the user to define a specific platform.txt locally for each sketch. So better backup your old platform.txt to save your old compiler options. 
 
-### Linux  
+### Linux and Windows 1.6.10 (Optinal, saves flash)
+
+```
+# These can be overridden in platform.local.txt
+compiler.c.extra_flags=-Wextra -funsafe-math-optimizations -mcall-prologues -maccumulate-args -ffunction-sections -fdata-sections -fmerge-constants
+compiler.c.elf.extra_flags=-w -funsafe-math-optimizations -mcall-prologues -maccumulate-args -ffunction-sections -fdata-sections -fmerge-constants
+compiler.S.extra_flags=
+compiler.cpp.extra_flags=-Wextra -funsafe-math-optimizations -mcall-prologues -maccumulate-args -ffunction-sections -fdata-sections -fmerge-constants
+compiler.ar.extra_flags=
+compiler.objcopy.eep.extra_flags=
+compiler.elf2hex.extra_flags=
+```  
+
+### Linux 1.6.9 and below  
 
 ```
 # These can be overridden in platform.local.txt
@@ -35,7 +49,7 @@ compiler.ar.extra_flags=
 compiler.objcopy.eep.extra_flags=
 compiler.elf2hex.extra_flags=
 ```
-### Windows
+### Windows 1.6.9 and below  
 ```
 # These can be overridden in platform.local.txt
 # Compiling options for NOKO and NOKO.ino
