@@ -4,8 +4,8 @@
 **Prerequisits**  
 If you have Optiboot installed, you don't need to change anything. If you have IDE 1.6.10 with AVR Core 1.6.12, relax. But it's still recomended to do both: installing Optiboot and setting compiler options.
 
-Linux: with IDE 1.6.6-1.6.9 use AVR Core uns see intructions below.  
-Windows: 1.6.9 - 1.6.9 do *not* work without Optiboot. Install Optiboot and see intructions below.
+Linux: with IDE 1.6.6-1.6.9 use AVR Core 1.6.9 and see intructions below.  
+Windows: IDE 1.6.9 - 1.6.9 do *not* work without Optiboot. Install Optiboot and see intructions below.
 
 **Instructions**  
 To compile NOKO.ino, you need to modify the file **platform.txt**.
@@ -13,7 +13,7 @@ To compile NOKO.ino, you need to modify the file **platform.txt**.
 `/usr/share/arduino/hardware/arduino/avr/platform.txt`
 
 - In Windows under 
-`[Arduino folder]/hardware/arduino/avr/platform.txt`.
+`[Arduino folder]/hardware/arduino/avr/platform.txt`
 
 Open your **platform.txt** and overwrite the lines after the line
 ```
