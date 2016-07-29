@@ -1,6 +1,6 @@
 # ![NOKO](http://www.nikolairadke.de/NOKO/noko_klein.png) NOKO
 
-The **NOKO Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. NOKO is for everyone.  
+The DIY-**NOKO Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. NOKO is for everyone. 
 [Newsablog](https://github.com/NikolaiRadke/NOKO/tree/master/NEWS.md)  
 
 ![NOKO Orange](http://www.nikolairadke.de/NOKO/noko_echt.png)  
