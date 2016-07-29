@@ -2,8 +2,10 @@
 ###NOTE: These options are used globally for all sketches.
 
 **Prerequisits:**  
-If you have Optiboot installed, you don't need to change anything. But it's still recomennded to do both.
-Linux, IDE 1.6.6 - 1.6.9. and AVR Boards Core 1.6.9 - 1.6.10 and 1.6.11 and Windows 1.6.9 do *not* work without Optiboot.
+If you have Optiboot installed, you don't need to change anything. If you have IDE 1.6.10 with AVR Core 1.6.12, relax. But it's still recomended to do both. 
+
+Linux: with IDE 1.6.6-1.6.9 use AVR Core uns see intructions below.
+Windows: 1.6.9 - 1.6.9 do *not* work without Optiboot. Install Optiboot and see intructions below.
 
 To Compile NOKO.ino, you need to modify the file **platform.txt**.
 - In Linux, it can be found under 
@@ -45,7 +47,7 @@ compiler.ar.extra_flags=
 compiler.objcopy.eep.extra_flags=
 compiler.elf2hex.extra_flags=
 ```
-Unfortunately, on Windows the Link Time Optimization (LTO) plugin is disabled in the IDE, the *-flto* switch is unusable. The sketch fits barely into flash memory, so **Optiboot** is a **must have**! See [Issue 3](https://github.com/NikolaiRadke/NOKO/issues/3).  
+Unfortunately, on Windows the Link Time Optimization (LTO) plugin is disabled in IDE 1.6.6-1.6.9, the *-flto* switch is unusable. The sketch fits barely into flash memory, so **Optiboot** is a **must have**! See [Issue 3](https://github.com/NikolaiRadke/NOKO/issues/3).  
 You can find an intruction on how to flash a new bootloader in German [here in the wiki](https://github.com/NikolaiRadke/NOKO/wiki/Optiboot). An English instruction will follow. Until then take a look [here](https://www.arduino.cc/en/Tutorial/ArduinoISP).
 
 ###Note:
