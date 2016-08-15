@@ -19,7 +19,7 @@ NOKO needs Arduino IDE 1.6.6 - [1.6.10](https://www.arduino.cc/en/Main/Software)
 **Option 2:** If you are using IDE 1.6.9 or lower, you need to install [Optiboot](https://github.com/Optiboot/optiboot) onto your Nano.   
 **Option 3:** See [how to compile](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile) to set compiler options - this, together with Optiboot and IDE 1.6.10, is the most efficient option.
 
-**In any Case, Optiboot is strongly recommended.**
+**In any case, Optiboot is strongly recommended.**
 
 ### Content
 
