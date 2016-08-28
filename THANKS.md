@@ -9,4 +9,4 @@ These people help me bring life to NOKO:
 - **Helga Hansen** - The great article in the german Make-Magazin.
 
 Aktive Supporters:
-- **Arne Hüffmeister** - Working on some big improvements!
+- **Arne Hüffmeier** - Working on some big improvements!
