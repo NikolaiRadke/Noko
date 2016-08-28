@@ -5,11 +5,11 @@
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.174 (1.6.10 | AVR Core 1.6.12 | Linux x86_64, Windows 10 | Compiler Options)
+ * Flash-Usage: 28.174 (1.6.11 | AVR Core 1.6.12 | Linux x86_64, Windows 10 | Compiler Options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
- *                     -ffunction-sections  -fdata-sections -fmerge-constants
+ * (<= 1.6.12)         -ffunction-sections  -fdata-sections -fmerge-constants
  * These options save flash. but are not needed since 1.6.10. Optiboot is still recommended.
  * See https://github.com/NikolaiRadke/NOKO/blob/master/howto_compile/README.md
  * 
