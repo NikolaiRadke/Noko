@@ -9,4 +9,5 @@ These people help me bring life to NOKO:
 - **Helga Hansen** - The great article in the german Make-Magazin.
 
 Aktive Supporters:
-- **Arne Hüffmeier** - Working on some big improvements!
+- **Arne Hüffmeier** - Working on some big improvements!  
+- **Hein-Peter Mahlzahn** - Corrections in the Wiki and GitHub.
