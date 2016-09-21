@@ -38,7 +38,7 @@
  * Radio RST        D5  
  * Taillight VCC    5V
  * Taillight GND    GND
- * Taillight MOSFET D8    (PWM)
+ * Taillight MOSFET D9    (PWM)
  * JQ6500 GND   13  GND
  * JQ6500 TX    26  D2    (Software-TX), connect with 1kOhm resistor
  * JQ6500 RX    25  D3    (Software-RX)
@@ -113,7 +113,7 @@
 
 // Hardwareadresses PINS
 #define LED 10            // LED -> PWM
-#define Tail 8            // Taillight -> PWM
+#define Tail 9            // Taillight -> PWM
 #define inPin 12          // Ultrasonic
 #define Akku 6            // Battery power
 #define USB 7             // Is NOKO connected to USB?
@@ -967,7 +967,7 @@ void alarm() // Play alarm
   {
     if (klang==3)
     {  
-      if (lightlevel<255) lightlevel+=1;
+      if (lightlevel<255) lightlevel+=4;
       analogWrite(Tail,lightlevel);
     }
     zeichen(5,2,0);
