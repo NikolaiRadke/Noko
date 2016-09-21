@@ -31,11 +31,13 @@ NOKO/
 |   ├── linux-1_6_9_and_lower/
 |   |   Modified platform.txt for Linux with IDE 1.6.9 and below
 |   ├── precompiled/
-|   |   Precompiled hex-files
+|   |   Precompiled hex-files and windows tools
 |   |   ├── Deutsch/
 |   |   |   German Versions
-|   |   └── English/
-|   |       English Versions
+|   |   ├── English/
+|   |   |   English Versions
+|   |   └── avrdude_win/
+|   |       avrdude files for windows/
 |   └── windows-1_6_9_and_lower/
 |       Modified platform.txt for Windows with IDE 1.6.9 and below
 |
