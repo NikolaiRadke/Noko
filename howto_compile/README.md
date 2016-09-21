@@ -85,7 +85,7 @@ Without OptiBoot:
 ```avrdude -Cavrdude.conf -v -patmega328p -carduino -P/dev/ttyUSBX -b57600 -D -Uflash:w:XXXXX.hex:i```  
 
 * XXXXX.hex is the name of your selected hex-file.  
-* ttyUSBX is the number of your USB-port connected to the arduino. See *lsusb* or look into the Arduino-IDE for the correct number.  
+* X in ttyUSBX is the number of your USB-port connected to the arduino. See *lsusb* or look into the Arduino-IDE for the correct number.  
 
 
 
