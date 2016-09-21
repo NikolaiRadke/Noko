@@ -2,7 +2,7 @@
 ###NOTE: These options are used globally for all sketches.
 
 **Prerequisits**  
-If you have Optiboot installed, you don't need to change anything. If you have IDE 1.6.10 with AVR Core 1.6.12, relax. But it's still recomended to do both: installing Optiboot and setting compiler options.
+If you have Optiboot installed, you don't need to change anything. If you have IDE 1.6.10 with AVR Core 1.6.12, relax. But it's still recomended to do both: installing Optiboot and setting compiler options. If you encounter (too much) troubles or tend to be lazy, see section *How to upload a precompiled hex-file* below.  
 
 Linux: with IDE 1.6.6-1.6.9 use AVR Core 1.6.9 and see intructions below.  
 Windows: IDE 1.6.9 - 1.6.9 do *not* work without Optiboot. Install Optiboot and see intructions below.
@@ -70,5 +70,8 @@ The sketch will **not** run without the Si4703 radio module. If you want to test
 in the beginning of the sketch into   
 ```//#define def_radio 1           // Using Radio?```    
 
-Now, the radio functions are commented out and disabled.
+Now, the radio functions are commented out and disabled.  
+
+###How to upload a precompiled hex-file  
+First, select the hex-file of your choice in [howto_compile/precompiled](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled).
 
