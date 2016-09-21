@@ -87,6 +87,9 @@ Without OptiBoot:
 * XXXXX.hex is the name of your selected hex-file.  
 * X in ttyUSBX is the number of your USB-port connected to the arduino. See *lsusb* or look into the Arduino-IDE for the correct number.  
 
+**Windows: (Stupid stupid Windows)**  
+Get *avrdude* either from sourceforge or better, because you need libusb0.dll as well, from [howto_compile/precompiled/avrdude_win](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled/avrdude_win). 
+
 
 
 
