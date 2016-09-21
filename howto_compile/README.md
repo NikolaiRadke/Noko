@@ -77,7 +77,7 @@ Now, the radio functions are commented out and disabled.
 Select the hex-file of your choice in [howto_compile/precompiled](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled).
 
 **Linux:**  
-See if you habe *avrdude* installed. Open a shell and type ```avrdude```. If not, install ist with ```sudo apt-get install avrdude```. Test again. Connect your Arduino via USB, open a terminal and use the following command:
+See if you habe *avrdude* installed. Open a shell and type ```avrdude```. If not, install is with ```sudo apt-get install avrdude```. Test again. Connect your Arduino via USB, open a terminal and use the following command:
 
 With OptiBoot:  
 ```avrdude -Cavrdude.conf -v -patmega328p -carduino -P/dev/ttyUSBX -b115200 -D -Uflash:w:XXXXX.hex:i```  
