@@ -1,6 +1,6 @@
 /* NOKO V1.0 21.09.2016 - Nikolai Radke
  *
- * Sketch for NOKO-Monster mit Zusatzlicht - Deutsch
+ * Sketch for NOKO-Monster with additional flexible tail light - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
@@ -84,7 +84,7 @@
 
 // Softwareversion
 #define Firmware "-210916"
-#define Version 11  // 1.0
+#define Version 11  // 1.1          // With tail light addon
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
 // Features on/off - comment out to disable
