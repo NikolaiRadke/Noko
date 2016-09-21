@@ -73,13 +73,16 @@ in the beginning of the sketch into
 Now, the radio functions are commented out and disabled.  
 
 ###How to upload a precompiled hex-file  
-First, select the hex-file of your choice in [howto_compile/precompiled](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled).  
-Second, connect your Arduino via USB and use the following command:
 
-**Linux with OptiBoot**  
-```./avrdude -Cavrdude.conf -v -patmega328p -carduino -P/dev/ttyUSBX -b115200 -D -Uflash:w:XXXXX.hex:i```  
-**Linux without OptiBoot**  
-```./avrdude -Cavrdude.conf -v -patmega328p -carduino -P/dev/ttyUSBX -b57600 -D -Uflash:w:XXXXX.hex:i```  
+**Linux**:
+
+First, see if you habe *avrdude* installed. Open a shell and type ```avrdude```. If not, install ist with ```sudo apt-get install avrdude```. Test again. Then, select the hex-file of your choice in [howto_compile/precompiled](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled). Connect your Arduino via USB, open a terminal and use the following command:
+
+With OptiBoot:  
+```avrdude -Cavrdude.conf -v -patmega328p -carduino -P/dev/ttyUSBX -b115200 -D -Uflash:w:XXXXX.hex:i```  
+Without OptiBoot:  
+```avrdude -Cavrdude.conf -v -patmega328p -carduino -P/dev/ttyUSBX -b57600 -D -Uflash:w:XXXXX.hex:i```  
+
 * XXXXX.hex is the name of your selected hex-file.  
 * ttyUSBX is the number of your USB-port connected to the arduino. See *lsusb* or look into the Arduino-IDE for the correct number.  
 
