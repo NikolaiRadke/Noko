@@ -30,6 +30,12 @@ NOKO/
 |   Hints compile the sketches in your Arduino IDE and a modified platform.txt for IDE 1.6.11
 |   ├── linux-1_6_9_and_lower/
 |   |   Modified platform.txt for Linux with IDE 1.6.9 and below
+|   ├── precompiled/
+|   |   Precompiled hex-files
+|   |   ├── Deutsch/
+|   |   |   German Versions
+|   |   └── English/
+|   |       English Versions
 |   └── windows-1_6_9_and_lower/
 |       Modified platform.txt for Windows with IDE 1.6.9 and below
 |
