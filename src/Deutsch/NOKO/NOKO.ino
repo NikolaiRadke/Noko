@@ -9,8 +9,8 @@
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
- * (<= 1.6.12)         -ffunction-sections  -fdata-sections -fmerge-constants
- * These options save flash. but are not needed since 1.6.10. Optiboot is still recommended.
+ * (<= AVR 1.6.12)     -ffunction-sections  -fdata-sections -fmerge-constants
+ * These options save flash. but are not needed since IDE 1.6.10. Optiboot is still recommended.
  * See https://github.com/NikolaiRadke/NOKO/blob/master/howto_compile/README.md
  * 
  * char()-list: 32=space 37=% 46=. 47=/ 48=0 58=: 68=D 78=N 80=P 82=R 83=S 86=V 87=W
