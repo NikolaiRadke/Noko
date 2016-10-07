@@ -85,7 +85,7 @@ Without OptiBoot:
 ```avrdude -Cavrdude.conf -v -patmega328p -carduino -P/dev/ttyUSBX -b57600 -D -Uflash:w:XXXXX.hex:i```  
 
 * XXXXX.hex is the name of your selected hex-file.  
-* X in ttyUSBX is the number of your USB-port connected to the arduino. See *lsusb* or look into the Arduino-IDE for the correct number.  
+* X in ttyUSBX is the number of your USB-port connected to the Arduino. See *lsusb* or look into the Arduino-IDE for the correct number.  
 
 **Windows: (Stupid stupid Windows)**  
 Get *avrdude* either from sourceforge or better, because you need libusb0.dll as well, from [howto_compile/precompiled/avrdude_win](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled/avrdude_win). Copy the files to your machine and add the hex-file of your choice from [howto_compile/precompiled](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled) into the same directory. Open the command prompt with admin rights und use the following command:  
@@ -96,7 +96,7 @@ Without OptiBoot:
 ```avrdude v -patmega328p -carduino -P\\.\COMX -b57600 -D -Uflash:w:XXXXX.hex:i```   
 
 * XXXXX.hex is the name of your selected hex-file.  
-* X in COMX is the number of your USB-port connected to the arduino. Look into the Arduino-IDE for the correct number. 
+* X in COMX is the number of your USB-port connected to the Arduino. Look into the Arduino-IDE for the correct number. 
 
 
 
