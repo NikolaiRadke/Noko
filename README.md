@@ -48,7 +48,7 @@ NOKO/
 |
 ├── mp3/
 |   Voiceset for NOKO in German. English needed? Contribute!
-└── alternative/
+|   └── alternative/
 |       Some less rude voice files.
 |          
 ├── schematics/
