@@ -13,11 +13,11 @@ lovely and sometimes a bit mean and annoying. Just the way you want him to be. H
 There are a German and an English version. Right now, the building wiki, the voice set, the manual and the optional EEPROM text files are in German. I'll try to translate the wiki and the manual when the German wiki is completed. Until then, feel free to ask me for translation, if you need help.  **Contribute!** I need an English voice set and English text files. In addition, any other language is welcome, NOKO is to be cosmopolitan!
 
 ### Prerequisites
-NOKO needs Arduino IDE 1.6.6 - [1.6.11](https://www.arduino.cc/en/Main/Software) Copy the folder `NOKO/src/[language]/NOKO/` into your sketch folder. When using 1.6.11 with AVR core 1.6.12, everythin will compile out-of-the-box. With 1.6.9 of lower, *NOKO.ino* won't compile, the sketch size is too large. 
+NOKO needs Arduino IDE 1.6.6 - [1.6.12](https://www.arduino.cc/en/Main/Software) Copy the folder `NOKO/src/[language]/NOKO/` into your sketch folder. When using 1.6.10-1.6.12 with AVR core 1.6.12-1.6.14, everythin will compile out-of-the-box. With 1.6.9 of lower, *NOKO.ino* won't compile, the sketch size is too large. 
 
 **Option 1:** Install IDE 1.6.10 or [1.6.11](https://www.arduino.cc/en/Main/Software) and relax.  
 **Option 2:** If you are using IDE 1.6.9 or lower, you need to install [Optiboot](https://github.com/Optiboot/optiboot) onto your Nano.   
-**Option 3:** See [how to compile](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile) to set compiler options - this, together with Optiboot and IDE 1.6.11 and AVR core 1.6.12, is the most efficient option. Strangely, AVR core 1.6.13 does not support compiler options... Ardunio IDE is still somehow nerdy, isn't it?  
+**Option 3:** See [how to compile](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile) to set compiler options - this, together with Optiboot and IDE 1.6.11 and AVR core 1.6.12, is the most efficient option. Strangely, AVR core 1.6.13 or higher does not support compiler options... Ardunio IDE is still somehow nerdy, isn't it?  
 **Option 4:** Take one of the precompiled hex-files and follow the instructions in [how to compile](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile).  
 
 **In any case, Optiboot is strongly recommended.**
