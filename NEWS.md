@@ -1,5 +1,6 @@
 #Newsblog
 
+* **02.11.2016** - Updated compiling options for newer (1.6.10+) and older (1.6.9-) IDEs.
 * **13.10.2016** - The second issue of the Make magazin with the Noko article ist out. Get it! Remember your friends... See [https://shop.heise.de/katalog/make-5-2016](https://shop.heise.de/katalog/make-5-2016) for more.  
 * **28.09.2016** - New IDE 1.6.12 is out. Works, but still no compiling options possible. 
 * **21.09.2016** - Added precompiled hex-files for those who have too much compiling troubles.  
