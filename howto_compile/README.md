@@ -16,7 +16,7 @@ in the beginning of the sketch into
 
 Now, the radio functions are commented out and disabled.  
 
-**Instructions or older IDEs**  
+##Instructions for older IDEs   
 To compile NOKO.ino, you need to modify the file **platform.txt**.
 - In Linux, it can be found under 
 `/usr/share/arduino/hardware/arduino/avr/platform.txt`
