@@ -73,7 +73,7 @@ compiler.elf2hex.extra_flags=
 Unfortunately, on Windows the Link Time Optimization (LTO) plugin is disabled in IDE 1.6.6-1.6.9, the *-flto* switch is unusable. The sketch fits barely into flash memory, so **Optiboot** is a **must have**! See [Issue 3](https://github.com/NikolaiRadke/NOKO/issues/3).  
 You can find an intruction on how to flash a new bootloader in German [here in the wiki](https://github.com/NikolaiRadke/NOKO/wiki/Optiboot). An English instruction will follow. Until then take a look [here](https://www.arduino.cc/en/Tutorial/ArduinoISP).
 
-###How to upload a precompiled hex-file  
+##How to upload a precompiled hex-file  
 
 Select the hex-file of your choice in [howto_compile/precompiled](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled).
 
