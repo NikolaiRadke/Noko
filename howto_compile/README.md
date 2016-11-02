@@ -2,7 +2,8 @@
 ###NOTE: These options are used globally for all sketches.
 
 **Prerequisits**  
-If you have Optiboot installed, you don't need to change anything. If you have IDE 1.6.10-1.6.12 with AVR Core 1.6.12-1.6.14, relax. But Optiboot is always recommended.  
+If you have Optiboot installed, you don't need to change anything.  
+If you have IDE 1.6.10-1.6.12 with AVR Core 1.6.12-1.6.14, relax, but Optiboot is always recommended.  
 
 Linux: with IDE 1.6.6-1.6.9 use AVR Core 1.6.9 and see intructions below.  
 Windows: IDE 1.6.6-1.6.9 will *not* work without Optiboot. Install Optiboot and see intructions below.
