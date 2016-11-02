@@ -48,6 +48,8 @@ NOKO/
 |
 ├── mp3/
 |   Voiceset for NOKO in German. English needed? Contribute!
+└── alternative/
+|       Some less rude voice files.
 |          
 ├── schematics/
 |   The Schematics for the NOKO parts, the NOKO sewing pattern and shopping lists.
