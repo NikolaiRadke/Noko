@@ -5,7 +5,7 @@
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 29.148 (1.6.12 | AVR Core 1.6.14 | Linux x86_64, Windows 10 | Compiler Options)
+ * Flash-Usage: 29.122 (1.6.12 | AVR Core 1.6.14 | Linux x86_64, Windows 10 | No compiler Options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -185,7 +185,6 @@ boolean  stumm;               // All sound off?
 boolean  laden;               // Is NOKO's battery charging?
 
 uint16_t freq;                // Used frequency * 100
-uint16_t rnd;                 // Random number
 uint16_t station[3];          // 3 radiostations
 
 int16_t   j;                  // Year is integer type
@@ -681,6 +680,7 @@ void powerup()  // power save off
 
 uint8_t newrandom(uint8_t a,uint8_t b) // Better XOR random number generator 
 {
+    uint16_t rnd;
     rnd+=micros();
     rnd^=rnd<<2;rnd^=rnd>>7;rnd^=rnd<<7;
     return (rnd/65535.0)*(b-a)+a;
