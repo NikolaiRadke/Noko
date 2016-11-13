@@ -1,6 +1,6 @@
 #Newsblog
 
-* **12.11.2016** - The ST3 002 H5W-Relay is out of stock. Switched to FRT5 DCV with a diode.  
+* **12.11.2016** - The ST3 002 H5W relay is out of stock. Switched to FRT5 DC5V with a 1N4001 diode.  
 * **02.11.2016** - Updated compiling options for newer (1.6.10+) and older (1.6.9-) IDEs.
 * **13.10.2016** - The second issue of the Make magazin with the NOKO article ist out. Get it now! Remember your friends... See [https://www.heise.de/make/inhalt/2016/5/68/) for more.  
 * **28.09.2016** - New IDE 1.6.12 is out. Works, but still no compiling options possible. 
