@@ -1,5 +1,7 @@
 #Newsblog
 
+* **24.12.2016** - Merry Xmas. A good time to test new 1.8.0 IDE. Works.  
+* **15.12.2016** - The third issue of the Make magazin is out: [https://shop.heise.de/katalog/make-06-2016].  
 * **02.12.2016** - New IDE 1.6.13 is out. Works, but still no compiling options possible. (Deja Vu)  
 * **12.11.2016** - The ST3 002 H5W relay is out of stock. Switched to FRT5 DC5V with a 1N4001 diode.  
 * **02.11.2016** - Updated compiling options for newer (1.6.10+) and older (1.6.9-) IDEs.
