@@ -11,4 +11,6 @@ These people helped me bringing life to NOKO:
 Active supporters:
 - **Arne Hüffmeier** - Working on some big improvements!  
 - **Hein-Peter Mahlzahn** - Corrections in the Wiki and GitHub.
-- **David Feindel** - Corrections.
+- **David Feindel** - Corrections.  
+- **Issue-Community** - Ideas, inspirations an (alas!) bugs.  
+
