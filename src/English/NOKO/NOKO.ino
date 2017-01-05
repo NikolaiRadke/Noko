@@ -1,4 +1,4 @@
-/* NOKO V1.0 12.05.2016 - Nikolai Radke
+/* NOKO V1.0 05.01.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module!
@@ -38,8 +38,8 @@
  * Radio SCL        A5    (SCL)
  * Radio RST        D5  
  * JQ6500 GND   13  GND
- * JQ6500 TX    26  D2    (Software-TX), connect with 1kOhm resistor
- * JQ6500 RX    25  D3    (Software-RX)
+ * JQ6500 TX    26  D2    (Software-RX), connect with 1kOhm resistor
+ * JQ6500 RX    25  D3    (Software-TX)
  * JQ6500 Busy  23  D4    with 4,7kOhm connected to 5V to get a clear HIGH
  * JQ6500 LOUT  27  L Amp
  * JQ6500 ROUT  28  R Amp
@@ -81,7 +81,7 @@
 */
 
 // Softwareversion
-#define Firmware "-120516"
+#define Firmware "-050117"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -220,7 +220,7 @@ tmElements_t tm;
   Si4703 Radio(5,A4,A5);  // RST, SDA, SCL
 #endif
 LiquidCrystal_I2C lcd(0x27,2,1,0,4,5,6,7,3,POSITIVE); // Some Displays have 0x3F
-JQ6500_Serial mp3(2,3); // Software serial connection
+JQ6500_Serial mp3(3,2); // Software serial connection
 
 //-------------------------------------------------------------------------
 // Using main() and init() instead of setup() and loop() saves flash space
