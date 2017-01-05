@@ -1,6 +1,6 @@
 #Newsblog
 
-* **05.01.2017** - Fixed an annoying bug: D3 and D2 where switched. The sketches got an update.  
+* **05.01.2017** - Hardware bug found: The resistor at D2 moved to D3.  
 * **24.12.2016** - Merry Xmas. A good time to test new 1.8.0 IDE. Works.  
 * **15.12.2016** - The third issue of the Make magazin is out: [https://shop.heise.de/katalog/make-06-2016].  
 * **02.12.2016** - New IDE 1.6.13 is out. Works, but still no compiling options possible. (Deja Vu)  
