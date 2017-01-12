@@ -1,6 +1,6 @@
 #Newsblog
 
-* **12.01.2017**   Added Windows 10 support for burning the eeproms.  
+* **12.01.2017** - Added Windows 10 support for burning the eeproms.  
 * **05.01.2017** - Hardware bug found: The resistor at D2 moved to D3.  
 * **24.12.2016** - Merry Xmas. A good time to test new 1.8.0 IDE. Works.  
 * **15.12.2016** - The third issue of the Make magazin is out: [https://shop.heise.de/katalog/make-06-2016].  
