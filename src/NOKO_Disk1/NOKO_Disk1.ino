@@ -1,25 +1,32 @@
 /*
- * NOKO Settings Disk1 V1.0 12.01.2016 - Nikolai Radke
+ * NOKO Settings Disk1 V1.01 12.01.2017 - Nikolai Radke
  * 
  * This sketch writes the event poems, phrases and stuff into 24LC256.
  * Umlaute are converted, NOKOs LCD uses another charset!
  * #=ä, $=ö, %=ü, *=ß. I never used capital letters.
  * 
- * NOTE: Flashing takes more than 15 Minutes!
+ * NOTE: Flashing takes about 20 Minutes!
+ *       If you are using Windows10, uncommend line 17.
  * 
- * See README in folder TTY.
+ * See README in folder write_eeprom..
 */
 
 #include <Wire.h>
 
 #define Disk1 0x50  // 24LC512
+//#define Windows10
 
-unsigned int addr=0;
-byte c;
+uint16_t addr=0;
+uint8_t  c;
+
 
 void setup() 
 {
-  Serial.begin(9600);
+  #ifdef Windows10
+    Serial.begin(115200);
+  #else
+    Serial.begin(9600);
+  #endif
   Wire.begin();
   delay(100);
 }
