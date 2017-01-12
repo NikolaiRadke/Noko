@@ -39,10 +39,17 @@ If another USB port is used by NOKO, modify COM1 to COM2 or whatever the IDE tel
 
 ## Windows 10
 
-Like written above, but Windows 10 needs another **baud-rate**:
+Like written above, but first Windows 10 needs another **baud rate**:
 
-1. Uncommend **Line 65** in sketch **NOKO_EEPROM_Disk0.ino** or **Line 17** in **NOKO_Disk1.ino**.  
+1. Uncommend **Line 65** in sketch **NOKO_EEPROM_Disk0.ino**  
+or  
+**Line 17** in **NOKO_Disk1.ino**.  
+  
+2. Right-click on *Start* -> *Device Manager* -> Ports -> Communications Port -> Port Settings  
 
+3. Set Baud Rate to **115200**.
+
+4. Take steps above.  
 
 ### NOTE 
 *write_DiskX.exe* was compiled with *x86_64*. For other platforms, see *write_DiskX.c* comments to compile it for yourself.
