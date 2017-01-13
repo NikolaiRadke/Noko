@@ -39,12 +39,12 @@ If another USB port is used by NOKO, modify COM1 to COM2 or whatever the IDE tel
 
 ## Windows 10
 
-Like written above, but first Windows 10 needs another **baud rate**:
+Like written above, but first Windows 10 needs another **baud rate**. You need admin rights.  
 
 1. Uncommend **Line 65** in sketch **NOKO_EEPROM_Disk0.ino**  
 or **Line 17** in **NOKO_Disk1.ino**.  
   
-2. Right-click on *Start* -> *Device Manager* -> *Ports* -> *Communications Port* -> *Port Settings*  
+2. Right-click on *Start* -> *Device Manager* -> *Ports* -> *USB Serial Port (COMX)* -> *Port Settings*  
 
 3. Set *Baud Rate* to **115200**.
 
