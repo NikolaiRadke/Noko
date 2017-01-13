@@ -44,9 +44,9 @@ Like written above, but first Windows 10 needs another **baud rate**. You need a
 1. Uncommend **Line 65** in sketch **NOKO_EEPROM_Disk0.ino**  
 or **Line 17** in **NOKO_Disk1.ino**.  
   
-2. Right-click on *Start* -> *Device Manager* -> *Ports* -> *USB Serial Port (COMX)* -> *Port Settings*  
+2. *Right click Start* -> *Device Manager* -> *Ports* -> *USB Serial Port (COMX)* -> *Right click Port Settings*  
 
-3. Set *Baud Rate* to **115200**.
+3. Set *Bits per second* to **115200**.
 
 4. Take steps above.  
 
