@@ -12,6 +12,7 @@ Active supporters:
   
 - **Hein-Peter Mahlzahn** - Corrections in the Wiki and GitHub.
 - **David Feindel** - Corrections.  
+- **Reinhard Hund** - Corrections.  
 - **Ronny Roscher** - He found an annoying hardware bug.  
 - **Issue-Community** - Ideas, inspirations and (alas!) bugs.  
 
