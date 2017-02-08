@@ -15,4 +15,4 @@
 * **12.08.2016** - NOKO appears in the next four issues of the german Make magazin! See [https://www.heise.de/make/inhalt/2016/4/66/) for more.  
 * **29.07.2016** - IDE 1.6.10 now has LTO, even Windows version! Optiboot and compiler options are not needed anymore, but still recommended.  
 * **28.07.2016** - New IDE 1.6.10 is out. Works with NOKO.ino. 
-* **28.07.2016** - Reanimated a Newsblog. For you and me and NOKO.  
+* **28.07.2016** - Reanimated a newsblog. For you and me and NOKO.  
