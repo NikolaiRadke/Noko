@@ -10,9 +10,9 @@ These people helped me bringing life to NOKO:
 
 Active supporters:  
   
-- **Hein-Peter Mahlzahn** - Lots of corrections in the Wiki and GitHub.
-- **David Feindel** - Corrections.  
-- **Reinhard Hund** - Corrections.  
-- **Ronny Roscher** - He found an annoying hardware bug.  
-- **Issue-Community** - Ideas, inspirations and (alas!) bugs.  
+- **Hein-Peter Mahlzahn** - lots of corrections in the Wiki and GitHub.
+- **David Feindel** - corrections.  
+- **Reinhard Hund** - corrections.  
+- **Ronny Roscher** - he found an annoying hardware bug.  
+- **Issue-Community** - ideas, inspirations and (alas!) bugs.  
 
