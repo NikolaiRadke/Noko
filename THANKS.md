@@ -21,6 +21,6 @@ Used ressources:
 - **Display library** - [Francisco. Malpartida](https://bitbucket.org/fmalpartida/new-liquidcrystal/wiki/Home)  
 - **RTC library** - [Wagner Sartori Junior](https://github.com/trunet/DS3231RTC)   
 - **JQ6500 library** - [James Sleeman](https://github.com/sleemanj/JQ6500_Serial)  
-- **Si4703 library** -   
+- **Si4703 library** - [Gary Bell](https://github.com/whiteneon/Si4703_FMRadio)     
 - **NewTone library** - [Tim Eckel](https://bitbucket.org/teckel12/arduino-new-tone/wiki/Home)  
 - **Time library** - [Michael Margolis](https://github.com/michaelmargolis/arduino_time/tree/master/Time)  
