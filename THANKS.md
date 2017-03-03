@@ -18,5 +18,6 @@ Active supporters:
 
 Used ressources:  
 
-- ** Display library** - [F. Malpardita](https://bitbucket.org/fmalpartida/new-liquidcrystal/wiki/Home)  
+- **Display library** - [Francisco. Malpartida](https://bitbucket.org/fmalpartida/new-liquidcrystal/wiki/Home)  
+- **RTC library** - [Wagner Sartori Junior](https://github.com/trunet/DS3231RTC)   
 - **JQ6500 library** - [James Sleeman](https://github.com/sleemanj/JQ6500_Serial)  
