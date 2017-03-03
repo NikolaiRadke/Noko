@@ -5,7 +5,7 @@
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.996 (1.8.1 | AVR Core 1.6.17 | Linux x86_64, Windows 10 | No compiler Options)
+ * Flash-Usage: 28.996 (1.8.1 | AVR Core 1.6.17 | Linux x86_64, Windows 10 | No compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -16,7 +16,7 @@
  * char()-list: 32=space 37=% 46=. 47=/ 48=0 58=: 68=D 78=N 80=P 82=R 83=S 86=V 87=W
  *              110=n 120=x | 225=ä 226=ß 239=ö 245=ü (German only)
  *         
- * TODO:        
+ * TODO: - Disable brown out.        
  *         
  * KNOWN BUGS:
  * Due to bad programming the summertime/wintertime will switch at 04:00, not 02:00.
