@@ -24,5 +24,5 @@ Used ressources:
 - **Si4703 library** - [Gary Bell](https://github.com/whiteneon/Si4703_FMRadio)     
 - **NewTone library** - [Tim Eckel](https://bitbucket.org/teckel12/arduino-new-tone/wiki/Home)  
 - **Time library** - [Michael Margolis](https://github.com/michaelmargolis/arduino_time/tree/master/Time)  
-- **Clock font** . [Ishan Karve](http://karve.in/?p=59)  
+- **Clock font** - [Ishan Karve](http://karve.in/?p=59)  
 
