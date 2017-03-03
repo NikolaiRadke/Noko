@@ -16,3 +16,7 @@ Active supporters:
 - **Ronny Roscher** - he found an annoying hardware bug.  
 - **Issue-Community** - ideas, inspirations and (alas!) bugs.  
 
+Used ressources:  
+
+- ** Display library** - [F. Malpardita](https://bitbucket.org/fmalpartida/new-liquidcrystal/wiki/Home)  
+- **JQ6500 library** - [James Sleeman](https://github.com/sleemanj/JQ6500_Serial)  
