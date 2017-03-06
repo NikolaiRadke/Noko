@@ -1,1 +1,1 @@
-*.rb linguist-language=Arduino
+*.ino linguist-language=Arduino
