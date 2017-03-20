@@ -1,5 +1,5 @@
 # How to translate the German NOKO voice set into English or any other language
-##WARNING: Spoiler! 
+## WARNING: Spoiler! 
 
 1. Click on the Link.  
 2. Click on *View raw* and listen the file.
