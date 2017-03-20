@@ -25,4 +25,6 @@ Used ressources:
 - **NewTone library** - [Tim Eckel](https://bitbucket.org/teckel12/arduino-new-tone/wiki/Home)  
 - **Time library** - [Michael Margolis](https://github.com/michaelmargolis/arduino_time/tree/master/Time)  
 - **Clock font** - [Ishan Karve](http://karve.in/?p=59)  
+- **Suit inspiration - Ninni** - [RevoluzZa Blog](http://blog.revoluzzza.com/2009/02/25/tutorial-hopw-to-sew-a-revoluzzzionary-monster-wie-man-ein-revoluzzzionares-monster-naht/)  
+
 
