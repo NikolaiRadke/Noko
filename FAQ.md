@@ -9,5 +9,5 @@ Yes, there are, but the LC display should be an easy-to-read clock and a lightso
 ### Why does it not do or have XXX?
 You got a good idea? Write me!
 
-###When did your work on NOKO start?
+### When did your work on NOKO start?
 I started wasting my time in March, 2014.
