@@ -8,7 +8,7 @@
 
 *:-)* means: the written translation would be *onomatopoeia* - translate it as you wish,
 
-###011-030 Response to belly button
+### 011-030 Response to belly button
 [011.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/11.mp3): :-)  
 [012.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/12.mp3): :-)  
 [013.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/13.mp3): No, i am ticklish  
@@ -30,7 +30,7 @@
 [029.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/29.mp3): :-)  
 [030.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/30.mp3): Stop now! Stoooop!  
 
-###031-60 Response to nose button
+### 031-60 Response to nose button
 [031.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/31.mp3): Ouchy!  
 [032.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/32.mp3): My nose!  
 [033.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/33.mp3): Stop that!  
@@ -62,7 +62,7 @@
 [059.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/59.mp3): Man!  
 [060.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/60.mp3): Well...!  
 
-###061-080 Resonse to ultrasonic sensor
+### 061-080 Resonse to ultrasonic sensor
 [061.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/61.mp3): Entertain me.  
 [062.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/62.mp3): Skretch my back, will you?   
 [063.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/63.mp3): :-)  
@@ -84,7 +84,7 @@
 [079.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/79.mp3): :-)    
 [080.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/80.mp3): Stinks, right?  
 
-#081-111 Time based events
+### 081-111 Time based events
 [081.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/81.mp3): I am bored!  
 [082.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/82.mp3): :-)    
 [083.mp3](https://github.com/NikolaiRadke/NOKO/blob/master/mp3/83.mp3): :-)  
