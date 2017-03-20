@@ -1,9 +1,9 @@
-#Setting up a serial connection and writing to EEPROMs
+# Setting up a serial connection and writing to EEPROMs
 
 Open the NOKO writer sketch **NOKO_EEPROM_Disk0.ino** or **NOKO_Disk1.ino** in the Arduino IDE and start it. 
 Wait for *10 seconds*. When running *NOKO_Disk1.ino* you can go on immediately.
 
-##Linux
+## Linux
 
 1. Open a terminal  
 
