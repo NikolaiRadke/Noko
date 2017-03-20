@@ -1,5 +1,5 @@
-#Compiling options for NOKO
-###NOTE: These options are used globally for all sketches.
+# Compiling options for NOKO
+### NOTE: These options are used globally for all sketches.
 
 **Prerequisits**  
 If you have Optiboot installed, you don't need to change anything.  
@@ -8,7 +8,7 @@ If you have IDE 1.6.10 or higher with AVR Core 1.6.12 or higher, relax, but Opti
 Linux: with IDE 1.6.6-1.6.9 use AVR Core 1.6.9 and see intructions below.  
 Windows: IDE 1.6.6-1.6.9 will *not* work without Optiboot. Install Optiboot and see intructions below.
 
-###Note:
+### Note:
 The sketch will **not** run without the Si4703 radio module. If you want to test it anyway, you have to modify *NOKO,ino*. Change the line  
 ```#define def_radio 1           // Using Radio?```   
 in the beginning of the sketch into   
@@ -73,7 +73,7 @@ compiler.elf2hex.extra_flags=
 Unfortunately, on Windows the Link Time Optimization (LTO) plugin is disabled in IDE 1.6.6-1.6.9, the *-flto* switch is unusable. The sketch fits barely into flash memory, so **Optiboot** is a **must have**! See [Issue 3](https://github.com/NikolaiRadke/NOKO/issues/3).  
 You can find an intruction on how to flash a new bootloader in German [here in the wiki](https://github.com/NikolaiRadke/NOKO/wiki/Optiboot). An English instruction will follow. Until then take a look [here](https://www.arduino.cc/en/Tutorial/ArduinoISP).
 
-##How to upload a precompiled hex-file  
+## How to upload a precompiled hex-file  
 
 Select the hex-file of your choice in [howto_compile/precompiled](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled).
 
