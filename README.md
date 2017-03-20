@@ -9,7 +9,7 @@ lovely and sometimes a bit mean and annoying. Just the way you want him to be. H
 
 **NOKO** stands for **NO**ra's and ni**KO**'s monster.
 
-###Notes for non-German NOKO makers
+### Notes for non-German NOKO makers
 There are a German and an English version. Right now, the building wiki, the voice set, the manual and the optional EEPROM text files are in German. I'll try to translate the wiki and the manual when the German wiki is completed. Until then, feel free to ask me for translation, if you need help.  **Contribute!** I need an English voice set and English text files. In addition, any other language is welcome, NOKO is to be cosmopolitan!
 
 ### Prerequisites
