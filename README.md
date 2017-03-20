@@ -77,7 +77,7 @@ NOKO/
 └── write_EEPROM/
     Tools to write data through serial connection to the Arduino and the EEPROMs. 
 ```
-###Let's get started!
+### Let's get started!
 
 Interested in NOKO? Great! Let's start here:  
 [German wiki](https://github.com/NikolaiRadke/NOKO/wiki).  
