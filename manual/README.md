@@ -1,4 +1,4 @@
-#Manual for NOKO
+# Manual for NOKO
 This folder contains the 19 page manual as a PDF, written in German. Box.pdf is a design template to place NOKO in a
 pretty matching gift box.
 
