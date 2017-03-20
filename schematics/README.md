@@ -1,6 +1,6 @@
 # Schematics
 
-###Technical schematics
+### Technical schematics
 * **NOKO.png**:
 NOKO's main schematic.
 * **NOKO_Amp.png**:
@@ -10,14 +10,14 @@ Power source and USB hub.
 
 These schematics have been written with [gEDA](http://www.geda-project.org/). You can find the source files in folder [geda/](https://github.com/NikolaiRadke/NOKO/tree/master/schematics/geda).
 
-###Other manuals
+### Other manuals
 
 * **NOKO_Pattern.pdf**:
 NOKOs sewing pattern. 
 * **NOKO_Einkaufsliste.pdf**:
 Shopping list in German  
 
-###Contruction plans, used in the wiki
+### Construction plans, used in the wiki
 * **NOKO_inside.png**:  
 Foto of NOKOs inside life  
 * **NOKO_layout_down.png**:  
