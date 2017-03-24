@@ -1,5 +1,6 @@
 # Newsblog
 
+* **24.03.2017** - New IDE 1.8.2 with AVR Core 1.6.18 works too.  
 * **07.03.2017** - All four issues are now available as an ebook in all common stores and [heise shop](https://shop.heise.de/katalog/make-noko-das-mp3-monster?pk_campaign=dossnoko&pk_kwd=t1).  
 * **22.02.2017** - The fourth und last issue of the Make Magazin arrived: [https://shop.heise.de/katalog/frankensteins-labor].  
 * **13.01.2017** - New IDE 1.8.1 with AVR Core 1.6.17 works.  
