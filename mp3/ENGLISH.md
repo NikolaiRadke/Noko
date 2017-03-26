@@ -2,7 +2,7 @@
 ## WARNING: Spoiler! 
 
 1. Click on the Link.  
-2. Click on *View raw* and listen the file.
+2. Click on *View raw* and listen the to file.
 3. Read the translation written here. 
 4. Record your own mp3-file.
 
