@@ -11,7 +11,7 @@
 * **22.02.2017** - The fourth und last issue of the Make Magazin arrived: [https://shop.heise.de/katalog/frankensteins-labor].  
 * **13.01.2017** - New IDE 1.8.1 with AVR Core 1.6.17 works.  
 * **12.01.2017** - Added Windows 10 support for burning the eeproms.  
-* **05.01.2017** - Hardware bug found: The resistor at D2 moved to D3.  
+* **05.01.2017** - **Hardware bug found**: The resistor at D2 moved to D3.  
 * **24.12.2016** - Merry Xmas. A good time to test new 1.8.0 IDE. Works.  
 * **15.12.2016** - The third issue of the Make magazin is out: [https://shop.heise.de/katalog/make-06-2016].  
 * **02.12.2016** - New IDE 1.6.13 is out. Works, but still no compiling options possible. (Deja Vu)  
