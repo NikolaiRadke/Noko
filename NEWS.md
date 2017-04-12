@@ -1,5 +1,9 @@
 # Newsblog
 
+* **12.04.2017** - New firmware 120417! After 11 month NOKO gets some small enhancements:
+* * Custom chars are now in PROGMEM.
+* * Power saving when idle was improved.
+* * The life cycle of the internal EEPROM was highly improved (several decades).
 * **24.03.2017** - New IDE 1.8.2 with AVR Core 1.6.18 works too.  
 * **22.03.2017** - NOKO was guest at CeBIT faire 2017: [https://www.youtube.com/watch?v=V2i4UrzMkM8#action=share]  
 * **07.03.2017** - All four issues are now available as an ebook in all common stores and [heise shop](https://shop.heise.de/katalog/make-noko-das-mp3-monster?pk_campaign=dossnoko&pk_kwd=t1).  
