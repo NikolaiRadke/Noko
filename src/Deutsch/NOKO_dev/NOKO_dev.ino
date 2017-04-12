@@ -81,7 +81,7 @@
 */
 
 // Softwareversion
-#define Firmware "-3103317"
+#define Firmware "-120417"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
