@@ -90,8 +90,8 @@
 #define def_stories           // Stories on SD card?
 
 // Display selection
-#define display_address 0x27   // Blue 
-//#define display_address 0x3F // Yellow
+//#define display_address 0x27   // Blue 
+#define display_address 0x3F // Yellow
 
 // 24LC256 EEPROM addresses
 #define phrase_address 4000    // Starting address of the phrases in 24LC256
@@ -498,20 +498,20 @@ uint8_t taste(boolean leise)  // Read pressed button und debounce | leise = NOKO
 }
 
 // Constantly used functions - saves a lot of flash.
- void zeichen(uint8_t x,uint8_t y,uint8_t c) // Char c at x,y
+void zeichen(uint8_t x,uint8_t y,uint8_t c) // Char c at x,y
 {
   lcd.setCursor(x,y);
   lcd.print(char(c));
 }
 
- void leer(uint8_t x,uint8_t y,uint8_t anz) // anz spaces from x,y
+void leer(uint8_t x,uint8_t y,uint8_t anz) // anz spaces from x,y
 {
   uint8_t a;
   lcd.setCursor(x,y);
   for (a=anz;a>0;a--) lcd.print(char(32));
 }
 
- void icon(uint8_t c[]) // Icon c at 0,0
+void icon(uint8_t c[]) // Icon c at 0,0
 {
   lcd.createChar(0,c);
   lcd.clear();
@@ -520,7 +520,7 @@ uint8_t taste(boolean leise)  // Read pressed button und debounce | leise = NOKO
 }
 
 // Plays tone with delay. Delay can be stopped by pressing SW4 when stopd is set TRUE
- void ton(uint16_t h,uint16_t l,boolean stopd,uint16_t d) 
+void ton(uint16_t h,uint16_t l,boolean stopd,uint16_t d) 
 {
   NewTone(Speaker,h,l);
   if (!stopd) NewDelay(d);
@@ -528,11 +528,11 @@ uint8_t taste(boolean leise)  // Read pressed button und debounce | leise = NOKO
 }
 
 // Constantly used strings. Saves a lot of flash space. 
- void null()  {lcd.print(char(48));} // Prints a "0" - saves flash. However.
+void null()  {lcd.print(char(48));} // Prints a "0" - saves flash. However.
 
- void uhr()   {lcd.print(F(" Uhr"));} // Prints " Uhr"
+void uhr()   {lcd.print(F(" Uhr"));} // Prints " Uhr"
  
- void hoeren() // Prints "hören"
+void hoeren() // Prints "hören"
 {
   lcd.print(char(239));
   lcd.print(F("ren")); 
@@ -545,13 +545,13 @@ void zeige_speichern() // Prints "speichern..."
   powerdowndelay(pwd_delay);
 }
 
- void init_char() // Read custom chars again
+void init_char() // Read custom chars again
 {
   for (uint8_t help=0;help<8;help++)
     lcd.createChar(help,custom_char[help]);
 }
 
- void clearnum(uint8_t x,uint8_t y) // Delete a big number at x,y
+void clearnum(uint8_t x,uint8_t y) // Delete a big number at x,y
 {
   xlcd=x;
   ylcd=y;
@@ -559,7 +559,7 @@ void zeige_speichern() // Prints "speichern..."
   leer(xlcd,ylcd+1,3);
 }
 
- void bignum(uint8_t x,uint8_t y,uint8_t num) // Draws a big number at x,y; num 0-9
+void bignum(uint8_t x,uint8_t y,uint8_t num) // Draws a big number at x,y; num 0-9
 {
   xlcd=x;
   ylcd=y;
@@ -757,7 +757,7 @@ boolean sommerzeit() // Summertime?
   return false;
 }
 
- void check_sommerzeit() // Compare summertime with EEPROM and set clock
+void check_sommerzeit() // Compare summertime with EEPROM and set clock
 {
   if (((sommer!=sommerzeit()) && (tm.Hour>=4))) // Summertime changed?
   {
@@ -923,7 +923,7 @@ void check_ultra() // Ultrasonic event - ultra_distanz= 0..9 * 10cm
   }
 }  
 
- boolean check_alarm() // Is it time for the alarm?
+boolean check_alarm() // Is it time for the alarm?
 {
   if ((alarm_an) && (!alarm_jetzt))  // Prevent double check
   {
@@ -1285,7 +1285,7 @@ void menue_Radio() // Radio menue "Radio hoeren"
 
 // Story menu & MP3 menu: "Geschichten hören" "Eigenes hören"
 // 1=Story 2=MP3 3=No MP3 files found
- void menue_mp3(uint8_t modus) 
+void menue_mp3(uint8_t modus) 
 {
   if (!mp3_an) while (PIND & (1<<4));
   uint8_t menue=1;
@@ -2286,7 +2286,7 @@ void radio_ein() // Radio on
   #endif
 }
 
- void radio_aus() // Radio off
+void radio_aus() // Radio off
 {
   #ifdef def_radio
     Radio.powerOff();
@@ -2294,13 +2294,13 @@ void radio_ein() // Radio on
   #endif
 }
 
- void aux_aus() // AUX relay off
+void aux_aus() // AUX relay off
 {
   PORTD &= ~(1<<7); 
   aux=false;
 }
 
- void mp3_aus() // Stop MP3 playing
+void mp3_aus() // Stop MP3 playing
 {
   mp3.pause();  
   powerdowndelay(100);

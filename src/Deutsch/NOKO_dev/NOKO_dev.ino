@@ -5,7 +5,7 @@
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 29.788 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler options)
+ * Flash-Usage: 29.816 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -86,9 +86,13 @@
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
 // Features on/off - comment out to disable
-//#define def_radio             // Using Radio?
-//#define def_external_eeprom   // Using external EEPROM?
-//#define def_stories           // Stories on SD card?
+#define def_radio             // Using Radio?
+#define def_external_eeprom   // Using external EEPROM?
+#define def_stories           // Stories on SD card?
+
+// Display selection
+#define display_address 0x27   // Blue 
+//#define display_address 0x3F // Yellow
 
 // 24LC256 EEPROM addresses
 #define phrase_address 4000    // Starting address of the phrases in 24LC256
@@ -192,7 +196,7 @@ uint32_t  dimmmillis;         // Milliseconds until display mutes
 const uint8_t eventtrigger[10]={0,120,60,45,30,15,10,5,3,1};
 
 // Custom characters. Number set was made by Ishan Karve. Awesome!
-const uint8_t PROGMEM custom_char[18][8]=
+PROGMEM const char custom_char[18][8]=
 {
   {B00111,B01111,B11111,B11111,B11111,B11111,B11111,B11111},
   {B11111,B11111,B11111,B00000,B00000,B00000,B00000,B00000},
@@ -219,7 +223,7 @@ tmElements_t tm;
 #ifdef def_radio
   Si4703 Radio(5,A4,A5);  // RST, SDA, SCL
 #endif
-LiquidCrystal_I2C lcd(0x3F,2,1,0,4,5,6,7,3,POSITIVE); // Some Displays have 0x3F
+LiquidCrystal_I2C lcd(display_address,2,1,0,4,5,6,7,3,POSITIVE);
 JQ6500_Serial mp3(2,3); // Software serial connection
 
 //-------------------------------------------------------------------------
@@ -497,20 +501,20 @@ uint8_t taste(boolean leise)  // Read pressed button und debounce | leise = NOKO
 }
 
 // Constantly used functions - saves a lot of flash.
- void zeichen(uint8_t x,uint8_t y,uint8_t c) // Char c at x,y
+void zeichen(uint8_t x,uint8_t y,uint8_t c) // Char c at x,y
 {
   lcd.setCursor(x,y);
   lcd.print(char(c));
 }
 
- void leer(uint8_t x,uint8_t y,uint8_t anz) // anz spaces from x,y
+void leer(uint8_t x,uint8_t y,uint8_t anz) // anz spaces from x,y
 {
   uint8_t a;
   lcd.setCursor(x,y);
   for (a=anz;a>0;a--) lcd.print(char(32));
 }
 
- void icon(uint8_t c[]) // Icon c at 0,0
+void icon(uint8_t c[]) // Icon c at 0,0
 {
   lcd.createChar(0,c);
   lcd.clear();
@@ -519,7 +523,7 @@ uint8_t taste(boolean leise)  // Read pressed button und debounce | leise = NOKO
 }
 
 // Plays tone with delay. Delay can be stopped by pressing SW4 when stopd is set TRUE
- void ton(uint16_t h,uint16_t l,boolean stopd,uint16_t d) 
+void ton(uint16_t h,uint16_t l,boolean stopd,uint16_t d) 
 {
   NewTone(Speaker,h,l);
   if (!stopd) NewDelay(d);
@@ -527,38 +531,30 @@ uint8_t taste(boolean leise)  // Read pressed button und debounce | leise = NOKO
 }
 
 // Constantly used strings. Saves a lot of flash space. 
- void null()  {lcd.print(char(48));} // Prints a "0" - saves flash. However.
+void null()  {lcd.print(char(48));} // Prints a "0" - saves flash. However.
 
- void uhr()   {lcd.print(F(" Uhr"));} // Prints " Uhr"
+void uhr()   {lcd.print(F(" Uhr"));} // Prints " Uhr"
  
- void hoeren() // Prints "hören"
+void hoeren() // Prints "hören"
 {
   lcd.print(char(239));
   lcd.print(F("ren")); 
 }
 
- void zeige_speichern() // Prints "speichern..."
+void zeige_speichern() // Prints "speichern..."
 {
   lcd.setCursor(1,1);
   lcd.print(F("speichern..."));
   powerdowndelay(pwd_delay);
 }
 
- void copyChar(uint8_t num, uint8_t cchar)
- {
-    uint8_t var_custom_char[8];
-    for (uint8_t n=0;n<8;n++) 
-      var_custom_char[n]=custom_char[cchar,n];
-    lcd.createChar(num,var_custom_char);
- }
-
- void init_char() // Read custom chars again
+void init_char() // Read custom chars again
 {
   for (uint8_t help=0;help<8;help++)
-    copyChar(help,help);
+    lcd.createChar(help,custom_char[help]);
 }
 
- void clearnum(uint8_t x,uint8_t y) // Delete a big number at x,y
+void clearnum(uint8_t x,uint8_t y) // Delete a big number at x,y
 {
   xlcd=x;
   ylcd=y;
@@ -566,7 +562,7 @@ uint8_t taste(boolean leise)  // Read pressed button und debounce | leise = NOKO
   leer(xlcd,ylcd+1,3);
 }
 
- void bignum(uint8_t x,uint8_t y,uint8_t num) // Draws a big number at x,y; num 0-9
+void bignum(uint8_t x,uint8_t y,uint8_t num) // Draws a big number at x,y; num 0-9
 {
   xlcd=x;
   ylcd=y;
@@ -764,7 +760,7 @@ boolean sommerzeit() // Summertime?
   return false;
 }
 
- void check_sommerzeit() // Compare summertime with EEPROM and set clock
+void check_sommerzeit() // Compare summertime with EEPROM and set clock
 {
   if (((sommer!=sommerzeit()) && (tm.Hour>=4))) // Summertime changed?
   {
@@ -984,7 +980,7 @@ void alarm() // Play alarm
   if (dimm) lcd.on();           // Display on
   if (lcddimm) lcd.backlight(); // Light on
   PORTD &= ~(1<<6);             // Amplifier on
-  copyChar(0,17);
+  lcd.createChar(0,custom_char[17]);
   lcd.clear();
   lcd.noBlink();
   lcd.setCursor(7,0);
@@ -1091,7 +1087,7 @@ void menue_Hauptmenue() // Main menue
 void menue_Abspielen() // Play menue "Spiel was vor"
 {
   uint8_t menue=0;
-  copyChar(0,15);
+  lcd.createChar(0,custom_char[15]);
   lcd.clear();
   lcd.setCursor(2,0);
   lcd.print(F("Radio h"));           // Radio menue
@@ -1171,10 +1167,10 @@ void menue_Radio() // Radio menue "Radio hoeren"
   boolean rds=false;
   uint8_t menue=2;
   uint8_t help,help2,count;
-  copyChar(1,9);
-  copyChar(2,11);
-  copyChar(3,12);
-  copyChar(4,8);
+  lcd.createChar(1,custom_char[9]);
+  lcd.createChar(2,custom_char[11]);
+  lcd.createChar(3,custom_char[12]);
+  lcd.createChar(4,custom_char[8]);
   icon(custom_char[15]);
   if (radio) Radio.readRDS(rdsStation,1000);
   while (wahl!=4)
@@ -1325,15 +1321,15 @@ void menue_Radio() // Radio menue "Radio hoeren"
 
 // Story menu & MP3 menu: "Geschichten hören" "Eigenes hören"
 // 1=Story 2=MP3 3=No MP3 files found
- void menue_mp3(uint8_t modus) 
+void menue_mp3(uint8_t modus) 
 {
   if (!mp3_an) while (PIND & (1<<4));
   uint8_t menue=1;
   uint8_t help;
   char buff[12];
-  copyChar(1,9);
-  copyChar(2,10);
-  copyChar(3,8);
+  lcd.createChar(1,custom_char[9]);
+  lcd.createChar(2,custom_char[10]);
+  lcd.createChar(3,custom_char[8]);
   icon(custom_char[15]);
   lcd.setCursor(4,3);
   lcd.print(F("[<][ ][ ][>]"));
@@ -1554,7 +1550,7 @@ void menue_Alarm()  // Set alarm - no alarm allowd in this menue
     EEPROM.write(4,alarmmm+offset);
     EEPROM.write(5,alarmhh+offset);
   }
-  copyChar(0,0);
+  lcd.createChar(0,custom_char[0]);
   alarm_jetzt=false;
   save=false;
 }
@@ -1604,7 +1600,7 @@ void menue_Alarmwahl() // Which alarm type? No alarm allowed hier
     }
   }
   alarm_an=alarm_an2;
-  copyChar(0,0);
+  lcd.createChar(0,custom_char[0]);
 }
 
 // Select sound number
@@ -1768,7 +1764,7 @@ void menue_Uhrzeit()  // Set time and nightmode
     sommer=sommerzeit();
     EEPROM.write(16,sommer+offset);
   }
-  copyChar(0,0);
+  lcd.createChar(0,custom_char[0]);
   ma=255;
 }
 
@@ -1873,7 +1869,7 @@ void menue_Nachtmodus() // Set nightmode
       case 3: if (menue>0) menue--; break;
     }
   }
-  copyChar(0,0);
+  lcd.createChar(0,custom_char[0]);
 }
 
 void menue_Einstellungen()  // Settings "NOKO stellen"
@@ -2016,7 +2012,7 @@ void menue_NOKO() // "Mein NOKO" - about NOKO and secret menue
     lcd.print(char(readDisk(Disk0,20+help)));   
   }
   schleife(false,false);
-  copyChar(0,0);
+  lcd.createChar(0,custom_char[0]);
   lcd.clear();
   bignum(0,0,11); // Draw "NOKO"
   bignum(3,0,0);
@@ -2110,7 +2106,7 @@ void event() // Time bases events
       break;
     case 5:  // Monster party
       ma=minute();
-      copyChar(0,13);
+      lcd.createChar(0,custom_char[13]);
       while ((ma==minute()) && (wahl!=4))
       {  
         alarm_jetzt=true;
@@ -2130,7 +2126,7 @@ void event() // Time bases events
       }
       break;
     case 7:  // Monster cleans display
-      copyChar(0,13);
+      lcd.createChar(0,custom_char[13]);
       for (ma=0;ma<4;ma++)
       {
         for (help=0;help<20;help++)
@@ -2235,7 +2231,7 @@ void gedicht() // Poem event on display
 void feiern() // Birthdaytime! Party! Party!
 {
   uint8_t help,ma;
-  copyChar(0,14);
+  lcd.createChar(0,custom_char[14]);
   #ifdef def_radio
     if (radio) Radio.powerOff();
   #endif
@@ -2326,7 +2322,7 @@ void radio_ein() // Radio on
   #endif
 }
 
- void radio_aus() // Radio off
+void radio_aus() // Radio off
 {
   #ifdef def_radio
     Radio.powerOff();
@@ -2334,13 +2330,13 @@ void radio_ein() // Radio on
   #endif
 }
 
- void aux_aus() // AUX relay off
+void aux_aus() // AUX relay off
 {
   PORTD &= ~(1<<7); 
   aux=false;
 }
 
- void mp3_aus() // Stop MP3 playing
+void mp3_aus() // Stop MP3 playing
 {
   mp3.pause();  
   powerdowndelay(100);
