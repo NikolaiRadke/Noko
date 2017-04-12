@@ -5,7 +5,7 @@
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 29.000 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler options)
+ * Flash-Usage: 29.044 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -90,8 +90,8 @@
 #define def_stories           // Stories on SD card?
 
 // Display selection
-//#define display_address 0x27   // Blue 
-#define display_address 0x3F // Yellow
+#define display_address 0x27   // Blue 
+//#define display_address 0x3F // Yellow
 
 // 24LC256 EEPROM addresses
 #define phrase_address 4000    // Starting address of the phrases in 24LC256
@@ -194,7 +194,7 @@ uint32_t  dimmmillis;         // Milliseconds until display mutes
 const uint8_t eventtrigger[10]={0,120,60,45,30,15,10,5,3,1};
 
 // Custom characters. Number set was made by Ishan Karve. Awesome!
-uint8_t custom_char[18][8]=
+PROGMEM const char custom_char[18][8]=
 {
   {B00111,B01111,B11111,B11111,B11111,B11111,B11111,B11111},
   {B11111,B11111,B11111,B00000,B00000,B00000,B00000,B00000},
