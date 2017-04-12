@@ -1,6 +1,6 @@
 # Newsblog
 
-* **12.04.2017** - New firmware **120417** is out. After 11 month NOKO gets some small enhancements:
+* **12.04.2017** - New firmware V1.0-**120417** is out. After 11 month NOKO gets some small enhancements:
   * Custom chars are now in PROGMEM.
   * Power saving when idle was improved.
   * The life cycle of the internal EEPROM was highly improved (several decades).
