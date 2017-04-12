@@ -5,7 +5,7 @@
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.920 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler options)
+ * Flash-Usage: 29.402 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -184,6 +184,7 @@ boolean  nachtdimm;           // Will the display mute at nighttime?
 boolean  stumm;               // All sound off?
 boolean  laden;               // Is NOKO's battery charging?
 
+uint16_t offset;              // EEPROM start position to expand life cyle
 uint16_t freq;                // Used frequency * 100
 uint16_t station[3];          // 3 radiostations
 
@@ -267,28 +268,29 @@ init();
   #endif
  
   // Read Arduino EEPROM
-  stumm=EEPROM.read(1); 
-  led_dimm=EEPROM.read(2);
-  alarm_an=EEPROM.read(3);
-  alarmmm=EEPROM.read(4);
-  alarmhh=EEPROM.read(5);
-  klang=EEPROM.read(6);
-  klang_ton=EEPROM.read(7);
-  ultra_distanz=EEPROM.read(8);
-  eventsteller=EEPROM.read(9);
-  powersave=EEPROM.read(10);
-  nachtmodus=EEPROM.read(11);
-  nachtahh=EEPROM.read(12);
-  nachtamm=EEPROM.read(13);
-  nachtbhh=EEPROM.read(14);
-  nachtbmm=EEPROM.read(15);
-  sommer=EEPROM.read(16);
-  freq=(EEPROM.read(17)*10)+(EEPROM.read(18));
-  klang_mp3=EEPROM.read(19);
+  offset=EEPROM.read(0)*30;
+  stumm=readEEPROM(1); 
+  led_dimm=readEEPROM(2);
+  alarm_an=readEEPROM(3);
+  alarmmm=readEEPROM(4);
+  alarmhh=readEEPROM(5);
+  klang=readEEPROM(6);
+  klang_ton=readEEPROM(7);
+  ultra_distanz=readEEPROM(8);
+  eventsteller=readEEPROM(9);
+  powersave=readEEPROM(10);
+  nachtmodus=readEEPROM(11);
+  nachtahh=readEEPROM(12);
+  nachtamm=readEEPROM(13);
+  nachtbhh=readEEPROM(14);
+  nachtbmm=readEEPROM(15);
+  sommer=readEEPROM(16);
+  freq=(readEEPROM(17)*10)+(readEEPROM(18));
+  klang_mp3=readEEPROM(19);
   for (help=0;help<3;help++)
-    station[help]=(EEPROM.read(21+(help*2))*10)+(EEPROM.read(22+(help*2)));
-  ultra_light=EEPROM.read(27);
-  nachtdimm=EEPROM.read(28);
+    station[help]=(readEEPROM(21+(help*2))*10)+(readEEPROM(22+(help*2)));
+  ultra_light=readEEPROM(27);
+  nachtdimm=readEEPROM(28);
 
   //  Read AT24C32 
   gt=readDisk(Disk0,0);          // Birthday day
@@ -752,6 +754,43 @@ boolean sommerzeit() // Summertime?
   return false;
 }
 
+void copy_eeprom() // Copy EEPROM to new address
+{
+  offset+=30;
+  if (offset==990) 
+  {
+    offset=0;        // After 33 cyles (= 16,5 years) start form 0
+    EEPROM.write(0,offset);
+  }
+  writeEEPROM(0,offset/30);
+  writeEEPROM(1+offset,stumm); 
+  writeEEPROM(2+offset,led_dimm);
+  writeEEPROM(3+offset,alarm_an);
+  writeEEPROM(4+offset,alarmmm);
+  writeEEPROM(5+offset,alarmhh);
+  writeEEPROM(6+offset,klang);
+  writeEEPROM(7+offset,klang_ton);
+  writeEEPROM(8+offset,ultra_distanz);
+  writeEEPROM(9+offset,eventsteller);
+  writeEEPROM(10+offset,powersave);
+  writeEEPROM(11+offset,nachtmodus);
+  writeEEPROM(12+offset,nachtahh);
+  writeEEPROM(13+offset,nachtamm);
+  writeEEPROM(14+offset,nachtbhh);
+  writeEEPROM(15+offset,nachtbmm);
+  writeEEPROM(16+offset,sommer);
+  writeEEPROM(18+offset,freq%10); 
+  writeEEPROM(17+offset,(freq-(freq%10))/10);    
+  writeEEPROM(19+offset,klang_mp3); 
+  for (uint8_t help=0;help<3;help++)
+  {
+    writeEEPROM(22+(help*2)+offset,station[help]%10);
+    writeEEPROM(21+(help*2)+offset,(station[help]-(station[help]%10))/10);
+  }  
+  writeEEPROM(27+offset,ultra_light);
+  writeEEPROM(28+offset,nachtdimm);
+}
+
 void check_sommerzeit() // Compare summertime with EEPROM and set clock
 {
   if (((sommer!=sommerzeit()) && (tm.Hour>=4))) // Summertime changed?
@@ -761,7 +800,7 @@ void check_sommerzeit() // Compare summertime with EEPROM and set clock
     setTime(tm.Hour,tm.Minute,tm.Second,tm.Day,tm.Month,j);
     tm.Year=CalendarYrToTm(j);
     RTC.write(tm);                  // Write RTC
-    EEPROM.write(16,sommer);        // Write summertime flag
+    copy_eeprom();                  // Move EEPROM to new address
   }
 }
 
@@ -1221,22 +1260,22 @@ void menue_Radio() // Radio menue "Play radio"
           case 6: freq=station[0]; break;
           case 7: 
             station[0]=freq; // Write station 1
-            EEPROM.write(22,station[0]%10);
-            EEPROM.write(21,(station[0]-(station[0]%10))/10);
+            writeEEPROM(22,station[0]%10);
+            writeEEPROM(21,(station[0]-(station[0]%10))/10);
             zeige_speichern();
             break;
           case 8: freq=station[1]; break;
           case 9: 
             station[1]=freq; // Write station 2
-            EEPROM.write(24,station[1]%10);
-            EEPROM.write(23,(station[1]-(station[1]%10))/10);
+            writeEEPROM(24,station[1]%10);
+            writeEEPROM(23,(station[1]-(station[1]%10))/10);
             zeige_speichern();
             break;
           case 10: freq=station[2]; break;
           case 11: 
             station[2]=freq; // Write station 3
-            EEPROM.write(26,station[2]%10);
-            EEPROM.write(25,(station[2]-(station[2]%10))/10);
+            writeEEPROM(26,station[2]%10);
+            writeEEPROM(25,(station[2]-(station[2]%10))/10);
             zeige_speichern();
             break;
         }
@@ -1254,8 +1293,8 @@ void menue_Radio() // Radio menue "Play radio"
   }
   if (save2)
   {
-    EEPROM.write(18,freq%10); // Keep actual frequence
-    EEPROM.write(17,(freq-(freq%10))/10);    
+    writeEEPROM(18,freq%10); // Keep actual frequence
+    writeEEPROM(17,(freq-(freq%10))/10);    
   }
   save2=false;
   init_char();
@@ -1488,9 +1527,9 @@ void menue_Alarm()  // Set alarm - no alarm allowd in this menue
   }
   if (save) // Write alarm to EEPROM
   {
-    EEPROM.write(3,alarm_an);
-    EEPROM.write(4,alarmmm);
-    EEPROM.write(5,alarmhh);
+    writeEEPROM(3,alarm_an);
+    writeEEPROM(4,alarmmm);
+    writeEEPROM(5,alarmhh);
   }
   lcd.createChar(0,custom_char[0]);
   alarm_jetzt=false;
@@ -1527,7 +1566,7 @@ void menue_Alarmwahl() // Which alarm type? No alarm allowed hier
           if (menue==1) break;
         #endif
         klang=menue;
-        EEPROM.write(6,klang);
+        writeEEPROM(6,klang);
         if (klang==0) menue_Alarmton(1);
         if (klang==2) menue_Alarmton(2);
         break;
@@ -1582,8 +1621,8 @@ void menue_Alarmton(uint8_t modus)
   }
   if (save)
   {
-    if (modus==1) EEPROM.write(7,klang_ton); // Save
-    else EEPROM.write(19,klang_mp3);
+    if (modus==1) writeEEPROM(7,klang_ton); // Save
+    else writeEEPROM(19,klang_mp3);
   }
   if (!mp3_an) mp3.pause();
   alarm_jetzt=false;
@@ -1704,7 +1743,7 @@ void menue_Uhrzeit()  // Set time and nightmode
     save=false;
     anzeigen();
     sommer=sommerzeit();
-    EEPROM.write(16,sommer);
+    writeEEPROM(16,sommer);
   }
   lcd.createChar(0,custom_char[0]);
   ma=255;
@@ -1796,12 +1835,12 @@ void menue_Nachtmodus() // Set nightmode
         }
         if (save)
         {
-          EEPROM.write(11,nachtmodus);
-          EEPROM.write(12,nachtahh);
-          EEPROM.write(13,nachtamm);
-          EEPROM.write(14,nachtbhh);
-          EEPROM.write(15,nachtbmm);
-          EEPROM.write(28,nachtdimm);
+          writeEEPROM(11,nachtmodus);
+          writeEEPROM(12,nachtahh);
+          writeEEPROM(13,nachtamm);
+          writeEEPROM(14,nachtbhh);
+          writeEEPROM(15,nachtbmm);
+          writeEEPROM(28,nachtdimm);
         }
         save=false;
         break;
@@ -1847,15 +1886,15 @@ void menue_Einstellungen()  // Settings "Set NOKO"
           case 0:
             (led_dimm<9)? led_dimm++:led_dimm=0;
             analogWrite(LED,led_dimm*28);
-            EEPROM.write(2,led_dimm);
+            writeEEPROM(2,led_dimm);
             break;
           case 1:
             (eventsteller<9)? eventsteller++:eventsteller=0;
-            EEPROM.write(9,eventsteller);
+            writeEEPROM(9,eventsteller);
             break;
           case 2:
             (ultra_distanz<9)? ultra_distanz++:ultra_distanz=0;
-            EEPROM.write(8,ultra_distanz);
+            writeEEPROM(8,ultra_distanz);
             break;
           case 3: menue_Einstellungen2(); break;
         }
@@ -1903,7 +1942,7 @@ void menue_Einstellungen2() // "more..." - more settings
         {
           case 0: // Set power save mode
             powersave=!powersave; 
-            EEPROM.write(10,powersave);
+            writeEEPROM(10,powersave);
             powerdowndelay(pwd_delay);
             break;
           case 1: // Toggle sound
@@ -1916,11 +1955,11 @@ void menue_Einstellungen2() // "more..." - more settings
               aux_aus();
             }
             stumm=!stumm;
-            EEPROM.write(1,stumm);
+            writeEEPROM(1,stumm);
             break;
           case 2: // Set to turn on LCD light with ultrasonic
             ultra_light=!ultra_light; 
-            EEPROM.write(26,ultra_light);
+            writeEEPROM(26,ultra_light);
             powerdowndelay(pwd_delay);
             break;
           case 3: menue_NOKO(); break;
@@ -2319,4 +2358,13 @@ uint8_t readDisk(uint8_t disknummer,uint16_t adresse) // Read an EEPROM
   return rdata;
 }
 
+uint8_t readEEPROM(uint8_t address)
+{
+  return EEPROM.read(address+offset);
+}
+
+void writeEEPROM(uint8_t address, uint8_t data)
+{
+  EEPROM.write(address+offset,data);
+}
 

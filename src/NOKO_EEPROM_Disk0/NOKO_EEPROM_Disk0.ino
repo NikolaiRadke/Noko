@@ -32,7 +32,7 @@
  * freqhigh         17 = 89
  * freqlow          18 = 9
  * klang_mp3        19 = 2
- * firmware         20 = 10 -> 1.0
+ * firmware         20 = 10 -> 1.0 - will stay without offset.
  * station1h        21 = 101
  * station1l        22 = 3
  * station2h        23 = 89
