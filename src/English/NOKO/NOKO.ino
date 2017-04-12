@@ -1,11 +1,11 @@
-/* NOKO V1.0 12.05.2016 - Nikolai Radke
+/* NOKO V1.0 12.04.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.872 (1.8.1 | AVR Core 1.6.17 | Linux x86_64, Windows 10 | No compiler options)
+ * Flash-Usage: 28.876 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -46,7 +46,7 @@
  * ULTRA VCC        5V
  * ULTRA PingPin    D13   (Trigger)
  * ULTRA inPin      D12   (Echo)
- * 24LC256      1   GND   1-3 must be connected to GND for the correct I2C-adress
+ * 24LC256      1   GND   1-3 must be connected to GND for the correct I2C-address
  * 24LC256      2   GND
  * 24LC256      3   GND
  * 24LC256      4   GND
@@ -71,7 +71,7 @@
  * 
  * Unused           A1.A2,A3,D8,D9,(ICSP)
  * 
- * I2C Adress list:
+ * I2C address list:
  * SI4703           0x10 (Radio)
  * LCD              0x27 (Yes it's the LCD. Some Displays have 0x3F!)
  * 24LC256          0x50 (EEPROM 32kb)
@@ -89,10 +89,14 @@
 #define def_external_eeprom   // Using external EEPROM?
 #define def_stories           // Stories on SD card?
 
-// 24LC256 EEPROM adresses
-#define phrase_adress 4000    // Starting adress of the phrases in 24LC256
-#define quote_adress 10000    // Quotations
-#define poem_adress  18000    // Poems
+// Display selection
+#define display_address 0x27   // Blue 
+//#define display_address 0x3F // Yellow
+
+// 24LC256 EEPROM addresses
+#define phrase_address 4000    // Starting address of the phrases in 24LC256
+#define quote_address 10000    // Quotations
+#define poem_address  18000    // Poems
 
 // Timezone GMT+1
 #define ZZ 1 
@@ -108,7 +112,7 @@
 #define minV          2.85
 #define maxV          4.15
 
-// Hardwareadresses PINS
+// Hardwareaddresses PINS
 #define LED 10            // LED -> PWM
 #define inPin 12          // Ultrasonic
 #define Akku 6            // Battery power
@@ -218,7 +222,7 @@ tmElements_t tm;
 #ifdef def_radio
   Si4703 Radio(5,A4,A5);  // RST, SDA, SCL
 #endif
-LiquidCrystal_I2C lcd(0x27,2,1,0,4,5,6,7,3,POSITIVE); // Some Displays have 0x3F
+LiquidCrystal_I2C lcd(display_address,2,1,0,4,5,6,7,3,POSITIVE);
 JQ6500_Serial mp3(2,3); // Software serial connection
 
 //-------------------------------------------------------------------------
@@ -714,7 +718,10 @@ void schlafe(uint8_t wdt_time) // Sleepmode to save power
   if (lcddimm) set_sleep_mode(SLEEP_MODE_IDLE);        // Lowest level for the LED
   else if (dimm) set_sleep_mode(SLEEP_MODE_PWR_DOWN);  // Highest level
   else set_sleep_mode(SLEEP_MODE_STANDBY);             // Lower level to wake up faster
-  sleep_mode();
+  sleep_enable();
+  sleep_bod_disable();                                 // No brown-out detection
+  power_adc_disable();                                 // No need for ADC during sleep
+  sleep_cpu ();                                        // power down !
   wdt_disable();
   WDTCSR &= ~_BV(WDIE);
 }
@@ -2121,9 +2128,9 @@ void phrase() // Phrase event on display
   lcd.print(F("Did you know that..."));
   for (help=0;help<20;help++)
   {
-    zeichen(help,1,(readDisk(Disk1,phrase_adress+(help2*60)+help)));
-    zeichen(help,2,(readDisk(Disk1,phrase_adress+(help2*60)+help+20)));
-    zeichen(help,3,(readDisk(Disk1,phrase_adress+(help2*60)+help+40)));
+    zeichen(help,1,(readDisk(Disk1,phrase_address+(help2*60)+help)));
+    zeichen(help,2,(readDisk(Disk1,phrase_address+(help2*60)+help+20)));
+    zeichen(help,3,(readDisk(Disk1,phrase_address+(help2*60)+help+40)));
   }
   schleife(true,true);
 }
@@ -2134,10 +2141,10 @@ void zitat() // Quotation event on display
   uint8_t help2=newrandom(0,100);
   for (help=0;help<20;help++)
   {
-    zeichen(help,0,(readDisk(Disk1,quote_adress+(help2*80)+help)));
-    zeichen(help,1,(readDisk(Disk1,quote_adress+(help2*80)+help+20)));
-    zeichen(help,2,(readDisk(Disk1,quote_adress+(help2*80)+help+40)));
-    zeichen(help,3,(readDisk(Disk1,quote_adress+(help2*80)+help+60)));
+    zeichen(help,0,(readDisk(Disk1,quote_address+(help2*80)+help)));
+    zeichen(help,1,(readDisk(Disk1,quote_address+(help2*80)+help+20)));
+    zeichen(help,2,(readDisk(Disk1,quote_address+(help2*80)+help+40)));
+    zeichen(help,3,(readDisk(Disk1,quote_address+(help2*80)+help+60)));
   }
   schleife(true,true);
 }
@@ -2148,10 +2155,10 @@ void gedicht() // Poem event on display
   uint8_t help2=newrandom(0,26);
   for (help=0;help<20;help++)
   {
-    zeichen(help,0,(readDisk(Disk1,poem_adress+(help2*80)+help)));
-    zeichen(help,1,(readDisk(Disk1,poem_adress+(help2*80)+help+20)));
-    zeichen(help,2,(readDisk(Disk1,poem_adress+(help2*80)+help+40)));
-    zeichen(help,3,(readDisk(Disk1,poem_adress+(help2*80)+help+60)));
+    zeichen(help,0,(readDisk(Disk1,poem_address+(help2*80)+help)));
+    zeichen(help,1,(readDisk(Disk1,poem_address+(help2*80)+help+20)));
+    zeichen(help,2,(readDisk(Disk1,poem_address+(help2*80)+help+40)));
+    zeichen(help,3,(readDisk(Disk1,poem_address+(help2*80)+help+60)));
   }
   sound_an();
   ton(880,80,false,150);

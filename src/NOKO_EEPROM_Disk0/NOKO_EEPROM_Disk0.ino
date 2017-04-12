@@ -1,5 +1,5 @@
 /*
- * NOKO settings EEPROM and Disk0 V1.01 12.01.2017 - Nikolai Radke
+ * NOKO settings EEPROM and Disk0 V1.02 12.04.2017 - Nikolai Radke
  * 
  * This sketch writes the presets into Arduino EEPROM and the owner name in email
  * into the AT24C32-EEPROM. If there are stories on the SD card an def_stories is
@@ -12,6 +12,7 @@
  * 
  * Arduino-EEPROM:
  * The variables are described in the NOKO sketch.
+ * offset           0 = 0
  * stumm            1 = 0
  * led_dimm         2 = 6
  * alarm_an         3 = 0
@@ -125,6 +126,7 @@ void setup()
     
   
   // Write EEPROM
+  EEPROM.write(0,0);
   EEPROM.write(1,0);
   EEPROM.write(2,6);
   EEPROM.write(3,0);

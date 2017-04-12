@@ -1,11 +1,11 @@
-/* NOKO V1.0 12.05.2016 - Nikolai Radke
+/* NOKO V1.0 12.04.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.996 (1.8.1 | AVR Core 1.6.17 | Linux x86_64, Windows 10 | No compiler options)
+ * Flash-Usage: 29.000 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-120516"
+#define Firmware "-120417"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
@@ -88,6 +88,10 @@
 #define def_radio             // Using Radio?
 #define def_external_eeprom   // Using external EEPROM?
 #define def_stories           // Stories on SD card?
+
+// Display selection
+//#define display_adress 0x27   // Blue 
+#define display_adress 0x3F // Yellow
 
 // 24LC256 EEPROM adresses
 #define phrase_adress 4000    // Starting adress of the phrases in 24LC256
@@ -217,7 +221,7 @@ tmElements_t tm;
 #ifdef def_radio
   Si4703 Radio(5,A4,A5);  // RST, SDA, SCL
 #endif
-LiquidCrystal_I2C lcd(0x27,2,1,0,4,5,6,7,3,POSITIVE); // Some Displays have 0x3F
+LiquidCrystal_I2C lcd(display_adress,2,1,0,4,5,6,7,3,POSITIVE);
 JQ6500_Serial mp3(2,3); // Software serial connection
 
 //-------------------------------------------------------------------------
@@ -236,7 +240,6 @@ init();
   power_spi_disable();       
   power_usart0_disable(); 
   power_timer2_disable();
-  //power_adc_disable(); // Buttons are now ADC!
 
   // Portdefinitions - direct manipulation is much faster and saves flash
   DDRD=B11001000;   // D7-D0 | 1=OUTPUT
@@ -289,7 +292,7 @@ init();
   gt=readDisk(Disk0,0);          // Birthday day
   gm=readDisk(Disk0,1);          // Birthday month
   #ifdef def_stories
-    geschichten=readDisk(Disk0,2); // Numnber of stories
+    geschichten=readDisk(Disk0,2); // Number of stories
   #else
     geschichten=0;
   #endif
@@ -720,7 +723,10 @@ void schlafe(uint8_t wdt_time) // Sleepmode to save power
   if (lcddimm) set_sleep_mode(SLEEP_MODE_IDLE);        // Lowest level for the LED
   else if (dimm) set_sleep_mode(SLEEP_MODE_PWR_DOWN);  // Highest level
   else set_sleep_mode(SLEEP_MODE_STANDBY);             // Lower level to wake up faster
-  sleep_mode();
+  sleep_enable();
+  sleep_bod_disable();                                 // No brown-out detection
+  power_adc_disable();                                 // No need for ADC during sleep
+  sleep_cpu ();                                        // power down !
   wdt_disable();
   WDTCSR &= ~_BV(WDIE);
 }
