@@ -1,4 +1,4 @@
-/* NOKO V1.0 13.04.2017 - Nikolai Radke
+   ,m/* NOKO V1.0 13.04.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-120417"
+#define Firmware "-130417"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
