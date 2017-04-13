@@ -2357,12 +2357,12 @@ uint8_t readDisk(uint8_t disknummer,uint16_t adresse) // Read an EEPROM
   return rdata;
 }
 
-uint8_t readEEPROM(uint8_t address)
+uint8_t readEEPROM(uint8_t address) // read internal EEPROM with offset
 {
   return EEPROM.read(address+offset);
 }
 
-void writeEEPROM(uint8_t address, uint8_t data)
+void writeEEPROM(uint8_t address, uint8_t data) // write internal EEPROM with offset
 {
   EEPROM.write(address+offset,data);
 }
