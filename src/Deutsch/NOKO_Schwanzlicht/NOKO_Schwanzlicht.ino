@@ -1,11 +1,11 @@
-/* NOKO V1.0 12.04.2017 - Nikolai Radke
+/* NOKO V1.0 13.04.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster with additional flexible tail light - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 29.640 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler Options)
+ * Flash-Usage: 29.194 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler Options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -83,7 +83,7 @@
 */
 
 // Softwareversion
-#define Firmware "-120417"
+#define Firmware "-130417"
 #define Version 11  // 1.1          // With tail light addon
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
@@ -772,45 +772,19 @@ void check_sommerzeit() // Compare summertime with EEPROM and set clock
     setTime(tm.Hour,tm.Minute,tm.Second,tm.Day,tm.Month,j);
     tm.Year=CalendarYrToTm(j);
     RTC.write(tm);                  // Write RTC
+    writeEEPROM(16+offset,sommer);  // Write Summertime flag
     copy_eeprom();                  // Move EEPROM to new address
   }
 }
 
 void copy_eeprom() // Copy EEPROM to new address
 {
-  offset+=30;
-  if (offset==990) 
-  {
-    offset=0;        // After 33 cyles (= 16,5 years) start form 0
-    EEPROM.write(0,offset);
-  }
-  writeEEPROM(0,offset/30);
-  writeEEPROM(1+offset,stumm); 
-  writeEEPROM(2+offset,led_dimm);
-  writeEEPROM(3+offset,alarm_an);
-  writeEEPROM(4+offset,alarmmm);
-  writeEEPROM(5+offset,alarmhh);
-  writeEEPROM(6+offset,klang);
-  writeEEPROM(7+offset,klang_ton);
-  writeEEPROM(8+offset,ultra_distanz);
-  writeEEPROM(9+offset,eventsteller);
-  writeEEPROM(10+offset,powersave);
-  writeEEPROM(11+offset,nachtmodus);
-  writeEEPROM(12+offset,nachtahh);
-  writeEEPROM(13+offset,nachtamm);
-  writeEEPROM(14+offset,nachtbhh);
-  writeEEPROM(15+offset,nachtbmm);
-  writeEEPROM(16+offset,sommer);
-  writeEEPROM(18+offset,freq%10); 
-  writeEEPROM(17+offset,(freq-(freq%10))/10);    
-  writeEEPROM(19+offset,klang_mp3); 
-  for (uint8_t help=0;help<3;help++)
-  {
-    writeEEPROM(22+(help*2)+offset,station[help]%10);
-    writeEEPROM(21+(help*2)+offset,(station[help]-(station[help]%10))/10);
-  }  
-  writeEEPROM(27+offset,ultra_light);
-  writeEEPROM(28+offset,nachtdimm);
+  uint16_t new_offset=offset+30;
+  if (offset==990) new_offset=0;    // After 33 cyles (= 16,5 years) start form 0
+  for (uint8_t help=1;help<30;help++)
+    writeEEPROM(help+new_offset,readEEPROM(help+offset));  
+  offset=new_offset;        
+  EEPROM.write(0,offset/30);
 }
 
 void uhrzeit() // Draw clock, power level and flags
