@@ -1,4 +1,4 @@
-   ,m/* NOKO V1.0 13.04.2017 - Nikolai Radke
+ /* NOKO V1.0 13.04.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
