@@ -1,11 +1,11 @@
-/* NOKO V1.0 13.04.2017 - Nikolai Radke
+/* NOKO V1.0 19.04.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster with additional flexible tail light - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 29.194 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler Options)
+ * Flash-Usage: 29.210 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler Options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -83,7 +83,7 @@
 */
 
 // Softwareversion
-#define Firmware "-130417"
+#define Firmware "-190417"
 #define Version 11  // 1.1          // With tail light addon
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
@@ -732,9 +732,11 @@ void schlafe(uint8_t wdt_time) // Sleepmode to save power
   sleep_enable();
   sleep_bod_disable();                                 // No brown-out detection
   power_adc_disable();                                 // No need for ADC during sleep
-  sleep_cpu ();                                        // power down !
+  sleep_cpu();                                         // power down!
+  sleep_disable();                                     // Good morning
   wdt_disable();
   WDTCSR &= ~_BV(WDIE);
+  power_adc_enable();                                  // ADC, we need you again
 }
 
 void powerdowndelay(uint8_t ms) // Calls schlafe() with watchdog-times
