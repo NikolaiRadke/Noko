@@ -5,7 +5,7 @@
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 29.210 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler Options)
+ * Flash-Usage: 29.208 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler Options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -2047,7 +2047,7 @@ void menue_NOKO() // "Mein NOKO" - about NOKO and secret menue
           lcd.print(F("RAM:  "));
           lcd.print(freeRam()); // Print free bytes
           lcd.print(F(" T: "));
-          lcd.print(getTemperature(),0); // Internal temperature
+          lcd.print(RTC.getTemp(),0); // Internal temperature
           lcd.print(char(223));
           lcd.setCursor(0,3);
           lcd.print(F("Akku:"));
@@ -2295,17 +2295,6 @@ void alarmton(uint8_t klangnummer) // 6 alarm tunes
       break;
   }  
 } 
-
-float getTemperature() // Internal temperature
-{
-  uint8_t help;
-  Wire.beginTransmission(0x68);
-  Wire.write(uint8_t(0x11));
-  Wire.endTransmission();
-  Wire.requestFrom(0x68,2);
-  help = Wire.read();
-  return float(help)+0.25*(Wire.read()>>6);
-}
 
 void radio_ein() // Radio on
 {
