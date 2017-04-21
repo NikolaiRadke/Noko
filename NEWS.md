@@ -1,5 +1,6 @@
 # Newsblog
 
+* **19.04.2017** - Firmware **1.0-190417** - Fixed ADC bug after power safe mode.  
 * **13.04.2017** - Well - it is **1.0-130417** now. Found a more flash-saving way.   
 * **12.04.2017** - New firmware **1.0-120417** is out. After 11 month NOKO gets some small enhancements:
   * Custom chars are now in PROGMEM.
