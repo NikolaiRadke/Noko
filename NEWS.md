@@ -1,5 +1,6 @@
 # Newsblog
 
+## 2017
 * **27.04.2017** - Tested compiling options in platform.txt. They are working again with IDE 1.8.2. This saves about 800 bytes flash. Not much, maybe the savings be useful for future enhancements.  
 * **19.04.2017** - Firmware **1.0-190417** - Fixed ADC bug after power safe mode.  
 * **13.04.2017** - Well - it is **1.0-130417** now. Found a more flash-saving way.   
@@ -15,6 +16,8 @@
 * **13.01.2017** - New IDE 1.8.1 with AVR Core 1.6.17 works.  
 * **12.01.2017** - Added Windows 10 support for burning the eeproms.  
 * **05.01.2017** - **Hardware bug found**: The resistor at D2 moved to D3.  
+  
+## 2016
 * **24.12.2016** - Merry Xmas. A good time to test new 1.8.0 IDE. Works.  
 * **15.12.2016** - The third issue of the Make magazin is out: [https://shop.heise.de/katalog/make-06-2016].  
 * **02.12.2016** - New IDE 1.6.13 is out. Works, but still no compiling options possible. (Deja Vu)  
