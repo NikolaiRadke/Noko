@@ -32,7 +32,7 @@ with the lines below. Without these options the compiled sketch would exceed the
 
 Alas, until now I wasn't able to find out more about *platform.local.txt*, which allows the user to define a specific platform.txt locally for each sketch. So better backup your old platform.txt to save your old compiler options. 
 
-### Linux and Windows 1.6.10 (optional, saves flash)
+### Linux and Windows 1.8.2 and higher (optional, saves about 700 byte flash)
 
 ```
 # These can be overridden in platform.local.txt
