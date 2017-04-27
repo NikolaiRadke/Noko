@@ -33,7 +33,7 @@
 * **28.07.2016** - Reanimated a newsblog. For you and me and NOKO.  
 
 ## 2015  
-* **04/2016** - Fourth NOKO - Second full-featured NOKO, used for the Wiki  
-* **09/2015** - Third NOKO - First full-featured NOKO  
-* **04/2015** - Second NOKO - Second Prototype  
-* **01/2015** - First NOKO was build - Prototype  
+* **04/2016** - NOKO #4 - Second full-featured NOKO, used for the Wiki  
+* **09/2015** - NOKO #3 - First full-featured NOKO. Third prototype  
+* **04/2015** - NOKO #2 - Second prototype  
+* **01/2015** - NOKO #1 - First prototype  
