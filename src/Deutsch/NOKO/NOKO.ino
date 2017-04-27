@@ -5,7 +5,7 @@
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 29.096 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler options)
+ * Flash-Usage: 29.036 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -16,7 +16,7 @@
  * char()-list: 32=space 37=% 46=. 47=/ 48=0 58=: 68=D 78=N 80=P 82=R 83=S 86=V 87=W
  *              110=n 120=x | 225=ä 226=ß 239=ö 245=ü (German only)
  *         
- * TODO:    
+ * TODO:
  *         
  * KNOWN BUGS:
  * Due to bad programming the summertime/wintertime will switch at 04:00, not 02:00.
@@ -67,7 +67,7 @@
  * Speaker VCC      D11   (PWM)
  * Speaker GND      GND
  * Battery VCC      A6    
- * USB VCC          A7    with 1kOhm and zenerdiode
+ * USB VCC          A7    with 1kOhm
  * 
  * Unused           A1.A2,A3,D8,D9,(ICSP)
  * 
@@ -98,7 +98,7 @@
 #define quote_address 10000    // Quotations
 #define poem_address  18000    // Poems
 
-// Timezone GMT+1
+// Timezone GMT+1=1
 #define ZZ 1 
 
 // Developer options
@@ -2357,4 +2357,6 @@ void writeEEPROM(uint8_t address, uint8_t data) // write internal EEPROM with of
 {
   EEPROM.write(address+offset,data);
 }
+
+
 

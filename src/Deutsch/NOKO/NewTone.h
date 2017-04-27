@@ -29,6 +29,7 @@
 //
 // HISTORY:
 // 01/20/2013 v1.0 - Initial release.
+// 04/26/2017 - Changed frequency and length to uint16_t for NOKO to save flash
 //
 // ---------------------------------------------------------------------------
 
@@ -45,9 +46,11 @@
     #define TIMSK1 TIMSK
   #endif
 
-  void NewTone(uint8_t pin, unsigned long frequency, unsigned long length = 0);
+  void NewTone(uint8_t pin, uint16_t frequency, uint16_t length = 0);
   void noNewTone(uint8_t pin = 0);
 #endif
+
+
 
 
 

@@ -25,6 +25,7 @@
                      examples, add error checking and messages to RTC examples,
                      add examples to DS1307RTC library.
   1.4  5  Sep 2014 - compatibility with Arduino 1.5.7
+       27 Apr 2017 - Variable adjustments for NOKO
 */
 
 #if ARDUINO >= 100
@@ -46,20 +47,20 @@ void refreshCache(time_t t) {
   }
 }
 
-int hour() { // the hour now 
+uint8_t hour() { // the hour now 
   return hour(now()); 
 }
 
-int hour(time_t t) { // the hour for the given time
+uint8_t hour(time_t t) { // the hour for the given time
   refreshCache(t);
   return tm.Hour;  
 }
 
-int hourFormat12() { // the hour now in 12 hour format
+uint8_t hourFormat12() { // the hour now in 12 hour format
   return hourFormat12(now()); 
 }
 
-int hourFormat12(time_t t) { // the hour for the given time in 12 hour format
+uint8_t hourFormat12(time_t t) { // the hour for the given time in 12 hour format
   refreshCache(t);
   if( tm.Hour == 0 )
     return 12; // 12 midnight
@@ -69,72 +70,70 @@ int hourFormat12(time_t t) { // the hour for the given time in 12 hour format
     return tm.Hour ;
 }
 
-uint8_t isAM() { // returns true if time now is AM
+bool isAM() { // returns true if time now is AM
   return !isPM(now()); 
 }
 
-uint8_t isAM(time_t t) { // returns true if given time is AM
+bool isAM(time_t t) { // returns true if given time is AM
   return !isPM(t);  
 }
 
-uint8_t isPM() { // returns true if PM
+bool isPM() { // returns true if PM
   return isPM(now()); 
 }
 
-uint8_t isPM(time_t t) { // returns true if PM
+bool isPM(time_t t) { // returns true if PM
   return (hour(t) >= 12); 
 }
 
-int minute() {
+uint8_t minute() {
   return minute(now()); 
 }
 
-int minute(time_t t) { // the minute for the given time
+uint8_t minute(time_t t) { // the minute for the given time
   refreshCache(t);
   return tm.Minute;  
 }
 
-int second() {
+uint8_t second() {
   return second(now()); 
 }
 
-int second(time_t t) {  // the second for the given time
+uint8_t second(time_t t) {  // the second for the given time
   refreshCache(t);
   return tm.Second;
 }
 
-int day(){
+uint8_t day(){
   return(day(now())); 
 }
-
-int day(time_t t) { // the day for the given time (0-6)
+uint8_t day(time_t t) { // the day for the given time (0-6)
   refreshCache(t);
   return tm.Day;
 }
 
-int weekday() {   // Sunday is day 1
+uint8_t weekday() {   // Sunday is day 1
   return  weekday(now()); 
 }
 
-int weekday(time_t t) {
+uint8_t weekday(time_t t) {
   refreshCache(t);
   return tm.Wday;
 }
    
-int month(){
+uint8_t month(){
   return month(now()); 
 }
 
-int month(time_t t) {  // the month for the given time
+uint8_t month(time_t t) {  // the month for the given time
   refreshCache(t);
   return tm.Month;
 }
 
-int year() {  // as in Processing, the full four digit year: (2009, 2010 etc) 
+uint16_t year() {  // as in Processing, the full four digit year: (2009, 2010 etc) 
   return year(now()); 
 }
-
-int year(time_t t) { // the year for the given time
+uint16_t year(time_t t) { // the year for the given time
   refreshCache(t);
   return tmYearToCalendar(tm.Year);
 }
@@ -156,7 +155,7 @@ void breakTime(time_t timeInput, tmElements_t &tm){
   uint8_t year;
   uint8_t month, monthLength;
   uint32_t time;
-  unsigned long days;
+  uint32_t days;
 
   time = (uint32_t)timeInput;
   tm.Second = time % 60;
@@ -319,10 +318,4 @@ void setSyncInterval(time_t interval){ // set the number of seconds between re-s
   syncInterval = (uint32_t)interval;
   nextSyncTime = sysTime + syncInterval;
 }
-
-
-
-
-
-
 

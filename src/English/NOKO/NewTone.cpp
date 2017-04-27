@@ -1,5 +1,6 @@
 // ---------------------------------------------------------------------------
 // Created by Tim Eckel - teckel@leethost.com
+// Slighty modified for NOKO
 // Copyright 2013 License: GNU GPL v3 http://www.gnu.org/licenses/gpl-3.0.html
 //
 // See "NewTone.h" for purpose, syntax, version history, links, and more.
@@ -7,11 +8,11 @@
 
 #include "NewTone.h"
 
-unsigned long _nt_time;       // Time note should end.
+uint16_t _nt_time;            // Time note should end.
 uint8_t _pinMask = 0;         // Pin bitmask.
 volatile uint8_t *_pinOutput; // Output port register
 
-void NewTone(uint8_t pin, unsigned long frequency, unsigned long length) {
+void NewTone(uint8_t pin, uint16_t frequency, uint16_t length) {
   uint8_t prescaler = _BV(CS10);                 // Try using prescaler 1 first.
   unsigned long top = F_CPU / frequency / 4 - 1; // Calculate the top.
   if (top > 65535) {                             // If not in the range for prescaler 1, use prescaler 256 (61 Hz and lower @ 16 MHz).
@@ -47,6 +48,23 @@ ISR(TIMER1_COMPA_vect) { // Timer interrupt vector.
   if (millis() >= _nt_time) noNewTone(); // Check to see if it's time for the note to end.
   *_pinOutput ^= _pinMask; // Toggle the pin state.
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
