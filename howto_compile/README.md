@@ -32,7 +32,7 @@ with the lines below. Without these options the compiled sketch would exceed the
 
 Alas, until now I wasn't able to find out more about *platform.local.txt*, which allows the user to define a specific platform.txt locally for each sketch. So better backup your old platform.txt to save your old compiler options. 
 
-### Linux and Windows 1.8.2 and higher (optional, saves about 700 byte flash)
+### Linux and Windows with IDE 1.8.2 and higher (optional, saves about 700 byte flash)
 
 ```
 # These can be overridden in platform.local.txt
@@ -45,7 +45,7 @@ compiler.objcopy.eep.extra_flags=
 compiler.elf2hex.extra_flags=
 ```  
 
-### Linux 1.6.9 and below  
+### Linux with IDE 1.6.9 and below  
 
 ```
 # These can be overridden in platform.local.txt
@@ -58,7 +58,7 @@ compiler.ar.extra_flags=
 compiler.objcopy.eep.extra_flags=
 compiler.elf2hex.extra_flags=
 ```
-### Windows 1.6.9 and below  
+### Windows with IDE 1.6.9 and below  
 ```
 # These can be overridden in platform.local.txt
 # Compiling options for NOKO and NOKO.ino
