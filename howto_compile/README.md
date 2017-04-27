@@ -9,7 +9,7 @@ Linux: with IDE 1.6.6-1.6.9 use AVR Core 1.6.9 and see intructions below.
 Windows: IDE 1.6.6-1.6.9 will *not* work without Optiboot. Install Optiboot and see intructions below.
 
 ### Note:
-The sketch will **not** run without the Si4703 radio module. If you want to test it anyway, you have to modify *NOKO,ino*. Change the line  
+The sketch will **not** run without the Si4703 radio module. If you want to test it anyway, you have to modify *NOKO.ino*. Change the line  
 ```#define def_radio 1           // Using Radio?```   
 in the beginning of the sketch into   
 ```//#define def_radio 1           // Using Radio?```    
