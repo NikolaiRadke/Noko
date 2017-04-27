@@ -31,3 +31,9 @@
 * **29.07.2016** - IDE 1.6.10 now has LTO, even Windows version! Optiboot and compiler options are not needed anymore, but still recommended.  
 * **28.07.2016** - New IDE 1.6.10 is out. Works with NOKO.ino. 
 * **28.07.2016** - Reanimated a newsblog. For you and me and NOKO.  
+
+## 2015  
+* **04/2016** - Fourth NOKO - Second full-featured NOKO, used for the Wiki  
+* **09/2015** - Third NOKO - First full-featured NOKO  
+* **04/2015** - Second NOKO - Second Prototype  
+* **01/2015** - First NOKO was build - Prototype  
