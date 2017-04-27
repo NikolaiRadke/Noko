@@ -32,14 +32,3 @@
 * **28.07.2016** - New IDE 1.6.10 is out. Works with NOKO.ino. 
 * **28.07.2016** - Reanimated the newsblog. For you and me and NOKO.  
 * **06.01.2016** - Joined GitHub  
-
-## 2015  
-* **04/2016** - NOKO #4 - Second full-featured NOKO, used for the Wiki  
-* **09/2015** - NOKO #3 - First full-featured NOKO. Third prototype  
-* **04/2015** - NOKO #2 - Second prototype  
-* **01/2015** - NOKO #1 - First prototype: 
-  * Other Radio without RDS (TEA5767).
-  * Other MP3-Player with less features (WT5001-28p).
-  * Mono amplifier.  
-  * No AUX.  
-  * No external EEPROM. 
