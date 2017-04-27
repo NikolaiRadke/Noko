@@ -36,4 +36,4 @@
 * **04/2016** - NOKO #4 - Second full-featured NOKO, used for the Wiki  
 * **09/2015** - NOKO #3 - First full-featured NOKO. Third prototype  
 * **04/2015** - NOKO #2 - Second prototype  
-* **01/2015** - NOKO #1 - First prototype  
+* **01/2015** - NOKO #1 - First prototype: Other Radio without RDS, other MP3-Player with less Features, MONO, no AUX, no external EEPROM. 
