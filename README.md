@@ -28,18 +28,14 @@ NOKO needs Arduino IDE 1.6.6 - [1.8.2](https://www.arduino.cc/en/Main/Software) 
 NOKO/
 ├── howto_compile/
 |   Hints compile the sketches in your Arduino IDE and a modified platform.txt for IDE 1.6.11
-|   ├── linux-1_6_9_and_lower/
-|   |   Modified platform.txt for Linux with IDE 1.6.9 and below
-|   ├── precompiled/
-|   |   Precompiled hex-files and windows tools
-|   |   ├── Deutsch/
-|   |   |   German Versions
-|   |   ├── English/
-|   |   |   English Versions
-|   |   └── avrdude_win/
-|   |       avrdude files for windows/
-|   └── windows-1_6_9_and_lower/
-|       Modified platform.txt for Windows with IDE 1.6.9 and below
+|   └── precompiled/
+|       Precompiled hex-files and windows tools
+|       ├── Deutsch/
+|       |   German Versions
+|       ├── English/
+|       |   English Versions
+|       └── avrdude_win/
+|           avrdude files for windows/
 |
 ├── manual/
 |   NOKO manual in PDF format and a template for a packaging desin.
