@@ -15,5 +15,5 @@ I started wasting my time in March, 2014.
 
 # More FAQ (German)
 See project page of Make Magazin:  
-[http://www.make-magazin.de/xsf4](http://www.make-magazin.de/xsf4)  
+[NOKO-FAQ](https://www.heise.de/make/artikel/Noko-FAQ-3618296.html)  
 
