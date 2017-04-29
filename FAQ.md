@@ -13,7 +13,7 @@ You got a good idea? Write me!
 I started wasting my time in March, 2014.  
 
 
-## More FAQ (German)
+# More FAQ (German)
 See project page of Make Magazin:  
 [http://www.make-magazin.de/xsf4](http://www.make-magazin.de/xsf4)  
 
