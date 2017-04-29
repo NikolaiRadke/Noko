@@ -10,8 +10,10 @@ Yes, there are, but the LC display should be an easy-to-read clock and a lightso
 You got a good idea? Write me!
 
 ### When did your work on NOKO start?
-I started wasting my time in March, 2014.
+I started wasting my time in March, 2014.  
+
 
 ## More FAQ (German)
-See project page of Make Magazin: [http://www.make-magazin.de/xsf4](http://www.make-magazin.de/xsf4)  
+See project page of Make Magazin:  
+[http://www.make-magazin.de/xsf4](http://www.make-magazin.de/xsf4)  
 
