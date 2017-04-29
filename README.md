@@ -16,9 +16,8 @@ There are a German and an English version. Right now, the building wiki, the voi
 NOKO needs Arduino IDE 1.6.6 - [1.8.2](https://www.arduino.cc/en/Main/Software) Copy the folder `NOKO/src/[language]/NOKO/` into your sketch folder. When using 1.6.10-1.8-0 with AVR core 1.6.12-1.6.18, everythin will compile out-of-the-box. With 1.6.9 or lower, *NOKO.ino* won't compile, the sketch size is too large. 
 
 **Option 1:** Install newest  [IDE](https://www.arduino.cc/en/Main/Software) and relax.  
-**Option 2:** If you are using IDE 1.6.9 or lower, you need to install [Optiboot](https://github.com/Optiboot/optiboot) onto your Nano.   
-**Option 3:** See [how to compile](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile) to set compiler options.  
-**Option 4:** Take one of the precompiled hex-files and follow the instructions in [how to compile](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile).  
+**Option 2:** If you are using IDE 1.6.9 or lower, you need to install [Optiboot](https://github.com/Optiboot/optiboot) onto your Nano.  
+**Option 3:** Take one of the precompiled hex-files and follow the instructions in [how to compile](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile).  
 
 **In any case, Optiboot is strongly recommended.**
 
