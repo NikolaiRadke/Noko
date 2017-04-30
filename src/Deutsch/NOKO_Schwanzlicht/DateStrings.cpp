@@ -7,6 +7,7 @@
  * You can change the text of the strings, make sure the short strings are each exactly 3 characters 
  * the long strings can be any length up to the constant dt_MAX_STRING_LEN defined in Time.h
  * 
+ * Modified for NOKO 30.04.2017
  */
 
 #if defined(__AVR__)
@@ -50,13 +51,13 @@ const PROGMEM char * const PROGMEM monthNames_P[] =
 const char monthShortNames_P[] PROGMEM = "ErrJanFebMarAprMayJunJulAugSepOctNovDec";
 
 const char dayStr0[] PROGMEM = "";
-const char dayStr1[] PROGMEM = "Sunday";
-const char dayStr2[] PROGMEM = "Monday";
-const char dayStr3[] PROGMEM = "Tuesday";
-const char dayStr4[] PROGMEM = "Wednesday";
-const char dayStr5[] PROGMEM = "Thursday";
-const char dayStr6[] PROGMEM = "Friday";
-const char dayStr7[] PROGMEM = "Saturday";
+const char dayStr1[] PROGMEM = "Sonntag";
+const char dayStr2[] PROGMEM = "Montag";
+const char dayStr3[] PROGMEM = "Dienstag";
+const char dayStr4[] PROGMEM = "Mittwoch";
+const char dayStr5[] PROGMEM = "Donn.tag";
+const char dayStr6[] PROGMEM = "Freitag";
+const char dayStr7[] PROGMEM = "Samstag";
 
 const PROGMEM char * const PROGMEM dayNames_P[] =
 {
@@ -95,5 +96,6 @@ char* dayShortStr(uint8_t day)
    buffer[dt_SHORT_STR_LEN] = 0; 
    return buffer;
 }
+
 
 

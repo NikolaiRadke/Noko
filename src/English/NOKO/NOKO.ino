@@ -1,11 +1,11 @@
-/* NOKO V1.0 19.04.2017 - Nikolai Radke
+/* NOKO V1.0 30.04.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.222 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 28.182 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -927,13 +927,13 @@ boolean check_alarm() // Is it time for the alarm?
   if ((alarm_an) && (!alarm_jetzt))  // Prevent double check
   {
     zeit();                          // Check RTC
-    if ((!alarm_mute) && (alarm_an)) // Is alarm allowed?
+    if (!alarm_mute)                 // Is alarm allowed?
       if ((alarmmm==tm.Minute) && (alarmhh==tm.Hour)) 
       {
         alarm();                     // Yes! Alarm!
         return true;
       }
-    if ((alarm_an) && (alarmmm!=tm.Minute)) alarm_mute=false; // Other time - mute off
+    if ((alarmmm!=tm.Minute)) alarm_mute=false; // Other time - mute off
   }
   return false;
 }
@@ -2312,14 +2312,12 @@ int16_t freeRam() // Free RAM in bytes
 
 uint8_t readDisk(uint8_t disknummer,uint16_t adresse) // Read an EEPROM
 {
-  uint8_t rdata = 0xFF; 
   Wire.beginTransmission(disknummer);
   Wire.write((uint16_t)(adresse >> 8));   
   Wire.write((uint16_t)(adresse & 0xFF)); 
   Wire.endTransmission();
   Wire.requestFrom(disknummer,1);
-  if (Wire.available()) rdata = Wire.read();
-  return rdata;
+  return Wire.read();
 }
 
 uint8_t readEEPROM(uint8_t address) // read internal EEPROM with offset
