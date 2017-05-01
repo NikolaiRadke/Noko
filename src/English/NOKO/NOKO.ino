@@ -107,6 +107,7 @@
 #define sensor        10  // Ultrasonic: with cover 10, without 25
 #define vol_mp3       30  // JQ6500 volume 0-30
 #define vol_radio     10  // Si4703 volume 0-15
+#define def_sysinfo       // Sysinfo menu - comment out of additional 640 bytes
 
 // Battery calculation
 #define minV          2.85
@@ -1976,54 +1977,58 @@ void menue_NOKO() // "My NOKO" - about NOKO and secret menue
   bignum(17,0,Version%10);
   lcd.setCursor(0,3);
   lcd.print(F(Build_by)); 
-  while (wahl!=4) // Secret menu, when right then left are pressed
+    while (wahl!=4) // Secret menu, when right then left are pressed
   {
+    #ifdef def_sysinfo
     wahl=taste(false);
     if (taste(false)==2) 
       while (wahl!=4) 
       {
         wahl=taste(false);
-        if (taste(false)==3) 
-        {
-          lcd.clear();
-          lcd.setCursor(0,0);
-          lcd.print(F("Firmware: "));
-          lcd.print(Version/10); // Firmware
-          lcd.print(char(46));
-          lcd.print(Version%10);
-          lcd.print(F(Firmware));
-          lcd.setCursor(0,1);
-          lcd.print(F("I2C: "));  // Show all I2C devices
-          for (help=8;help<120;help++)
-          {
-            Wire.beginTransmission(help);
-            if (Wire.endTransmission()==0)
-            {
-              lcd.print(char(120));
-              lcd.print(help,HEX);
-            }
-           }
-          lcd.setCursor(0,2);
-          lcd.print(F("RAM:  "));
-          lcd.print(freeRam()); // Print free bytes
-          lcd.print(F(" T: "));
-          lcd.print(RTC.getTemp(),0); // Internal temperature
-          lcd.print(char(223));
-          lcd.setCursor(0,3);
-          lcd.print(F("Batt:"));
-          lcd.setCursor(11,3); // Print sommertime/wintertime flag
-          lcd.print(F("T: "));
-          (sommer)? lcd.print(char(83)):lcd.print(char(87));
-          while (wahl!=4)
-          {
-            wahl=taste(true);
-            lcd.setCursor(6,3);
-            lcd.print(float(analogRead(Akku)*5.0/1024.0));
-            stopdelay(100);
-          }      
-        }
-      }
+        if (taste(false)==3) sysinfo();
+      }  
+    #endif
   }
+}
+
+void sysinfo() // Hidden status menu
+{
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print(F("Firmware: "));
+  lcd.print(Version/10); // Firmware
+  lcd.print(char(46));
+  lcd.print(Version%10);
+  lcd.print(F(Firmware));
+  lcd.setCursor(0,1);
+  lcd.print(F("I2C: "));  // Show all I2C devices
+  for (uint8_t help=8;help<120;help++)
+  {
+    Wire.beginTransmission(help);
+    if (Wire.endTransmission()==0)
+    {
+      lcd.print(char(120));
+      lcd.print(help,HEX);
+    }
+  }
+  lcd.setCursor(0,2);
+  lcd.print(F("RAM:  "));
+  lcd.print(freeRam()); // Print free bytes
+  lcd.print(F(" T: "));
+  lcd.print(RTC.getTemp(),0); // Internal temperature
+  lcd.print(char(223));
+  lcd.setCursor(0,3);
+  lcd.print(F("Batt:"));
+  lcd.setCursor(11,3); // Print sommertime/wintertime flag
+  lcd.print(F("Z: "));
+  (sommer)? lcd.print(char(83)):lcd.print(char(87));
+  while (wahl!=4)
+  {
+    wahl=taste(true);
+    lcd.setCursor(6,3);
+    lcd.print(float(analogRead(Akku)*5.0/1024.0));
+    stopdelay(100);
+  }      
 }
 
 void event() // Time bases events
