@@ -5,7 +5,7 @@
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.414 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler Options)
+ * Flash-Usage: 27.646 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler Options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -227,7 +227,7 @@ tmElements_t tm;
 #ifdef def_radio
   Si4703 Radio(5,A4,A5);  // RST, SDA, SCL
 #endif
-LiquidCrystal_I2C lcd(display_address,2,1,0,4,5,6,7,3,POSITIVE);
+LiquidCrystal_I2C lcd(display_address,20,4);
 JQ6500_Serial mp3(2,3); // Software serial connection
 
 //-------------------------------------------------------------------------
@@ -254,6 +254,9 @@ init();
   PORTD=B01000000;  // D6 MOSFET HIGH: Turn off amplifier to prevent startup noise
   //PORTB=B00000000; 
   PORTC=B00000001;  // A0: INPUT_PULLUP 
+    
+  // Start display light
+  lcd.backlight();
 
   // Start JQ6500
   mp3.begin(9600);
