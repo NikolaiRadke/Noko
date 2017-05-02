@@ -80,18 +80,18 @@
 */
 
 // Softwareversion
-#define Firmware "-190417"
+#define Firmware "-010517"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
 // Features on/off - comment out to disable
-#define def_radio             // Using Radio?
-#define def_external_eeprom   // Using external EEPROM?
-#define def_stories           // Stories on SD card?
+//#define def_radio             // Using Radio?
+//#define def_external_eeprom   // Using external EEPROM?
+//#define def_stories           // Stories on SD card?
 
 // Display selection
-#define display_address 0x27   // Blue 
-//#define display_address 0x3F // Yellow
+//#define display_address 0x27   // Blue 
+#define display_address 0x3F // Yellow
 
 // 24LC256 EEPROM addresses
 #define phrase_address 4000    // Starting address of the phrases in 24LC256
