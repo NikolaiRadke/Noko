@@ -83,7 +83,7 @@
 */
 
 // Softwareversion
-#define Firmware "-190417"
+#define Firmware "-010517"
 #define Version 11  // 1.1          // With tail light addon
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
