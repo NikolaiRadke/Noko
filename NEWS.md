@@ -2,8 +2,8 @@
 
 ## 2017
 * **02.05.2017** - **Release V1.0-010517** 
-First release after initial 120516. Optimized und bugfixed 130417. Now there is enough flash free for future enhancements.
-* **27.04.2017** - Tested compiling options in platform.txt. They are working again with IDE 1.8.2. This saves about 800 bytes flash. Not much, the savings may be useful for future enhancements.  
+First release after initial 120516. Optimized and bugfixed 130417. Now there is enough flash free for future enhancements. Feel free to contact me for ideas, bugs and suggestions.  
+* **27.04.2017** - Tested compiling options in platform.txt. They are working again with IDE 1.8.2. This saves about 800 bytes flash.  
 * **19.04.2017** - Firmware **1.0-190417** - Fixed ADC bug after power safe mode.  
 * **13.04.2017** - Well - it is **1.0-130417** now. Found a more flash-saving way.   
 * **12.04.2017** - New firmware **1.0-120417** is out. After 11 month NOKO gets some small enhancements:
