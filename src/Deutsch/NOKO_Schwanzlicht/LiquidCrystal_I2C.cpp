@@ -50,7 +50,7 @@ LiquidCrystal_I2C::LiquidCrystal_I2C(uint8_t lcd_Addr,uint8_t lcd_cols,uint8_t l
   _Addr = lcd_Addr;
   _cols = lcd_cols;
   _rows = lcd_rows;
-  _backlightval = LCD_NOBACKLIGHT;
+  _backlightval = LCD_BACKLIGHT; // Modified for NOKO
 }
 
 void LiquidCrystal_I2C::init(){
@@ -323,3 +323,4 @@ void LiquidCrystal_I2C::draw_vertical_graph(uint8_t row, uint8_t column, uint8_t
 void LiquidCrystal_I2C::setContrast(uint8_t new_val){}
 
 	
+

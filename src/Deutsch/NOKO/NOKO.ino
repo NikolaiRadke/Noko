@@ -5,7 +5,7 @@
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.532 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
+ * Flash-Usage: 27.530 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -16,7 +16,7 @@
  * char()-list: 32=space 37=% 46=. 47=/ 48=0 58=: 68=D 78=N 80=P 82=R 83=S 86=V 87=W
  *              110=n 120=x | 225=ä 226=ß 239=ö 245=ü (German only)
  *         
- * TODO: Renaming all variables and constants in... well... concrete and english.
+ * TODO: Testing LCD backlight
  *         
  * KNOWN BUGS:
  * Due to bad programming the summertime/wintertime will switch at 04:00, not 02:00.
@@ -107,7 +107,7 @@
 #define sensor        25  // Ultrasonic: with cover 10, without 25
 #define vol_mp3       30  // JQ6500 volume 0-30
 #define vol_radio     10  // Si4703 volume 0-15
-#define def_sysinfo       // Sysinfo menu - comment out of additional 640 bytes
+#define def_sysinfo       // Sysinfo menu - comment out for additional 640 bytes
 
 // Battery calculation
 #define minV          2.85
@@ -250,9 +250,6 @@ init();
   PORTD=B01000000;  // D6 MOSFET HIGH: Turn off amplifier to prevent startup noise
   //PORTB=B00000000; 
   PORTC=B00000001;  // A0: INPUT_PULLUP 
-
-  // Start display light
-  lcd.backlight();
 
   // Start JQ6500
   mp3.begin(9600);
@@ -2353,4 +2350,5 @@ void writeEEPROM(uint8_t address, uint8_t data) // write internal EEPROM with of
 {
   EEPROM.write(address+offset,data);
 }
+
 

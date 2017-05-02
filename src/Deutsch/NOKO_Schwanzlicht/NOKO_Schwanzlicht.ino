@@ -1,11 +1,11 @@
-/* NOKO V1.0 30.04.2017 - Nikolai Radke
+/* NOKO V1.0 01.05.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster with additional flexible tail light - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.646 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler Options)
+ * Flash-Usage: 27.644 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler Options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -110,7 +110,7 @@
 #define sensor        25  // Ultrasonic: with cover 10, without 25
 #define vol_mp3       30  // JQ6500 volume 0-30
 #define vol_radio     10  // Si4703 volume 0-15
-#define def_sysinfo       // Sysinfo menu - comment out of additional 640 bytes
+#define def_sysinfo       // Sysinfo menu - comment out for additional 640 bytes
 
 // Battery calculation
 #define minV          2.85
@@ -254,9 +254,6 @@ init();
   PORTD=B01000000;  // D6 MOSFET HIGH: Turn off amplifier to prevent startup noise
   //PORTB=B00000000; 
   PORTC=B00000001;  // A0: INPUT_PULLUP 
-    
-  // Start display light
-  lcd.backlight();
 
   // Start JQ6500
   mp3.begin(9600);
