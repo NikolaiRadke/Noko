@@ -20,13 +20,9 @@ Now, the radio functions are commented out and disabled.
 
 ### Modifing NOKO.ino
 With older versions of AVR Core (like 1.6.9), NOKO.ino won't compile without errors. Look for 
-```
-PROGMEM const char custom_char[18][8]=
-```
+```PROGMEM const char custom_char[18][8]=```
 and change it into  
-```
-uint8_t custom_char[18][8]=
-```  
+```uint8_t custom_char[18][8]=```  
 
 ### platform.txt
 
