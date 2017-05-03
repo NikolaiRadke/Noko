@@ -1,4 +1,4 @@
-# Compiling options for NOKO
+# Compiling instructions for NOKO
 ### NOTE: These options are used globally for all sketches.
 
 **Prerequisits**  
@@ -23,7 +23,7 @@ With older versions of AVR Core (like 1.6.9), NOKO.ino won't compile without err
 ```
 PROGMEM const char custom_char[18][8]=
 ```
-and chance it into  
+and change it into  
 ```
 uint8_t custom_char[18][8]=
 ```  
