@@ -18,6 +18,7 @@ Active supporters:
 
 Used ressources:  
 
+- **Arduino Board and IDE** - [www.arduino.cc](http://www.arduino.cc")  
 - **Display library** - [Marco Schwartz](https://github.com/marcoschwartz/LiquidCrystal_I2C)  
 - **Old display library** - [Francisco Malpartida](https://bitbucket.org/fmalpartida/new-liquidcrystal/wiki/Home)  
 - **RTC library** - [Wagner Sartori Junior](https://github.com/trunet/DS3231RTC)   
