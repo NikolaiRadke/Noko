@@ -37,6 +37,10 @@ or
 ``` ./write_Disk1 > COM1 ```  
 If another USB port is used by NOKO, modify COM1 to COM2 or whatever the IDE tells you. The program sends the content of the text file **Disk0** or **Disk1** via Arduino to the EEPROM. You can watch your Arduino's RX and TX LEDs blinking furiously. This may take a while, Disk1 needs about 20 minutes... *yawn*
 
+## Windows 8  
+
+Users report troubles writing an EEPROM with the provided tools. Please try another platform.  
+
 ## Windows 10
 
 Like written above, but first Windows 10 needs another **baud rate**. You need admin rights.  
