@@ -13,7 +13,7 @@
 
 #include <Wire.h>
 
-#define Disk1 0x50  // 24LC512
+#define Disk1 0x50  // 24LC256
 //#define Windows10
 
 uint16_t addr=0;
