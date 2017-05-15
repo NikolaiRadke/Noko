@@ -90,8 +90,8 @@
 #define def_stories           // Stories on SD card?
 
 // Display selection
-#define display_address 0x27   // Blue 
-//#define display_address 0x3F // Yellow
+//#define display_address 0x27   // Blue 
+#define display_address 0x3F // Yellow
 
 // 24LC256 EEPROM addresses
 #define phrase_address 4000    // Starting address of the phrases in 24LC256
