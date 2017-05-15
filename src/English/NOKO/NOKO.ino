@@ -5,12 +5,12 @@
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.400 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
+ * Flash-Usage: 27.348 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
  *                     -ffunction-sections  -fdata-sections -fmerge-constants
- * These options save flash. but are not needed since IDE 1.6.10. Optiboot is still recommended.
+ * These options save flash but are not needed since IDE 1.6.10. Optiboot is still recommended.
  * See https://github.com/NikolaiRadke/NOKO/blob/master/howto_compile/README.md
  * 
  * char()-list: 32=space 37=% 46=. 47=/ 48=0 58=: 68=D 78=N 80=P 82=R 83=S 86=V 87=W
@@ -196,7 +196,8 @@ uint32_t  lcd_dimm_time;         // Milliseconds until display mutes
 const uint8_t event_trigger[10]={0,120,60,45,30,15,10,5,3,1};
 
 // Custom characters. Number set was made by Ishan Karve. Awesome!
-PROGMEM const char custom_char[18][8]=
+// Putting this array into PROGMEM caused strange output. Strange.
+byte custom_char[18][8]=
 {
   {B00111,B01111,B11111,B11111,B11111,B11111,B11111,B11111},
   {B11111,B11111,B11111,B00000,B00000,B00000,B00000,B00000},
@@ -1010,7 +1011,7 @@ void menue_Main() // Main menue
   lcd.print(F("Play something")); // Play menue
   lcd.setCursor(2,1);
   lcd.print(F("Set alarm"));      // Alarm menue
-  lcd.setCursor(1,2);
+  lcd.setCursor(2,2);
   lcd.print(F("Set clock"));      // Time and nightmode menue
   lcd.setCursor(2,3);
   lcd.print(F("Set NOKO"));       // Settings menue
@@ -1489,7 +1490,7 @@ void menue_Alarm()  // Set alarm - no alarm allowd in this menue
           case 4: alarm_on=!alarm_on; break;
           case 5:
             lcd.noBlink();
-            menue_Alarmwahl();
+            menue_AlarmType();
             break;
         }
         break;
@@ -1508,7 +1509,7 @@ void menue_Alarm()  // Set alarm - no alarm allowd in this menue
   save=false;
 }
 
-void menue_Alarmwahl() // Which alarm type? No alarm allowed hier
+void menue_AlarmType() // Which alarm type? No alarm allowed hier
 {
   uint8_t menue=0;
   boolean alarm_on_help=alarm_on;
@@ -1679,11 +1680,11 @@ void menue_Time()  // Set time and nightmode
                   if (new_hour==24) new_hour=20; break;
           case 3: (new_minute<49)? new_minute+=10:new_minute%=10; break;
           case 4: (new_minute%10==9)? new_minute-=9:new_minute++; break;
-          case 5:
+          case 9:
             (new_day<22)? new_day+=10:new_day%=10;
             if (new_day==0) new_day=1;
             break;
-          case 6: 
+          case 10: 
             (new_day%10==9)? new_day-=9:new_day++; 
             if (new_day>31) new_day=30; 
             if (new_day==0) new_day=1; 
@@ -1693,8 +1694,8 @@ void menue_Time()  // Set time and nightmode
             if (new_month==0) new_month=1;
             break;
           case 8: (new_month<12)? new_month++:new_month=10; break;
-          case 9: (thisyear<89)? thisyear+=10:thisyear%=10; break;
-          case 10: (thisyear%10==9)? thisyear-=9:thisyear++; break;
+          case 5: (thisyear<89)? thisyear+=10:thisyear%=10; break;
+          case 6: (thisyear%10==9)? thisyear-=9:thisyear++; break;
         }
         break;
       case 2: if (menue<10) menue++; break;
@@ -1954,7 +1955,6 @@ void menue_NOKO() // "Mein NOKO" - about NOKO and secret sysinfo
   uint8_t help;
   print_icon(custom_char[13]);
   lcd.print(F("NOKO belongs to"));
-  put_char(17,0,239);
   lcd.setCursor(0,1);
   for (help=0;help<60;help++) // Print owner and email
   {

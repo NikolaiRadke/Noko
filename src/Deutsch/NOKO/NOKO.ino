@@ -5,12 +5,12 @@
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.530 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
+ * Flash-Usage: 27.488 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
  *                     -ffunction-sections  -fdata-sections -fmerge-constants
- * These options save flash. but are not needed since IDE 1.6.10. Optiboot is still recommended.
+ * These options save flash but are not needed since IDE 1.6.10. Optiboot is still recommended.
  * See https://github.com/NikolaiRadke/NOKO/blob/master/howto_compile/README.md
  * 
  * char()-list: 32=space 37=% 46=. 47=/ 48=0 58=: 68=D 78=N 80=P 82=R 83=S 86=V 87=W
@@ -196,7 +196,8 @@ uint32_t  lcd_dimm_time;         // Milliseconds until display mutes
 const uint8_t event_trigger[10]={0,120,60,45,30,15,10,5,3,1};
 
 // Custom characters. Number set was made by Ishan Karve. Awesome!
-PROGMEM const char custom_char[18][8]=
+// Putting this array into PROGMEM caused strange output. Strange.
+byte custom_char[18][8]=
 {
   {B00111,B01111,B11111,B11111,B11111,B11111,B11111,B11111},
   {B11111,B11111,B11111,B00000,B00000,B00000,B00000,B00000},
@@ -1074,7 +1075,7 @@ void menue_Play() // Play menue "Spiel was vor"
     #ifndef def_radio                // Is the radio available?
       put_char(1,0,120);
       #else
-      put_char(1,0,radio_on? 0:32);      // Ternary saves flash! Well. Sometimes.
+      put_char(1,0,radio_on? 0:32);  // Ternary saves flash! Well. Sometimes.
     #endif   
     put_char(1,1,file_on? 0:32);
     put_char(1,2,aux_on? 0:32); 
@@ -1505,7 +1506,7 @@ void menue_Alarm()  // Set alarm - no alarm allowd in this menue
           case 4: alarm_on=!alarm_on; break;
           case 5:
             lcd.noBlink();
-            menue_Alarmwahl();
+            menue_AlarmType();
             break;
         }
         break;
@@ -1524,7 +1525,7 @@ void menue_Alarm()  // Set alarm - no alarm allowd in this menue
   save=false;
 }
 
-void menue_Alarmwahl() // Which alarm type? No alarm allowed hier
+void menue_AlarmType() // Which alarm type? No alarm allowed hier
 {
   uint8_t menue=0;
   boolean alarm_on_help=alarm_on;
@@ -2349,4 +2350,5 @@ void write_EEPROM(uint8_t address, uint8_t data) // write internal EEPROM with o
 {
   EEPROM.write(address+offset,data);
 }
+
 

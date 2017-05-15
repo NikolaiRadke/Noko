@@ -1,11 +1,11 @@
-m/* NOKO V1.0 01.05.2017 - Nikolai Radke
+/* NOKO V1.0 01.05.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster with additional flexible tail light - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the taste()-funtion.
  * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.644 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler Options)
+ * Flash-Usage: 27.602 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | No compiler Options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -200,7 +200,8 @@ uint32_t  dimmmillis;         // Milliseconds until display mutes
 const uint8_t eventtrigger[10]={0,120,60,45,30,15,10,5,3,1};
 
 // Custom characters. Number set was made by Ishan Karve. Awesome!
-PROGMEM const char custom_char[18][8]=
+// Putting this array into PROGMEM caused strange output. Strange.
+byte custom_char[18][8]=
 {
   {B00111,B01111,B11111,B11111,B11111,B11111,B11111,B11111},
   {B11111,B11111,B11111,B00000,B00000,B00000,B00000,B00000},
