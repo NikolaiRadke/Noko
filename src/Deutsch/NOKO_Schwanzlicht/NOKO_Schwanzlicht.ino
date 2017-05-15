@@ -1,4 +1,4 @@
-/* NOKO V1.0 01.05.2017 - Nikolai Radke
+m/* NOKO V1.0 01.05.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster with additional flexible tail light - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
@@ -824,7 +824,7 @@ void uhrzeit() // Draw clock, power level and flags
     powerdowndelay(10);
     power+=analogRead(Akku);
   }
-  // Voltage: maxV to maxV
+  // Voltage: minV to maxV
   power=(uint16_t)(((power/5)*(5.0/1024)-minV)/((maxV-minV)/100)); 
   power=constrain(power,1,99);
   // >57% Voltage are about 92% of overall capacity. Drops at 3,63V

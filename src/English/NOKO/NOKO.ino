@@ -1,30 +1,30 @@
-/* NOKO V1.0 01.05.2017 - Nikolai Radke
+ /* NOKO V1.0 01.05.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module!
- * The main loop controls the timing events and gets interrupted by the taste()-funtion.
- * Otherwise NOKO falls asleep with powerdowndelay() for 120ms. This saves a lot of power.
+ * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
+ * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.410 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 27.400 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
  *                     -ffunction-sections  -fdata-sections -fmerge-constants
- * These options save flash. but are not needed since 1.6.10. Optiboot is still recommended.
+ * These options save flash. but are not needed since IDE 1.6.10. Optiboot is still recommended.
  * See https://github.com/NikolaiRadke/NOKO/blob/master/howto_compile/README.md
  * 
  * char()-list: 32=space 37=% 46=. 47=/ 48=0 58=: 68=D 78=N 80=P 82=R 83=S 86=V 87=W
  *              110=n 120=x | 225=ä 226=ß 239=ö 245=ü (German only)
- *                       
- * TODO: 
+ *         
+ * TODO: Test time setting!
  *         
  * KNOWN BUGS:
  * Due to bad programming the summertime/wintertime will switch at 04:00, not 02:00.
  * 
  * Circuit:
- * 5V               5V    Regulated    
+ * 5V               5V    Regulated   
  * LCD GND          GND
- * LCD VCC          5V 
+ * LCD VCC          5V
  * LCD SDA          A4    (SDA)
  * LCD SCL          A5    (SCL)
  * RTC GND          GND
@@ -80,12 +80,12 @@
 */
 
 // Softwareversion
-#define Firmware "-010517"
+#define Firmware "-010517E"
 #define Version 10  // 1.0
-#define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
+#define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
 // Features on/off - comment out to disable
-#define def_radio             // Using Radio?   
+#define def_radio             // Using Radio?
 #define def_external_eeprom   // Using external EEPROM?
 #define def_stories           // Stories on SD card?
 
@@ -99,32 +99,31 @@
 #define poem_address  18000    // Poems
 
 // Timezone GMT+1=1
-#define ZZ 1 
+#define TZ 1 
 
 // Developer options
 #define pwd_delay     50  // Button debounce
-#define reaktionszeit 70  // Startup time for the amplifier
-#define sensor        10  // Ultrasonic: with cover 10, without 25
+#define reaction_time 70  // Startup time for the amplifier
+#define sensor        25  // Ultrasonic: with cover 10, without 25
 #define vol_mp3       30  // JQ6500 volume 0-30
 #define vol_radio     10  // Si4703 volume 0-15
 #define def_sysinfo       // Sysinfo menu - comment out for additional 640 bytes
 
 // Battery calculation
-#define minV          2.85
-#define maxV          4.15
+#define min_V         2.85
+#define max_V         4.15
 
 // Hardwareaddresses PINS
 #define LED 10            // LED -> PWM
-#define inPin 12          // Ultrasonic
-#define Akku 6            // Battery power
+#define Distance_inPin 12 // Ultrasonic
+#define Battery 6         // Battery power
 #define USB 7             // Is NOKO connected to USB?
 #define Speaker 11        // PWM beep 
-#define Tasten A0         // ADC buttons
+#define Buttons A0        // ADC buttons
 #define Disk0 0x57        // AH24C32 4 kByte EEPROM
 #define Disk1 0x50        // 24LC256 32 kByte EEPROM
 
 // Libraries
-// I2CIO.h and LCD.h are used by LiquidCrystal_I2C.h
 #include <avr/power.h>
 #include <avr/wdt.h>
 #include <avr/sleep.h>
@@ -137,64 +136,64 @@
 #include "NewTone.h"
 #include "JQ6500_Serial.h"
 
-SIGNAL(WDT_vect) // Watchdog to wake NOKO from powerdowndelay()
+SIGNAL(WDT_vect) // Watchdog to wake NOKO from powerdown_delay()
 {
   wdt_disable();
   wdt_reset();
   WDTCSR &= ~_BV(WDIE);
 }
 
-uint8_t  wahl=0;              // Which menu item selected
-uint8_t  xlcd=0;              // X and
-uint8_t  ylcd=0;              // Y position of LCD cursor
-uint8_t  geschichte=1;        // Selected story
-uint8_t  geschichten;         // Number of stories
-uint8_t  eigenes=1;           // Selected MP3
-uint8_t  files;               // Number of own MP3s files on SD card
-uint8_t  led_dimm;            // LED brightness 0-9
-uint8_t  gt,gm;               // Birthday gt=day, gm=month
-uint8_t  klang,klang_ton,klang_mp3;// Alarm: Which type, which tone or mp3
-uint8_t  alarmmm,alarmhh;     // Alarm time hh:mm
-uint8_t  nachtahh,nachtbhh;   // Nachtmodus from hh:mm
-uint8_t  nachtamm,nachtbmm;   // to hh:mm
-uint8_t  ultra_distanz;       // Ultrasonic reaction distance 0-9 
-uint8_t  eventsteller;        // Chance of time event 0-9
+uint8_t  selected=0;             // Which menu item selected
+uint8_t  xlcd=0;                 // X and
+uint8_t  ylcd=0;                 // Y position of LCD cursor
+uint8_t  story=1;                // Selected story
+uint8_t  max_stories;            // Number of stories
+uint8_t  file=1;                 // Selected MP3
+uint8_t  max_files;              // Number of own MP3s files on SD card
+uint8_t  led_val;                // LED brightness 0-9
+uint8_t  birth_day,birth_month;  // Birthday gt=day, gm=month
+uint8_t  alarm_type;             // Whicht type of alarm
+uint8_t  alarm_tone,alarm_mp3;   // Which tone and mp3
+uint8_t  alarm_mm,alarm_hh;      // Alarm time hh:mm
+uint8_t  night_mm,night_hh;      // Nightmode from hh:mm
+uint8_t  night_to_mm,night_to_hh;// to hh:mm
+uint8_t  distance_val;           // Ultrasonic reaction distance 0-9 
+uint8_t  event_val;              // Chance of time event 0-9
 
-boolean  ultra_event=false;   // Has there been am ultrasonic event this minute?
-boolean  ultra_light;         // Swich on LCD light with ultrasonic?
-boolean  radio=false;         // Radio on?
-boolean  pause=false;         // MP3 pause?
-boolean  geschichte_an=false; // Is there a story running?
-boolean  eigenes_an=false;    // Is there an own mp3 running?
-boolean  mp3_an=false;        // Is the MP3-Module itself running anything?
-boolean  geburtstag=false;    // Is it your birthday today?
-boolean  gefeiert=false;      // Was it already celebrated?
-boolean  alarm_mute=false;    // No alarm here?
-boolean  powersave;           // Powersave mode?
-boolean  lcddimm=false;       // Only dim the display?
-boolean  dimm=false;          // Is powersave active?
-boolean  ultra_dimm=false;    // Ultrasonic off?
-boolean  alarm_jetzt=false;   // Is the alarm running?
-boolean  aux=false;           // Is AUX active?
-boolean  sommer;              // Summertime?
-boolean  alarm_an;            // Is the Alarm set?
-boolean  nacht;               // Is it nighttime? (Time of Nachtmodus)
-boolean  nachtwechsel;        // Has the nightmode switched?
-boolean  nachtmodus;          // Is nightmode set?
-boolean  nachtdimm;           // Will the display mute at nighttime?
-boolean  stumm;               // All sound off?
-boolean  laden;               // Is NOKO's battery charging?
+boolean  distance_now=false;     // Has there been am ultrasonic event this minute?
+boolean  distance_light;         // Swich on LCD light with ultrasonic?
+boolean  distance_off=false;     // Ultrasonic off?
+boolean  radio_on=false;         // Radio on?
+boolean  mp3_pause=false;        // MP3 pause?
+boolean  mp3_on=false;           // Is the MP3-Module itself running anything?
+boolean  story_on=false;         // Is there a story running?
+boolean  file_on=false;          // Is there an own mp3 running?
+boolean  birthday=false;         // Is it your birthday today?
+boolean  birthday_over=false;    // Was it already celebrated?
+boolean  alarm_on;               // Is the Alarm set?
+boolean  alarm_mute=false;       // No alarm here?
+boolean  alarm_now=false;        // Is the alarm running?
+boolean  powersave;              // Powersavemode?
+boolean  lcd_dimm=false ;        // Only dim the display?
+boolean  lcd_off=false;          // Is powersave active?
+boolean  aux_on=false;           // Is AUX active?
+boolean  summertime;             // Summertime?
+boolean  night_now;              // Is it nighttime? (Time of Nightmode)
+boolean  night_over;             // Has the nightmode switched?
+boolean  nightmode_on;           // Is nightmode set?
+boolean  night_lcd_dimm;         // Will the display mute at nighttime?
+boolean  quiet;                  // All sound off?
+boolean  charging;               // Is NOKO's battery charging?
 
-uint16_t offset;              // EEPROM start position to expand life cyle
-uint16_t freq;                // Used frequency * 100
-uint16_t station[3];          // 3 radiostations
+uint16_t offset;                 // EEPROM start position to expand life cyle
+uint16_t radio_freq;             // Used frequency * 100
+uint16_t radio_station[3];       // 3 radiostations
 
-int16_t  j;                   // Year is integer type
-int16_t  power;               // Voltage * 100
-
-uint32_t dimmmillis;     // Milliseconds until display mutes
-
-const uint8_t eventtrigger[10]={0,120,60,45,30,15,10,5,3,1};
+int16_t   thisyear;              // Year is integer type
+int16_t   power;                 // Voltage * 100
+uint32_t  lcd_dimm_time;         // Milliseconds until display mutes
+  
+const uint8_t event_trigger[10]={0,120,60,45,30,15,10,5,3,1};
 
 // Custom characters. Number set was made by Ishan Karve. Awesome!
 PROGMEM const char custom_char[18][8]=
@@ -231,8 +230,8 @@ JQ6500_Serial mp3(2,3); // Software serial connection
 // Using main() and init() instead of setup() and loop() saves flash space
 
 int main(void) {  
-uint8_t ma=99;
-uint8_t ha=99;
+uint8_t minute_now=99;
+uint8_t hour_now=99;
 uint8_t help;
 init();
 {  
@@ -240,10 +239,10 @@ init();
   SPCR=0;                // Disable SPI
   ACSR=B10000000;        // Disable analog comparator
   DIDR0=0x3F;            // Disable digital input buffer on all analog ports
-  power_spi_disable();    
+  power_spi_disable();       
   power_usart0_disable(); 
   power_timer2_disable();
-
+  
   // Portdefinitions - direct manipulation is much faster and saves flash
   DDRD=B11001000;   // D7-D0 | 1=OUTPUT
   DDRB=B00101100;   // D13-D8
@@ -258,8 +257,8 @@ init();
   mp3.reset();
   NewDelay(500);
   mp3.setVolume(vol_mp3);
-  mp3.setLoopMode(MP3_LOOP_NONE);  // Play only once
-
+  mp3.setLoopMode(MP3_LOOP_NONE); // Play only once
+  
   // Start Radio
   #ifdef def_radio
     Radio.powerOn();  // Needs to start once!
@@ -269,254 +268,251 @@ init();
  
   // Read Arduino EEPROM
   offset=EEPROM.read(0)*30;
-  stumm=readEEPROM(1); 
-  led_dimm=readEEPROM(2);
-  alarm_an=readEEPROM(3);
-  alarmmm=readEEPROM(4);
-  alarmhh=readEEPROM(5);
-  klang=readEEPROM(6);
-  klang_ton=readEEPROM(7);
-  ultra_distanz=readEEPROM(8);
-  eventsteller=readEEPROM(9);
-  powersave=readEEPROM(10);
-  nachtmodus=readEEPROM(11);
-  nachtahh=readEEPROM(12);
-  nachtamm=readEEPROM(13);
-  nachtbhh=readEEPROM(14);
-  nachtbmm=readEEPROM(15);
-  sommer=readEEPROM(16);
-  freq=(readEEPROM(17)*10)+(readEEPROM(18));
-  klang_mp3=readEEPROM(19);
+  quiet=read_EEPROM(1); 
+  led_val=read_EEPROM(2);
+  alarm_on=read_EEPROM(3);
+  alarm_mm=read_EEPROM(4);
+  alarm_hh=read_EEPROM(5);
+  alarm_type=read_EEPROM(6);
+  alarm_tone=read_EEPROM(7);
+  distance_val=read_EEPROM(8);
+  event_val=read_EEPROM(9);
+  powersave=read_EEPROM(10);
+  nightmode_on=read_EEPROM(11);
+  night_hh=read_EEPROM(12);
+  night_mm=read_EEPROM(13);
+  night_to_hh=read_EEPROM(14);
+  night_to_mm=read_EEPROM(15);
+  summertime=read_EEPROM(16);
+  radio_freq=(read_EEPROM(17)*10)+(read_EEPROM(18));
+  alarm_mp3=read_EEPROM(19);
   for (help=0;help<3;help++)
-    station[help]=(readEEPROM(21+(help*2))*10)+(readEEPROM(22+(help*2)));
-  ultra_light=readEEPROM(27);
-  nachtdimm=readEEPROM(28);
+    radio_station[help]=(read_EEPROM(21+(help*2))*10)+(read_EEPROM(22+(help*2)));
+  distance_light=read_EEPROM(27);
+  night_lcd_dimm=read_EEPROM(28);
 
   //  Read AT24C32 
-  gt=readDisk(Disk0,0);          // Birthday day
-  gm=readDisk(Disk0,1);          // Birthday month
+  birth_day=read_disk(Disk0,0);          // Birthday day
+  birth_month=read_disk(Disk0,1);        // Birthday month
   #ifdef def_stories
-    geschichten=readDisk(Disk0,2); // Numnber of stories
+    max_stories=read_disk(Disk0,2);      // Number of stories
   #else
-    geschichten=0;
+    max_stories=0;
   #endif
   
   // Start RTC and switch off useless functions for power saving
   Wire.beginTransmission(0x68); 
   Wire.write("\x0F\xF7");       // 32kHz off         
   Wire.endTransmission();
-  powerdowndelay(20);
+  powerdown_delay(20);
   Wire.beginTransmission(0x68);
   Wire.write("\x0E\x7F");       // SQW off
   Wire.endTransmission();
-  echtzeit();                   // Read RTC
+  read_RTC();                   // Read RTC
   
   // Start LCD and create custom characters 
   lcd.begin(20,4);    
   init_char();
 
-  // Check for update and compare with internal version number
+  //  Check for update and compare with internal version number
   help=EEPROM.read(20);
   if (Version>help) // New version > internal version?
   {
     lcd.clear();
     lcd.print(F(" Update completed"));
-    zeichen(4,1,86);
+    put_char(3,1,86);
     lcd.print(help/10);
     lcd.print(char(46));
     lcd.print(help%10);
-    lcd.print(F(" to V"));
+    lcd.print(F(" auf V"));
     lcd.print(Version/10);
     lcd.print(char(46));
-    lcd.print(Version%10);
+    lcd.print(Version%10); // lcd.print does not support printf-formatting
     lcd.setCursor(4,4);
     lcd.print(F("Press nose"));
-    zeichen(11,4,245);
     EEPROM.write(20,Version); // Write new internal version
-    schleife(true,false);     // Wait for button
+    wait_1m(true,false);      // Wait for button
     lcd.clear();
   }
 
   // Starting sound
-  sound_an();
-  ton(600,80,false,80);
-  ton(880,150,false,150);
+  sound_on();
+  play_tone(600,80,false,80);
+  play_tone(880,150,false,150);
   PORTD |= (1<<6); // Amplifier HIGH=off
   
-  zeit(); // Read RTC
-  nachtwechsel=nachtjetzt(); // Has nightmode switched before startup?
+  read_time(); // Read RTC
+  night_over=check_night(); // Has nightmode switched before startup?
 
-  files=mp3.countFiles(MP3_SRC_SDCARD)-(111+geschichten); // Number own of files on SD card
+  max_files=mp3.countFiles(MP3_SRC_SDCARD)-(111+max_stories); // Number own of files on SD card
 }
 
 // MAIN LOOP
 while(1)
 {
-  zeit();
-  if (((analogRead(USB)>800) && (!laden)) || ((analogRead(USB)<800) && (laden))) // USB connected?
+  read_time();
+  if (((analogRead(USB)>800) && (!charging)) || ((analogRead(USB)<800) && (charging))) // USB connected?
   {
-    laden=!laden;
-    if ((analogRead(USB)<800) && (lcddimm) && (powersave)) powerdown();
-    else if ((analogRead(USB)>800) && (dimm)) powerup();
-    else uhrzeit();
+    charging=!charging;
+    if ((analogRead(USB)<800) && (lcd_dimm) && (powersave)) powerdown();
+    else if ((analogRead(USB)>800) && (lcd_off)) powerup();
+    else draw_time();
   } 
-  //if ((dimm) && (!radio) && (!mp3_an) && (!aux) && (!(PIND & (1<<4)))) powerdown();
+  //if ((lcd_off) && (!radio_on) && (!mp3_on) && (!aux_on) && (!(PIND & (1<<4)))) powerdown(); 
                                              // Power down while MP3 is running und NOKO is set to mute
 // Every minute                                             
-  if (ma!=tm.Minute)                        
+  if (minute_now!=tm.Minute)                        
   { 
-    if ((nacht) && (nachtdimm) && (!dimm))   // Power down at nightmode
+    if ((night_now) && (night_lcd_dimm) && (!lcd_off))   // Power down at nightmode
     {
-      if ((powersave) && (!laden)) powerdown();
-      else if (!lcddimm)
+      if ((powersave) && (!charging)) powerdown();
+      else if (!lcd_dimm)
       {
         lcd.noBacklight();
-        lcddimm=true;
+        lcd_dimm=true;
       }
     }
-    ultra_event=false;
+    distance_now=false;
 
 // Every hour
-    if (ha!=tm.Hour)                          
+    if (hour_now!=tm.Hour)                          
     {
-      if (!dimm) 
+      if (!lcd_off) 
       {    
-        datum();                              // Draw date
-        if ((gm==tm.Month) && (gt==tm.Day))   // Check for birthday
+        draw_date();                              // Draw date
+        if ((birth_month==tm.Month) && (birth_day==tm.Day))   // Check for birthday
         {
-          geburtstag=true;
-          if ((!gefeiert) && (!nacht)) feiern();
+          birthday=true;
+          if ((!birthday_over) && (!night_now)) party();
         }
         else 
         {
-          gefeiert=false;
-          geburtstag=false;
+          birthday_over=false;
+          birthday=false;
         }                   
       }
-      check_sommerzeit();                     // Check for summertime
+      check_summertime();                     // Check for summertime
     }
-    if (!dimm) uhrzeit();                     // Draw clock
-    if (!(nacht) && (!stumm)) 
+    if (!lcd_off) draw_time();                // Draw clock
+    if (!(night_now) && (!quiet)) 
     {
-      if ((power<10) && (!laden))             // Read battery power
+      if ((power<10) && (!charging))          // Read battery power
       {
-        sound_an();
-        ton(920,80,false,80);                 // Power <10% beep
+        sound_on();
+        play_tone(920,80,false,80);                 // Power <10% beep
       }
-      if ((!(PIND & (1<<4))) && (!pause) && (!radio) && (power>1) && ((newrandom(1,eventtrigger[eventsteller]+1)==eventtrigger[eventsteller])))
+      if ((!(PIND & (1<<4))) && (!mp3_pause) && (!radio_on) && (power>1) && ((newrandom(1,event_trigger[event_val]+1)==event_trigger[event_val])))
         event();                              // Time based event
     }
   }
-  if ((!dimm) && (!ultra_dimm) && (ultra_distanz>0)) check_ultra(); 
+  if ((!lcd_off) && (!distance_off) && (distance_val>0)) check_ultra(); 
                                               // Ultrasonic event
- if ((lcddimm) && (ultra_light) && (millis()>dimmmillis+150)) lcd.noBacklight();  
+  if ((lcd_dimm) && (distance_light) && (millis()>lcd_dimm_time+150)) lcd.noBacklight();  
                                               // Switch off display light after ~1s. 150 is a workaround for stupid IDLE mode.
-  ma=tm.Minute;
-  ha=tm.Hour;
-  wahl=taste(false);                          // Read buttons
-  switch(wahl)
+  minute_now=tm.Minute;
+  hour_now=tm.Hour;
+  selected=read_button(false);                      // Read buttons
+  switch(selected)
   {
     case 1:                                   // Belly: menue
-      if (!dimm) menue_Hauptmenue(); 
+      if (!lcd_off) menue_Main(); 
       break;
     case 2:                                   // Right: toggle ultrasonic
-      if ((!dimm) && (!lcddimm) && (ultra_distanz>0)) 
+      if ((!lcd_off) && (!lcd_dimm) && (distance_val>0)) 
       { 
-        ultra_dimm=!ultra_dimm;
-        uhrzeit();
+        distance_off=!distance_off;
+        draw_time();
       }
       break;
     case 3:                                   // Left: toggle display & power save
-      if (dimm) powerup();
-      else if ((powersave) && (!laden)) powerdown();
+      if (lcd_off) powerup();
+      else if ((powersave) && (!charging)) powerdown();
       else
       {
-        lcddimm=!lcddimm;
-        uhrzeit();
-        if (!lcddimm)
+        lcd_dimm=!lcd_dimm;
+        draw_time();
+        if (!lcd_dimm)
         {
           analogWrite(LED,0);
           lcd.backlight();  
         }
         else 
         {
-          analogWrite(LED,led_dimm*28);
+          analogWrite(LED,led_val*28);
           lcd.noBacklight();
         }
-        powerdowndelay(pwd_delay);
+        powerdown_delay(pwd_delay);
       }
       break;
     //case 4: break; // Nose unused - only voice as random event
     }
-    powerdowndelay(dimm? 240:120); // Main loop power save!    
+    powerdown_delay(lcd_off? 240:120); // Main loop power save!    
 }}
 
 //-------------------------------------------------------------------------------------
 
-uint8_t taste(boolean leise)  // Read pressed button und debounce | leise = NOKO stays silent
+uint8_t read_button(boolean leise)  // Read pressed button und debounce | leise = NOKO stays silent
 {
-  uint16_t tastenwert;
-  if ((!pause) && (!(PIND & (1<<4))) && (mp3_an)) mp3_an=false;
-  if (power<1) leise=true;
-  if ((!(PIND & (1<<4))) && (!radio) && (!aux) && (!alarm_jetzt)) 
+  uint16_t button_val;
+  if ((!mp3_pause) && (!(PIND & (1<<4))) && (mp3_on)) mp3_on=false;
+  if (power<5) leise=true;
+  if ((!(PIND & (1<<4))) && (!radio_on) && (!aux_on) && (!alarm_now)) 
   {
     PORTD |= (1<<6); // Amplifier off
-    echtzeit();      // Read RTC - powerdowndelay() messes up the internal time!
+    read_RTC();      // Read RTC - powerdown_delay() messes up the internal time!
   }
   if (check_alarm()) return 4; // Check alarm
-  tastenwert=(analogRead(Tasten));
-  if (tastenwert>200) return 0;
+  button_val=(analogRead(Buttons));
+  if (button_val>200) return 0;
   else 
   {
-    if (tastenwert>150)    // SW4 nose -> voice 31-60
+    if (button_val>150)    // SW4 nose -> voice 31-60
     {
-      powerdowndelay(pwd_delay);
-      if (analogRead(Tasten)>150)
+      powerdown_delay(pwd_delay);
+      if (analogRead(Buttons)>150)
       {
-        if ((!(PIND & (1<<4))) && (!stumm) && (!leise) && (!pause))
+       if ((!(PIND & (1<<4))) && (!quiet) && (!leise) && (!mp3_pause))
          if (newrandom(1,5)==4) JQ6500_play(newrandom(31,61));
-        return 4;
+       return 4;
       }
     }
-    else if (tastenwert>100)    // SW3 left hand
-    {
-      powerdowndelay(pwd_delay);
-      if (analogRead(Tasten)>100) return 3;
+    else if (button_val>100)    // SW3 left hand
+    { 
+      powerdown_delay(pwd_delay);
+      if (analogRead(Buttons)>100) return 3;
     }
-    else if ((tastenwert>50))   // SW2 right hand
+    else if ((button_val>50))   // SW2 right hand
     {
-      powerdowndelay(pwd_delay);
-      if (analogRead(Tasten)>50)  return 2;
+      powerdown_delay(pwd_delay);
+      if (analogRead(Buttons)>50)  return 2;
     }
     else                        // SW1 belly -> voice 11-30
     {
-      powerdowndelay(pwd_delay);
-      if (analogRead(Tasten)>0)
+      powerdown_delay(pwd_delay);
+      if (analogRead(Buttons)>0)
       {
-        if ((!(PIND & (1<<4))) && (!stumm) && (!leise) && (!pause))
-         if (newrandom(1,8)==4) JQ6500_play(newrandom(11,31)); 
+        if ((!(PIND & (1<<4))) && (!quiet) && (!leise) && (!mp3_pause))
+          if (newrandom(1,8)==4) JQ6500_play(newrandom(11,31)); 
       return 1;
       }
     }
-    powerdowndelay(pwd_delay);
   }
 }
 
 // Constantly used functions - saves a lot of flash.
-void zeichen(uint8_t x,uint8_t y,uint8_t c) // Char c at x,y
+void put_char(uint8_t x,uint8_t y,uint8_t c) // Char c at x,y
 {
   lcd.setCursor(x,y);
   lcd.print(char(c));
 }
 
-void leer(uint8_t x,uint8_t y,uint8_t anz) // anz spaces from x,y
+void print_space(uint8_t x,uint8_t y,uint8_t val) // anz spaces from x,y
 {
-  uint8_t a;
   lcd.setCursor(x,y);
-  for (a=anz;a>0;a--) lcd.print(char(32));
+  for (uint8_t help=val;val>0;val--) lcd.print(char(32));
 }
 
-void icon(uint8_t c[]) // Icon c at 0,0
+void print_icon(uint8_t c[]) // Icon c at 0,0
 {
   lcd.createChar(0,c);
   lcd.clear();
@@ -525,21 +521,21 @@ void icon(uint8_t c[]) // Icon c at 0,0
 }
 
 // Plays tone with delay. Delay can be stopped by pressing SW4 when stopd is set TRUE
-void ton(uint16_t h,uint16_t l,boolean stopd,uint16_t d) 
+void play_tone(uint16_t h,uint16_t l,boolean stopd,uint16_t d) 
 {
   NewTone(Speaker,h,l);
   if (!stopd) NewDelay(d);
-  else if (wahl!=4) stopdelay(d);
+  else if (selected!=4) stop_delay(d);
 }
 
 // Constantly used strings. Saves a lot of flash space. 
-void null()  {lcd.print(char(48));} // Prints a "0" - saves flash. However.
- 
-void zeige_speichern() // Prints "saving..."
+void print_zero()  {lcd.print(char(48));} // Prints a "0" - saves flash. However.
+
+void print_saving() // Prints "saving..."
 {
   lcd.setCursor(1,1);
   lcd.print(F("saving..."));
-  powerdowndelay(pwd_delay);
+  powerdown_delay(pwd_delay);
 }
 
 void init_char() // Read custom chars again
@@ -552,8 +548,8 @@ void clearnum(uint8_t x,uint8_t y) // Delete a big number at x,y
 {
   xlcd=x;
   ylcd=y;
-  leer(xlcd,ylcd,3);
-  leer(xlcd,ylcd+1,3);
+  print_space(xlcd,ylcd,3);
+  print_space(xlcd,ylcd+1,3);
 }
 
 void bignum(uint8_t x,uint8_t y,uint8_t num) // Draws a big number at x,y; num 0-9
@@ -564,94 +560,94 @@ void bignum(uint8_t x,uint8_t y,uint8_t num) // Draws a big number at x,y; num 0
   switch(num) 
   {
     case 0: 
-      zeichen(xlcd,ylcd,0); 
+      put_char(xlcd,ylcd,0); 
       lcd.print(char(1));  
       lcd.print(char(2));
-      zeichen(xlcd,ylcd+1,3); 
+      put_char(xlcd,ylcd+1,3); 
       lcd.print(char(4));
       lcd.print(char(5));
       break;
     case 1: 
-      zeichen(xlcd,ylcd,1);
+      put_char(xlcd,ylcd,1);
       lcd.print(char(2));
-      zeichen(xlcd,ylcd+1,4);
+      put_char(xlcd,ylcd+1,4);
       lcd.print(char(7));
       lcd.print(char(4));
       break;
     case 2: 
-      zeichen(xlcd,ylcd,6);
+      put_char(xlcd,ylcd,6);
       lcd.print(char(6));
       lcd.print(char(2));
-      zeichen(xlcd,ylcd+1,3);
+      put_char(xlcd,ylcd+1,3);
       lcd.print(char(4));
       lcd.print(char(4));
       break;
     case 3:
-      zeichen(xlcd,ylcd,6);
+      put_char(xlcd,ylcd,6);
       lcd.print(char(6));
       lcd.print(char(2));
-      zeichen(xlcd,ylcd+1,4);
+      put_char(xlcd,ylcd+1,4);
       lcd.print(char(4));
       lcd.print(char(5));
       break;
     case 4:
-      zeichen(xlcd,ylcd,3);
+      put_char(xlcd,ylcd,3);
       lcd.print(char(4));
       lcd.print(char(7));
-      zeichen(xlcd+2,ylcd+1,7);
+      put_char(xlcd+2,ylcd+1,7);
       break;
     case 5:
-      zeichen(xlcd,ylcd,3);
+      put_char(xlcd,ylcd,3);
       lcd.print(char(6));
       lcd.print(char(6));
-      zeichen(xlcd,ylcd+1,4);
+      put_char(xlcd,ylcd+1,4);
       lcd.print(char(4));
       lcd.print(char(5));
       break;
     case 6: 
-      zeichen(xlcd,ylcd,0);
+      put_char(xlcd,ylcd,0);
       lcd.print(char(6));
       lcd.print(char(6));
-      zeichen(xlcd,ylcd+1,3);
+      put_char(xlcd,ylcd+1,3);
       lcd.print(char(4));
       lcd.print(char(5));
       break;
     case 7:
-      zeichen(xlcd,ylcd,1);
+      put_char(xlcd,ylcd,1);
       lcd.print(char(1));
       lcd.print(char(2));
-      zeichen(xlcd+2,ylcd+1,7);
+      put_char(xlcd+2,ylcd+1,7);
       break;
     case 8: 
-      zeichen(xlcd,ylcd,0);
+      put_char(xlcd,ylcd,0);
       lcd.print(char(6));
       lcd.print(char(2));
-      zeichen(xlcd,ylcd+1,3);
+      put_char(xlcd,ylcd+1,3);
       lcd.print(char(4));
       lcd.print(char(5));
       break;
     case 9: 
-      zeichen(xlcd,ylcd,0);
+      put_char(xlcd,ylcd,0);
       lcd.print(char(6));
       lcd.print(char(2));
-      zeichen(xlcd+2,ylcd+1,7);
+      put_char(xlcd+2,ylcd+1,7);
       break;
     case 10:
-      zeichen(xlcd+1,ylcd,4);
-      zeichen(xlcd+1,ylcd+1,4);
+      put_char(xlcd+1,ylcd,4);
+      put_char(xlcd+1,ylcd+1,4);
     break;
     case 11: 
-      zeichen(xlcd,ylcd,0);
+      put_char(xlcd,ylcd,0);
       lcd.print(char(2));
       lcd.print(char(0));
-      zeichen(xlcd,ylcd+1,7);
+      put_char(xlcd,ylcd+1,7);
       lcd.print(char(3));
       lcd.print(char(7));
       break;
     case 12: 
-      zeichen(xlcd,ylcd,7);
+      put_char(xlcd,ylcd,7);
       lcd.print(char(0));
-      zeichen(xlcd,ylcd+1,7);
+      put_char(xlcd,ylcd+1,7);
       lcd.print(char(3));
       break;
   }    
@@ -659,19 +655,19 @@ void bignum(uint8_t x,uint8_t y,uint8_t num) // Draws a big number at x,y; num 0
 
 void powerdown() // power save on
 {
-  lcd.off();        // Turn off display
   analogWrite(LED,0);
-  dimm=true;
-  lcddimm=false;
+  lcd.off();        // Turn off display
+  lcd_off=true;  
+  lcd_dimm=false;
   // More powersaving options?
 }
 
 void powerup()  // power save off
 {
-  lcd.on();           // Turn on display
-  dimm=false;
-  lcddimm=false;
-  anzeigen();         // Draw clock and date
+  lcd.on();           // Turn on display  
+  lcd_off=false;
+  lcd_dimm=false;
+  draw_all();         // Draw clock and date
 }
 
 uint8_t newrandom(uint8_t a,uint8_t b) // Better XOR random number generator 
@@ -682,43 +678,43 @@ uint8_t newrandom(uint8_t a,uint8_t b) // Better XOR random number generator
     return (rnd/65535.0)*(b-a)+a;
 }
 
-void NewDelay(uint16_t z)  // New delay function to save flash - it's also in the Radio library
+void NewDelay(uint16_t wait_ms)  // New delay function to save flash - it's also in the Radio library
 {
   #ifdef def_radio 
-    Radio.newdelay(z); 
+    Radio.newdelay(wait_ms); 
   #else 
-    uint32_t zmillis=millis();
-    while (millis()-zmillis<z);
+    uint32_t target_millis=millis();
+    while (millis()-target_millis<wait_ms);
   #endif
 }
 
-void stopdelay(uint16_t z) // Delay with stop when nose is pressed
+void stop_delay(uint16_t wait_ms) // Delay with stop when nose is pressed
 {
-  uint32_t zmillis=millis();
-  while ((millis()-zmillis<z) && (taste(true)!=4));
-  if (taste(true)==4) wahl=4;
+  uint32_t target_millis=millis();
+  while ((millis()-target_millis<wait_ms) && (read_button(true)!=4));
+  if (read_button(true)==4) selected=4;
 }
 
-void schleife(boolean leise,boolean timeout) // Wait for nose until timeout 1 minute
+void wait_1m(boolean quiet,boolean timeout) // Wait for nose until timeout 1 minute
 {
   uint32_t ende=millis()+60000; // 2 MHz -> 60s:8
-  wahl=0;
-  while (wahl==0) 
+  selected=0;
+  while (selected==0) 
   {
-    wahl=taste(leise);
-    if (!timeout) powerdowndelay(120);
-    else if (millis()>ende) wahl=4;
+    selected=read_button(quiet);
+    if (!timeout) powerdown_delay(120);
+    else if (millis()>ende) selected=4;
   }
-  powerdowndelay(pwd_delay);
+  powerdown_delay(pwd_delay);
 }
 
-void schlafe(uint8_t wdt_time) // Sleepmode to save power
+void NOKO_sleep(uint8_t wdt_time) // Sleepmode to save power
 {
   wdt_enable(wdt_time); // Watchdog wakes NOKO after wdt_time
   wdt_reset();
   WDTCSR |= _BV(WDIE);
-  if (lcddimm) set_sleep_mode(SLEEP_MODE_IDLE);        // Lowest level for the LED
-  else if (dimm) set_sleep_mode(SLEEP_MODE_PWR_DOWN);  // Highest level
+  if (lcd_dimm) set_sleep_mode(SLEEP_MODE_IDLE);        // Lowest level for the LED
+  else if (lcd_off) set_sleep_mode(SLEEP_MODE_PWR_DOWN);  // Highest level
   else set_sleep_mode(SLEEP_MODE_STANDBY);             // Lower level to wake up faster
   sleep_enable();
   sleep_bod_disable();                                 // No brown-out detection
@@ -730,43 +726,43 @@ void schlafe(uint8_t wdt_time) // Sleepmode to save power
   power_adc_enable();                                  // ADC, we need you again
 }
 
-void powerdowndelay(uint8_t ms) // Calls schlafe() with watchdog-times
+void powerdown_delay(uint8_t ms) // Calls NOKO_sleep() with watchdog-times
 // Sleep times steps are pre-defined, max 8s
 {
-  if (lcddimm)  PRR = PRR | 0b00100000;           // Workaround. Not sure if IDLE is working...
-  // if (ms>=256) {schlafe(WDTO_250MS); ms-=250;} // NOKO uses max 240ms
-  if (ms>=128) {schlafe(WDTO_120MS); ms-=120;}
-  if (ms>=64) {schlafe(WDTO_60MS); ms-=60;} 
-  if (ms>=32) {schlafe(WDTO_30MS); ms-=30;}
-  if (ms>=16) {schlafe(WDTO_15MS); ms-=15;}
-  if (lcddimm) PRR = PRR & 0b00000000;            // End workaround. Stupid stupid Atmel!
+  if (lcd_dimm)  PRR = PRR | 0b00100000;           // Workaround. Not sure if IDLE is working...
+  // if (ms>=256) {NOKO_sleep(WDTO_250MS); ms-=250;} // NOKO uses max 240ms
+  if (ms>=128) {NOKO_sleep(WDTO_120MS); ms-=120;}
+  if (ms>=64) {NOKO_sleep(WDTO_60MS); ms-=60;} 
+  if (ms>=32) {NOKO_sleep(WDTO_30MS); ms-=30;}
+  if (ms>=16) {NOKO_sleep(WDTO_15MS); ms-=15;}
+  if (lcd_dimm) PRR = PRR & 0b00000000;            // End workaround. Stupid stupid Atmel!
 }
 
-void echtzeit() // Read RTC and store time
+void read_RTC() // Read RTC and store time
 {
   RTC.read(tm);
   setTime(tm.Hour,tm.Minute,tm.Second,tm.Day,tm.Month,tmYearToCalendar(tm.Year));
 }
 
-boolean sommerzeit() // Summertime?
+boolean calc_summertime() // Summertime?
 {
   if ((tm.Month<3) || (tm.Month>10)) return false;
   if ((tm.Month>3) && (tm.Month<10)) return true;
-  if ((tm.Month==3) && (tm.Hour+24*tm.Day)>=(1+ZZ+24*(31-(5*j/4+4)%7)) || tm.Month==10 && (tm.Hour+24*tm.Day)<(1+ZZ+24*(31-(5*j/4+1)%7))) return true;
+  if ((tm.Month==3) && (tm.Hour+24*tm.Day)>=(1+TZ+24*(31-(5*thisyear/4+4)%7)) || tm.Month==10 && (tm.Hour+24*tm.Day)<(1+TZ+24*(31-(5*thisyear/4+1)%7))) return true;
   return false;
 }
 
-void check_sommerzeit() // Compare summertime with EEPROM and set clock
+void check_summertime() // Compare summertime with EEPROM and set clock
 {
-  if (((sommer!=sommerzeit()) && (tm.Hour>=4))) // Summertime changed?
+  if (((summertime!=calc_summertime()) && (tm.Hour>=4))) // Summertime changed?
   {
-    (sommer)? tm.Hour--:tm.Hour++;  // Add or remove an hour
-    sommer=!sommer;
-    setTime(tm.Hour,tm.Minute,tm.Second,tm.Day,tm.Month,j);
-    tm.Year=CalendarYrToTm(j);
-    RTC.write(tm);                  // Write RTC
-    writeEEPROM(16+offset,sommer);  // Write Summertime flag
-    copy_eeprom();                  // Move EEPROM to new address
+    (summertime)? tm.Hour--:tm.Hour++;  // Add or remove an hour
+    summertime=!summertime;
+    setTime(tm.Hour,tm.Minute,tm.Second,tm.Day,tm.Month,thisyear);
+    tm.Year=CalendarYrToTm(thisyear);
+    RTC.write(tm);                      // Write RTC
+    write_EEPROM(16+offset,summertime); // Write Summertime flag
+    copy_eeprom();                      // Move EEPROM to new address
   }
 }
 
@@ -775,47 +771,47 @@ void copy_eeprom() // Copy EEPROM to new address
   uint16_t new_offset=offset+30;
   if (offset==990) new_offset=0;    // After 33 cyles (= 16,5 years) start form 0
   for (uint8_t help=1;help<30;help++)
-    writeEEPROM(help+new_offset,readEEPROM(help+offset));  
+    write_EEPROM(help+new_offset,read_EEPROM(help+offset));  
   offset=new_offset;        
   EEPROM.write(0,offset/30);
 }
 
-void uhrzeit() // Draw clock, power level and flags
+void draw_time() // Draw clock, power level and flags
 {
   uint8_t help;
-  zeit();
-  nacht=nachtjetzt();
+  read_time();
+  night_now=check_night();
   (tm.Hour<10)? bignum(1,0,0):bignum(1,0,tm.Hour/10);
   bignum(4,0,tm.Hour%10);
   bignum(7,0,10);
   (tm.Minute<10)? bignum(10,0,0):bignum(10,0,tm.Minute/10);
   bignum(13,0,tm.Minute%10);
-  leer(17,1,3);
+  print_space(17,1,3);
   lcd.setCursor(17,1);
   //--- Flags
-  if ((ultra_dimm) || (ultra_distanz==0)) lcd.print(char(120));
-  if (lcddimm) lcd.print(char(68));
-  if (nachtmodus) (nacht)? lcd.print(char(78)):lcd.print(char(110));
-  if (geburtstag)
+  if ((distance_off) || (distance_val==0)) lcd.print(char(120));
+  if (lcd_dimm) lcd.print(char(68));
+  if (nightmode_on) (night_now)? lcd.print(char(78)):lcd.print(char(110));
+  if (birthday)
   {
-    lcd.setCursor(4,2);
-    lcd.print(F("Birthday!"));
+    lcd.setCursor(3,2);
+    lcd.print(F("Geburtstag!"));
   }
-  leer(17,2,3);
+  print_space(17,2,3);
   lcd.setCursor(17,2);
-  if (alarm_an) lcd.print(char(244));
-  if (pause) lcd.print(char(112));
-  if (stumm) lcd.print(char(83));
-  if ((mp3_an) || (aux) || (radio)) lcd.print(char(80));
+  if (alarm_on) lcd.print(char(244));
+  if (mp3_pause) lcd.print(char(112));
+  if (quiet) lcd.print(char(83));
+  if ((mp3_on) || (aux_on) || (radio_on)) lcd.print(char(80));
   //--- power level and charging
-  power=analogRead(Akku); // Calculate powerlevel from 5 measurements
+  power=analogRead(Battery); // Calculate power level from 5 measurements
   for (help=4;help>0;help--)
   {
-    powerdowndelay(10);
-    power+=analogRead(Akku);
+    powerdown_delay(10);
+    power+=analogRead(Battery);
   }
-  // Voltage: maxV to maxV
-  power=(uint16_t)(((power/5)*(5.0/1024)-minV)/((maxV-minV)/100)); 
+  // Voltage: min_V to max_V
+  power=(uint16_t)(((power/5)*(5.0/1024)-min_V)/((max_V-min_V)/100)); 
   power=constrain(power,1,99);
   // >57% Voltage are about 92% of overall capacity. Drops at 3,63V
   if (power>57) power=map(power,57,99,8,99); 
@@ -823,187 +819,188 @@ void uhrzeit() // Draw clock, power level and flags
   lcd.setCursor(17,0);
   if (power<10) 
   {
-    zeichen(17,0,32);
+    put_char(17,0,32);
     lcd.blink(); // Blink when below 10%
   }
   else lcd.noBlink();
   lcd.print(power);
-  laden? lcd.print(char(43)):lcd.print(char(37)); // Charging: print + or %
+  charging? lcd.print(char(43)):lcd.print(char(37)); // Charging: print + or %
   lcd.setCursor(18,0);
 }
 
-void datum() // Draw date
+void draw_date() // Draw date
 {
-  j=year();
+  thisyear=year();
   tm.Day=day();
   tm.Month=month();
   lcd.setCursor(0,3);
   lcd.print(dayStr(weekday())); 
   lcd.setCursor(10,3);
-  lcd.print(j);
+  lcd.print(thisyear);
   lcd.print(char(47));
-  if (tm.Month<10) null();
+  if (tm.Month<10) print_zero();
   lcd.print(tm.Month);
   lcd.print(char(47));
-  if (tm.Day<10) null();
+  if (tm.Day<10) print_zero();
   lcd.print(tm.Day);
-   if (power<10) lcd.setCursor(18,0);
+  if (power<10) lcd.setCursor(18,0);
 }
 
-void anzeigen() // Draw the entire display new
+void draw_all() // Draw the entire display new
 {
   lcd.clear();
   init_char();
-  datum();
-  uhrzeit();
+  draw_date();
+  draw_time();
 }
 
-void zeit() // Read internal time
+void read_time() // Read internal time
 {
   tm.Minute=minute();
   tm.Hour=hour();
 }
 
-void zeige_station(uint8_t s) // Print the stations frequencies
+void print_station(uint8_t s) // Print the stations frequencies
 {
   lcd.setCursor(1,1);
   lcd.print(F("Station "));
   lcd.print(s);
   lcd.print(char(58));
   lcd.print(char(32));
-  lcd.print(float(station[s-1])/10,2);
+  lcd.print(float(radio_station[s-1])/10,2);
 }
 
-boolean nachtjetzt() // Is it nighttime?
+boolean check_night() // Is it nighttime?
 {
   boolean ja=false;
-  if (nachtmodus)
+  if (nightmode_on)
   {
-    if (nachtahh>nachtbhh)
-      if ((tm.Hour>nachtahh) || (tm.Hour<nachtbhh)) ja=true;
-    if (nachtahh<nachtbhh)
-      if ((tm.Hour>nachtahh) && (tm.Hour<nachtbhh)) ja=true;
-    if (nachtahh==nachtbhh)
+    if (night_hh>night_to_hh)
+      if ((tm.Hour>night_hh) || (tm.Hour<night_to_hh)) ja=true;
+    if (night_hh<night_to_hh)
+      if ((tm.Hour>night_hh) && (tm.Hour<night_to_hh)) ja=true;
+    if (night_hh==night_to_hh)
     {
-      if (nachtamm<=nachtbmm)
-        if ((tm.Minute>=nachtamm) && (tm.Minute<=nachtbmm)) ja=true;
-      if (nachtahh>nachtbmm)
-        if ((tm.Minute<=nachtbmm) || (tm.Minute>=nachtbmm)) ja=true;
+      if (night_mm<=night_to_mm)
+        if ((tm.Minute>=night_mm) && (tm.Minute<=night_to_mm)) ja=true;
+      if (night_hh>night_to_mm)
+        if ((tm.Minute<=night_to_mm) || (tm.Minute>=night_to_mm)) ja=true;
     }
-    if ((tm.Hour==nachtahh) && (tm.Minute>=nachtamm)) ja=true;
-    if ((tm.Hour==nachtbhh) && (tm.Minute<nachtbmm)) ja=true;
+    if ((tm.Hour==night_hh) && (tm.Minute>=night_mm)) ja=true;
+    if ((tm.Hour==night_to_hh) && (tm.Minute<night_to_mm)) ja=true;
   }
-  if (ja!=nachtwechsel) // When nightmode changes play sound
+  if (ja!=night_over) // When nightmode changes play sound
   {
     ja? JQ6500_play(71):JQ6500_play(102);
-    nachtwechsel=ja;
+    night_over=ja;
   }
   return ja;
 }
 
-void check_ultra() // Ultrasonic event - ultra_distanz= 0..9 * 10cm
+void check_ultra() // Ultrasonic event - distance_val= 0..9 * 10cm
 {
-  PORTB &= ~(1<<5); // (pingPin,LOW);
+  PORTB &= ~(1<<5); // (Distance_pingPin,LOW);
   delayMicroseconds(5);
-  PORTB |= (1<<5);  // (pingPin,HIGH);
+  PORTB |= (1<<5);  // (Distance_pingPin,HIGH);
   delayMicroseconds(10);
-  PORTB &= ~(1<<5); // (pingPin,LOW);
-  if ((pulseIn(inPin,HIGH) /29 /2)<ultra_distanz*sensor)  // Is there something in distance?
+  PORTB &= ~(1<<5); // (Distance_pingPin,LOW);
+  if ((pulseIn(Distance_inPin,HIGH) /29 /2)<distance_val*sensor)  // Is there something in distance?
   {
-    if ((lcddimm) && (ultra_light)) // Display light off and light flag set?
+    if ((lcd_dimm) && (distance_light)) // Display light off and light flag set?
     {
       lcd.backlight();              // Turn on light and set timer
-      dimmmillis=millis();
+      lcd_dimm_time=millis();
     }
-    if ((!nacht) && (!ultra_event) && (!radio) && (!pause) && (!stumm) && (!(PIND & (1<<4))))
+    if ((!night_now) && (!distance_now) && (!radio_on) && (!mp3_pause) && (!quiet) && (!(PIND & (1<<4))))
     {
       JQ6500_play(newrandom(61,81)); // Play random voice event. Voice 61-80
-      ultra_event=true; // Set ultra_evet flag to prevent more events than one in a minute
+      distance_now=true; // Set ultra_evet flag to prevent more events than one in a minute
     }
   }
 }  
 
 boolean check_alarm() // Is it time for the alarm?
 {
-  if ((alarm_an) && (!alarm_jetzt))  // Prevent double check
+  if ((alarm_on) && (!alarm_now))  // Prevent double check
   {
-    zeit();                          // Check RTC
+    read_time();                          // Read internal time
     if (!alarm_mute)                 // Is alarm allowed?
-      if ((alarmmm==tm.Minute) && (alarmhh==tm.Hour)) 
+      if ((alarm_mm==tm.Minute) && (alarm_hh==tm.Hour)) 
       {
         alarm();                     // Yes! Alarm!
         return true;
       }
-    if ((alarmmm!=tm.Minute)) alarm_mute=false; // Other time - mute off
+    if (alarm_mm!=tm.Minute) alarm_mute=false; // Other time - mute off
   }
   return false;
 }
 
 void alarm() // Play alarm
 {
-  if (dimm) lcd.on();           // Display on
-  if (lcddimm) lcd.backlight(); // Light on
+  if (lcd_off) lcd.on();           // Display on
+  if (lcd_dimm) lcd.backlight(); // Light on
   PORTD &= ~(1<<6);             // Amplifier on
   lcd.createChar(0,custom_char[17]);
   lcd.clear();
   lcd.noBlink();
   lcd.setCursor(7,0);
-  if (tm.Hour<10) null();
+  if (tm.Hour<10) print_zero();
   lcd.print(tm.Hour);
   lcd.print(char(58));
-  if (tm.Minute<10) null();
+  if (tm.Minute<10) print_zero();
   lcd.print(tm.Minute);
-  lcd.setCursor(5,3);
+  lcd.setCursor(4,3);
   lcd.print(F("Press Nose"));
-  alarm_jetzt=true;
-  if (aux) PORTD &= ~(1<<7);                // AUX off
-  if ((klang==1) && (!radio) && (!mp3_an))  // Radio alarm
+  alarm_now=true;
+  if (aux_on) PORTD &= ~(1<<7);                // AUX off
+  if ((alarm_type==1) && (!radio_on) && (!mp3_on))  // Radio alarm
   {
-      radio_ein();
-      radio=true;
+      radio_start();
+      radio_on=true;
   }
-  wahl=0;
-  while ((wahl!=4) && (alarmmm==tm.Minute)) // Alarm until one minute timeout or Nose 
+  selected=0;
+  while ((selected!=4) && (alarm_mm==tm.Minute)) // Alarm until one minute timeout or Nose 
   {
-    zeichen(5,2,0);
+    put_char(5,2,0);
     lcd.print(F(" Alarm "));
     lcd.print(char(0));
-    wahl=taste(true);
+    selected=read_button(true);
     analogWrite(LED,255);   
-    if ((klang==0) || (mp3_an) || (pause))             // Tone alarm
-      alarmton(klang_ton); 
-    if ((klang==2) && (!(PIND & (1<<4))) && (!mp3_an)) // MP3 alarm
-      JQ6500_play(klang_mp3+1); 
-    stopdelay(500);
-    leer(5,2,9); // Clear "Alarm" to let it blink
+    if ((alarm_type==0) || (mp3_on) || (mp3_pause))             // Tone alarm
+      play_tone(alarm_tone); 
+    if ((alarm_type==2) && (!(PIND & (1<<4))) && (!mp3_on)) // MP3 alarm
+      JQ6500_play(alarm_mp3+1); 
+    stop_delay(500);
+    print_space(5,2,9); // Clear "Alarm" to let it blink
     analogWrite(LED,0); // Let the LED blink
-    stopdelay(500); // Is the nose pressed? Wait 500ms else set wahl=4
+    stop_delay(500); // Is nose pressed? Wait 500ms else set selected=4
     tm.Minute=minute();
   }
-  if (!mp3_an) mp3.pause();
-  else if (klang==1) 
+  if (!mp3_on) mp3.pause();
+  else if (alarm_type==1) 
     #ifdef def_radio
       Radio.powerOff(); 
     #endif
-  if (aux) PORTD |= (1<<7); // AUX on;
-  alarm_jetzt=false;
-  if ((alarmmm==tm.Minute) && (alarmhh==tm.Hour)) alarm_mute=true;
+  if (aux_on) PORTD |= (1<<7); // AUX on;
+  alarm_now=false;
+  if ((alarm_mm==tm.Minute) && (alarm_hh==tm.Hour)) alarm_mute=true;
   lcd.clear();
-  if ((dimm) && (!radio) && (!(PIND & (1<<4)))) PORTD |= (1<<6); // Amplifier off
-  if (dimm) lcd.off();
-  if (lcddimm) lcd.noBacklight();
-  anzeigen();
+  if ((lcd_off) && (!radio_on) && (!(PIND & (1<<4)))) PORTD |= (1<<6); // Amplifier off
+  if (lcd_off) lcd.off();
+  if (lcd_dimm) lcd.noBacklight();
+  draw_all();
 }
 
 //--- MENUES
 
-void menue_Hauptmenue() // Main menue
+void menue_Main() // Main menue
 {
   uint8_t menue=0; // Selected menue number 0..3
   uint8_t help=0;
+  powerdown_delay(80); // Debounce
   lcd.noBlink();
   lcd.clear();
-  if (stumm) // Sound off? Disable play menue
+  if (quiet) // Sound off? Disable play menue
   {
     lcd.print(char(120));
     menue=1;
@@ -1012,80 +1009,80 @@ void menue_Hauptmenue() // Main menue
   lcd.setCursor(2,0);
   lcd.print(F("Play something")); // Play menue
   lcd.setCursor(2,1);
-  lcd.print(F("Set alarm")); // Alarm menue
-  lcd.setCursor(2,2);
-  lcd.print(F("Set clock"));  // Time and nightmode menue
+  lcd.print(F("Set alarm"));      // Alarm menue
+  lcd.setCursor(1,2);
+  lcd.print(F("Set clock"));      // Time and nightmode menue
   lcd.setCursor(2,3);
-  lcd.print(F("Set NOKO"));  // Settings menue
-  while (wahl!=4)
+  lcd.print(F("Set NOKO"));       // Settings menue
+  while (selected!=4)
   {
-    zeichen(0,menue,126);
-    schleife(false,true);
-    switch(wahl) 
+    put_char(0,menue,126);
+    wait_1m(false,true);
+    switch(selected) 
     {
       case 1:
         switch(menue) 
         {
-          case 0: menue_Abspielen(); break;
+          case 0: menue_Play(); break;
           case 1: menue_Alarm(); break;
-          case 2: menue_Uhrzeit(); break;
-          case 3: menue_Einstellungen(); break;
+          case 2: menue_Time(); break;
+          case 3: menue_Settings(); break;
         }
         break;
       case 2:
-        zeichen(0,menue,32);
+        put_char(0,menue,32);
         if (menue<3) menue++;
         break;
       case 3:
-        zeichen(0,menue,32);
+        put_char(0,menue,32);
         if (menue>help) menue--;
         break;
     }
   }
-  anzeigen();
+  draw_all();
 }
 
-void menue_Abspielen() // Play menue "Play something"
+void menue_Play() // Play menue "Spiel was vor"
 {
   uint8_t menue=0;
   lcd.createChar(0,custom_char[15]);
   lcd.clear();
-  lcd.setCursor(2,0);                 // Radio menue
-  lcd.print(F("Play radio"));         
-  lcd.setCursor(2,1);                 // MP3 menue
-  lcd.print(F("Play own files"));    
-  lcd.setCursor(2,2);                 // Toggle AUX
+  lcd.setCursor(2,0);                // Radio menue
+  lcd.print(F("Play radio"));        
+  lcd.setCursor(2,1);                // MP3 menue
+  lcd.print(F("Play own files")); 
+  lcd.setCursor(2,2);                // Toggle AUX
   lcd.print(F("AUX input"));
-  lcd.setCursor(2,3);                 // Story menue
-  lcd.print(F("Play stories")); 
-  while (wahl!=4)
+  lcd.setCursor(2,3);                // Story menue
+  lcd.print(F("Play stories"));    
+  while (selected!=4)
   {
-     #ifndef def_radio                // Is the radio available?
-      zeichen(1,0,120);
+    #ifndef def_radio                // Is the radio available?
+      put_char(1,0,120);
       #else
-      zeichen(1,0,radio? 0:32);       // Ternary saves flash! Well. Sometimes.
+      put_char(1,0,radio_on? 0:32);  // Ternary saves flash! Well. Sometimes.
     #endif   
-    zeichen(1,1,eigenes_an? 0:32);
-    zeichen(1,2,aux? 0:32); 
-    #ifndef def_stories               // Are there stories on SD card?
-      zeichen(1,3,120); 
+    put_char(1,1,file_on? 0:32);
+    put_char(1,2,aux_on? 0:32); 
+    #ifndef def_stories              // Are there stories on SD card?
+      put_char(1,3,120);
       #else
-      zeichen(1,3,geschichte_an? 0:32); 
+      put_char(1,3, story_on? 0:32); 
     #endif
-    zeichen(0,menue,126);
-    schleife(true,true);
-    switch(wahl) 
+    put_char(0,menue,126);
+    wait_1m(true,true);
+    switch(selected) 
     {
       case 1: 
         switch(menue)
         {
           case 0: menue_Radio(); break;
-          case 1: (files>0)? menue_mp3(2):menue_mp3(3); break;
+          case 1: (max_files>0)? menue_MP3(2):menue_MP3(3); break;
           case 2: 
-            if (!aux)
+            if (!aux_on)
             {
-              if (radio) radio_aus();
-              if ((!pause) && (PIND & (1<<4))) mp3_aus();
+              if (radio_on) radio_off();
+              if ((!mp3_pause) && (PIND & (1<<4))) mp3_off();
               PORTD &= ~(1<<6);   // Amplifier on
               PORTD |= (1<<7);    // AUX on;
             }
@@ -1094,20 +1091,20 @@ void menue_Abspielen() // Play menue "Play something"
               PORTD |= (1<<6);    // Amplifier off
               PORTD &= ~(1<<7);   // AUX off
             }
-            aux=!aux;
+            aux_on=!aux_on;
             NewDelay(500);
             break;
           #ifdef def_stories
-            case 3: menue_mp3(1); break;
+            case 3: menue_MP3(1); break;
           #endif         
         }
         break;
       case 2:
-        zeichen(0,menue,32);
+        put_char(0,menue,32);
         if (menue<3) menue++;
         break;
       case 3:
-        zeichen(0,menue,32);
+        put_char(0,menue,32);
         if (menue>0) menue--;
         break;
     }
@@ -1115,7 +1112,7 @@ void menue_Abspielen() // Play menue "Play something"
   init_char();
 }
 
-void menue_Radio() // Radio menue "Play radio"
+void menue_Radio() // Radio menue "Radio hoeren"
 {
   #ifdef def_radio
   char rdsStation[10]; // RDS station name
@@ -1129,49 +1126,48 @@ void menue_Radio() // Radio menue "Play radio"
   lcd.createChar(2,custom_char[11]);
   lcd.createChar(3,custom_char[12]);
   lcd.createChar(4,custom_char[8]);
-  icon(custom_char[15]);
-  if (radio) Radio.readRDS(rdsStation,1000);
-  while (wahl!=4)
+  print_icon(custom_char[15]);
+  if (radio_on) Radio.readRDS(rdsStation,1000);
+  while (selected!=4)
   {
-    zeichen(1,2,91);
+    put_char(1,2,91);
     lcd.print(char(2));
     lcd.print(F("][<][ ][ ][>]["));
     lcd.print(char(3));
     lcd.print(char(93));
     lcd.setCursor(1,3);
     lcd.print(F("[1|s] [2|s] [3|s] "));
-    leer(1,1,19);
+    print_space(1,1,19);
     lcd.blink();
-    zeichen(8,2,radio? 1:4);
-    zeichen(11,2,radio? 82:32);
+    put_char(8,2,radio_on? 1:4);
+    put_char(11,2,radio_on? 82:32);
     lcd.setCursor(2,0);
-    lcd.print(float(freq)/10,2);
+    lcd.print(float(radio_freq)/10,2);
     lcd.print(char(32));
     if (save) 
     {
       PORTD &= ~(1<<6); // Amplifier on
-      analogWrite(LED,0);
-      radio_ein();
-      leer(9,0,10);
+      radio_start();
+      print_space(9,0,10);
       Radio.readRDS(rdsStation,1000); // Read station name, timeout 1000ms
       save=false;
     }
     lcd.setCursor(9,0);
-    if (radio) lcd.print(rdsStation);
+    if (radio_on) lcd.print(rdsStation);
     switch (menue)
     {
        case 6: 
-         zeige_station(1);
+         print_station(1);
          lcd.setCursor(2,3);
          break;
        case 7: lcd.setCursor(4,3); break;
        case 8: 
-         zeige_station(2);
+         print_station(2);
          lcd.setCursor(8,3);
          break;
        case 9: lcd.setCursor(10,3); break;
        case 10: 
-         zeige_station(3);
+         print_station(3);
          lcd.setCursor(14,3);
          break;
        case 11: lcd.setCursor(16,3); break;
@@ -1180,15 +1176,15 @@ void menue_Radio() // Radio menue "Play radio"
     }
     if (rds) // RDS text loop - no multitasking... Press left to exit
     {
-      wahl=0;
+      selected=0;
       for (help=0;help<64;help++) rdsText[help]=char(32); 
       lcd.noBlink();
-      leer(0,2,20);
+      print_space(0,2,20);
       lcd.setCursor(1,2);
       lcd.print(F("Stop RDS: Press and"));
       lcd.setCursor(1,3);
       lcd.print(F("hold left hand"));
-      while (wahl<3)
+      while (selected<3)
       {  
         Radio.readRDS_Radiotext(rdsText,500); // Read RDS text block timeout 500ms
         for (count=0;count<4;count++)
@@ -1200,147 +1196,147 @@ void menue_Radio() // Radio menue "Play radio"
               ((rdsText[help+(count*16)])<16)? lcd.print(char(32)):lcd.print(rdsText[help+(count*16)]);
             Radio.readRDS_Radiotext(rdsText,500);
             lcd.setCursor(11,2);
-            wahl=taste(false);
-            if (wahl>2) break;
+            selected=read_button(false);
+            if (selected>2) break;
           }  
-          if (wahl>2) break;
+          if (selected>2) break;
         }
       }
       rds=false;
     }
-    else schleife(false,true);
-    switch(wahl)
+    else wait_1m(false,true);
+    switch(selected)
     {
       case 1:
         save2=true;
         switch(menue)
         {
-          case 0: if (radio) freq=Radio.seekDown(); break;
-          case 1: if (freq>=875) freq--; break;
+          case 0: if (radio_on) radio_freq=Radio.seekDown(); break;
+          case 1: if (radio_freq>=875) radio_freq--; break;
           case 2:
-            if (radio) 
+            if (radio_on) 
             {
-              radio_aus();
+              radio_off();
               save=false;
             }
             else
             {
-              if ((!pause) && (PIND & (1<<4))) mp3_aus();
-              aux_aus();
-              radio=true;
+              if ((!mp3_pause) && (PIND & (1<<4))) mp3_off();
+              aux_off();
+              radio_on=true;
             }
             break;
-          case 3: if (radio) rds=true; break;
-          case 4: if (freq<=1079) freq++; break;
-          case 5: if (radio) freq=Radio.seekUp(); break;
-          case 6: freq=station[0]; break;
+          case 3: if (radio_on) rds=true; break;
+          case 4: if (radio_freq<=1079) radio_freq++; break;
+          case 5: if (radio_on) radio_freq=Radio.seekUp(); break;
+          case 6: radio_freq=radio_station[0]; break;
           case 7: 
-            station[0]=freq; // Write station 1
-            writeEEPROM(22,station[0]%10);
-            writeEEPROM(21,(station[0]-(station[0]%10))/10);
-            zeige_speichern();
+            radio_station[0]=radio_freq; // Write station 1
+            write_EEPROM(22,radio_station[0]%10);
+            write_EEPROM(21,(radio_station[0]-(radio_station[0]%10))/10);
+            print_saving();
             break;
-          case 8: freq=station[1]; break;
+          case 8: radio_freq=radio_station[1]; break;
           case 9: 
-            station[1]=freq; // Write station 2
-            writeEEPROM(24,station[1]%10);
-            writeEEPROM(23,(station[1]-(station[1]%10))/10);
-            zeige_speichern();
+            radio_station[1]=radio_freq; // Write station 2
+            write_EEPROM(24,radio_station[1]%10);
+            write_EEPROM(23,(radio_station[1]-(radio_station[1]%10))/10);
+            print_saving();
             break;
-          case 10: freq=station[2]; break;
+          case 10: radio_freq=radio_station[2]; break;
           case 11: 
-            station[2]=freq; // Write station 3
-            writeEEPROM(26,station[2]%10);
-            writeEEPROM(25,(station[2]-(station[2]%10))/10);
-            zeige_speichern();
+            radio_station[2]=radio_freq; // Write station 3
+            write_EEPROM(26,radio_station[2]%10);
+            write_EEPROM(25,(radio_station[2]-(radio_station[2]%10))/10);
+            print_saving();
             break;
         }
-        if (radio) save=true;
+        if (radio_on) save=true;
         break;
       case 2:
         if (menue<11) menue++;
-        if ((!radio) && (menue==3)) menue++;
+        if ((!radio_on) && (menue==3)) menue++;
         break;
       case 3:
         if (menue>0) menue--;
-        if ((!radio) && (menue==3)) menue--;
+        if ((!radio_on) && (menue==3)) menue--;
         break;
     } 
   }
   if (save2)
   {
-    writeEEPROM(18,freq%10); // Keep actual frequence
-    writeEEPROM(17,(freq-(freq%10))/10);    
+    write_EEPROM(18,radio_freq%10); // Keep actual frequence
+    write_EEPROM(17,(radio_freq-(radio_freq%10))/10);    
   }
   save2=false;
   init_char();
   #endif
 }
 
-// Story menu & MP3 menu: "Play stories" "Play own files"
+// Story menu & MP3 menu: "Geschichten hören" "Eigenes hören"
 // 1=Story 2=MP3 3=No MP3 files found
-void menue_mp3(uint8_t modus) 
+void menue_MP3(uint8_t modus) 
 {
-  if (!mp3_an) while (PIND & (1<<4));
+  if (!mp3_on) while (PIND & (1<<4));
   uint8_t menue=1;
   uint8_t help;
-  char buff[12];
+  char name_buffer[12];
   lcd.createChar(1,custom_char[9]);
   lcd.createChar(2,custom_char[10]);
   lcd.createChar(3,custom_char[8]);
-  icon(custom_char[15]);
+  print_icon(custom_char[15]);
   lcd.setCursor(4,3);
   lcd.print(F("[<][ ][ ][>]"));
-  zeichen(11,3,2);
-  if (pause) menue=2;
+  put_char(11,3,2);
+  if (mp3_pause) menue=2;
   lcd.blink();
-  while (wahl!=4)
+  while (selected!=4)
   {
-    if (modus==1) // Story menu "Play stories"
+    if (modus==1) // Story menu "Geschichten hören"
     {
       lcd.setCursor(2,0);
-      if (geschichte<10) null();
-      lcd.print(geschichte); // Print story number
+      if (story<10) print_zero();
+      lcd.print(story); // Print story number
       lcd.print(char(32));
-      lcd.print(readDisk(Disk0,((geschichten-1)*80+100)+((geschichte-1)*2))); // Print lenght in minutes
+      lcd.print(read_disk(Disk0,((max_stories-1)*80+100)+((story-1)*2))); // Print lenght in minutes
       lcd.print(char(58));
-      help=readDisk(Disk0,((geschichten-1)*80+101)+((geschichte-1)*2)); // And print seconds
-      if (help<10) null();
+      help=read_disk(Disk0,((max_stories-1)*80+101)+((story-1)*2)); // And print seconds
+      if (help<10) print_zero();
       lcd.print(help);
       for (help=0;help<20;help++) // Print name and author
       {
-        zeichen(help,1,(readDisk(Disk0,100+((geschichte-1)*geschichten)+help)));
-        zeichen(help,2,(readDisk(Disk0,100+((geschichte-1)*geschichten)+help+20)));
+        put_char(help,1,(read_disk(Disk0,100+((story-1)*max_stories)+help)));
+        put_char(help,2,(read_disk(Disk0,100+((story-1)*max_stories)+help+20)));
       }  
     }
-    if (modus==2) // MP3 menue "Play own files"
+    if (modus==2) // MP3 menue "Eigenes hören"
     {
-      if (!(PIND & (1<<4)) && (!pause) && (!geschichte_an)) 
+      if (!(PIND & (1<<4)) && (!mp3_pause) && (!story_on)) 
       {
-        mp3.playFileByIndexNumber(111+geschichten+eigenes); // Set index to first file
-        powerdowndelay(100);
-        mp3_aus(); // Stop at once to keep index set
-        powerdowndelay(100);
+        mp3.playFileByIndexNumber(111+max_stories+file); // Set index to first file
+        powerdown_delay(100);
+        mp3_off(); // Stop at once to keep index set
+        powerdown_delay(100);
       }
       lcd.setCursor(2,0);
-      if (geschichte_an) lcd.print(F("Story")); // Is a story running?
+      if (story_on) lcd.print(F("Story")); // Is a story running?
       else
       {
-        powerdowndelay(100); // Read filename. Only 8 chars possible :-(
-        mp3.currentFileName(buff,sizeof(buff));
-        lcd.print(buff);
+        powerdown_delay(100); // Read filename. Only 8 chars possible :-(
+        mp3.currentFileName(name_buffer,sizeof(name_buffer));
+        lcd.print(name_buffer);
       }
       lcd.setCursor(7,2);
-      if ((PIND & (1<<4)) && (!geschichte_an))
+      if ((PIND & (1<<4)) && (!story_on))
       {
-        powerdowndelay(100);
-        eigenes=mp3.currentFileIndexNumber(MP3_SRC_SDCARD)-151; // Read file number
+        powerdown_delay(100);
+        file=mp3.currentFileIndexNumber(MP3_SRC_SDCARD)-151; // Read file number
       }
-      if (eigenes<10) null();
-      lcd.print(eigenes); // Print file number
+      if (file<10) print_zero();
+      lcd.print(file); // Print file number
       lcd.print(char(47));
-      if (files<10) null();
-      lcd.print(files); // Print last file number
+      if (max_files<10) print_zero();
+      lcd.print(max_files); // Print last file number
     }
     if (modus==3) // No MP3s found!
     {
@@ -1348,11 +1344,11 @@ void menue_mp3(uint8_t modus)
       lcd.print(F("No MP3s found"));
     }
     lcd.setCursor(15,0);
-    if (pause) lcd.print(F("PAUSE")); else leer(15,0,5);
-    zeichen(8,3,((PIND & (1<<4)) || (pause))? 1:3);
+    if (mp3_pause) lcd.print(F("PAUSE")); else print_space(15,0,5);
+    put_char(8,3,((PIND & (1<<4)) || (mp3_pause))? 1:3);
     lcd.setCursor(5+(menue*3),3);
-    schleife(true,true);
-    switch(wahl)
+    wait_1m(true,true);
+    switch(selected)
     {
       case 1:
         switch(menue)
@@ -1360,49 +1356,49 @@ void menue_mp3(uint8_t modus)
         case 0: // Prev
           if (modus==1)
           {
-            if (geschichte>1) geschichte--;
-            if (eigenes_an) {eigenes_an=false; geschichte_an=true;}
-            if (PIND & (1<<4)) JQ6500_play(geschichte+111);
+            if (story>1) story--;
+            if (file_on) {file_on=false; story_on=true;}
+            if (PIND & (1<<4)) JQ6500_play(story+111);
             }
           if (modus==2)
           {
-            if (eigenes>1) eigenes--;
-            if (geschichte_an) {geschichte_an=false; eigenes_an=true;}
-            if (PIND & (1<<4)) JQ6500_play(eigenes+111+geschichten);
+            if (file>1) file--;
+            if (story_on) {story_on=false; file_on=true;}
+            if (PIND & (1<<4)) JQ6500_play(file+111+max_stories);
           }
           break;
         case 1: // On/Off
-          if (radio) radio_aus(); 
+          if (radio_on) radio_off(); 
           if (!(PIND & (1<<4))) 
           {
             if (modus==1)
             {
-              geschichte_an=true;
-              JQ6500_play(geschichte+111);
+              story_on=true;
+              JQ6500_play(story+111);
             }
             if (modus==2)
             {
-              eigenes_an=true;
-              JQ6500_play(eigenes+111+geschichten);
+              file_on=true;
+              JQ6500_play(file+111+max_stories);
             }
-            mp3_an=true;
+            mp3_on=true;
           }
-          else mp3_aus();
-          aux_aus();
+          else mp3_off();
+          aux_off();
           break;
         case 2: // Pause
-          if ((PIND & (1<<4)) || (pause))
+          if ((PIND & (1<<4)) || (mp3_pause))
           {
-            if (radio) radio_aus();
-            if (pause)
+            if (radio_on) radio_off();
+            if (mp3_pause)
             {
               PORTD &= ~(1<<6); // Amplifier on
-              pause=false;
+              mp3_pause=false;
               mp3.play();
             }
             else 
             {
-              pause=true;
+              mp3_pause=true;
               mp3.pause();
             }
           }
@@ -1410,24 +1406,24 @@ void menue_mp3(uint8_t modus)
         case 3: // Next
           if (modus==1)
           {
-            if (geschichte<geschichten) geschichte++;
-            if (eigenes_an) {eigenes_an=false; geschichte_an=true;}
-            if (PIND & (1<<4)) JQ6500_play(geschichte+111);
+            if (story<max_stories) story++;
+            if (file_on) {file_on=false; story_on=true;}
+            if (PIND & (1<<4)) JQ6500_play(story+111);
           }
           if (modus==2)
           {
-            if (eigenes<files) eigenes++;
-            if (geschichte_an) {geschichte_an=false; eigenes_an=true;}
-            if (PIND & (1<<4)) JQ6500_play(eigenes+111+geschichten);
+            if (file<max_files) file++;
+            if (story_on) {story_on=false; file_on=true;}
+            if (PIND & (1<<4)) JQ6500_play(file+111+max_stories);
           }
           break;
       }
       break;
       case 2:
-        if ((!pause) && (menue<3)) menue++;
+        if ((!mp3_pause) && (menue<3)) menue++;
         break; 
       case 3:
-        if ((!pause) && (menue>0)) menue--;
+        if ((!mp3_pause) && (menue>0)) menue--;
         break;
     }
   }
@@ -1437,38 +1433,38 @@ void menue_mp3(uint8_t modus)
 void menue_Alarm()  // Set alarm - no alarm allowd in this menue
 {
   uint8_t menue=0;
-  alarm_jetzt=true;
   boolean save=false;
-  icon(custom_char[17]);
-  if (alarmhh<10) null();
-  lcd.print(alarmhh);
+  alarm_now=true;
+  print_icon(custom_char[17]);
+  if (alarm_hh<10) print_zero();
+  lcd.print(alarm_hh);
   lcd.print(char(58));
-  if (alarmmm<10) null();
-  lcd.print(alarmmm);
+  if (alarm_mm<10) print_zero();
+  lcd.print(alarm_mm);
   lcd.setCursor(0,1);
   lcd.print(F("New alarm time"));
   lcd.setCursor(2,3);
   lcd.print(F("Alarm tone [     ]"));
   lcd.setCursor(14,3);
-  switch(klang)
+  switch(alarm_type)
   {
     case 0:lcd.print(F("Tone")); break; // Choose alarm type
     case 1:lcd.print(F("Radio")); break;
     case 2:lcd.print(F("MP3")); break;
   }
   lcd.blink();
-  while(wahl!=4)
+  while(selected!=4)
   {
-    zeichen(0,(menue<5)? 3:2,32);
-    zeichen(0,(menue<5)? 2:3,126);
+    put_char(0,(menue<5)? 3:2,32);
+    put_char(0,(menue<5)? 2:3,126);
     lcd.setCursor(2,2);  
-    if (alarmhh<10) null();
-    lcd.print(alarmhh);
+    if (alarm_hh<10) print_zero();
+    lcd.print(alarm_hh);
     lcd.print(char(58));
-    if (alarmmm<10) null();
-    lcd.print(alarmmm);
-    leer(7,2,6);
-    (alarm_an)? lcd.print(F("[on ]")):lcd.print(F("[off]")); // Alarm on/off?
+    if (alarm_mm<10) print_zero();
+    lcd.print(alarm_mm);
+    print_space(7,2,6);
+    (alarm_on)? lcd.print(F("[on ]")):lcd.print(F("[off]")); // Alarm on/off?
     switch(menue)
     {
       case 0: lcd.setCursor(2,2); break;
@@ -1478,19 +1474,19 @@ void menue_Alarm()  // Set alarm - no alarm allowd in this menue
       case 4: lcd.setCursor(14,2); break;
       case 5: lcd.setCursor(14,3); break;
     }
-    schleife(false,true);
-    switch(wahl)
+    wait_1m(false,true);
+    switch(selected)
     {
       case 1:
         save=true;
         switch(menue) // Set Alarm - belly adds one
         {
-          case 0: (alarmhh<14)? alarmhh+=10:alarmhh%=10; break;
-          case 1: (alarmhh%10==9)? alarmhh-=9:alarmhh++;
-                  if (alarmhh==24) alarmhh=20; break;
-          case 2: (alarmmm<49)? alarmmm+=10:alarmmm%=10; break;
-          case 3: (alarmmm%10==9)? alarmmm-=9:alarmmm++; break;
-          case 4: alarm_an=!alarm_an; break;
+          case 0: (alarm_hh<14)? alarm_hh+=10:alarm_hh%=10; break;
+          case 1: (alarm_hh%10==9)? alarm_hh-=9:alarm_hh++;
+                  if (alarm_hh==24) alarm_hh=20; break;
+          case 2: (alarm_mm<49)? alarm_mm+=10:alarm_mm%=10; break;
+          case 3: (alarm_mm%10==9)? alarm_mm-=9:alarm_mm++; break;
+          case 4: alarm_on=!alarm_on; break;
           case 5:
             lcd.noBlink();
             menue_Alarmwahl();
@@ -1503,156 +1499,156 @@ void menue_Alarm()  // Set alarm - no alarm allowd in this menue
   }
   if (save) // Write alarm to EEPROM
   {
-    writeEEPROM(3,alarm_an);
-    writeEEPROM(4,alarmmm);
-    writeEEPROM(5,alarmhh);
+    write_EEPROM(3,alarm_on);
+    write_EEPROM(4,alarm_mm);
+    write_EEPROM(5,alarm_hh);
   }
   lcd.createChar(0,custom_char[0]);
-  alarm_jetzt=false;
+  alarm_now=false;
   save=false;
 }
 
 void menue_Alarmwahl() // Which alarm type? No alarm allowed hier
 {
   uint8_t menue=0;
-  boolean alarm_an2=alarm_an;
-  alarm_an=false;
+  boolean alarm_on_help=alarm_on;
+  alarm_on=false;
   lcd.clear();
   lcd.setCursor(2,0);
-  lcd.print(F("[ ] Beep"));    // Tone 0-5
+  lcd.print(F("[ ] Tone"));    // Tone 0-5
   lcd.setCursor(2,1);
   lcd.print(F("[ ] Radio"));   // Radio
   lcd.setCursor(2,2);
   lcd.print(F("[ ] MP3"));     // MP3 0-9
-  while (wahl!=4)
+  while (selected!=4)
   {
     for (uint8_t help=0;help>2;help++) 
-      zeichen(3,help,32);
-    zeichen(3,klang,88);
-    zeichen(0,menue,126);
+      put_char(3,help,32);
+    put_char(3,alarm_type,88);
+    put_char(0,menue,126);
     #ifndef def_radio
-      zeichen(3,1,45);
+      put_char(3,1,45);
     #endif
     lcd.setCursor(3,menue);
-    schleife(false,true);
-    switch(wahl) 
+    wait_1m(false,true);
+    switch(selected) 
     {
       case 1:
         #ifndef def_radio
           if (menue==1) break;
         #endif
-        klang=menue;
-        writeEEPROM(6,klang);
-        if (klang==0) menue_Alarmton(1);
-        if (klang==2) menue_Alarmton(2);
+        alarm_type=menue;
+        write_EEPROM(6,alarm_type);
+        if (alarm_type==0) menue_SelectAlarm(1);
+        if (alarm_type==2) menue_SelectAlarm(2);
         break;
       case 2:
-        zeichen(0,menue,32);
+        put_char(0,menue,32);
         if (menue<2) menue++;
         break;
       case 3:
-        zeichen(0,menue,32);
+        put_char(0,menue,32);
         if (menue>0) menue--;
         break;
     }
   }
-  alarm_an=alarm_an2;
+  alarm_on=alarm_on_help;
   lcd.createChar(0,custom_char[0]);
 }
 
 // Select sound number
 // 1=Tone 0-5; 2=MP3 0-9
-void menue_Alarmton(uint8_t modus)
+void menue_SelectAlarm(uint8_t modus)
 {
   boolean save=false;
   lcd.clear();
   lcd.print(char(126));
   lcd.print(F(" Alarm tone +/- [ ]"));
-  lcd.setCursor(15,0);
+  lcd.setCursor(17,0);
   lcd.blink();
-  if (modus==1) lcd.print(klang_ton);
-  else lcd.print(klang_mp3);
-  sound_an();
-  alarm_jetzt=true;
-  while (wahl!=4)
+  if (modus==1) lcd.print(alarm_tone);
+  else lcd.print(alarm_mp3);
+  sound_on();
+  alarm_now=true;
+  while (selected!=4)
   {
     lcd.setCursor(15,0);
-    schleife(true,true);
-    if (wahl==1)
+    wait_1m(true,true);
+    if (selected==1)
     {
       save=true;
       if (modus==1) // Press belly to add one
       {
-        (klang_ton==5)? klang_ton=0:klang_ton++;
-        lcd.print(klang_ton);
-        alarmton(klang_ton);
+        (alarm_tone==5)? alarm_tone=0:alarm_tone++;
+        lcd.print(alarm_tone);
+        play_tone(alarm_tone);
       }
       else
       {
-        (klang_mp3==10)? klang_mp3=0:klang_mp3++;
-        lcd.print(klang_mp3);
-        if (!mp3_an) JQ6500_play(klang_mp3+1);
+        (alarm_mp3==10)? alarm_mp3=0:alarm_mp3++;
+        lcd.print(alarm_mp3);
+        if (!mp3_on) JQ6500_play(alarm_mp3+1);
       }
     }
   }
   if (save)
   {
-    if (modus==1) writeEEPROM(7,klang_ton); // Save
-    else writeEEPROM(19,klang_mp3);
+    if (modus==1) write_EEPROM(7,alarm_tone); // Save
+    else write_EEPROM(19,alarm_mp3);
   }
-  if (!mp3_an) mp3.pause();
-  alarm_jetzt=false;
+  if (!mp3_on) mp3.pause();
+  alarm_now=false;
   save=false;
 }
 
-void menue_Uhrzeit()  // Set time and nightmode
+void menue_Time()  // Set time and nightmode
 {
   uint8_t menue=0;
-  uint8_t ha=tm.Hour;
-  uint8_t ma=tm.Minute;
-  uint8_t dd=tm.Day;
-  uint8_t dm=tm.Month;
+  uint8_t new_hour=tm.Hour;
+  uint8_t new_minute=tm.Minute;
+  uint8_t new_day=tm.Day;
+  uint8_t new_month=tm.Month;
   boolean save=false;
-  icon(custom_char[16]);
+  print_icon(custom_char[16]);
   lcd.print(F("New time/date"));
   lcd.setCursor(2,1);
   lcd.print(F("Nightmode [   ]")); // To nightmode menue
   lcd.blink();
-  j-=2000;
-  while(wahl!=4)
+  thisyear-=2000;
+  while(selected!=4)
   {
     lcd.setCursor(2,2);  
-    if (ha<10) null();
-    lcd.print(ha);
+    if (new_hour<10) print_zero();
+    lcd.print(new_hour);
     lcd.print(char(58));
-    if (ma<10) null();
-    lcd.print(ma);
-    lcd.setCursor(2,3);  
+    if (new_minute<10) print_zero();
+    lcd.print(new_minute);
+    lcd.setCursor(2,3); 
     lcd.print(F("20"));
-    if (j<10) null();
-    lcd.print(j);
+    if (thisyear<10) print_zero();
+    lcd.print(thisyear); 
     lcd.print(char(47));
-    if (dm<10) null();
-    lcd.print(dm);
+    if (new_month<10) print_zero();
+    lcd.print(new_month);
     lcd.print(char(47));
-    if (dd<10) null();
-    lcd.print(dd);
+    if (new_day<10) print_zero();
+    lcd.print(new_day);
     lcd.setCursor(13,1);
-    (nachtmodus)? lcd.print(F("on ")):lcd.print(F("off"));
+    (nightmode_on)? lcd.print(F("on ")):lcd.print(F("off"));
     if (menue==0)                
     {
-      zeichen(0,2,32);
+      put_char(0,2,32);
       lcd.setCursor(0,1);
     }
     if (menue>0)             
     {
-      zeichen(0,1,32);
-      zeichen(0,3,32);
+      put_char(0,1,32);
+      put_char(0,3,32);
       lcd.setCursor(0,2); 
     }
     if ((menue>4) && (menue<11))
     {
-      zeichen(0,2,32);
+      put_char(0,2,32);
       lcd.setCursor(0,3);
     }
     lcd.print(char(126));
@@ -1670,66 +1666,66 @@ void menue_Uhrzeit()  // Set time and nightmode
       case 9: lcd.setCursor(10,3); break;
       case 10: lcd.setCursor(11,3); break;
     }
-    schleife(false,true);
-    switch(wahl)
+    wait_1m(false,true);
+    switch(selected)
       {
       case 1:
         if (menue>0) save=true;
         switch(menue)
         {
-          case 0: menue_Nachtmodus(); break;
-          case 1: (ha<14)? ha+=10:ha%=10; break;
-          case 2: (ha%10==9)? ha-=9:ha++;
-                  if (ha==24) ha=20; break;
-          case 3: (ma<49)? ma+=10:ma%=10; break;
-          case 4: (ma%10==9)? ma-=9:ma++; break;
+          case 0: menue_NightMode(); break;
+          case 1: (new_hour<14)? new_hour+=10:new_hour%=10; break;
+          case 2: (new_hour%10==9)? new_hour-=9:new_hour++;
+                  if (new_hour==24) new_hour=20; break;
+          case 3: (new_minute<49)? new_minute+=10:new_minute%=10; break;
+          case 4: (new_minute%10==9)? new_minute-=9:new_minute++; break;
           case 5:
-            (dd<22)? dd+=10:dd%=10;
-            if (dd==0) dd=1;
+            (new_day<22)? new_day+=10:new_day%=10;
+            if (new_day==0) new_day=1;
             break;
           case 6: 
-            (dd%10==9)? dd-=9:dd++; 
-            if (dd>31) dd=30; 
-            if (dd==0) dd=1; 
+            (new_day%10==9)? new_day-=9:new_day++; 
+            if (new_day>31) new_day=30; 
+            if (new_day==0) new_day=1; 
             break;
           case 7:
-            (dm<3)? dm+=10:dm%=10;
-            if (dm==0) dm=1;
+            (new_month<3)? new_month+=10:new_month%=10;
+            if (new_month==0) new_month=1;
             break;
-          case 8: (dm<12)? dm++:dm=10; break;
-          case 9: (j<89)? j+=10:j%=10; break;
-          case 10: (j%10==9)? j-=9:j++; break;
+          case 8: (new_month<12)? new_month++:new_month=10; break;
+          case 9: (thisyear<89)? thisyear+=10:thisyear%=10; break;
+          case 10: (thisyear%10==9)? thisyear-=9:thisyear++; break;
         }
         break;
       case 2: if (menue<10) menue++; break;
       case 3: if (menue>0) menue--; break;
     }
   }  
-  j+=2000;
+  thisyear+=2000;
   if (save)
   {
-    setTime(ha,ma,0,dd,dm,j);
-    tm.Hour=ha; 
-    tm.Minute=ma; 
+    setTime(new_hour,new_minute,0,new_day,new_month,thisyear);
+    tm.Hour=new_hour; 
+    tm.Minute=new_minute; 
     tm.Second=0; 
-    tm.Day=dd;
-    tm.Month=dm;
-    tm.Year=CalendarYrToTm(j);
+    tm.Day=new_day;
+    tm.Month=new_month;
+    tm.Year=CalendarYrToTm(thisyear);
     RTC.write(tm);
     save=false;
-    anzeigen();
-    sommer=sommerzeit();
-    writeEEPROM(16,sommer);
+    draw_all();
+    summertime=calc_summertime();
+    write_EEPROM(16,summertime);
   }
   lcd.createChar(0,custom_char[0]);
-  ma=255;
+  new_minute=255;
 }
 
-void menue_Nachtmodus() // Set nightmode
+void menue_NightMode() // Set nightmode
 {
   uint8_t menue=0;
   boolean save=false;
-  icon(custom_char[16]);
+  print_icon(custom_char[16]);
   lcd.print(F("Set nightmode"));
   lcd.setCursor(2,1);
   lcd.print(F("[   ] Dim [ ]")); // dim light wenn NOKO enters nightmode
@@ -1737,42 +1733,42 @@ void menue_Nachtmodus() // Set nightmode
   lcd.print(F("from"));
   lcd.setCursor(2,3);
   lcd.print(F("until"));
-  while(wahl!=4)
+  while(selected!=4)
   {
     lcd.setCursor(3,1);
-    (nachtmodus)? lcd.print(F("on ")):lcd.print(F("off")); // Nightmode on or off?
-    zeichen(13,1,nachtdimm? 88:32);
+    (nightmode_on)? lcd.print(F("on ")):lcd.print(F("off")); // Nightmode on or off?
+    put_char(13,1,night_lcd_dimm? 88:32);
     lcd.setCursor(8,2);  
-    if (nachtahh<10) null();
-    lcd.print(nachtahh);
+    if (night_hh<10) print_zero();
+    lcd.print(night_hh);
     lcd.print(char(58));
-    if (nachtamm<10) null();
-    lcd.print(nachtamm);
+    if (night_mm<10) print_zero();
+    lcd.print(night_mm);
     lcd.setCursor(8,3);  
-    if (nachtbhh<10) null();
-    lcd.print(nachtbhh);
+    if (night_to_hh<10) print_zero();
+    lcd.print(night_to_hh);
     lcd.print(char(58));
-    if (nachtbmm<10) null();
-    lcd.print(nachtbmm);
+    if (night_to_mm<10) print_zero();
+    lcd.print(night_to_mm);
     if (menue==0)
     {
-      zeichen(0,2,32);
+      put_char(0,2,32);
       lcd.setCursor(0,1); 
     }
     if (menue==1)
     {
-      zeichen(0,2,32);
+      put_char(0,2,32);
       lcd.setCursor(0,1); 
     }
     if ((menue<6) && (menue>1)) // Set arrow
     {
-      zeichen(0,1,32);
-      zeichen(0,3,32);
+      put_char(0,1,32);
+      put_char(0,3,32);
       lcd.setCursor(0,2); 
     }
     if (menue>5) 
     {
-      zeichen(0,2,32);
+      put_char(0,2,32);
       lcd.setCursor(0,3);
     }
     lcd.print(char(126));
@@ -1783,40 +1779,40 @@ void menue_Nachtmodus() // Set nightmode
       case 2: lcd.setCursor(8,2); break;
       case 3: lcd.setCursor(9,2); break;
       case 4: lcd.setCursor(11,2); break;
-      case 5: lcd.setCursor(12,2); break;
+      case 5: lcd.setCursor(11,2); break;
       case 6: lcd.setCursor(8,3); break;
       case 7: lcd.setCursor(9,3); break;
       case 8: lcd.setCursor(11,3); break;
       case 9: lcd.setCursor(12,3); break;
     }
-    schleife(false,true);
-    switch(wahl)
+    wait_1m(false,true);
+    switch(selected)
     {
       case 1:
         save=true;
         switch(menue)
         {
-          case 0: nachtmodus=!nachtmodus; break;
-          case 1: nachtdimm=!nachtdimm; break;          
-          case 2: (nachtahh<14)? nachtahh+=10:nachtahh%=10; break;
-          case 3: (nachtahh%10==9)? nachtahh-=9:nachtahh++;
-                  if (nachtahh==24) nachtahh=20; break;
-          case 4: (nachtamm<49)? nachtamm+=10:nachtamm%=10; break;
-          case 5: (nachtamm%10==9)? nachtamm-=9:nachtamm++; break;
-          case 6: (nachtbhh<14)? nachtbhh+=10:nachtbhh%=10; break;
-          case 7: (nachtbhh%10==9)? nachtbhh-=9:nachtbhh++;
-                  if (nachtbhh==24) nachtbhh=20; break;
-          case 8: (nachtbmm<49)? nachtbmm+=10:nachtbmm%=10; break;
-          case 9: (nachtbmm%10==9)? nachtbmm-=9:nachtbmm++; break;
+          case 0: nightmode_on=!nightmode_on; break;
+          case 1: night_lcd_dimm=!night_lcd_dimm; break;          
+          case 2: (night_hh<14)? night_hh+=10:night_hh%=10; break;
+          case 3: (night_hh%10==9)? night_hh-=9:night_hh++;
+                  if (night_hh==24) night_hh=20; break;
+          case 4: (night_mm<49)? night_mm+=10:night_mm%=10; break;
+          case 5: (night_mm%10==9)? night_mm-=9:night_mm++; break;
+          case 6: (night_to_hh<14)? night_to_hh+=10:night_to_hh%=10; break;
+          case 7: (night_to_hh%10==9)? night_to_hh-=9:night_to_hh++;
+                  if (night_to_hh==24) night_to_hh=20; break;
+          case 8: (night_to_mm<49)? night_to_mm+=10:night_to_mm%=10; break;
+          case 9: (night_to_mm%10==9)? night_to_mm-=9:night_to_mm++; break;
         }
         if (save)
         {
-          writeEEPROM(11,nachtmodus);
-          writeEEPROM(12,nachtahh);
-          writeEEPROM(13,nachtamm);
-          writeEEPROM(14,nachtbhh);
-          writeEEPROM(15,nachtbmm);
-          writeEEPROM(28,nachtdimm);
+          write_EEPROM(11,nightmode_on);
+          write_EEPROM(12,night_hh);
+          write_EEPROM(13,night_mm);
+          write_EEPROM(14,night_to_hh);
+          write_EEPROM(15,night_to_mm);
+          write_EEPROM(28,night_lcd_dimm);
         }
         save=false;
         break;
@@ -1827,7 +1823,7 @@ void menue_Nachtmodus() // Set nightmode
   lcd.createChar(0,custom_char[0]);
 }
 
-void menue_Einstellungen()  // Settings "Set NOKO"
+void menue_Settings()  // Settings "NOKO stellen"
 {
   uint8_t menue=0;
   lcd.clear();
@@ -1838,59 +1834,59 @@ void menue_Einstellungen()  // Settings "Set NOKO"
   lcd.setCursor(2,2);
   lcd.print(F("Distance +/- [ ]")); // Reaction distance for ultrasonic 0-9 *10cm
   lcd.setCursor(2,3);
-  lcd.print(F("more..."));
-  while(wahl!=4)
+  lcd.print(F("weiter..."));
+  while(selected!=4)
   {
     lcd.blink();
-    analogWrite(LED,(menue==0)? led_dimm*28:0);
+    analogWrite(LED,(menue==0)? led_val*28:0);
     if (menue==3) lcd.noBlink();
-    zeichen(0,menue,126);
+    put_char(0,menue,126);
     lcd.setCursor(16,0);
-    lcd.print(led_dimm);
+    lcd.print(led_val);
     lcd.setCursor(16,1);
-    lcd.print(eventsteller);
+    lcd.print(event_val);
     lcd.setCursor(16,2);
-    lcd.print(ultra_distanz);
+    lcd.print(distance_val);
     lcd.setCursor(16,menue);
-    while ((wahl=taste(false))==0) NewDelay(100); // No power down while LED is in use!
+    while ((selected=read_button(false))==0) NewDelay(100); // No power down while LED is in use!
     NewDelay(50);
-    switch(wahl)
+    switch(selected)
     {
       case 1:  
         switch(menue)
         {
           case 0:
-            (led_dimm<9)? led_dimm++:led_dimm=0;
-            analogWrite(LED,led_dimm*28);
-            writeEEPROM(2,led_dimm);
+            (led_val<9)? led_val++:led_val=0;
+            analogWrite(LED,led_val*28);
+            write_EEPROM(2,led_val);
             break;
           case 1:
-            (eventsteller<9)? eventsteller++:eventsteller=0;
-            writeEEPROM(9,eventsteller);
+            (event_val<9)? event_val++:event_val=0;
+            write_EEPROM(9,event_val);
             break;
           case 2:
-            (ultra_distanz<9)? ultra_distanz++:ultra_distanz=0;
-            writeEEPROM(8,ultra_distanz);
+            (distance_val<9)? distance_val++:distance_val=0;
+            write_EEPROM(8,distance_val);
             break;
-          case 3: menue_Einstellungen2(); break;
+          case 3: menue_Settings2(); break;
         }
         break;
       case 2:
-        zeichen(0,menue,32);
+        put_char(0,menue,32);
         if (menue<3) menue++;
         lcd.setCursor(0,menue);
         break;
       case 3:
-        zeichen(0,menue,32);
+        put_char(0,menue,32);
         if (menue>0) menue--;
         lcd.setCursor(0,menue);
         break;
     }
   }
-  if (!lcddimm) analogWrite(LED,0);
+  if (!lcd_dimm) analogWrite(LED,0);
 }
 
-void menue_Einstellungen2() // "more..." - more settings
+void menue_Settings2() // "weiter..." - more settings
 {
   uint8_t menue=0;
   lcd.clear();
@@ -1902,70 +1898,71 @@ void menue_Einstellungen2() // "more..." - more settings
   lcd.print(F("Distance light [ ]")); // Use ultrasonic to turn on light when it's off
   lcd.setCursor(2,3);
   lcd.print(F("My NOKO"));            // About NOKO menue
-  while (wahl!=4)
+  while (selected!=4)
   {
-    zeichen(18,0,powersave? 88:32);
-    zeichen(18,1,stumm? 88:32);
-    zeichen(18,2,ultra_light? 88:32);
-    zeichen(0,menue,126);
+    put_char(18,0,powersave? 88:32);
+    put_char(18,1,quiet? 88:32);
+    put_char(18,2,distance_light? 88:32);
+    put_char(0,menue,126);
     lcd.setCursor(18,menue);
     (menue<3)? lcd.blink():lcd.noBlink();  
-    schleife(false,true);
-    switch(wahl) 
+    wait_1m(false,true);
+    switch(selected) 
     {
       case 1:
         switch(menue) 
         {
           case 0: // Set power save mode
             powersave=!powersave; 
-            writeEEPROM(10,powersave);
-            powerdowndelay(pwd_delay);
+            write_EEPROM(10,powersave);
+            powerdown_delay(pwd_delay);
             break;
           case 1: // Toggle sound
             lcd.noBlink();
-            if (!stumm)
+            if (!quiet)
             {
-              radio_aus();
-              zeichen(18,1,46);
-              mp3_aus();
-              aux_aus();
+              radio_off();
+              put_char(18,1,46);
+              mp3_off();
+              aux_off();
             }
-            stumm=!stumm;
-            writeEEPROM(1,stumm);
+            quiet=!quiet;
+            write_EEPROM(1,quiet);
             break;
           case 2: // Set to turn on LCD light with ultrasonic
-            ultra_light=!ultra_light; 
-            writeEEPROM(26,ultra_light);
-            powerdowndelay(pwd_delay);
+            distance_light=!distance_light; 
+            write_EEPROM(26,distance_light);
+            powerdown_delay(pwd_delay);
             break;
           case 3: menue_NOKO(); break;
         }
         break;
       case 2:
-        zeichen(0,menue,32);
+        put_char(0,menue,32);
         if (menue<3) menue++;
         break;
       case 3:
-        zeichen(0,menue,32);
+        put_char(0,menue,32);
         if (menue>0) menue--;
         break;
     }
   }
 }
 
-void menue_NOKO() // "My NOKO" - about NOKO and secret menue
+void menue_NOKO() // "Mein NOKO" - about NOKO and secret sysinfo
 {
   uint8_t help;
-  icon(custom_char[13]);
+  print_icon(custom_char[13]);
   lcd.print(F("NOKO belongs to"));
+  put_char(17,0,239);
   lcd.setCursor(0,1);
   for (help=0;help<60;help++) // Print owner and email
   {
     if (help==20) lcd.setCursor(0,2);
     if (help==40) lcd.setCursor(0,3);
-    lcd.print(char(readDisk(Disk0,20+help)));   
+    lcd.print(char(read_disk(Disk0,20+help)));   
   }
-  schleife(false,false);
+  wait_1m(false,false);
   lcd.createChar(0,custom_char[0]);
   lcd.clear();
   bignum(0,0,11); // Draw "NOKO"
@@ -1973,19 +1970,19 @@ void menue_NOKO() // "My NOKO" - about NOKO and secret menue
   bignum(6,0,12);
   bignum(8,0,0);
   bignum(13,0,Version/10); // Draw version number - version/10
-  zeichen(16,1,4);
+  put_char(16,1,4);
   bignum(17,0,Version%10);
   lcd.setCursor(0,3);
   lcd.print(F(Build_by)); 
-    while (wahl!=4) // Secret menu, when right then left are pressed
+  while (selected!=4) // Secret menu, when right then left are pressed
   {
     #ifdef def_sysinfo
-    wahl=taste(false);
-    if (taste(false)==2) 
-      while (wahl!=4) 
+    selected=read_button(false);
+    if (read_button(false)==2) 
+      while (selected!=4) 
       {
-        wahl=taste(false);
-        if (taste(false)==3) sysinfo();
+        selected=read_button(false);
+        if (read_button(false)==3) sysinfo();
       }  
     #endif
   }
@@ -2018,16 +2015,16 @@ void sysinfo() // Hidden status menu
   lcd.print(RTC.getTemp(),0); // Internal temperature
   lcd.print(char(223));
   lcd.setCursor(0,3);
-  lcd.print(F("Batt:"));
+  lcd.print(F("Akku:"));
   lcd.setCursor(11,3); // Print sommertime/wintertime flag
   lcd.print(F("Z: "));
-  (sommer)? lcd.print(char(83)):lcd.print(char(87));
-  while (wahl!=4)
+  (summertime)? lcd.print(char(83)):lcd.print(char(87));
+  while (selected!=4)
   {
-    wahl=taste(true);
+    selected=read_button(true);
     lcd.setCursor(6,3);
-    lcd.print(float(analogRead(Akku)*5.0/1024.0));
-    stopdelay(100);
+    lcd.print(float(analogRead(Battery)*5.0/1024.0));
+    stop_delay(100);
   }      
 }
 
@@ -2039,48 +2036,48 @@ void event() // Time bases events
     help=0;  
   #endif
   help2=newrandom(help,12);
-  if (dimm) help2=10;    // If display is turned off, only start the voice event
+  if (lcd_off) help2=10;    // If display is turned off, only start the voice event
   lcd.noBlink();
-  if ((help2<8) && (lcddimm) && !((nachtmodus) && (nacht))) lcd.backlight();
+  if ((help2<8) && (lcd_dimm) && !((nightmode_on) && (night_now))) lcd.backlight();
   if (help2<5) lcd.clear();
   switch(help2)
   {
     #ifdef def_external_eeprom      // External EEPROM
-      case 0: gedicht(); break;     // Poem "Alle Kinder..."
-      case 1: schimpfwort(); break; // Swearword generator
+      case 0: poem(); break;        // Poem "Alle Kinder..."
+      case 1: swearword(); break;   // Swearword generator
       case 2: phrase(); break;      // Phrase "Wusstest Du schon..."
-      case 3: zitat(); break;       // Quotation - without source. Shame on me. :-(
+      case 3: quote(); break;       // Quotation - without source. Shame on me. :-(
     #endif
     case 4:  // Ich bin hier!
       lcd.setCursor(5,1);
       lcd.print(F("I am here!"));
-      analogWrite(LED,led_dimm*28);
-      sound_an();
-      ton(800,250,false,270);
-      ton(800,150,false,180); 
-      ton(660,250,false,250);
-      stopdelay(2000);
+      analogWrite(LED,led_val*28);
+      sound_on();
+      play_tone(800,250,false,270);
+      play_tone(800,150,false,180); 
+      play_tone(660,250,false,250);
+      stop_delay(2000);
       analogWrite(LED,0);   
       break;
     case 5:  // Monster party
       ma=minute();
       lcd.createChar(0,custom_char[13]);
-      while ((ma==minute()) && (wahl!=4))
+      while ((ma==minute()) && (selected!=4))
       {  
-        alarm_jetzt=true;
+        alarm_now=true;
         lcd.clear();
         for (help=newrandom(1,20);help>0;help--)
-          zeichen(newrandom(0,20),newrandom(0,4),0);
-        stopdelay(500);
+          put_char(newrandom(0,20),newrandom(0,4),0);
+        stop_delay(500);
       }
-      alarm_jetzt=false;
+      alarm_now=false;
       break;
     case 6:  // Scroll display
       for (help=40;help>1;help--)
       {
         lcd.scrollDisplayLeft();
-        stopdelay(200);
-        if (wahl==4) help=1;
+        stop_delay(200);
+        if (selected==4) help=1;
       }
       break;
     case 7:  // Monster cleans display
@@ -2089,17 +2086,17 @@ void event() // Time bases events
       {
         for (help=0;help<20;help++)
         {
-          zeichen(help,ma,0);
-          stopdelay(150);
-          if (wahl==4)
+          put_char(help,ma,0);
+          stop_delay(150);
+          if (selected==4)
           {
             ma=4;
             help=20;
           }
-          zeichen(help,ma,32);
+          put_char(help,ma,32);
         }
       }
-      stopdelay(2000);
+      stop_delay(2000);
       break;
     default:
       JQ6500_play(newrandom(81,111)); // Voice event - NOKO says something. Voice 81-110
@@ -2107,36 +2104,36 @@ void event() // Time bases events
   }
   if (help2<8) 
   {
-    anzeigen();
-    if ((lcddimm) && !((nachtmodus) && (nacht))) lcd.noBacklight();
+    draw_all();
+    if ((lcd_dimm) && !((nightmode_on) && (night_now))) lcd.noBacklight();
   }
 }
 
-void schimpfwort() // Swearword event on display
+void swearword() // Swearword event on display - German with gender check
 {
   uint16_t num;
-  uint8_t geschlecht=newrandom(0,2);
+  uint8_t gender=newrandom(0,2);
   lcd.setCursor(0,1);
   num=(newrandom(0,101)*10);
-  schreibe_schimpfwort(num);
-  if (geschlecht==0) lcd.print("r");
+  write_swearword(num);
+  if (gender==0) lcd.print("r");
   lcd.setCursor(0,2);
   num=(newrandom(0,101)*10)+1000;
-  schreibe_schimpfwort(num);
-  num=(newrandom(0,101)*10)+((geschlecht==0)? 2000:3000);
-  schreibe_schimpfwort(num);
+  write_swearword(num);
+  num=(newrandom(0,101)*10)+((gender==0)? 2000:3000);
+  write_swearword(num);
   JQ6500_play(11);
-  schleife(true,true);
+  wait_1m(true,true);
 }
 
-void schreibe_schimpfwort(uint16_t num) // Helps swearword event
+void write_swearword(uint16_t num) // Helps swearword event
 {
-  uint8_t c;
+  uint8_t character;
   uint16_t help;
   for (help=num;help<num+10;help++)
   {
-    c=readDisk(Disk1,help);
-    if (c!=32) lcd.print(char(c));
+    character=read_disk(Disk1,help);
+    if (character!=32) lcd.print(char(character));
   }
 }
 
@@ -2144,60 +2141,60 @@ void phrase() // Phrase event on display
 {
   uint8_t help;
   uint8_t help2=newrandom(0,100);
-  lcd.print(F("Did you know that..."));
+  lcd.print(F("Wusstest Du, dass..."));
   for (help=0;help<20;help++)
   {
-    zeichen(help,1,(readDisk(Disk1,phrase_address+(help2*60)+help)));
-    zeichen(help,2,(readDisk(Disk1,phrase_address+(help2*60)+help+20)));
-    zeichen(help,3,(readDisk(Disk1,phrase_address+(help2*60)+help+40)));
+    put_char(help,1,(read_disk(Disk1,phrase_address+(help2*60)+help)));
+    put_char(help,2,(read_disk(Disk1,phrase_address+(help2*60)+help+20)));
+    put_char(help,3,(read_disk(Disk1,phrase_address+(help2*60)+help+40)));
   }
-  schleife(true,true);
+  wait_1m(true,true);
 }
 
-void zitat() // Quotation event on display
+void quote() // Quotation event on display
 {
   uint8_t help;
   uint8_t help2=newrandom(0,100);
   for (help=0;help<20;help++)
   {
-    zeichen(help,0,(readDisk(Disk1,quote_address+(help2*80)+help)));
-    zeichen(help,1,(readDisk(Disk1,quote_address+(help2*80)+help+20)));
-    zeichen(help,2,(readDisk(Disk1,quote_address+(help2*80)+help+40)));
-    zeichen(help,3,(readDisk(Disk1,quote_address+(help2*80)+help+60)));
+    put_char(help,0,(read_disk(Disk1,quote_address+(help2*80)+help)));
+    put_char(help,1,(read_disk(Disk1,quote_address+(help2*80)+help+20)));
+    put_char(help,2,(read_disk(Disk1,quote_address+(help2*80)+help+40)));
+    put_char(help,3,(read_disk(Disk1,quote_address+(help2*80)+help+60)));
   }
-  schleife(true,true);
+  wait_1m(true,true);
 }
 
-void gedicht() // Poem event on display
+void poem() // Poem event on display
 {
   uint8_t help;
   uint8_t help2=newrandom(0,26);
   for (help=0;help<20;help++)
   {
-    zeichen(help,0,(readDisk(Disk1,poem_address+(help2*80)+help)));
-    zeichen(help,1,(readDisk(Disk1,poem_address+(help2*80)+help+20)));
-    zeichen(help,2,(readDisk(Disk1,poem_address+(help2*80)+help+40)));
-    zeichen(help,3,(readDisk(Disk1,poem_address+(help2*80)+help+60)));
+    put_char(help,0,(read_disk(Disk1,poem_address+(help2*80)+help)));
+    put_char(help,1,(read_disk(Disk1,poem_address+(help2*80)+help+20)));
+    put_char(help,2,(read_disk(Disk1,poem_address+(help2*80)+help+40)));
+    put_char(help,3,(read_disk(Disk1,poem_address+(help2*80)+help+60)));
   }
-  sound_an();
-  ton(880,80,false,150);
-  ton(880,400,false,400);
+  sound_on();
+  play_tone(880,80,false,150);
+  play_tone(880,400,false,400);
   PORTD |= (1<<6); // Amplifier off
-  schleife(true,true);
+  wait_1m(true,true);
 }
 
-void feiern() // Birthdaytime! Party! Party!
+void party() // Birthdaytime! Party! Party!
 {
-  uint8_t help,ma;
+  uint8_t help,minute_now;
   lcd.createChar(0,custom_char[14]);
   #ifdef def_radio
-    if (radio) Radio.powerOff();
+    if (radio_on) Radio.powerOff();
   #endif
-  if (aux) PORTD &= ~(1<<7); // AUX aus;
-  if ((!stumm) && (!mp3_an)) JQ6500_play(111); // Play birthday song 111
+  if (aux_on) PORTD &= ~(1<<7); // AUX aus;
+  if ((!quiet) && (!mp3_on)) JQ6500_play(111); // Play birthday song 111
   NewDelay(2000);
-  ma=minute();
-  while (((ma==minute()) || (PIND & (1<<4))) && (wahl!=4))
+  minute_now=minute();
+  while (((minute_now==minute()) || (PIND & (1<<4))) && (selected!=4))
   {  
     lcd.clear();
     lcd.setCursor(7,1);
@@ -2206,106 +2203,106 @@ void feiern() // Birthdaytime! Party! Party!
     lcd.print(F("Birthday"));
     for (help=newrandom(1,5);help>0;help--)
     {
-      zeichen(newrandom(0,20),0,0);
-      zeichen(newrandom(0,20),3,0);
+      put_char(newrandom(0,20),0,0);
+      put_char(newrandom(0,20),3,0);
     }
-    stopdelay(500);
+    stop_delay(500);
   }
-  gefeiert=true;
-  if (!mp3_an) mp3.pause();
-  if (radio) radio_ein();
-  if (aux) PORTD |= (1<<7);
-  anzeigen();
+  birthday_over=true;
+  if (!mp3_on) mp3.pause();
+  if (radio_on) radio_start();
+  if (aux_on) PORTD |= (1<<7);
+  draw_all();
 }
 
-void alarmton(uint8_t klangnummer) // 6 alarm tunes
+void play_tone(uint8_t tone_number) // 6 alarm tunes
 {
   uint8_t help;
-  switch (klangnummer)
+  switch (tone_number)
   {
     case 0:
-      ton(262,250,true,333);
-      ton(196,125,true,167);
-      ton(196,125,true,167);
-      ton(220,250,true,333);
-      ton(196,250,true,666);
-      ton(247,250,true,333);
-      ton(262,250,true,333);
+      play_tone(262,250,true,333);
+      play_tone(196,125,true,167);
+      play_tone(196,125,true,167);
+      play_tone(220,250,true,333);
+      play_tone(196,250,true,666);
+      play_tone(247,250,true,333);
+      play_tone(262,250,true,333);
       break;
     case 1:
       for (help=10;help>0;help--)
       {
-        ton(440,50,true,100);
-        if (wahl==4) help=0;
+        play_tone(440,50,true,100);
+        if (selected==4) help=0;
       }
       break;
     case 2:
-      ton(440,200,true,500);
+      play_tone(440,200,true,500);
       break;
     case 3:
-      ton(600,100,true,100);
-      ton(700,100,true,100);
-      ton(800,100,true,300);
+      play_tone(600,100,true,100);
+      play_tone(700,100,true,100);
+      play_tone(800,100,true,300);
       break;
     case 4:
-      ton(600,80,true,100);
-      ton(400,80,true,100);
-      ton(500,80,true,100);
-      ton(400,80,true,200);      
+      play_tone(600,80,true,100);
+      play_tone(400,80,true,100);
+      play_tone(500,80,true,100);
+      play_tone(400,80,true,200);      
       break;
     case 5:
-      ton(600,200,true,200);
-      ton(500,200,true,200);
-      ton(400,200,true,300);
+      play_tone(600,200,true,200);
+      play_tone(500,200,true,200);
+      play_tone(400,200,true,300);
       break;
   }  
 } 
 
-void radio_ein() // Radio on
+void radio_start() // Radio on
 {
   #ifdef def_radio
     Radio.powerOn();
-    Radio.setChannel(freq);
+    Radio.setChannel(radio_freq);
   #endif
 }
 
-void radio_aus() // Radio off
+void radio_off() // Radio off
 {
   #ifdef def_radio
     Radio.powerOff();
-    radio=false;
+    radio_on=false;
   #endif
 }
 
-void aux_aus() // AUX relay off
+void aux_off() // AUX relay off
 {
   PORTD &= ~(1<<7); 
-  aux=false;
+  aux_on=false;
 }
 
-void mp3_aus() // Stop MP3 playing
+void mp3_off() // Stop MP3 playing
 {
   mp3.pause();  
-  powerdowndelay(100);
-  geschichte_an=false;    
-  eigenes_an=false;
-  mp3_an=false;
+  powerdown_delay(100);
+  story_on=false;    
+  file_on=false;
+  mp3_on=false;
   mp3.setLoopMode(MP3_LOOP_NONE); // Change loop mode to once
 }
 
-void sound_an() // Turns on amplifier with a small delay for beep tones
+void sound_on() // Turns on amplifier with a small delay for beep tones
 {
-  PORTD &= ~(1<<6); // Amplifier on
-  NewDelay(reaktionszeit);
+  PORTD &= ~(1<<6); // Amplifier ein
+  NewDelay(reaction_time);
 }
 
-void JQ6500_play(uint8_t v) // Plays MP3 number v
+void JQ6500_play(uint8_t file) // Plays MP3 number v
 {
-  sound_an(); // Amplifier on
-  mp3.playFileByIndexNumber(v);
-  powerdowndelay(100);
-  if (eigenes_an) mp3.setLoopMode(MP3_LOOP_FOLDER);
-  if (geschichte_an) mp3.setLoopMode(MP3_LOOP_NONE);  
+  sound_on(); // Amplifier on
+  mp3.playFileByIndexNumber(file);
+  powerdown_delay(100);
+  if (file_on) mp3.setLoopMode(MP3_LOOP_FOLDER);
+  if (story_on) mp3.setLoopMode(MP3_LOOP_NONE);  
 }
 
 int16_t freeRam() // Free RAM in bytes
@@ -2315,22 +2312,22 @@ int16_t freeRam() // Free RAM in bytes
   return (int16_t)&v-(__brkval==0? (int16_t)&__heap_start:(int16_t)__brkval);
 }
 
-uint8_t readDisk(uint8_t disknummer,uint16_t adresse) // Read an EEPROM
+uint8_t read_disk(uint8_t disk_number,uint16_t address) // Read an EEPROM
 {
-  Wire.beginTransmission(disknummer);
-  Wire.write((uint16_t)(adresse >> 8));   
-  Wire.write((uint16_t)(adresse & 0xFF)); 
+  Wire.beginTransmission(disk_number);
+  Wire.write((uint16_t)(address >> 8));   
+  Wire.write((uint16_t)(address & 0xFF)); 
   Wire.endTransmission();
-  Wire.requestFrom(disknummer,1);
+  Wire.requestFrom(disk_number,1);
   return Wire.read();
 }
 
-uint8_t readEEPROM(uint8_t address) // read internal EEPROM with offset
+uint8_t read_EEPROM(uint8_t address) // read internal EEPROM with offset
 {
   return EEPROM.read(address+offset);
 }
 
-void writeEEPROM(uint8_t address, uint8_t data) // write internal EEPROM with offset
+void write_EEPROM(uint8_t address, uint8_t data) // write internal EEPROM with offset
 {
   EEPROM.write(address+offset,data);
 }
