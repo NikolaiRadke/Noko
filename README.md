@@ -64,9 +64,9 @@ NOKO/
 |   ├── I2C-Scanner/
 |   |   Sketch to scan adresses of all connected I2C-devices.
 |   ├── NOKO_Disk1/
-|   |   Sketch to write the Disk1 textfile to 24LC256-EEPROMs.
+|   |   Sketch to write the Disk1 textfile into 24LC256-EEPROMs.
 |   └── NOKO_EEPROM_Disk0/
-|       Sketch to write NOKO presets to the Arduino EEPROM and the Disk0 textfile to the
+|       Sketch to write NOKO presets into the Arduino EEPROM and the Disk0 textfile into the
 |       AH24C32 EEPROM.
 |
 └── write_EEPROM/
