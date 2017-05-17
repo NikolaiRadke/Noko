@@ -18,12 +18,6 @@ Now, the radio functions are commented out and disabled.
 
 ## Instructions for older IDEs   
 
-### Modifing NOKO.ino
-With older versions of AVR Core (like 1.6.9), NOKO.ino won't compile without errors. Look for 
-```PROGMEM const char custom_char[18][8]=```  
-and change it into  
-```uint8_t custom_char[18][8]=```  
-
 ### platform.txt
 
 To compile NOKO.ino, you need to modify the file configuration file platform.txt.  
@@ -84,7 +78,7 @@ You can find an intruction on how to flash a new bootloader in German [here in t
 
 ## How to upload a precompiled hex-file  
 
-Select the hex-file of your choice in [howto_compile/precompiled](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled). Notice that all compiled files are made for **displays** with **0x27**-address. If you need a file with anoher address like *0x3f* just contact me.
+Select the hex-file of your choice in [howto_compile/precompiled](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled). Notice that files older than **170517** are made for **displays** with **0x27**-address. If you need a file with anoher address like *0x3f* just contact me.
 
 **Linux:**  
 See if you habe *avrdude* installed. Open a shell and type ```avrdude```. If not, install is with ```sudo apt-get install avrdude```. Test again. Connect your Arduino via USB, open a terminal and use the following command:
