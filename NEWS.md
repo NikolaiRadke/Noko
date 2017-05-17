@@ -9,7 +9,7 @@ New optimized release. Install it! NOKO will be glad. It is based on firmware 1.
   * Very small bugfixes  
 * **15.05.2017** - Small bugfixes. PROGMEM troubles custom character.  
 * **14.05.2017** - The sourcecode is now in English. Renamed constans, functions and variables for better understanding.  
-* **02.05.2017** - **Release V1.0-010517** 
+* **02.05.2017** - **Release V1.0-010517**  
 First release after initial 120516. Optimized and bugfixed 130417. Now there is enough flash free for future enhancements. Feel free to contact me for ideas, bugs and suggestions.  
 * **27.04.2017** - Tested compiling options in platform.txt. They are working again with IDE 1.8.2. This saves about 800 bytes flash.  
 * **19.04.2017** - Firmware **1.0-190417** - Fixed ADC bug after power safe mode.  
