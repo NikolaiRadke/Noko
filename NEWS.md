@@ -4,9 +4,9 @@
 * **02.05.2017** - **Release V1.0-170517**  
 New optimized release. Install it! NOKO will be glad. It is based on firmware 1.0-170517 with the following enhancements:  
   * Custom chars were taken from PROGMEM. That caused too much troubles.  
-  * Cleaned up source code, completely in english  
+  * Cleaned up source code, completely in english, including constants, variables and function names.    
   * Autodetection for the display address. Very handy.  
-  * Very small bugfixes  
+  * Very small bugfixes.  
 * **15.05.2017** - Small bugfixes. PROGMEM troubles custom character.  
 * **14.05.2017** - The sourcecode is now in English. Renamed constans, functions and variables for better understanding.  
 * **02.05.2017** - **Release V1.0-010517**  
