@@ -65,6 +65,15 @@ void LiquidCrystal_I2C::init_priv()
 }
 
 void LiquidCrystal_I2C::begin(uint8_t cols, uint8_t lines, uint8_t dotsize) {
+  // Scan Display: PCF8574: 0x20-0x27, PCF8574A: 0x38-0x3F
+  if (_Addr==0x00)
+  {
+    for (_Addr=0x20;_Addr<0x40;_Addr++)
+    {
+      Wire.beginTransmission(_Addr);
+      if (Wire.endTransmission()==0) break;
+    } 
+  }
 	if (lines > 1) {
 		_displayfunction |= LCD_2LINE;
 	}
@@ -323,7 +332,6 @@ void LiquidCrystal_I2C::draw_vertical_graph(uint8_t row, uint8_t column, uint8_t
 void LiquidCrystal_I2C::setContrast(uint8_t new_val){}
 
 	
-
 
 
 

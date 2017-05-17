@@ -1,11 +1,11 @@
- /* NOKO V1.0 01.05.2017 - Nikolai Radke
+ /* NOKO V1.0 17.05.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.488 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
+ * Flash-Usage: 27.544 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -73,14 +73,14 @@
  * 
  * I2C address list:
  * SI4703           0x10 (Radio)
- * LCD              0x27 (Yes it's the LCD. Some Displays have 0x3F!)
+ * LCD              Will be scanned by default
  * 24LC256          0x50 (EEPROM 32kb)
  * AT24C32          0x57 (EEPROM 4kb on RTC module)
  * DS3231           0x68 (RTC chip on RTC module)
 */
 
 // Softwareversion
-#define Firmware "-010517"
+#define Firmware "-170517"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
@@ -90,8 +90,9 @@
 #define def_stories           // Stories on SD card?
 
 // Display selection
-//#define display_address 0x27   // Blue 
-#define display_address 0x3F // Yellow
+#define display_address 0x00    // Autodetect
+//#define display_address 0x27  // Blue 
+//#define display_address 0x3F  // Yellow
 
 // 24LC256 EEPROM addresses
 #define phrase_address 4000    // Starting address of the phrases in 24LC256
@@ -2350,5 +2351,6 @@ void write_EEPROM(uint8_t address, uint8_t data) // write internal EEPROM with o
 {
   EEPROM.write(address+offset,data);
 }
+
 
 

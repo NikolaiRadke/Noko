@@ -1,11 +1,11 @@
- /* NOKO V1.0 01.05.2017 - Nikolai Radke
+ /* NOKO V1.0 17.05.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.348 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
+ * Flash-Usage: 27.406 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-010517E"
+#define Firmware "-170517"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
@@ -90,8 +90,9 @@
 #define def_stories           // Stories on SD card?
 
 // Display selection
-#define display_address 0x27   // Blue 
-//#define display_address 0x3F // Yellow
+#define display_address 0x00    // Autodetect
+//#define display_address 0x27  // Blue 
+//#define display_address 0x3F  // Yellow
 
 // 24LC256 EEPROM addresses
 #define phrase_address 4000    // Starting address of the phrases in 24LC256
@@ -2015,9 +2016,9 @@ void sysinfo() // Hidden status menu
   lcd.print(RTC.getTemp(),0); // Internal temperature
   lcd.print(char(223));
   lcd.setCursor(0,3);
-  lcd.print(F("Akku:"));
+  lcd.print(F("Batt:"));
   lcd.setCursor(11,3); // Print sommertime/wintertime flag
-  lcd.print(F("Z: "));
+  lcd.print(F("T: "));
   (summertime)? lcd.print(char(83)):lcd.print(char(87));
   while (selected!=4)
   {
