@@ -100,25 +100,6 @@ void Si4703::setVolume(byte volume)
   updateRegisters(); //Update
 }
 
-void Si4703::readRDS(char* buffer)
-{ 
-  readRegisters();
-	if(si4703_registers[STATUSRSSI] & (1<<RDSR))
-	{
-		uint16_t b = si4703_registers[RDSB];
-	  uint16_t index = b & 0x03;
-	  if (b < 500)
-	  {
-		  char Dh = (si4703_registers[RDSD] & 0xFF00) >> 8;
-    	char Dl = (si4703_registers[RDSD] & 0x00FF);
-	  	buffer[index * 2] = Dh;
-	    buffer[index * 2 +1] = Dl;
-		}
-    //newdelay(40); //Wait for the RDS bit to clear
-	}
-  buffer[8] = '\0';
-}
-
 //To get the Si4703 inito 2-wire mode, SEN needs to be high and SDIO needs to be low after a reset
 //The breakout board has SEN pulled high, but also has SDIO pulled high. Therefore, after a normal power up
 //The Si4703 will be in an unknown state. RST must be controlled
@@ -250,6 +231,27 @@ uint16_t Si4703::getChannel() {
   return(channel);
 }
 
+// Modified RDS functions for polling RDS data with NOKO
+
+void Si4703::readRDS(char* buffer)
+{ 
+  readRegisters();
+  if(si4703_registers[STATUSRSSI] & (1<<RDSR))
+  {
+    uint16_t b = si4703_registers[RDSB];
+    uint16_t index = b & 0x03;
+    if (b < 500)
+    {
+      char Dh = (si4703_registers[RDSD] & 0xFF00) >> 8;
+      char Dl = (si4703_registers[RDSD] & 0x00FF);
+      buffer[index * 2] = Dh;
+      buffer[index * 2 +1] = Dl;
+    }
+    //newdelay(40); //Wait for the RDS bit to clear
+  }
+  buffer[8] = '\0';
+}
+
 void Si4703::readRDS_Radiotext(char* buffer)
 { 
 	int indexHighest = 0;
@@ -276,5 +278,20 @@ void Si4703::readRDS_Radiotext(char* buffer)
   buffer[(indexHighest * 4) + 4] = '\0';
 }
 
+void Si4703::readRDS_Time(uint8_t rds_hour,uint8_t rds_minute)
+{
+  uint16_t mins; ///< RDS time in minutes
+  uint8_t off;   ///< RDS time offset and sign
+  if(si4703_registers[STATUSRSSI] & (1<<RDSR)) 
+  {
+    off   = (si4703_registers[RDSD]) & 0x3F;
+    mins = (si4703_registers[RDSD] >> 6 ) & 0x3F;
+    mins = 60 * (((si4703_registers[RDSC]) & 0x0001) << 4) | (((si4703_registers[RDSD] >> 12) & 0x0F));
+    if (off & 0x20) mins -= 30 * (off & 0x1F);
+    else mins += 30 * (off & 0x1F);
+  }
+  rds_hour=mins/60;
+  rds_minute=mins%60;
+}
 
 

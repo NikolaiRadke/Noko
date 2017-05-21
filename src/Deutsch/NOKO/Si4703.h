@@ -2,7 +2,7 @@
 Library for Sparkfun Si4703 breakout board.
 Simon Monks 2011-09-09
 Modified by Gary Bell 2013-12-05
-Modified by Nikolai Radke 2015-05-08
+Modified by Nikolai Radke 2017-05-17
 
 This is a library wrapper and a few extras to the excellent code produced
 by Nathan Seidle from Sparkfun (Beerware).
@@ -25,6 +25,7 @@ powerOff()        was added
 setSoftMuteOff()  was added (but unused)
 setSoftMuteOn()   was added (but unused)
 Set to STEREO     Line 174 in Si4703.cpp
+readRDS           was modified for polling without timeout
 Maybe one day I will test RDS performance mode?
 */
 
@@ -46,8 +47,8 @@ class Si4703
 	void setSoftMuteOff(); // NEW	
 	void setSoftMuteOn(); // NEW			
 	void setVolume(byte volume); 	// 0 to 15
-	void readRDS_Radiotext(char* message, uint16_t timeout);
-	void readRDS(char* message, uint16_t timeout);	
+	void readRDS_Radiotext(char* message);
+	void readRDS(char* message);	
 									// message should be at least 9 chars
 									// result will be null terminated
 									// timeout in milliseconds
@@ -113,6 +114,8 @@ class Si4703
 };
 
 #endif
+
+
 
 
 

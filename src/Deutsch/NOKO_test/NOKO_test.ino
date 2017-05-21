@@ -1,11 +1,11 @@
  /* NOKO V1.0 21.05.2017 - Nikolai Radke
  *
- * Sketch for NOKO-Monster - English
+ * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.142 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
+ * Flash-Usage: 27.288 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -16,7 +16,7 @@
  * char()-list: 32=space 37=% 46=. 47=/ 48=0 58=: 68=D 78=N 80=P 82=R 83=S 86=V 87=W
  *              110=n 120=x | 225=ä 226=ß 239=ö 245=ü (German only)
  *         
- * TODO: Test time setting!
+ * TODO: 
  *         
  * KNOWN BUGS:
  * Due to bad programming the summertime/wintertime will switch at 04:00, not 02:00.
@@ -321,7 +321,7 @@ init();
   if (Version>help) // New version > internal version?
   {
     lcd.clear();
-    lcd.print(F(" Update completed"));
+    lcd.print(F(" Update erfolgreich"));
     put_char(3,1,86);
     lcd.print(help/10);
     lcd.print(char(46));
@@ -331,7 +331,8 @@ init();
     lcd.print(char(46));
     lcd.print(Version%10); // lcd.print does not support printf-formatting
     lcd.setCursor(4,4);
-    lcd.print(F("Press nose"));
+    lcd.print(F("Nase dr cken"));
+    put_char(11,4,245);
     EEPROM.write(20,Version); // Write new internal version
     wait_1m(true,false);      // Wait for button
     lcd.clear();
@@ -533,9 +534,16 @@ void play_tone(uint16_t h,uint16_t l,boolean stopd,uint16_t d)
 // Constantly used strings. Saves a lot of flash space. 
 void print_zero()  {lcd.print(char(48));} // Prints a "0" - saves flash. However.
 
+void print_uhr()   {lcd.print(F(" Uhr"));} // Prints " Uhr"
+ 
+void print_hoeren() // Prints "[h]ören"
+{
+  lcd.print(char(239));
+  lcd.print(F("ren")); 
+}
+
 void init_char() // Read custom chars again
 {
-  lcd.clear();
   for (uint8_t help=0;help<8;help++)
     lcd.createChar(help,custom_char[help]);
 }
@@ -777,8 +785,8 @@ void write_station(uint8_t station) // Save radio station in EEPROM
   radio_station[station]=radio_freq; // Write station 1
   write_EEPROM(22+station*2,radio_station[station]%10);
   write_EEPROM(21+station*2,(radio_station[station]-(radio_station[station]%10))/10);
-  lcd.setCursor(2,1);
-  lcd.print(F("saving...          "));
+  lcd.setCursor(1,1);
+  lcd.print(F("speichern...      "));
   Radio.newdelay(1000);
 }
 
@@ -842,18 +850,19 @@ void draw_date() // Draw date
   lcd.setCursor(0,3);
   lcd.print(dayStr(weekday())); 
   lcd.setCursor(10,3);
-  lcd.print(thisyear);
-  lcd.print(char(47));
-  if (tm.Month<10) print_zero();
-  lcd.print(tm.Month);
-  lcd.print(char(47));
   if (tm.Day<10) print_zero();
   lcd.print(tm.Day);
+  lcd.print(char(46));
+  if (tm.Month<10) print_zero();
+  lcd.print(tm.Month);
+  lcd.print(char(46));
+  lcd.print(thisyear);
   if (power<10) lcd.setCursor(18,0);
 }
 
 void draw_all() // Draw the entire display new
 {
+  lcd.clear();
   init_char();
   draw_date();
   draw_time();
@@ -867,13 +876,13 @@ void read_time() // Read internal time
 
 void print_station(uint8_t s) // Print the stations frequencies
 {
-  lcd.setCursor(2,1);
+  lcd.setCursor(1,1);
   lcd.print(F("Station "));
   lcd.print(s);
   lcd.print(char(58));
   lcd.print(char(32));
   lcd.print(float(radio_station[s-1])/10,2);
-  print_space(radio_station[s-1]>999? 19:18,1,radio_station[s-1]>999? 1:2);
+  print_space(radio_station[s-1]>999? 18:17,1,radio_station[s-1]>999? 2:3);
   lcd.setCursor(xlcd,ylcd);
 }
 
@@ -904,7 +913,7 @@ boolean check_night() // Is it nighttime?
   return ja;
 }
 
-void check_ultra() // Ultrasonic event - distance_val= 0..9 * 10cm
+void check_ultra()  // Ultrasonic event - distance_val= 0..9 * 10cm
 {
   PORTB &= ~(1<<5); // (Distance_pingPin,LOW);
   delayMicroseconds(5);
@@ -928,9 +937,9 @@ void check_ultra() // Ultrasonic event - distance_val= 0..9 * 10cm
 
 boolean check_alarm() // Is it time for the alarm?
 {
-  if ((alarm_on) && (!alarm_now))    // Prevent double check
+  if ((alarm_on) && (!alarm_now))  // Prevent double check
   {
-    read_time();                     // Read internal time
+    read_time();                          // Read internal time
     if (!alarm_mute)                 // Is alarm allowed?
       if ((alarm_mm==tm.Minute) && (alarm_hh==tm.Hour)) 
       {
@@ -945,8 +954,8 @@ boolean check_alarm() // Is it time for the alarm?
 void alarm() // Play alarm
 {
   if (lcd_off) lcd.on();           // Display on
-  if (lcd_dimm) lcd.backlight();   // Light on
-  PORTD &= ~(1<<6);                // Amplifier on
+  if (lcd_dimm) lcd.backlight(); // Light on
+  PORTD &= ~(1<<6);             // Amplifier on
   lcd.createChar(0,custom_char[17]);
   lcd.clear();
   lcd.noBlink();
@@ -957,9 +966,10 @@ void alarm() // Play alarm
   if (tm.Minute<10) print_zero();
   lcd.print(tm.Minute);
   lcd.setCursor(4,3);
-  lcd.print(F("Press Nose"));
+  lcd.print(F("Nase dr cken"));
+  put_char(11,3,245);
   alarm_now=true;
-  if (aux_on) PORTD &= ~(1<<7);     // AUX off
+  if (aux_on) PORTD &= ~(1<<7);                // AUX off
   if ((alarm_type==1) && (!radio_on) && (!mp3_on))  // Radio alarm
   {
       radio_start();
@@ -1014,13 +1024,14 @@ void menue_Main() // Main menue
     help=1;
   }    
   lcd.setCursor(2,0);
-  lcd.print(F("Play something")); // Play menue
+  lcd.print(F("Spiel was vor")); // Play menue
   lcd.setCursor(2,1);
-  lcd.print(F("Set alarm"));      // Alarm menue
-  lcd.setCursor(2,2);
-  lcd.print(F("Set clock"));      // Time and nightmode menue
+  lcd.print(F("Alarm stellen")); // Alarm menue
+  lcd.setCursor(1,2);
+  print_uhr();
+  lcd.print(F("zeit stellen"));  // Time and nightmode menue
   lcd.setCursor(2,3);
-  lcd.print(F("Set NOKO"));       // Settings menue
+  lcd.print(F("NOKO stellen"));  // Settings menue
   while (selected!=4)
   {
     put_char(0,menue,126);
@@ -1049,19 +1060,22 @@ void menue_Main() // Main menue
   draw_all();
 }
 
-void menue_Play() // Play menue "Play something"
+void menue_Play() // Play menue "Spiel was vor"
 {
   uint8_t menue=0;
   lcd.createChar(0,custom_char[15]);
   lcd.clear();
-  lcd.setCursor(2,0);                // Radio menue
-  lcd.print(F("Play radio"));        
+  lcd.setCursor(2,0);
+  lcd.print(F("Radio h"));           // Radio menue
+  print_hoeren();
   lcd.setCursor(2,1);                // MP3 menue
-  lcd.print(F("Play own files")); 
+  lcd.print(F("Eigenes h"));  
+  print_hoeren();
   lcd.setCursor(2,2);                // Toggle AUX
-  lcd.print(F("AUX input"));
+  lcd.print(F("AUX-Eingang"));
   lcd.setCursor(2,3);                // Story menue
-  lcd.print(F("Play stories"));    
+  lcd.print(F("Geschichten h"));     
+  print_hoeren();
   while (selected!=4)
   {
     #ifndef def_radio                // Is the radio available?
@@ -1119,17 +1133,17 @@ void menue_Play() // Play menue "Play something"
   init_char();
 }
 
-void menue_Radio() // Radio menue "Play radio"
+void menue_Radio() // Radio menue "Radio hoeren"
 {
   #ifdef def_radio
   char rdsStation[10]; // RDS station name
   char rdsText[64];    // RDS text 16*4 characters
   boolean rds=true;
+  uint8_t rds_hour,rds_minute;
   boolean save2=false;
   boolean save=false;
   uint8_t menue=2;
   uint8_t help,help2,count_rows;
-  uint8_t count_save=0;
   uint16_t help_freq;
   uint32_t zmillis;
   lcd.createChar(1,custom_char[9]);
@@ -1139,16 +1153,17 @@ void menue_Radio() // Radio menue "Play radio"
   print_icon(custom_char[15]);
   while (selected!=4)
   {
-    put_char(2,2,91);
+    put_char(1,2,91);
     lcd.print(char(2));
-    lcd.print(F("][<][ ][>]["));
+    lcd.print(F("][<][ ][ ][>]["));
     lcd.print(char(3));
     lcd.print(char(93));
-    lcd.setCursor(2,3);
+    lcd.setCursor(1,3);
     lcd.print(F("[1|s] [2|s] [3|s] "));
     print_space(1,1,19);
     lcd.blink();
-    put_char(9,2,radio_on? 1:4);
+    put_char(8,2,radio_on? 1:4);
+    put_char(11,2,radio_on? 84:32);
     lcd.setCursor(2,0);
     lcd.print(float(radio_freq)/10,2);
     lcd.print(char(32));
@@ -1161,38 +1176,38 @@ void menue_Radio() // Radio menue "Play radio"
     }
     switch (menue)
     {
-       case 5: 
-         xlcd=3;
+       case 6: 
+         xlcd=2;
          ylcd=3;
          print_station(1);
          rds=false;
          break;
-       case 6: 
-         xlcd=5;
+       case 7: 
+         xlcd=4;
          ylcd=3;
          break;
-       case 7: 
-         xlcd=9;
+       case 8: 
+         xlcd=8;
          ylcd=3;
          print_station(2);
          rds=false;
          break;
-       case 8: 
-         xlcd=11;
+       case 9: 
+         xlcd=10;
          ylcd=3;
          break;
-       case 9: 
-         xlcd=15;
+       case 10: 
+         xlcd=14;
          ylcd=3;
          print_station(3);
          rds=false;
          break;
-       case 10: 
-         xlcd=17;
+       case 11: 
+         xlcd=16;
          ylcd=3; 
          break;     
        default:
-         xlcd=3+(menue*3);
+         xlcd=2+(menue*3);
          ylcd=2;
     }
     if (!(radio_freq==help_freq)) // Clear RDS when frequency was changed
@@ -1205,9 +1220,8 @@ void menue_Radio() // Radio menue "Play radio"
     if ((radio_on) && (rds)) 
       do // Wait for button and poll RDS data       
       {
-        for (count_rows=count_save;count_rows<4;count_rows++) // Read RDS Text
+        for (count_rows=0;count_rows<4;count_rows++) // Read RDS Text
         {
-          count_save=count_rows;
           for (help2=0;help2<3;help2++) // Read 4x16 chars
           {
             lcd.setCursor(2,1);
@@ -1219,6 +1233,7 @@ void menue_Radio() // Radio menue "Play radio"
             {
               Radio.readRDS_Radiotext(rdsText);
               Radio.readRDS(rdsStation); // Read station name
+              Radio.readRDS_Time(rds_hour,rds_minute);
             }
             lcd.setCursor(9,0);
             lcd.print(rdsStation); 
@@ -1226,7 +1241,6 @@ void menue_Radio() // Radio menue "Play radio"
             if (selected>0) break;
             powerdown_delay(pwd_delay);
           }  
-          if (count_save==3) count_save=0;
           if (selected>0) break;
         }
       } while (selected==0); 
@@ -1253,29 +1267,43 @@ void menue_Radio() // Radio menue "Play radio"
               aux_off();
               radio_on=true;
             }
-            break;;
-          case 3: if (radio_freq<=1079) radio_freq++; break;
-          case 4: if (radio_on) radio_freq=Radio.seekUp(); break;
-          case 5: 
+            break;
+          case 3:
+            print_space(0,1,20);
+            lcd.setCursor(0,1);
+            lcd.print(rds_hour);
+            lcd.setCursor(10,1);
+            lcd.print(rds_minute);
+            stop_delay(2000);
+            break;
+          case 4: if (radio_freq<=1079) radio_freq++; break;
+          case 5: if (radio_on) radio_freq=Radio.seekUp(); break;
+          case 6: 
             radio_freq=radio_station[0]; 
             menue=2; 
             break;
-          case 6: write_station(0); break;
-          case 7: 
+          case 7: write_station(0); break;
+          case 8: 
             radio_freq=radio_station[1]; 
             menue=2;
             break;
-          case 8: write_station(1); break;
-          case 9: 
+          case 9: write_station(1); break;
+          case 10: 
             radio_freq=radio_station[2]; 
             menue=2; 
             break;
-          case 10: write_station(2); break;
+          case 11: write_station(2); break;
         }
         if (radio_on) save=true;
         break;
-      case 2: if (menue<10) menue++; break;
-      case 3: if (menue>0) menue--;  break;
+      case 2:
+        if (menue<11) menue++;
+        if ((!radio_on) && (menue==3)) menue++;
+        break;
+      case 3:
+        if (menue>0) menue--;
+        if ((!radio_on) && (menue==3)) menue--;
+        break;
     } 
   }
   if (save2)
@@ -1288,7 +1316,7 @@ void menue_Radio() // Radio menue "Play radio"
   #endif
 }
 
-// Story menu & MP3 menu: "Play stories" "Play own files"
+// Story menu & MP3 menu: "Geschichten hören" "Eigenes hören"
 // 1=Story 2=MP3 3=No MP3 files found
 void menue_MP3(uint8_t modus) 
 {
@@ -1334,7 +1362,7 @@ void menue_MP3(uint8_t modus)
         powerdown_delay(100);
       }
       lcd.setCursor(2,0);
-      if (story_on) lcd.print(F("Story")); // Is a story running?
+      if (story_on) lcd.print(F("Geschichte")); // Is a story running?
       else
       {
         powerdown_delay(100); // Read filename. Only 8 chars possible :-(
@@ -1356,7 +1384,7 @@ void menue_MP3(uint8_t modus)
     if (modus==3) // No MP3s found!
     {
       lcd.setCursor(0,1);
-      lcd.print(F("No MP3s found"));
+      lcd.print(F("Keine MP3s gefunden"));
     }
     lcd.setCursor(15,0);
     if (mp3_pause) lcd.print(F("PAUSE")); else print_space(15,0,5);
@@ -1456,14 +1484,15 @@ void menue_Alarm()  // Set alarm - no alarm allowd in this menue
   lcd.print(char(58));
   if (alarm_mm<10) print_zero();
   lcd.print(alarm_mm);
+  print_uhr();
   lcd.setCursor(0,1);
-  lcd.print(F("New alarm time"));
+  lcd.print(F("Neue Weckzeit"));
   lcd.setCursor(2,3);
-  lcd.print(F("Alarm tone [     ]"));
+  lcd.print(F("Weckton    [     ]"));
   lcd.setCursor(14,3);
   switch(alarm_type)
   {
-    case 0:lcd.print(F("Tone")); break; // Choose alarm type
+    case 0:lcd.print(F("Ton")); break; // Choose alarm type
     case 1:lcd.print(F("Radio")); break;
     case 2:lcd.print(F("MP3")); break;
   }
@@ -1478,8 +1507,8 @@ void menue_Alarm()  // Set alarm - no alarm allowd in this menue
     lcd.print(char(58));
     if (alarm_mm<10) print_zero();
     lcd.print(alarm_mm);
-    print_space(7,2,6);
-    (alarm_on)? lcd.print(F("[on ]")):lcd.print(F("[off]")); // Alarm on/off?
+    print_uhr();
+    (alarm_on)? lcd.print(F("  [an ]")):lcd.print(F("  [aus]")); // Alarm on/off?
     switch(menue)
     {
       case 0: lcd.setCursor(2,2); break;
@@ -1530,7 +1559,7 @@ void menue_AlarmType() // Which alarm type? No alarm allowed hier
   alarm_on=false;
   lcd.clear();
   lcd.setCursor(2,0);
-  lcd.print(F("[ ] Tone"));    // Tone 0-5
+  lcd.print(F("[ ] Weckton")); // Tone 0-5
   lcd.setCursor(2,1);
   lcd.print(F("[ ] Radio"));   // Radio
   lcd.setCursor(2,2);
@@ -1578,8 +1607,8 @@ void menue_SelectAlarm(uint8_t modus)
   boolean save=false;
   lcd.clear();
   lcd.print(char(126));
-  lcd.print(F(" Alarm tone +/- [ ]"));
-  lcd.setCursor(17,0);
+  lcd.print(F(" Weckton +/- [ ]"));
+  lcd.setCursor(15,0);
   lcd.blink();
   if (modus==1) lcd.print(alarm_tone);
   else lcd.print(alarm_mp3);
@@ -1625,9 +1654,9 @@ void menue_Time()  // Set time and nightmode
   uint8_t new_month=tm.Month;
   boolean save=false;
   print_icon(custom_char[16]);
-  lcd.print(F("New time/date"));
+  lcd.print(F("Neue Uhrzeit/Datum"));
   lcd.setCursor(2,1);
-  lcd.print(F("Nightmode [   ]")); // To nightmode menue
+  lcd.print(F("Nachtmodus [   ]")); // To nightmode menue
   lcd.blink();
   thisyear-=2000;
   while(selected!=4)
@@ -1638,18 +1667,18 @@ void menue_Time()  // Set time and nightmode
     lcd.print(char(58));
     if (new_minute<10) print_zero();
     lcd.print(new_minute);
-    lcd.setCursor(2,3); 
-    lcd.print(F("20"));
-    if (thisyear<10) print_zero();
-    lcd.print(thisyear); 
-    lcd.print(char(47));
-    if (new_month<10) print_zero();
-    lcd.print(new_month);
-    lcd.print(char(47));
+    print_uhr();
+    lcd.setCursor(2,3);  
     if (new_day<10) print_zero();
     lcd.print(new_day);
-    lcd.setCursor(13,1);
-    (nightmode_on)? lcd.print(F("on ")):lcd.print(F("off"));
+    lcd.print(char(46));
+    if (new_month<10) print_zero();
+    lcd.print(new_month);
+    lcd.print(F(".20"));
+    if (thisyear<10) print_zero();
+    lcd.print(thisyear);
+    lcd.setCursor(14,1);
+    (nightmode_on)? lcd.print(F("an ")):lcd.print(F("aus"));
     if (menue==0)                
     {
       put_char(0,2,32);
@@ -1669,15 +1698,15 @@ void menue_Time()  // Set time and nightmode
     lcd.print(char(126));
     switch(menue)
     {
-      case 0: lcd.setCursor(13,1); break;
+      case 0: lcd.setCursor(14,1); break;
       case 1: lcd.setCursor(2,2); break;
       case 2: lcd.setCursor(3,2); break;
       case 3: lcd.setCursor(5,2); break;
       case 4: lcd.setCursor(6,2); break;
-      case 5: lcd.setCursor(4,3); break;
-      case 6: lcd.setCursor(5,3); break;
-      case 7: lcd.setCursor(7,3); break;
-      case 8: lcd.setCursor(8,3); break;
+      case 5: lcd.setCursor(2,3); break;
+      case 6: lcd.setCursor(3,3); break;
+      case 7: lcd.setCursor(5,3); break;
+      case 8: lcd.setCursor(6,3); break;
       case 9: lcd.setCursor(10,3); break;
       case 10: lcd.setCursor(11,3); break;
     }
@@ -1694,11 +1723,11 @@ void menue_Time()  // Set time and nightmode
                   if (new_hour==24) new_hour=20; break;
           case 3: (new_minute<49)? new_minute+=10:new_minute%=10; break;
           case 4: (new_minute%10==9)? new_minute-=9:new_minute++; break;
-          case 9:
+          case 5:
             (new_day<22)? new_day+=10:new_day%=10;
             if (new_day==0) new_day=1;
             break;
-          case 10: 
+          case 6: 
             (new_day%10==9)? new_day-=9:new_day++; 
             if (new_day>31) new_day=30; 
             if (new_day==0) new_day=1; 
@@ -1708,8 +1737,8 @@ void menue_Time()  // Set time and nightmode
             if (new_month==0) new_month=1;
             break;
           case 8: (new_month<12)? new_month++:new_month=10; break;
-          case 5: (thisyear<89)? thisyear+=10:thisyear%=10; break;
-          case 6: (thisyear%10==9)? thisyear-=9:thisyear++; break;
+          case 9: (thisyear<89)? thisyear+=10:thisyear%=10; break;
+          case 10: (thisyear%10==9)? thisyear-=9:thisyear++; break;
         }
         break;
       case 2: if (menue<10) menue++; break;
@@ -1741,30 +1770,32 @@ void menue_NightMode() // Set nightmode
   uint8_t menue=0;
   boolean save=false;
   print_icon(custom_char[16]);
-  lcd.print(F("Set nightmode"));
+  lcd.print(F("Nachtmodus stellen"));
   lcd.setCursor(2,1);
-  lcd.print(F("[   ] Dim [ ]")); // dim light wenn NOKO enters nightmode
+  lcd.print(F("[   ] Dimmen [ ]")); // dim light wenn NOKO enters nightmode
   lcd.setCursor(2,2);
-  lcd.print(F("from"));
+  lcd.print(F("von"));
   lcd.setCursor(2,3);
-  lcd.print(F("until"));
+  lcd.print(F("bis"));
   while(selected!=4)
   {
     lcd.setCursor(3,1);
-    (nightmode_on)? lcd.print(F("on ")):lcd.print(F("off")); // Nightmode on or off?
-    put_char(13,1,night_lcd_dimm? 88:32);
-    lcd.setCursor(8,2);  
+    (nightmode_on)? lcd.print(F("an ")):lcd.print(F("aus")); // Nightmode on or off?
+    put_char(16,1,night_lcd_dimm? 88:32);
+    lcd.setCursor(6,2);  
     if (night_hh<10) print_zero();
     lcd.print(night_hh);
     lcd.print(char(58));
     if (night_mm<10) print_zero();
     lcd.print(night_mm);
-    lcd.setCursor(8,3);  
+    print_uhr();
+    lcd.setCursor(6,3);  
     if (night_to_hh<10) print_zero();
     lcd.print(night_to_hh);
     lcd.print(char(58));
     if (night_to_mm<10) print_zero();
     lcd.print(night_to_mm);
+    print_uhr();
     if (menue==0)
     {
       put_char(0,2,32);
@@ -1790,15 +1821,15 @@ void menue_NightMode() // Set nightmode
     switch (menue)
     {
       case 0: lcd.setCursor(3,1); break;
-      case 1: lcd.setCursor(13,1); break;
-      case 2: lcd.setCursor(8,2); break;
-      case 3: lcd.setCursor(9,2); break;
-      case 4: lcd.setCursor(11,2); break;
-      case 5: lcd.setCursor(11,2); break;
-      case 6: lcd.setCursor(8,3); break;
-      case 7: lcd.setCursor(9,3); break;
-      case 8: lcd.setCursor(11,3); break;
-      case 9: lcd.setCursor(12,3); break;
+      case 1: lcd.setCursor(16,1); break;
+      case 2: lcd.setCursor(6,2); break;
+      case 3: lcd.setCursor(7,2); break;
+      case 4: lcd.setCursor(9,2); break;
+      case 5: lcd.setCursor(10,2); break;
+      case 6: lcd.setCursor(6,3); break;
+      case 7: lcd.setCursor(7,3); break;
+      case 8: lcd.setCursor(9,3); break;
+      case 9: lcd.setCursor(10,3); break;
     }
     wait_1m(false,true);
     switch(selected)
@@ -1843,11 +1874,11 @@ void menue_Settings()  // Settings "NOKO stellen"
   uint8_t menue=0;
   lcd.clear();
   lcd.setCursor(2,0);
-  lcd.print(F("LED      +/- [ ]")); // LED brightness 0-9 * 28 (0..255)
+  lcd.print(F("LED     +/- [ ]")); // LED brightness 0-9 * 28 (0..255)
   lcd.setCursor(2,1);
-  lcd.print(F("Events   +/- [ ]")); // Chance for time event 0-9 (1=ca. every two hours; 9=nearly every minute)
+  lcd.print(F("Events  +/- [ ]")); // Chance for time event 0-9 (1=ca. every two hours; 9=nearly every minute)
   lcd.setCursor(2,2);
-  lcd.print(F("Distance +/- [ ]")); // Reaction distance for ultrasonic 0-9 *10cm
+  lcd.print(F("Distanz +/- [ ]")); // Reaction distance for ultrasonic 0-9 *10cm
   lcd.setCursor(2,3);
   lcd.print(F("weiter..."));
   while(selected!=4)
@@ -1856,13 +1887,13 @@ void menue_Settings()  // Settings "NOKO stellen"
     analogWrite(LED,(menue==0)? led_val*28:0);
     if (menue==3) lcd.noBlink();
     put_char(0,menue,126);
-    lcd.setCursor(16,0);
+    lcd.setCursor(15,0);
     lcd.print(led_val);
-    lcd.setCursor(16,1);
+    lcd.setCursor(15,1);
     lcd.print(event_val);
-    lcd.setCursor(16,2);
+    lcd.setCursor(15,2);
     lcd.print(distance_val);
-    lcd.setCursor(16,menue);
+    lcd.setCursor(15,menue);
     while ((selected=read_button(false))==0) NewDelay(100); // No power down while LED is in use!
     NewDelay(50);
     switch(selected)
@@ -1906,13 +1937,13 @@ void menue_Settings2() // "weiter..." - more settings
   uint8_t menue=0;
   lcd.clear();
   lcd.setCursor(2,0);
-  lcd.print(F("Power save     [ ]")); // Battery saving - not only lights out
+  lcd.print(F("Akku sparen    [ ]")); // Battery saving - not only lights out
   lcd.setCursor(2,1);
-  lcd.print(F("Silent         [ ]")); // No sounds at all
+  lcd.print(F("Stumm          [ ]")); // No sounds at all
   lcd.setCursor(2,2);
-  lcd.print(F("Distance light [ ]")); // Use ultrasonic to turn on light when it's off
+  lcd.print(F("Distanzlicht   [ ]")); // Use ultrasonic to turn on light when it's off
   lcd.setCursor(2,3);
-  lcd.print(F("My NOKO"));            // About NOKO menue
+  lcd.print(F("Mein NOKO"));          // About NOKO menue
   while (selected!=4)
   {
     put_char(18,0,powersave? 88:32);
@@ -1968,7 +1999,8 @@ void menue_NOKO() // "Mein NOKO" - about NOKO and secret sysinfo
 {
   uint8_t help;
   print_icon(custom_char[13]);
-  lcd.print(F("NOKO belongs to"));
+  lcd.print(F("Dieser NOKO geh rt"));
+  put_char(17,0,239);
   lcd.setCursor(0,1);
   for (help=0;help<60;help++) // Print owner and email
   {
@@ -2029,9 +2061,9 @@ void sysinfo() // Hidden status menu
   lcd.print(RTC.getTemp(),0); // Internal temperature
   lcd.print(char(223));
   lcd.setCursor(0,3);
-  lcd.print(F("Batt:"));
+  lcd.print(F("Akku:"));
   lcd.setCursor(11,3); // Print sommertime/wintertime flag
-  lcd.print(F("T: "));
+  lcd.print(F("Z: "));
   (summertime)? lcd.print(char(83)):lcd.print(char(87));
   while (selected!=4)
   {
@@ -2063,8 +2095,8 @@ void event() // Time bases events
       case 3: quote(); break;       // Quotation - without source. Shame on me. :-(
     #endif
     case 4:  // Ich bin hier!
-      lcd.setCursor(5,1);
-      lcd.print(F("I am here!"));
+      lcd.setCursor(3,1);
+      lcd.print(F("Ich bin hier!"));
       analogWrite(LED,led_val*28);
       sound_on();
       play_tone(800,250,false,270);
@@ -2123,7 +2155,7 @@ void event() // Time bases events
   }
 }
 
-void swearword() // Swearword event on display - German with gender check
+void swearword() // Swearword event on display
 {
   uint16_t num;
   uint8_t gender=newrandom(0,2);
@@ -2345,4 +2377,6 @@ void write_EEPROM(uint8_t address, uint8_t data) // write internal EEPROM with o
 {
   EEPROM.write(address+offset,data);
 }
+
+
 
