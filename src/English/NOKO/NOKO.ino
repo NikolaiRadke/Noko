@@ -779,7 +779,7 @@ void write_station(uint8_t station) // Save radio station in EEPROM
   write_EEPROM(21+station*2,(radio_station[station]-(radio_station[station]%10))/10);
   lcd.setCursor(2,1);
   lcd.print(F("saving...          "));
-  Radio.newdelay(1000);
+  NewDelay(1000);
 }
 
 void draw_time() // Draw clock, power level and flags
