@@ -231,6 +231,8 @@ uint16_t Si4703::getChannel() {
   return(channel);
 }
 
+// Modified RDS functions for polling RDS data with NOKO
+
 void Si4703::readRDS(char* buffer)
 { 
   readRegisters();
@@ -275,4 +277,20 @@ void Si4703::readRDS_Radiotext(char* buffer)
   }
   buffer[(indexHighest * 4) + 4] = '\0';
 }
+
+uint16_t Si4703::readRDS_Time(uint8_t rds_hour,uint8_t rds_minute)
+{
+  uint16_t mins; ///< RDS time in minutes
+  uint8_t off;   ///< RDS time offset and sign
+  if(si4703_registers[STATUSRSSI] & (1<<RDSR)) 
+  {
+    off   = (si4703_registers[RDSD]) & 0x3F;
+    mins = (si4703_registers[RDSD] >> 6 ) & 0x3F;
+    mins = 60 * (((si4703_registers[RDSC]) & 0x0001) << 4) | (((si4703_registers[RDSD] >> 12) & 0x0F));
+    if (off & 0x20) mins -= 30 * (off & 0x1F);
+    else mins += 30 * (off & 0x1F);
+  }
+  return mins;
+}
+
 

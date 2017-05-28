@@ -5,7 +5,7 @@
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.266 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
+ * Flash-Usage: 27.288 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -544,7 +544,6 @@ void print_hoeren() // Prints "[h]ören"
 
 void init_char() // Read custom chars again
 {
-  lcd.clear();
   for (uint8_t help=0;help<8;help++)
     lcd.createChar(help,custom_char[help]);
 }
@@ -786,9 +785,9 @@ void write_station(uint8_t station) // Save radio station in EEPROM
   radio_station[station]=radio_freq; // Write station 1
   write_EEPROM(22+station*2,radio_station[station]%10);
   write_EEPROM(21+station*2,(radio_station[station]-(radio_station[station]%10))/10);
-  lcd.setCursor(2,1);
-  lcd.print(F("speichern...     "));
-  NewDelay(1000);
+  lcd.setCursor(1,1);
+  lcd.print(F("speichern...      "));
+  Radio.newdelay(1000);
 }
 
 void draw_time() // Draw clock, power level and flags
@@ -863,6 +862,7 @@ void draw_date() // Draw date
 
 void draw_all() // Draw the entire display new
 {
+  lcd.clear();
   init_char();
   draw_date();
   draw_time();
@@ -876,13 +876,13 @@ void read_time() // Read internal time
 
 void print_station(uint8_t s) // Print the stations frequencies
 {
-  lcd.setCursor(2,1);
+  lcd.setCursor(1,1);
   lcd.print(F("Station "));
   lcd.print(s);
   lcd.print(char(58));
   lcd.print(char(32));
   lcd.print(float(radio_station[s-1])/10,2);
-  print_space(radio_station[s-1]>999? 19:18,1,radio_station[s-1]>999? 1:2);
+  print_space(radio_station[s-1]>999? 18:17,1,radio_station[s-1]>999? 2:3);
   lcd.setCursor(xlcd,ylcd);
 }
 
@@ -1139,11 +1139,11 @@ void menue_Radio() // Radio menue "Radio hoeren"
   char rdsStation[10]; // RDS station name
   char rdsText[64];    // RDS text 16*4 characters
   boolean rds=true;
+  uint16_t rds_hour,rds_minute;
   boolean save2=false;
   boolean save=false;
   uint8_t menue=2;
   uint8_t help,help2,count_rows;
-  uint8_t count_save=0;
   uint16_t help_freq;
   uint32_t zmillis;
   lcd.createChar(1,custom_char[9]);
@@ -1153,16 +1153,17 @@ void menue_Radio() // Radio menue "Radio hoeren"
   print_icon(custom_char[15]);
   while (selected!=4)
   {
-    put_char(2,2,91);
+    put_char(1,2,91);
     lcd.print(char(2));
-    lcd.print(F("][<][ ][>]["));
+    lcd.print(F("][<][ ][ ][>]["));
     lcd.print(char(3));
     lcd.print(char(93));
-    lcd.setCursor(2,3);
+    lcd.setCursor(1,3);
     lcd.print(F("[1|s] [2|s] [3|s] "));
     print_space(1,1,19);
     lcd.blink();
-    put_char(9,2,radio_on? 1:4);
+    put_char(8,2,radio_on? 1:4);
+    put_char(11,2,radio_on? 84:32);
     lcd.setCursor(2,0);
     lcd.print(float(radio_freq)/10,2);
     lcd.print(char(32));
@@ -1175,38 +1176,38 @@ void menue_Radio() // Radio menue "Radio hoeren"
     }
     switch (menue)
     {
-       case 5: 
-         xlcd=3;
+       case 6: 
+         xlcd=2;
          ylcd=3;
          print_station(1);
          rds=false;
          break;
-       case 6: 
-         xlcd=5;
+       case 7: 
+         xlcd=4;
          ylcd=3;
          break;
-       case 7: 
-         xlcd=9;
+       case 8: 
+         xlcd=8;
          ylcd=3;
          print_station(2);
          rds=false;
          break;
-       case 8: 
-         xlcd=11;
+       case 9: 
+         xlcd=10;
          ylcd=3;
          break;
-       case 9: 
-         xlcd=15;
+       case 10: 
+         xlcd=14;
          ylcd=3;
          print_station(3);
          rds=false;
          break;
-       case 10: 
-         xlcd=17;
+       case 11: 
+         xlcd=16;
          ylcd=3; 
          break;     
        default:
-         xlcd=3+(menue*3);
+         xlcd=2+(menue*3);
          ylcd=2;
     }
     if (!(radio_freq==help_freq)) // Clear RDS when frequency was changed
@@ -1219,9 +1220,8 @@ void menue_Radio() // Radio menue "Radio hoeren"
     if ((radio_on) && (rds)) 
       do // Wait for button and poll RDS data       
       {
-        for (count_rows=count_save;count_rows<4;count_rows++) // Read RDS Text
+        for (count_rows=0;count_rows<4;count_rows++) // Read RDS Text
         {
-          count_save=count_rows;
           for (help2=0;help2<3;help2++) // Read 4x16 chars
           {
             lcd.setCursor(2,1);
@@ -1233,6 +1233,7 @@ void menue_Radio() // Radio menue "Radio hoeren"
             {
               Radio.readRDS_Radiotext(rdsText);
               Radio.readRDS(rdsStation); // Read station name
+              rds_hour=Radio.readRDS_Time(rds_hour,rds_minute);
             }
             lcd.setCursor(9,0);
             lcd.print(rdsStation); 
@@ -1240,7 +1241,6 @@ void menue_Radio() // Radio menue "Radio hoeren"
             if (selected>0) break;
             powerdown_delay(pwd_delay);
           }  
-          if (count_save==3) count_save=0;
           if (selected>0) break;
         }
       } while (selected==0); 
@@ -1267,29 +1267,44 @@ void menue_Radio() // Radio menue "Radio hoeren"
               aux_off();
               radio_on=true;
             }
-            break;;
-          case 3: if (radio_freq<=1079) radio_freq++; break;
-          case 4: if (radio_on) radio_freq=Radio.seekUp(); break;
-          case 5: 
+            break;
+          case 3:
+            print_space(0,1,20);
+            lcd.setCursor(0,1);
+            lcd.print(rds_hour);
+            lcd.setCursor(10,1);
+            lcd.print(rds_minute);
+            stop_delay(2000);
+            save=false;
+            break;
+          case 4: if (radio_freq<=1079) radio_freq++; break;
+          case 5: if (radio_on) radio_freq=Radio.seekUp(); break;
+          case 6: 
             radio_freq=radio_station[0]; 
             menue=2; 
             break;
-          case 6: write_station(0); break;
-          case 7: 
+          case 7: write_station(0); break;
+          case 8: 
             radio_freq=radio_station[1]; 
             menue=2;
             break;
-          case 8: write_station(1); break;
-          case 9: 
+          case 9: write_station(1); break;
+          case 10: 
             radio_freq=radio_station[2]; 
             menue=2; 
             break;
-          case 10: write_station(2); break;
+          case 11: write_station(2); break;
         }
         if (radio_on) save=true;
         break;
-      case 2: if (menue<10) menue++; break;
-      case 3: if (menue>0) menue--;  break;
+      case 2:
+        if (menue<11) menue++;
+        if ((!radio_on) && (menue==3)) menue++;
+        break;
+      case 3:
+        if (menue>0) menue--;
+        if ((!radio_on) && (menue==3)) menue--;
+        break;
     } 
   }
   if (save2)
@@ -1327,7 +1342,7 @@ void menue_MP3(uint8_t modus)
       if (story<10) print_zero();
       lcd.print(story); // Print story number
       lcd.print(char(32));
-      lcd.print(read_disk(Disk0,((max_stories-1)*80+100)+((story-1)*2))); // Print lenght in minutes
+      lcd.print(read_disk(Disk0,((max_stories-1)*80+100)+((story-1)*2))); // Print length in minutes
       lcd.print(char(58));
       help=read_disk(Disk0,((max_stories-1)*80+101)+((story-1)*2)); // And print seconds
       if (help<10) print_zero();
@@ -2363,4 +2378,6 @@ void write_EEPROM(uint8_t address, uint8_t data) // write internal EEPROM with o
 {
   EEPROM.write(address+offset,data);
 }
+
+
 

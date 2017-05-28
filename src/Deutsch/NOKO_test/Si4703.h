@@ -47,11 +47,10 @@ class Si4703
 	void setSoftMuteOff(); // NEW	
 	void setSoftMuteOn(); // NEW			
 	void setVolume(byte volume); 	// 0 to 15
+  void readRDS(char* message);  
 	void readRDS_Radiotext(char* message);
-	void readRDS(char* message);	
-									// message should be at least 9 chars
-									// result will be null terminated
-									// timeout in milliseconds
+  uint16_t readRDS_Time(uint8_t rds_hour,uint8_t rds_minute);
+	
   private:
 	byte  _resetPin;
 	byte  _sdioPin;

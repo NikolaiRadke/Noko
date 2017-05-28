@@ -49,3 +49,35 @@ ISR(TIMER1_COMPA_vect) { // Timer interrupt vector.
   *_pinOutput ^= _pinMask; // Toggle the pin state.
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

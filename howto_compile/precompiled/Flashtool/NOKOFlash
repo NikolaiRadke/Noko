@@ -1,0 +1,53 @@
+#!/usr/bin/env wish
+
+# Main window
+wm title . "NOKO Flash Tool"
+. configure -menu .menubar
+wm maxsize . 320 220
+wm minsize . 320 220
+bind . {<Key F1>} {showAbout}
+
+label .l1 -text "NOKO Flasher" -font {-family sans -size 16}
+entry .e1 -textvariable Dateiname -background white
+button .b1 -text "HEX File" -command {
+    set Dateiname [tk_getOpenFile -title "Choose NOKO HEX file" -filetypes {{{HEX} {*.hex}} {{Alle} {*}}}]
+}
+button .b2 -text "Flash" -command {
+    if {$Dateiname != ""} {
+        .t1 insert end "Flashing "
+        .t1 insert end $Dateiname
+        .t1 insert end "...\n"
+        update idletasks
+        catch {exec avrdude -v -patmega328p -carduino -P/dev/ttyUSB0 -b115200 -D -Uflash:w:$Dateiname:i} result
+        .t1 insert end "\nDone.\n"
+        .t1 see end
+    } else {
+        .t1 insert end "No file selected\n"
+    }
+}
+text .t1
+.t1 insert 1.0 "Select firmware file\n"
+
+place .l1 -x 5 -y 5
+place .e1 -x 5 -y 53
+place .b1 -x 180 -y 50
+place .b2 -x 258 -y 50
+place .t1 -x 5 -y 86 -width 312 -height 100
+
+catch {tk_getOpenFile foo bar}
+set ::tk::dialog::file::showHiddenVar 0
+set ::tk::dialog::file::showHiddenBtn 0
+
+# Main menu bar with an About entry
+menu .menubar
+menu .menubar.help -tearoff 0
+.menubar add cascade -label Help -menu .menubar.help -underline 0
+.menubar.help add command -label "About NOKO Flasher..." \
+    -accelerator F1 -underline 0 -command showAbout
+
+proc showAbout {} {
+    tk_messageBox -message "NOKO Flash Tool\nVersion 1.0\nUses AVRDude 6.2" \
+        -title {About Hello}
+}
+
+tk appname "NOKOFlash"
