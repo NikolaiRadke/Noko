@@ -81,7 +81,7 @@ You can find an intruction on how to flash a new bootloader in German [here in t
 Select the hex-file of your choice in [howto_compile/precompiled](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled). Notice that files **older than 170517** are made for **displays** with **0x27**-address. If you need a file with anoher address like *0x3f* just contact me.
 
 **Linux:**  
-See if you habe *avrdude* installed. Open a shell and type ```avrdude```. If not, install is with ```sudo apt-get install avrdude```. Test again. Connect your Arduino via USB, open a terminal and use the following command:
+See if you habe *avrdude* installed. Open a shell and type ```avrdude```. If not, install is with ```sudo apt-get install avrdude``` for Debian-based systems. Test again. Connect your Arduino via USB, open a terminal and use the following command:
 
 With OptiBoot:  
 ```avrdude -v -patmega328p -carduino -P/dev/ttyUSBX -b115200 -D -Uflash:w:XXXXX.hex:i```  
