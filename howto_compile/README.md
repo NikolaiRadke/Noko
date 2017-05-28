@@ -94,6 +94,8 @@ Without OptiBoot:
 **Linux Updater:**  
 Just run **NOKOFlash** in [howto_compile/precompiled/Flashtool](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled/Flashtool) and select the firmware of your choice. Needs *avrdude* (see above) and *Optiboot* on your Nano. The GUI was written in TCL/TK and should run on every modern Linux Distribution and OSX.  
 
+Try *Blink.hex* to test the tool :-)  
+
 **Windows: (Stupid stupid Windows)**  
 Get *avrdude* either from sourceforge or better, because you need libusb0.dll as well, from [howto_compile/precompiled/avrdude_win](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled/avrdude_win). Copy the files to your machine and add the hex-file of your choice from [howto_compile/precompiled](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled) into the same directory. Open the command prompt with admin rights und use the following command:  
 
@@ -104,7 +106,4 @@ Without OptiBoot:
 
 * XXXXX.hex is the name of your selected hex-file.  
 * X in COMX is the number of your USB-port connected to the Arduino. Look into the Arduino-IDE for the correct number. 
-
-
-
 
