@@ -33,10 +33,11 @@ NOKO/
 |       |   German Versions
 |       ├── English/
 |       |   English Versions
-|       ├── avrdude_win/
-|       |   avrdude files for windows/
-|       └── Flashtool/
-|           Linux firmware flasher
+|       ├── Flashtool/
+|       |   Linux firmware flasher
+|       └── avrdude_win/
+|           Avrdude files for windows/
+|
 ├── manual/
 |   NOKO manual in PDF format and a template for a packaging desin.
 |   └── scribus/
