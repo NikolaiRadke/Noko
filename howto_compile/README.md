@@ -90,9 +90,9 @@ Without OptiBoot:
 
 * XXXXX.hex is the name of your selected hex-file.  
 * X in ttyUSBX is the number of your USB-port connected to the Arduino. See *lsusb* or look into the Arduino-IDE for the correct number.  
-
+  
 **Linux Updater:**  
-Just run **NOKOFlash** in [howto_compile/precompiled/Flashtool](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled/Flashtool) ans select the firmware of your choice. Needs **Optiboot**. The GUI was written in TCL/TK and should run on every modern Linux Distribution and OSX.  
+Just run **NOKOFlash** in [howto_compile/precompiled/Flashtool](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled/Flashtool) and select the firmware of your choice. Needs **Optiboot**. The GUI was written in TCL/TK and should run on every modern Linux Distribution and OSX.  
 
 **Windows: (Stupid stupid Windows)**  
 Get *avrdude* either from sourceforge or better, because you need libusb0.dll as well, from [howto_compile/precompiled/avrdude_win](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled/avrdude_win). Copy the files to your machine and add the hex-file of your choice from [howto_compile/precompiled](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled) into the same directory. Open the command prompt with admin rights und use the following command:  
