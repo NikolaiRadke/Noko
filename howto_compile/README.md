@@ -80,7 +80,7 @@ You can find an intruction on how to flash a new bootloader in German [here in t
 
 Select the hex-file of your choice in [howto_compile/precompiled](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled). Notice that files **older than 170517** are made for **displays** with **0x27**-address. If you need a file with anoher address like *0x3f* just contact me.
 
-**Linux:**  
+* **Linux:**  
 See if you habe *avrdude* installed. Open a shell and type ```avrdude```. If not, install is with ```sudo apt-get install avrdude``` for Debian-based systems. Test again. Connect your Arduino via USB, open a terminal and use the following command:
 
 With OptiBoot:  
@@ -91,12 +91,12 @@ Without OptiBoot:
 * XXXXX.hex is the name of your selected hex-file.  
 * X in ttyUSBX is the number of your USB-port connected to the Arduino. See *lsusb* or look into the Arduino-IDE for the correct number.  
   
-**Linux Updater:**  
+* **Linux Updater:**  
 Just run **NOKOFlash** in [howto_compile/precompiled/Flashtool](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled/Flashtool) and select the firmware of your choice. Needs *avrdude* (see above) and *Optiboot* on your Nano. The GUI was written in TCL/TK and should run on every modern Linux Distribution and OSX. Maybe the *tk* package ist needed, if it does not run at once.   
 
 Try *Blink.hex* to test the tool :-)  
 
-**Windows: (Stupid stupid Windows)**  
+* **Windows: (Stupid stupid Windows)**  
 Get *avrdude* either from sourceforge or better, because you need libusb0.dll as well, from [howto_compile/precompiled/avrdude_win](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled/avrdude_win). Copy the files to your machine and add the hex-file of your choice from [howto_compile/precompiled](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled) into the same directory. Open the command prompt with admin rights und use the following command:  
 
 With OptiBoot:  
