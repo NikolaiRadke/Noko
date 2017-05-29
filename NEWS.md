@@ -2,7 +2,7 @@
 
 ## 2017
 * **28.05.2017** - Added a TCL/TK Linux firmware flash tool. Should work with OSX, too. A Windows version will follow.  
-* **21.05.2017** - Firmware **1.0-210517** - RDS rework. Works MUCH better now. Polling does not block navigation anymore.  
+* **21.05.2017** - Firmware **1.0-210517** - RDS rework. Works MUCH better now. Polling does not block navigation anymore. I am still working on some other improvements, expect a new release in June.    
 * **17.05.2017** - **Release V1.0-170517**  
 New optimized release. Install it! NOKO will be glad. It is based on firmware 1.0-150517 with the following enhancements:  
   * Custom chars were taken from PROGMEM. That caused too much troubles.  
