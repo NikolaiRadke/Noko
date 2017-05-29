@@ -89,7 +89,7 @@ Without OptiBoot:
 ```avrdude -v -patmega328p -carduino -P/dev/ttyUSBX -b57600 -D -Uflash:w:XXXXX.hex:i```  
 
 * XXXXX.hex is the name of your selected hex-file.  
-* X in ttyUSBX is the number of your USB-port connected to the Arduino. See *lsusb* or look into the Arduino-IDE for the correct number.  
+* X in ttyUSBX is the number of your USB-port connected to the Arduino. In most cases, ist is *ttyUSB0*. If not, look into the Arduino-IDE for the correct number.  
   
 ### Linux Updater  
 Just run **NOKOFlash** in [howto_compile/precompiled/Flashtool](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled/Flashtool) and select the firmware of your choice. Needs *avrdude* (see above) and *Optiboot* on your Nano. The GUI was written in TCL/TK and should run on every modern Linux Distribution and OSX. Maybe the *tk* package ist needed, if it does not run at once.   
@@ -105,5 +105,5 @@ Without OptiBoot:
 ```avrdude v -patmega328p -carduino -P\\.\COMX -b57600 -D -Uflash:w:XXXXX.hex:i```   
 
 * XXXXX.hex is the name of your selected hex-file.  
-* X in COMX is the number of your USB-port connected to the Arduino. Look into the Arduino-IDE for the correct number. 
+* X in COMX is the number of your USB-port connected to the Arduino. In most cases, it is *COM1*. If not, look into the Arduino-IDE for the correct number. 
 
