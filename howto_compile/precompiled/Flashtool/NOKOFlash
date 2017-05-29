@@ -1,6 +1,7 @@
 #!/usr/bin/env wish
 
 set Port "USB0"
+set Baud 115200
 
 # Main window
 wm title . "NOKO Flash Tool"
@@ -20,7 +21,7 @@ button .b2 -text "Flash" -command {
         .t1 insert end $Dateiname
         .t1 insert end "...\n"
         update idletasks
-        catch {exec avrdude -v -patmega328p -carduino -P/dev/tty$Port -b115200 -D -Uflash:w:$Dateiname:i} result
+        catch {exec avrdude -v -patmega328p -carduino -P/dev/tty$Port -b115200 -D -Uflash:w:$Dateiname:i} resul
         .t1 insert end "\nDone.\n"
         .t1 see end
     } else {
@@ -47,6 +48,10 @@ menu .menubar.port -tearoff 0
 .menubar.port add radiobutton -label "USB0" -variable Port -value "USB0"
 .menubar.port add radiobutton -label "USB1" -variable Port -value "USB1"
 .menubar.port add radiobutton -label "USB2" -variable Port -value "USB2"
+menu .menubar.optiboot -tearoff 0
+.menubar add cascade -label Optiboot -menu .menubar.optiboot
+.menubar.optiboot add radiobutton -label "Optiboot" -variable Baud -value 115200
+.menubar.optiboot add radiobutton -label "No Optiboot" -variable Baud -value 57600
 menu .menubar.help -tearoff 0
 .menubar add cascade -label Help -menu .menubar.help -underline 0
 .menubar.help add command -label "About NOKO Flasher..." \
