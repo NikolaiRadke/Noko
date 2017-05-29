@@ -92,7 +92,7 @@ Without OptiBoot:
 * X in ttyUSBX is the number of your USB-port connected to the Arduino. In most cases, ist is *ttyUSB0*. If not, look into the Arduino-IDE for the correct number.  
   
 ### Linux Updater  
-Just run **NOKOFlash** in [howto_compile/precompiled/Flashtool](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled/Flashtool) and select the firmware of your choice. Needs *avrdude* (see above) and *Optiboot* on your Nano. The GUI was written in TCL/TK and should run on every modern Linux Distribution and OSX. Maybe the *tk* package ist needed, if it does not run at once.   
+Just run **NOKOFlash** in [howto_compile/precompiled/Flashtool](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled/Flashtool) and select the firmware of your choice. Needs *avrdude* (see above). The GUI was written in TCL/TK and should run on every modern Linux Distribution and OSX. Maybe the *tk* package ist needed, if it does not run at once.   
 
 Try *Blink.hex* to test the tool :-)  
 
