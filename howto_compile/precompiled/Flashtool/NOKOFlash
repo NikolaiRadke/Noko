@@ -11,24 +11,24 @@ wm minsize . 320 220
 bind . {<Key F1>} {showAbout}
 
 label .l1 -text "NOKO Flasher" -font {-family sans -size 16}
-entry .e1 -textvariable Dateiname -background white
+entry .e1 -textvariable Name -background white
 button .b1 -text "HEX File" -command {
     set Dateiname [tk_getOpenFile -title "Choose NOKO HEX file" -filetypes {{{HEX} {*.hex}} {{Alle} {*}}}]
+    set Name [file tail $Dateiname]
+    .t1 insert end "To upload $Name press FLASH.\n"
 }
 button .b2 -text "Flash" -command {
     if {$Dateiname != ""} {
-        .t1 insert end "Flashing "
-        .t1 insert end $Dateiname
-        .t1 insert end "...\n"
+        .t1 insert end "Flashing...\n"
         update idletasks
-        catch {exec avrdude -v -patmega328p -carduino -P/dev/tty$Port -b115200 -D -Uflash:w:$Dateiname:i} resul
+        catch {exec avrdude -v -patmega328p -carduino -P/dev/tty$Port -b115200 -D -Uflash:w:$Dateiname:i} result
         .t1 insert end "\nDone.\n"
         .t1 see end
     } else {
         .t1 insert end "No file selected\n"
     }
 }
-text .t1
+text .t1 -wrap word
 .t1 insert 1.0 "Select firmware file\n"
 
 place .l1 -x 5 -y 5
