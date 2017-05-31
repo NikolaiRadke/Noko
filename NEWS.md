@@ -1,6 +1,7 @@
 # Newsblog
 
 ## 2017
+* **31.05.2017** - Added a diagnostic tool for NOKO to test functions through serial monitor.  
 * **28.05.2017** - Added a TCL/TK Linux firmware flash tool. Should work with OSX, too. A Windows version will follow.  
 * **21.05.2017** - Firmware **1.0-210517** - RDS rework. Works MUCH better now. Polling does not block navigation anymore. I am still working on some other improvements, expect a new release in June.    
 * **17.05.2017** - **Release V1.0-170517**  

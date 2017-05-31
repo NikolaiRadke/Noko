@@ -63,14 +63,17 @@ NOKO/
 |   |   English version. 
 |   |   └── NOKO/
 |   |       Same files but translated. 
-|   ├── I2C-Scanner/
-|   |   Sketch to scan adresses of all connected I2C-devices.
-|   ├── NOKO_Disk1/
-|   |   Sketch to write the Disk1 textfile into 24LC256-EEPROMs.
-|   └── NOKO_EEPROM_Disk0/
-|       Sketch to write NOKO presets into the Arduino EEPROM and the Disk0 textfile into the
-|       AH24C32 EEPROM.
-|
+|   └── tools/
+|       Tools for using components and diagnostic    
+|       ├── I2C-Scanner/
+|       |   Sketch to scan adresses of all connected I2C-devices.
+|       ├── NOKO_Diagnostics/
+|       |   Tool to test NOKO funtions via serial monitor.
+|       ├── NOKO_Disk1/
+|       |   Sketch to write the Disk1 textfile into 24LC256-EEPROMs.
+|       └── NOKO_EEPROM_Disk0/
+|           Sketch to write NOKO presets into the Arduino EEPROM and the Disk0 textfile into the
+|           AH24C32 EEPROM.
 └── write_EEPROM/
     Tools to write data through serial connection to the Arduino and the EEPROMs. 
 ```
