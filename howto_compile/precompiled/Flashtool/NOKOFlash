@@ -27,6 +27,7 @@ button .b2 -text "Flash" -command {
         update idletasks
         catch {exec avrdude -v -patmega328p -carduino -P/dev/tty$Port -b115200 -D -Uflash:w:$Filename:i} Result
         if {[string last "verified" $Result]==-1} {
+            .t1 insert end "\nError\n"
             set Error [string range $Result [string last "/dev/ttyUSB" $Result]-1 [string last "avrdude" $Result]-1]
             .t1 insert end $Error
         } else {
