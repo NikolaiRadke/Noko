@@ -1,11 +1,11 @@
- /* NOKO V1.0 21.05.2017 - Nikolai Radke
+ /* NOKO V1.0 31.05.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.266 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
+ * Flash-Usage: 27.230 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -246,7 +246,7 @@ init();
   power_timer2_disable();
   
   // Portdefinitions - direct manipulation is much faster and saves flash
-  DDRD=B11001000;   // D7-D0 | 1=OUTPUT
+  DDRD=B11101000;   // D7-D0 | 1=OUTPUT
   DDRB=B00101100;   // D13-D8
   DDRC=B00111110;   // A7-A0 | Set unused analog pins to output to prevent catching noise from open ports
   PORTD=B01000000;  // D6 MOSFET HIGH: Turn off amplifier to prevent startup noise
@@ -1267,7 +1267,7 @@ void menue_Radio() // Radio menue "Radio hoeren"
               aux_off();
               radio_on=true;
             }
-            break;;
+            break;
           case 3: if (radio_freq<=1079) radio_freq++; break;
           case 4: if (radio_on) radio_freq=Radio.seekUp(); break;
           case 5: 
@@ -1446,8 +1446,8 @@ void menue_MP3(uint8_t modus)
             if (PIND & (1<<4)) JQ6500_play(file+111+max_stories);
           }
           break;
-      }
-      break;
+        }
+        break;
       case 2:
         if ((!mp3_pause) && (menue<3)) menue++;
         break; 

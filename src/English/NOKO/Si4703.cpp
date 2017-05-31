@@ -100,36 +100,15 @@ void Si4703::setVolume(byte volume)
   updateRegisters(); //Update
 }
 
-void Si4703::readRDS(char* buffer)
-{ 
-  readRegisters();
-	if(si4703_registers[STATUSRSSI] & (1<<RDSR))
-	{
-		uint16_t b = si4703_registers[RDSB];
-	  uint16_t index = b & 0x03;
-	  if (b < 500)
-	  {
-		  char Dh = (si4703_registers[RDSD] & 0xFF00) >> 8;
-    	char Dl = (si4703_registers[RDSD] & 0x00FF);
-	  	buffer[index * 2] = Dh;
-	    buffer[index * 2 +1] = Dl;
-		}
-    //newdelay(40); //Wait for the RDS bit to clear
-	}
-  buffer[8] = '\0';
-}
-
 //To get the Si4703 inito 2-wire mode, SEN needs to be high and SDIO needs to be low after a reset
 //The breakout board has SEN pulled high, but also has SDIO pulled high. Therefore, after a normal power up
 //The Si4703 will be in an unknown state. RST must be controlled
+//NOKO: RST is defined in NOKO.ino. PinMode und digitalWrite were removed. 
 void Si4703::si4703_init() 
 {
-  pinMode(_resetPin, OUTPUT);
-  pinMode(_sdioPin, OUTPUT); //SDIO is connected to A4 for I2C
-  digitalWrite(_sdioPin, LOW); //A low SDIO indicates a 2-wire interface
-  digitalWrite(_resetPin, LOW); //Put Si4703 into reset
+  PORTD &= ~(1<<5); //digitalWrite(_resetPin, LOW); //Put Si4703 into reset
   newdelay(1); //Some newdelays while we allow pins to settle
-  digitalWrite(_resetPin, HIGH); //Bring Si4703 out of reset with SDIO set to low and SEN pulled high with on-board resistor
+  PORTD |= (1<<5); //digitalWrite(_resetPin, HIGH); //Bring Si4703 out of reset with SDIO set to low and SEN pulled high with on-board resistor
   newdelay(1); //Allow Si4703 to come out of reset
 
   Wire.begin(); //Now that the unit is reset and I2C inteface mode, we need to begin I2C
@@ -250,6 +229,25 @@ uint16_t Si4703::getChannel() {
   return(channel);
 }
 
+void Si4703::readRDS(char* buffer) 
+{ 
+  readRegisters();
+  if(si4703_registers[STATUSRSSI] & (1<<RDSR))
+  {
+    uint16_t b = si4703_registers[RDSB];
+    uint16_t index = b & 0x03;
+    if (b < 500)
+    {
+      char Dh = (si4703_registers[RDSD] & 0xFF00) >> 8;
+      char Dl = (si4703_registers[RDSD] & 0x00FF);
+      buffer[index * 2] = Dh;
+      buffer[index * 2 +1] = Dl;
+    }
+    //newdelay(40); //Wait for the RDS bit to clear
+  }
+  buffer[8] = '\0';
+}
+
 void Si4703::readRDS_Radiotext(char* buffer)
 { 
 	int indexHighest = 0;
@@ -275,5 +273,4 @@ void Si4703::readRDS_Radiotext(char* buffer)
   }
   buffer[(indexHighest * 4) + 4] = '\0';
 }
-
 

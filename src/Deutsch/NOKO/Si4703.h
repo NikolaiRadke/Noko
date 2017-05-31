@@ -20,12 +20,15 @@ This Library was slightly modified for use with NOKO. Thanks to Nathan's great R
 used by this library. However, NOKO uses newdelay() to save a lot of flash space. So newdelay() was
 added. 
 
-newdelay()        was added - safes flash!
-powerOff()        was added
-setSoftMuteOff()  was added (but unused)
-setSoftMuteOn()   was added (but unused)
-Set to STEREO     Line 174 in Si4703.cpp
-readRDS           was modified for polling without timeout
+si4703_init()       Modified for NOKO with direct port manipulation
+newdelay()          Was added - safes flash!
+powerOff()          Was added
+setSoftMuteOff()    Was added (but unused)
+setSoftMuteOn()     Was added (but unused)
+Set to STEREO       Line 174 in Si4703.cpp
+readRDS             Was modified for polling without timeout
+readRDS_RadioTtext  The same
+
 Maybe one day I will test RDS performance mode?
 */
 
