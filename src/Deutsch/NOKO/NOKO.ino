@@ -382,7 +382,7 @@ while(1)
     {
       if (!lcd_off) 
       {    
-        draw_date();                              // Draw date
+        draw_date();                          // Draw date
         if ((birth_month==tm.Month) && (birth_day==tm.Day))   // Check for birthday
         {
           birthday=true;
@@ -402,7 +402,7 @@ while(1)
       if ((power<10) && (!charging))          // Read battery power
       {
         sound_on();
-        play_tone(920,80,false,80);                 // Power <10% beep
+        play_tone(920,80,false,80);           // Power <10% beep
       }
       if ((!(PIND & (1<<4))) && (!mp3_pause) && (!radio_on) && (power>1) && ((newrandom(1,event_trigger[event_val]+1)==event_trigger[event_val])))
         event();                              // Time based event
@@ -454,11 +454,11 @@ while(1)
 
 //-------------------------------------------------------------------------------------
 
-uint8_t read_button(boolean leise)  // Read pressed button und debounce | leise = NOKO stays silent
+uint8_t read_button(boolean silent)  // Read pressed button und debounce | silent = NOKO stays silent
 {
   uint16_t button_val;
   if ((!mp3_pause) && (!(PIND & (1<<4))) && (mp3_on)) mp3_on=false;
-  if (power<5) leise=true;
+  if (power<5) silent=true;
   if ((!(PIND & (1<<4))) && (!radio_on) && (!aux_on) && (!alarm_now)) 
   {
     PORTD |= (1<<6); // Amplifier off
@@ -474,7 +474,7 @@ uint8_t read_button(boolean leise)  // Read pressed button und debounce | leise 
       powerdown_delay(pwd_delay);
       if (analogRead(Buttons)>150)
       {
-       if ((!(PIND & (1<<4))) && (!quiet) && (!leise) && (!mp3_pause))
+       if ((!(PIND & (1<<4))) && (!quiet) && (!silent) && (!mp3_pause))
          if (newrandom(1,5)==4) JQ6500_play(newrandom(31,61));
        return 4;
       }
@@ -494,7 +494,7 @@ uint8_t read_button(boolean leise)  // Read pressed button und debounce | leise 
       powerdown_delay(pwd_delay);
       if (analogRead(Buttons)>0)
       {
-        if ((!(PIND & (1<<4))) && (!quiet) && (!leise) && (!mp3_pause))
+        if ((!(PIND & (1<<4))) && (!quiet) && (!silent) && (!mp3_pause))
           if (newrandom(1,8)==4) JQ6500_play(newrandom(11,31)); 
       return 1;
       }
@@ -658,7 +658,7 @@ void bignum(uint8_t x,uint8_t y,uint8_t num) // Draws a big number at x,y; num 0
   }    
 }
 
-void powerdown() // power save on
+void powerdown() // Power save on
 {
   analogWrite(LED,0);
   lcd.off();        // Turn off display
@@ -667,7 +667,7 @@ void powerdown() // power save on
   // More powersaving options?
 }
 
-void powerup()  // power save off
+void powerup()  // Power save off
 {
   lcd.on();           // Turn on display  
   lcd_off=false;
@@ -953,9 +953,9 @@ boolean check_alarm() // Is it time for the alarm?
 
 void alarm() // Play alarm
 {
-  if (lcd_off) lcd.on();           // Display on
+  if (lcd_off) lcd.on();         // Display on
   if (lcd_dimm) lcd.backlight(); // Light on
-  PORTD &= ~(1<<6);             // Amplifier on
+  PORTD &= ~(1<<6);              // Amplifier on
   lcd.createChar(0,custom_char[17]);
   lcd.clear();
   lcd.noBlink();
@@ -1459,7 +1459,7 @@ void menue_MP3(uint8_t modus)
   init_char();
 }
 
-void menue_Alarm()  // Set alarm - no alarm allowd in this menue
+void menue_Alarm()  // Set alarm - no alarm allowed in this menue
 {
   uint8_t menue=0;
   boolean save=false;
@@ -1509,7 +1509,7 @@ void menue_Alarm()  // Set alarm - no alarm allowd in this menue
     {
       case 1:
         save=true;
-        switch(menue) // Set Alarm - belly adds one
+        switch(menue) // Set alarm - belly adds one
         {
           case 0: (alarm_hh<14)? alarm_hh+=10:alarm_hh%=10; break;
           case 1: (alarm_hh%10==9)? alarm_hh-=9:alarm_hh++;
@@ -1538,7 +1538,7 @@ void menue_Alarm()  // Set alarm - no alarm allowd in this menue
   save=false;
 }
 
-void menue_AlarmType() // Which alarm type? No alarm allowed hier
+void menue_AlarmType() // Which alarm type? No alarm allowed here
 {
   uint8_t menue=0;
   boolean alarm_on_help=alarm_on;
@@ -1758,7 +1758,7 @@ void menue_NightMode() // Set nightmode
   print_icon(custom_char[16]);
   lcd.print(F("Nachtmodus stellen"));
   lcd.setCursor(2,1);
-  lcd.print(F("[   ] Dimmen [ ]")); // dim light wenn NOKO enters nightmode
+  lcd.print(F("[   ] Dimmen [ ]")); // dim light when NOKO enters nightmode
   lcd.setCursor(2,2);
   lcd.print(F("von"));
   lcd.setCursor(2,3);
