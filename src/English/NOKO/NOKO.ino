@@ -1,11 +1,11 @@
- /* NOKO V1.0 31.05.2017 - Nikolai Radke
+ /* NOKO V1.0 04.06.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.106 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
+ * Flash-Usage: 26.996 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -114,7 +114,7 @@
 #define min_V         2.85
 #define max_V         4.15
 
-// Hardwareaddresses PINS
+// Hardware addresses PINS
 #define LED 10            // LED -> PWM
 #define Distance_inPin 12 // Ultrasonic
 #define Battery 6         // Battery power
@@ -413,7 +413,7 @@ while(1)
                                               // Switch off display light after ~1s. 150 is a workaround for stupid IDLE mode.
   minute_now=tm.Minute;
   hour_now=tm.Hour;
-  selected=read_button(false);                      // Read buttons
+  selected=read_button(false);                // Read buttons
   switch(selected)
   {
     case 1:                                   // Belly: menue
@@ -2151,50 +2151,46 @@ void write_swearword(uint16_t num) // Helps swearword event
   }
 }
 
-void phrase() // Phrase event on display
+void print_block(uint16_t address, uint8_t event) // Prints text blocks from EEPROM
 {
   uint8_t help;
-  uint8_t help2=newrandom(0,100);
+  uint8_t y=0;
+  uint8_t offset=80;
+  uint8_t help2=newrandom(0,(event==3)? 26:100);
+  if (event==1) 
+  {
+    y=1;
+    offset=60;
+  }
+  for (help=0;help<20;help++)
+  {
+    put_char(help,y,(read_disk(Disk1,address+(help2*offset)+help)));
+    put_char(help,y+1,(read_disk(Disk1,address+(help2*offset)+help+20)));
+    put_char(help,y+2,(read_disk(Disk1,address+(help2*offset)+help+40)));
+    if (event>1) put_char(help,3,(read_disk(Disk1,address+(help2*80)+help+60)));
+  }
+  wait_1m(true,true);
+}
+
+void phrase() // Text event 1: Phrase event on display 
+{
+    lcd.clear();
   lcd.print(F("Wusstest Du, dass..."));
-  for (help=0;help<20;help++)
-  {
-    put_char(help,1,(read_disk(Disk1,phrase_address+(help2*60)+help)));
-    put_char(help,2,(read_disk(Disk1,phrase_address+(help2*60)+help+20)));
-    put_char(help,3,(read_disk(Disk1,phrase_address+(help2*60)+help+40)));
-  }
-  wait_1m(true,true);
+  print_block(phrase_address,1);
 }
 
-void quote() // Quotation event on display
+void quote() // Text event 2: Quotation event on display
 {
-  uint8_t help;
-  uint8_t help2=newrandom(0,100);
-  for (help=0;help<20;help++)
-  {
-    put_char(help,0,(read_disk(Disk1,quote_address+(help2*80)+help)));
-    put_char(help,1,(read_disk(Disk1,quote_address+(help2*80)+help+20)));
-    put_char(help,2,(read_disk(Disk1,quote_address+(help2*80)+help+40)));
-    put_char(help,3,(read_disk(Disk1,quote_address+(help2*80)+help+60)));
-  }
-  wait_1m(true,true);
+  print_block(quote_address,2);
 }
 
-void poem() // Poem event on display
+void poem() // Text event 3: Poem event on display
 {
-  uint8_t help;
-  uint8_t help2=newrandom(0,26);
-  for (help=0;help<20;help++)
-  {
-    put_char(help,0,(read_disk(Disk1,poem_address+(help2*80)+help)));
-    put_char(help,1,(read_disk(Disk1,poem_address+(help2*80)+help+20)));
-    put_char(help,2,(read_disk(Disk1,poem_address+(help2*80)+help+40)));
-    put_char(help,3,(read_disk(Disk1,poem_address+(help2*80)+help+60)));
-  }
   sound_on();
   play_tone(880,80,false,150);
   play_tone(880,400,false,400);
   PORTD |= (1<<6); // Amplifier off
-  wait_1m(true,true);
+  print_block(poem_address,3);
 }
 
 void party() // Birthdaytime! Party! Party!
