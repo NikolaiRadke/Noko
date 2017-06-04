@@ -5,7 +5,7 @@
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 26.996 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
+ * Flash-Usage: 26.992 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-210517"
+#define Firmware "-040617"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
@@ -2174,7 +2174,6 @@ void print_block(uint16_t address, uint8_t event) // Prints text blocks from EEP
 
 void phrase() // Text event 1: Phrase event on display 
 {
-    lcd.clear();
   lcd.print(F("Wusstest Du, dass..."));
   print_block(phrase_address,1);
 }
