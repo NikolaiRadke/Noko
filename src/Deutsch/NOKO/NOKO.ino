@@ -1963,7 +1963,7 @@ void menue_Settings2() // "weiter..." - more settings
             break;
           case 2: // Set to turn on LCD light with ultrasonic
             distance_light=!distance_light; 
-            write_EEPROM(26,distance_light);
+            write_EEPROM(27,distance_light);
             powerdown_delay(pwd_delay);
             break;
           case 3: menue_NOKO(); break;
