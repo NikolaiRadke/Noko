@@ -1,6 +1,7 @@
 # Newsblog
 
 ## 2017
+* **07.06.2017** - New IDE 1.8.3 tested. AVR Core 1.6.19 increases the sketch size by about 760 Bytes. IDE 1.8.3 with AVR Core 1.6.18 takes 17 Bytes more. NOKO stayes with AVR Core 1.6.18.  
 * **04.06.2017** - Firmware **1.0-040617** - Code shrinking and - as the reason for a new firmware - a nasty bugfix in the distance light settings. A new release will follow soon.  
 * **31.05.2017** - Added an early diagnostic tool for NOKO to test functions through serial monitor.  
 * **28.05.2017** - Added a TCL/TK Linux firmware flash tool. Should work with OSX, too. A Windows version will follow.  
