@@ -156,10 +156,14 @@ void LiquidCrystal_I2C::setCursor(uint8_t col, uint8_t row){
 void LiquidCrystal_I2C::noDisplay() {
 	_displaycontrol &= ~LCD_DISPLAYON;
 	command(LCD_DISPLAYCONTROL | _displaycontrol);
+  _backlightval=LCD_NOBACKLIGHT;
+  expanderWrite(0);
 }
 void LiquidCrystal_I2C::display() {
 	_displaycontrol |= LCD_DISPLAYON;
 	command(LCD_DISPLAYCONTROL | _displaycontrol);
+  _backlightval=LCD_BACKLIGHT;
+  expanderWrite(0);
 }
 
 // Turns the underline cursor on/off

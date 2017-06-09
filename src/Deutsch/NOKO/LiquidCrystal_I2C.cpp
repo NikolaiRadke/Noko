@@ -156,10 +156,14 @@ void LiquidCrystal_I2C::setCursor(uint8_t col, uint8_t row){
 void LiquidCrystal_I2C::noDisplay() {
 	_displaycontrol &= ~LCD_DISPLAYON;
 	command(LCD_DISPLAYCONTROL | _displaycontrol);
+  _backlightval=LCD_NOBACKLIGHT;
+  expanderWrite(0);
 }
 void LiquidCrystal_I2C::display() {
 	_displaycontrol |= LCD_DISPLAYON;
 	command(LCD_DISPLAYCONTROL | _displaycontrol);
+  _backlightval=LCD_BACKLIGHT;
+  expanderWrite(0);
 }
 
 // Turns the underline cursor on/off
@@ -330,4 +334,6 @@ uint8_t LiquidCrystal_I2C::init_bargraph(uint8_t graphtype){return 0;}
 void LiquidCrystal_I2C::draw_horizontal_graph(uint8_t row, uint8_t column, uint8_t len,  uint8_t pixel_col_end){}
 void LiquidCrystal_I2C::draw_vertical_graph(uint8_t row, uint8_t column, uint8_t len,  uint8_t pixel_row_end){}
 void LiquidCrystal_I2C::setContrast(uint8_t new_val){}
+
+
 

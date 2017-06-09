@@ -1,11 +1,11 @@
- /* NOKO V1.0 04.06.2017 - Nikolai Radke
+ /* NOKO V1.0 09.06.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module!
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.116 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
+ * Flash-Usage: 27.188 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -16,7 +16,7 @@
  * char()-list: 32=space 37=% 46=. 47=/ 48=0 58=: 68=D 78=N 80=P 82=R 83=S 86=V 87=W
  *              110=n 120=x | 225=ä 226=ß 239=ö 245=ü (German only)
  *         
- * TODO: 
+ * TODO: Test 374
  *         
  * KNOWN BUGS:
  * Due to bad programming the summertime/wintertime will switch at 04:00, not 02:00.
@@ -39,14 +39,14 @@
  * JQ6500 GND   13  GND
  * JQ6500 TX    26  D2    (Software-TX)
  * JQ6500 RX    25  D3    (Software-RX), connect with 1kOhm resistor
- * JQ6500 Busy  23  D4    with 4,7kOhm connected to 5V to get a clear HIGH
+ * JQ6500 Busy  23  D4    With 4,7kOhm connected to 5V to get a clear HIGH
  * JQ6500 LOUT  27  L Amp
  * JQ6500 ROUT  28  R Amp
  * ULTRA GND        GND
  * ULTRA VCC        5V
  * ULTRA PingPin    D13   (Trigger)
  * ULTRA inPin      D12   (Echo)
- * 24LC256      1   GND   1-3 must be connected to GND for the correct I2C-address
+ * 24LC256      1   GND   Pin 1-3 must be connected to GND for the correct I2C-address
  * 24LC256      2   GND
  * 24LC256      3   GND
  * 24LC256      4   GND
@@ -67,7 +67,7 @@
  * Speaker VCC      D11   (PWM)
  * Speaker GND      GND
  * Battery VCC      A6    
- * USB VCC          A7    with 1kOhm
+ * USB VCC          A7    With 1kOhm
  * 
  * Unused           A1.A2,A3,D8,D9,(ICSP)
  * 
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-040617"
+#define Firmware "-090617"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
@@ -124,6 +124,15 @@
 #define Disk0 0x57        // AH24C32 4 kByte EEPROM
 #define Disk1 0x50        // 24LC256 32 kByte EEPROM
 
+// Pin operations shortcuts
+#define mp3_busy        PIND & (1<<4)    // Busy=HIGH?
+#define turnOn_pingPin  PORTB |= (1<<5)  // pingPin HIGH
+#define turnOff_pingPin PORTB &= ~(1<<5) // pingPin LOW 
+#define turnOn_amp      PORTD &= ~(1<<6) // Amplifier LOW=on
+#define turnOff_amp     PORTD |= (1<<6)  // Amplifier HIGH=off
+#define turnOn_aux      PORTD |= (1<<7)  // AUX on;
+#define turnOff_aux     PORTD &= ~(1<<7) // AUX LOW
+
 // Libraries
 #include <avr/power.h>
 #include <avr/wdt.h>
@@ -157,7 +166,7 @@ uint8_t  alarm_type;             // Whicht type of alarm
 uint8_t  alarm_tone,alarm_mp3;   // Which tone and mp3
 uint8_t  alarm_mm,alarm_hh;      // Alarm time hh:mm
 uint8_t  night_mm,night_hh;      // Nightmode from hh:mm
-uint8_t  night_to_mm,night_to_hh;// to hh:mm
+uint8_t  night_to_mm,night_to_hh;// To hh:mm
 uint8_t  distance_val;           // Ultrasonic reaction distance 0-9 
 uint8_t  event_val;              // Chance of time event 0-9
 
@@ -197,8 +206,8 @@ uint32_t  lcd_dimm_time;         // Milliseconds until display mutes
 const uint8_t event_trigger[10]={0,120,60,45,30,15,10,5,3,1};
 
 // Custom characters. Number set was made by Ishan Karve. Awesome!
-// Putting this array into PROGMEM caused strange output. Strange.
-byte custom_char[18][8]=
+// Putting this array into PROGMEM caused strange output. Bizar.
+byte custom_char[19][8]=
 {
   {B00111,B01111,B11111,B11111,B11111,B11111,B11111,B11111},
   {B11111,B11111,B11111,B00000,B00000,B00000,B00000,B00000},
@@ -217,7 +226,8 @@ byte custom_char[18][8]=
   {B00000,B00100,B00100,B11111,B01110,B01010,B10001,B00000}, // Star
   {B00001,B00011,B00101,B01001,B01001,B01011,B11011,B11000}, // Note
   {B00000,B01110,B10101,B10111,B10001,B01110,B00000,B00000}, // Clock
-  {B00100,B01110,B01110,B01110,B11111,B00000,B00100,B00000}  // Bell
+  {B00100,B01110,B01110,B01110,B11111,B00000,B00100,B00000}, // Bell
+  {B00011,B00110,B01100,B11100,B01100,B00110,B00011,B00000}  // Moon
 };
 
 tmElements_t tm;
@@ -237,7 +247,7 @@ uint8_t hour_now=99;
 uint8_t help;
 init();
 {  
-  // Powersafe options
+  // Powersave options
   SPCR=0;                // Disable SPI
   ACSR=B10000000;        // Disable analog comparator
   DIDR0=0x3F;            // Disable digital input buffer on all analog ports
@@ -342,7 +352,7 @@ init();
   sound_on();
   play_tone(600,80,false,80);
   play_tone(880,150,false,150);
-  PORTD |= (1<<6); // Amplifier HIGH=off
+  turnOff_amp;
   
   read_time(); // Read RTC
   night_over=check_night(); // Has nightmode switched before startup?
@@ -361,7 +371,7 @@ while(1)
     else if ((analogRead(USB)>800) && (lcd_off)) powerup();
     else draw_time();
   } 
-  //if ((lcd_off) && (!radio_on) && (!mp3_on) && (!aux_on) && (!(PIND & (1<<4)))) powerdown(); 
+  //if ((lcd_off) && (!radio_on) && (!mp3_on) && (!aux_on) && (!(mp3_busy))) powerdown(); 
                                              // Power down while MP3 is running und NOKO is set to mute
 // Every minute                                             
   if (minute_now!=tm.Minute)                        
@@ -404,7 +414,7 @@ while(1)
         sound_on();
         play_tone(920,80,false,80);           // Power <10% beep
       }
-      if ((!(PIND & (1<<4))) && (!mp3_pause) && (!radio_on) && (power>1) && ((newrandom(1,event_trigger[event_val]+1)==event_trigger[event_val])))
+      if ((!(mp3_busy)) && (!mp3_pause) && (!radio_on) && (power>1) && ((newrandom(1,event_trigger[event_val]+1)==event_trigger[event_val])))
         event();                              // Time based event
     }
   }
@@ -457,11 +467,11 @@ while(1)
 uint8_t read_button(boolean silent)  // Read pressed button und debounce | silent = NOKO stays silent
 {
   uint16_t button_val;
-  if ((!mp3_pause) && (!(PIND & (1<<4))) && (mp3_on)) mp3_on=false;
+  if ((!mp3_pause) && (!(mp3_busy)) && (mp3_on)) mp3_on=false;
   if (power<5) silent=true;
-  if ((!(PIND & (1<<4))) && (!radio_on) && (!aux_on) && (!alarm_now)) 
+  if ((!(mp3_busy)) && (!radio_on) && (!aux_on) && (!alarm_now)) 
   {
-    PORTD |= (1<<6); // Amplifier off
+    turnOff_amp;
     read_RTC();      // Read RTC - powerdown_delay() messes up the internal time!
   }
   if (check_alarm()) return 4; // Check alarm
@@ -469,12 +479,12 @@ uint8_t read_button(boolean silent)  // Read pressed button und debounce | silen
   if (button_val>200) return 0;
   else 
   {
-    if (button_val>150)    // SW4 nose -> voice 31-60
+    if (button_val>150)         // SW4 nose -> voice 31-60
     {
       powerdown_delay(pwd_delay);
       if (analogRead(Buttons)>150)
       {
-       if ((!(PIND & (1<<4))) && (!quiet) && (!silent) && (!mp3_pause))
+       if ((!(mp3_busy)) && (!quiet) && (!silent) && (!mp3_pause))
          if (newrandom(1,5)==4) JQ6500_play(newrandom(31,61));
        return 4;
       }
@@ -487,14 +497,14 @@ uint8_t read_button(boolean silent)  // Read pressed button und debounce | silen
     else if ((button_val>50))   // SW2 right hand
     {
       powerdown_delay(pwd_delay);
-      if (analogRead(Buttons)>50)  return 2;
+      if (analogRead(Buttons)>50) return 2;
     }
     else                        // SW1 belly -> voice 11-30
     {
       powerdown_delay(pwd_delay);
       if (analogRead(Buttons)>0)
       {
-        if ((!(PIND & (1<<4))) && (!quiet) && (!silent) && (!mp3_pause))
+        if ((!(mp3_busy)) && (!quiet) && (!silent) && (!mp3_pause))
           if (newrandom(1,8)==4) JQ6500_play(newrandom(11,31)); 
       return 1;
       }
@@ -661,7 +671,7 @@ void bignum(uint8_t x,uint8_t y,uint8_t num) // Draws a big number at x,y; num 0
 void powerdown() // Power save on
 {
   analogWrite(LED,0);
-  lcd.off();        // Turn off display
+  lcd.noDisplay();          // Turn off display
   lcd_off=true;  
   lcd_dimm=false;
   // More powersaving options?
@@ -669,10 +679,10 @@ void powerdown() // Power save on
 
 void powerup()  // Power save off
 {
-  lcd.on();           // Turn on display  
+  lcd.display();           // Turn on display  
   lcd_off=false;
   lcd_dimm=false;
-  draw_all();         // Draw clock and date
+  draw_all();              // Draw clock and date
 }
 
 uint8_t newrandom(uint8_t a,uint8_t b) // Better XOR random number generator 
@@ -683,7 +693,7 @@ uint8_t newrandom(uint8_t a,uint8_t b) // Better XOR random number generator
     return (rnd/65535.0)*(b-a)+a;
 }
 
-void NewDelay(uint16_t wait_ms)  // New delay function to save flash - it's also in the Radio library
+void NewDelay(uint16_t wait_ms)  // New delay function to save flash - it's also in the radio library
 {
   #ifdef def_radio 
     Radio.newdelay(wait_ms); 
@@ -766,7 +776,7 @@ void check_summertime() // Compare summertime with EEPROM and set clock
     setTime(tm.Hour,tm.Minute,tm.Second,tm.Day,tm.Month,thisyear);
     tm.Year=CalendarYrToTm(thisyear);
     RTC.write(tm);                      // Write RTC
-    write_EEPROM(16+offset,summertime); // Write Summertime flag
+    write_EEPROM(16+offset,summertime); // Write summertime flag
     copy_eeprom();                      // Move EEPROM to new address
   }
 }
@@ -907,7 +917,7 @@ boolean check_night() // Is it nighttime?
   }
   if (ja!=night_over) // When nightmode changes play sound
   {
-    ja? JQ6500_play(71):JQ6500_play(102);
+    ja? JQ6500_play(71):JQ6500_play(102); // Off: Rooster. On: Let me sleep!
     night_over=ja;
   }
   return ja;
@@ -915,11 +925,9 @@ boolean check_night() // Is it nighttime?
 
 void check_ultra()  // Ultrasonic event - distance_val= 0..9 * 10cm
 {
-  PORTB &= ~(1<<5); // (Distance_pingPin,LOW);
-  delayMicroseconds(5);
-  PORTB |= (1<<5);  // (Distance_pingPin,HIGH);
+  turnOn_pingPin;
   delayMicroseconds(10);
-  PORTB &= ~(1<<5); // (Distance_pingPin,LOW);
+  turnOff_pingPin;
   if ((pulseIn(Distance_inPin,HIGH) /29 /2)<distance_val*sensor)  // Is there something in distance?
   {
     if ((lcd_dimm) && (distance_light)) // Display light off and light flag set?
@@ -927,7 +935,7 @@ void check_ultra()  // Ultrasonic event - distance_val= 0..9 * 10cm
       lcd.backlight();              // Turn on light and set timer
       lcd_dimm_time=millis();
     }
-    if ((!night_now) && (!distance_now) && (!radio_on) && (!mp3_pause) && (!quiet) && (!(PIND & (1<<4))))
+    if ((!night_now) && (!distance_now) && (!radio_on) && (!mp3_pause) && (!quiet) && (!(mp3_busy)))
     {
       JQ6500_play(newrandom(61,81)); // Play random voice event. Voice 61-80
       distance_now=true; // Set ultra_evet flag to prevent more events than one in a minute
@@ -937,13 +945,13 @@ void check_ultra()  // Ultrasonic event - distance_val= 0..9 * 10cm
 
 boolean check_alarm() // Is it time for the alarm?
 {
-  if ((alarm_on) && (!alarm_now))  // Prevent double check
+  if ((alarm_on) && (!alarm_now)) // Prevent double check
   {
-    read_time();                          // Read internal time
-    if (!alarm_mute)                 // Is alarm allowed?
+    read_time();                  // Read internal time
+    if (!alarm_mute)              // Is alarm allowed?
       if ((alarm_mm==tm.Minute) && (alarm_hh==tm.Hour)) 
       {
-        alarm();                     // Yes! Alarm!
+        alarm();                  // Yes! Alarm!
         return true;
       }
     if (alarm_mm!=tm.Minute) alarm_mute=false; // Other time - mute off
@@ -953,9 +961,9 @@ boolean check_alarm() // Is it time for the alarm?
 
 void alarm() // Play alarm
 {
-  if (lcd_off) lcd.on();         // Display on
-  if (lcd_dimm) lcd.backlight(); // Light on
-  PORTD &= ~(1<<6);              // Amplifier on
+  if (lcd_off) lcd.display();     // Display on
+  if (lcd_dimm) lcd.backlight();  // Light on
+  turnOn_amp;
   lcd.createChar(0,custom_char[17]);
   lcd.clear();
   lcd.noBlink();
@@ -969,23 +977,23 @@ void alarm() // Play alarm
   lcd.print(F("Nase dr cken"));
   put_char(11,3,245);
   alarm_now=true;
-  if (aux_on) PORTD &= ~(1<<7);                // AUX off
+  if (aux_on) turnOff_aux;
   if ((alarm_type==1) && (!radio_on) && (!mp3_on))  // Radio alarm
   {
       radio_start();
       radio_on=true;
   }
   selected=0;
-  while ((selected!=4) && (alarm_mm==tm.Minute)) // Alarm until one minute timeout or Nose 
+  while ((selected!=4) && (alarm_mm==tm.Minute)) // Alarm until one minute timeout or SW4 nose 
   {
     put_char(5,2,0);
     lcd.print(F(" Alarm "));
     lcd.print(char(0));
     selected=read_button(true);
     analogWrite(LED,255);   
-    if ((alarm_type==0) || (mp3_on) || (mp3_pause))             // Tone alarm
+    if ((alarm_type==0) || (mp3_on) || (mp3_pause))    // Tone alarm
       play_tone(alarm_tone); 
-    if ((alarm_type==2) && (!(PIND & (1<<4))) && (!mp3_on)) // MP3 alarm
+    if ((alarm_type==2) && (!(mp3_busy)) && (!mp3_on)) // MP3 alarm
       JQ6500_play(alarm_mp3+1); 
     stop_delay(500);
     print_space(5,2,9); // Clear "Alarm" to let it blink
@@ -998,12 +1006,12 @@ void alarm() // Play alarm
     #ifdef def_radio
       Radio.powerOff(); 
     #endif
-  if (aux_on) PORTD |= (1<<7); // AUX on;
+  if (aux_on) turnOn_aux;
   alarm_now=false;
   if ((alarm_mm==tm.Minute) && (alarm_hh==tm.Hour)) alarm_mute=true;
   lcd.clear();
-  if ((lcd_off) && (!radio_on) && (!(PIND & (1<<4)))) PORTD |= (1<<6); // Amplifier off
-  if (lcd_off) lcd.off();
+  if ((lcd_off) && (!radio_on) && (!(mp3_busy))) turnOff_amp; 
+  if (lcd_off) lcd.noDisplay();
   if (lcd_dimm) lcd.noBacklight();
   draw_all();
 }
@@ -1103,14 +1111,14 @@ void menue_Play() // Play menue "Spiel was vor"
             if (!aux_on)
             {
               if (radio_on) radio_off();
-              if ((!mp3_pause) && (PIND & (1<<4))) mp3_off();
-              PORTD &= ~(1<<6);   // Amplifier on
-              PORTD |= (1<<7);    // AUX on;
+              if ((!mp3_pause) && (mp3_busy)) mp3_off();
+              turnOn_amp;
+              turnOn_aux;   
             }
             else
             {
-              PORTD |= (1<<6);    // Amplifier off
-              PORTD &= ~(1<<7);   // AUX off
+              turnOff_amp;    
+              turnOff_aux; 
             }
             aux_on=!aux_on;
             NewDelay(500);
@@ -1168,7 +1176,7 @@ void menue_Radio() // Radio menue "Radio hoeren"
     lcd.print(char(32));
     if (save)
     {
-      PORTD &= ~(1<<6); // Amplifier on
+      turnOn_amp;
       radio_start();
       print_space(9,0,10);
       save=false;
@@ -1219,7 +1227,7 @@ void menue_Radio() // Radio menue "Radio hoeren"
     if ((radio_on) && (rds)) 
       do // Wait for button and poll RDS data       
       {
-        for (count_rows=count_save;count_rows<4;count_rows++) // Read RDS Text
+        for (count_rows=count_save;count_rows<4;count_rows++) // Read RDS text
         {
           count_save=count_rows;
           for (help2=0;help2<3;help2++) // Read 4x16 chars
@@ -1263,7 +1271,7 @@ void menue_Radio() // Radio menue "Radio hoeren"
             }
             else
             {
-              if ((!mp3_pause) && (PIND & (1<<4))) mp3_off();
+              if ((!mp3_pause) && (mp3_busy)) mp3_off();
               aux_off();
               radio_on=true;
             }
@@ -1306,7 +1314,6 @@ void menue_Radio() // Radio menue "Radio hoeren"
 // 1=Story 2=MP3 3=No MP3 files found
 void menue_MP3(uint8_t modus) 
 {
-  if (!mp3_on) while (PIND & (1<<4));
   uint8_t menue=1;
   uint8_t help;
   char name_buffer[12];
@@ -1318,12 +1325,13 @@ void menue_MP3(uint8_t modus)
   lcd.print(F("[<][ ][ ][>]"));
   put_char(11,3,2);
   if (mp3_pause) menue=2;
+  if (!mp3_on) while (mp3_busy);
   lcd.blink();
   while (selected!=4)
   {
+    lcd.setCursor(2,0);
     if (modus==1) // Story menu "Geschichten hören"
     {
-      lcd.setCursor(2,0);
       if (story<10) print_zero();
       lcd.print(story); // Print story number
       lcd.print(char(32));
@@ -1340,14 +1348,13 @@ void menue_MP3(uint8_t modus)
     }
     if (modus==2) // MP3 menue "Eigenes hören"
     {
-      if (!(PIND & (1<<4)) && (!mp3_pause) && (!story_on)) 
+      if (!(mp3_busy) && (!mp3_pause) && (!story_on)) 
       {
         mp3.playFileByIndexNumber(111+max_stories+file); // Set index to first file
         powerdown_delay(100);
         mp3_off(); // Stop at once to keep index set
         powerdown_delay(100);
       }
-      lcd.setCursor(2,0);
       if (story_on) lcd.print(F("Geschichte")); // Is a story running?
       else
       {
@@ -1356,7 +1363,7 @@ void menue_MP3(uint8_t modus)
         lcd.print(name_buffer);
       }
       lcd.setCursor(7,2);
-      if ((PIND & (1<<4)) && (!story_on))
+      if ((mp3_busy) && (!story_on))
       {
         powerdown_delay(100);
         file=mp3.currentFileIndexNumber(MP3_SRC_SDCARD)-151; // Read file number
@@ -1367,14 +1374,10 @@ void menue_MP3(uint8_t modus)
       if (max_files<10) print_zero();
       lcd.print(max_files); // Print last file number
     }
-    if (modus==3) // No MP3s found!
-    {
-      lcd.setCursor(0,1);
-      lcd.print(F("Keine MP3s gefunden"));
-    }
+    if (modus==3) lcd.print(F("Keine MP3s"));// No MP3s found!
     lcd.setCursor(15,0);
     if (mp3_pause) lcd.print(F("PAUSE")); else print_space(15,0,5);
-    put_char(8,3,((PIND & (1<<4)) || (mp3_pause))? 1:3);
+    put_char(8,3,((mp3_busy) || (mp3_pause))? 1:3);
     lcd.setCursor(5+(menue*3),3);
     wait_1m(true,true);
     switch(selected)
@@ -1387,18 +1390,18 @@ void menue_MP3(uint8_t modus)
           {
             if (story>1) story--;
             if (file_on) {file_on=false; story_on=true;}
-            if (PIND & (1<<4)) JQ6500_play(story+111);
+            if (mp3_busy) JQ6500_play(story+111);
             }
           if (modus==2)
           {
             if (file>1) file--;
             if (story_on) {story_on=false; file_on=true;}
-            if (PIND & (1<<4)) JQ6500_play(file+111+max_stories);
+            if (mp3_busy) JQ6500_play(file+111+max_stories);
           }
           break;
         case 1: // On/Off
           if (radio_on) radio_off(); 
-          if (!(PIND & (1<<4))) 
+          if (!(mp3_busy)) 
           {
             if (modus==1)
             {
@@ -1416,12 +1419,12 @@ void menue_MP3(uint8_t modus)
           aux_off();
           break;
         case 2: // Pause
-          if ((PIND & (1<<4)) || (mp3_pause))
+          if ((mp3_busy) || (mp3_pause))
           {
             if (radio_on) radio_off();
             if (mp3_pause)
             {
-              PORTD &= ~(1<<6); // Amplifier on
+              turnOn_amp;
               mp3_pause=false;
               mp3.play();
             }
@@ -1437,13 +1440,13 @@ void menue_MP3(uint8_t modus)
           {
             if (story<max_stories) story++;
             if (file_on) {file_on=false; story_on=true;}
-            if (PIND & (1<<4)) JQ6500_play(story+111);
+            if (mp3_busy) JQ6500_play(story+111);
           }
           if (modus==2)
           {
             if (file<max_files) file++;
             if (story_on) {story_on=false; file_on=true;}
-            if (PIND & (1<<4)) JQ6500_play(file+111+max_stories);
+            if (mp3_busy) JQ6500_play(file+111+max_stories);
           }
           break;
         }
@@ -1755,10 +1758,10 @@ void menue_NightMode() // Set nightmode
 {
   uint8_t menue=0;
   boolean save=false;
-  print_icon(custom_char[16]);
+  print_icon(custom_char[18]);
   lcd.print(F("Nachtmodus stellen"));
   lcd.setCursor(2,1);
-  lcd.print(F("[   ] Dimmen [ ]")); // dim light when NOKO enters nightmode
+  lcd.print(F("[   ] Dimmen [ ]")); // Dim light when NOKO enters nightmode
   lcd.setCursor(2,2);
   lcd.print(F("von"));
   lcd.setCursor(2,3);
@@ -2023,14 +2026,13 @@ void menue_NOKO() // "Mein NOKO" - about NOKO and secret sysinfo
 void sysinfo() // Hidden status menu
 {
   lcd.clear();
-  lcd.setCursor(0,0);
   lcd.print(F("Firmware: "));
   lcd.print(Version/10); // Firmware
   lcd.print(char(46));
   lcd.print(Version%10);
   lcd.print(F(Firmware));
   lcd.setCursor(0,1);
-  lcd.print(F("I2C: "));  // Show all I2C devices
+  lcd.print(F("I2C: ")); // Show all I2C devices
   for (uint8_t help=8;help<120;help++)
   {
     Wire.beginTransmission(help);
@@ -2048,7 +2050,7 @@ void sysinfo() // Hidden status menu
   lcd.print(char(223));
   lcd.setCursor(0,3);
   lcd.print(F("Akku:"));
-  lcd.setCursor(11,3); // Print sommertime/wintertime flag
+  lcd.setCursor(11,3); // Print summertime/wintertime flag
   lcd.print(F("Z: "));
   (summertime)? lcd.print(char(83)):lcd.print(char(87));
   while (selected!=4)
@@ -2064,11 +2066,11 @@ void event() // Time bases events
 {
   uint8_t help2,ma;
   uint8_t help=4;
-  #ifdef def_external_eeprom  // Check if EEPROM is used and defined
+  #ifdef def_external_eeprom        // Check if EEPROM is used and defined
     help=0;  
   #endif
   help2=newrandom(help,12);
-  if (lcd_off) help2=10;    // If display is turned off, only start the voice event
+  if (lcd_off) help2=10;            // If display is turned off, only start the voice event
   lcd.noBlink();
   if ((help2<8) && (lcd_dimm) && !((nightmode_on) && (night_now))) lcd.backlight();
   if (help2<5) lcd.clear();
@@ -2131,7 +2133,7 @@ void event() // Time bases events
       stop_delay(2000);
       break;
     default:
-      JQ6500_play(newrandom(81,111)); // Voice event - NOKO says something. Voice 81-110
+      JQ6500_play(newrandom(81,111)); // Voice event - NOKO says something. File 81-110
       break;
   }
   if (help2<8) 
@@ -2206,7 +2208,7 @@ void poem() // Text event 3: Poem event on display
   sound_on();
   play_tone(880,80,false,150);
   play_tone(880,400,false,400);
-  PORTD |= (1<<6); // Amplifier off
+  turnOff_amp; 
   print_block(poem_address,3);
 }
 
@@ -2217,11 +2219,11 @@ void party() // Birthdaytime! Party! Party!
   #ifdef def_radio
     if (radio_on) Radio.powerOff();
   #endif
-  if (aux_on) PORTD &= ~(1<<7); // AUX aus;
+  if (aux_on) turnOff_aux;
   if ((!quiet) && (!mp3_on)) JQ6500_play(111); // Play birthday song 111
   NewDelay(2000);
   minute_now=minute();
-  while (((minute_now==minute()) || (PIND & (1<<4))) && (selected!=4))
+  while (((minute_now==minute()) || (mp3_busy)) && (selected!=4))
   {  
     lcd.clear();
     lcd.setCursor(7,1);
@@ -2238,7 +2240,7 @@ void party() // Birthdaytime! Party! Party!
   birthday_over=true;
   if (!mp3_on) mp3.pause();
   if (radio_on) radio_start();
-  if (aux_on) PORTD |= (1<<7);
+  if (aux_on) turnOn_aux;
   draw_all();
 }
 
@@ -2303,7 +2305,7 @@ void radio_off() // Radio off
 
 void aux_off() // AUX relay off
 {
-  PORTD &= ~(1<<7); 
+  turnOff_aux; 
   aux_on=false;
 }
 
@@ -2319,7 +2321,7 @@ void mp3_off() // Stop MP3 playing
 
 void sound_on() // Turns on amplifier with a small delay for beep tones
 {
-  PORTD &= ~(1<<6); // Amplifier ein
+  turnOn_amp;
   NewDelay(reaction_time);
 }
 
@@ -2349,13 +2351,15 @@ uint8_t read_disk(uint8_t disk_number,uint16_t address) // Read an EEPROM
   return Wire.read();
 }
 
-uint8_t read_EEPROM(uint8_t address) // read internal EEPROM with offset
+uint8_t read_EEPROM(uint8_t address) // Read internal EEPROM with offset
 {
   return EEPROM.read(address+offset);
 }
 
-void write_EEPROM(uint8_t address, uint8_t data) // write internal EEPROM with offset
+void write_EEPROM(uint8_t address, uint8_t data) // Write internal EEPROM with offset
 {
   EEPROM.write(address+offset,data);
 }
+
+
 
