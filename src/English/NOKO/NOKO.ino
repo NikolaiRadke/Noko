@@ -1,4 +1,4 @@
- /* NOKO V1.0 09.06.2017 - Nikolai Radke
+ /* NOKO V1.0 19.06.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module!
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-090617"
+#define Firmware "-190617"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -466,13 +466,10 @@ while(1)
 uint8_t read_button(boolean silent)  // Read pressed button und debounce | silent = NOKO stays silent
 {
   uint16_t button_val;
+  read_RTC();      // Read RTC - powerdown_delay() messes up the internal time!
   if ((!mp3_pause) && (!(mp3_busy)) && (mp3_on)) mp3_on=false;
   if (power<5) silent=true;
-  if ((!(mp3_busy)) && (!radio_on) && (!aux_on) && (!alarm_now)) 
-  {
-    turnOff_amp;
-    read_RTC();      // Read RTC - powerdown_delay() messes up the internal time!
-  }
+  if ((!(mp3_busy)) && (!radio_on) && (!aux_on) && (!alarm_now)) turnOff_amp;
   if (check_alarm()) return 4; // Check alarm
   button_val=(analogRead(Buttons));
   if (button_val>200) return 0;
