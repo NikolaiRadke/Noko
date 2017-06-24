@@ -1,6 +1,7 @@
 # Newsblog
 
 ## 2017
+* **19.06.2017** - Firmware **1.0-190617** - Bugfix: No time refresh when playing radio oder MP3s.  
 * **09.06.2017** - Firmware **1.0-090617** - Another firmware update before the upcoming release with serval optimizations and a bugfix: The display won't turn off. 
 * **07.06.2017** - New IDE 1.8.3 tested. Compiler options in platform.txt aren't working. Again. AVR Core 1.6.19 increases the sketch size by about 760 Bytes. IDE 1.8.3 with AVR Core 1.6.18 takes 17 Bytes more. NOKO stays with AVR Core 1.6.18.  
 * **04.06.2017** - Firmware **1.0-040617** - Code shrinking and - as the reason for a new firmware - a nasty bug got fixed in the distance light settings. A new release will follow soon.  
