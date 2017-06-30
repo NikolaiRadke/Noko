@@ -1,11 +1,11 @@
- /* NOKO V1.0 24.06.2017 - Nikolai Radke
+ /* NOKO V1.0 30.06.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module! Uncommend line 88 if it's not present.
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.044 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
+ * Flash-Usage: 27.018 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 |Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-240617"
+#define Firmware "-300617"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -500,6 +500,7 @@ uint8_t read_button(boolean silent)  // Read pressed button und debounce | silen
       {
         if ((!(mp3_busy)) && (!quiet) && (!silent) && (!mp3_pause))
           if (newrandom(1,8)==4) JQ6500_play(newrandom(11,31)); 
+        powerdown_delay(pwd_delay);
         return 1;
       }
     }
@@ -1865,8 +1866,7 @@ void menue_Settings()  // Settings "Set NOKO"
     lcd.setCursor(16,2);
     lcd.print(distance_val);
     lcd.setCursor(16,menue);
-    while ((selected=read_button(false))==0) NewDelay(100); // No power down while LED is in use!
-    NewDelay(50);
+    wait_1m(false,true);
     switch(selected)
     {
       case 1:  
