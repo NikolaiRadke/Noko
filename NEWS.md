@@ -2,7 +2,7 @@
 
 ## 2017
 * **30.06.2017** **Release V1.0-300617**  
-Second release with new firmware. I spend a lot of time looking for bugs. Since last firmware 1.0-240617, the belly button debounce was improved again, i also fred up some flash und did some small powersafe improvents. This should be the last V1.0 release. Hopefully...  
+Second NOKO release with new firmware 1.0-300617. I spend a lot of time looking for bugs. Since last firmware 1.0-240617, the belly button debounce was improved again, i also fred up some flash und did some small powersafe improvents. This should be the last V1.0 release. Hopefully...  
 * **24.06.2017** - Firmware **1.0-240617** - Belly button debounce improvement - it was about time! And some code optimizations. 100 Bytes freed! Wheee!  
 * **19.06.2017** - Firmware **1.0-190617** - Bugfix: No time refresh when playing radio oder MP3s.  
 * **09.06.2017** - Firmware **1.0-090617** - Another firmware update before the upcoming release with serval optimizations and a bugfix: The display won't turn off. 
