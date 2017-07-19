@@ -68,7 +68,7 @@ NOKO/
 |       ├── I2C-Scanner/
 |       |   Sketch to scan adresses of all connected I2C-devices.
 |       ├── NOKO_Diagnostics/
-|       |   Tool to test NOKO funtions via serial monitor.
+|       |   Tool to test NOKO functions via serial monitor.
 |       ├── NOKO_Disk1/
 |       |   Sketch to write the Disk1 textfile into 24LC256-EEPROMs.
 |       └── NOKO_EEPROM_Disk0/
