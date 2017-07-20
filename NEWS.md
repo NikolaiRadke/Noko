@@ -1,6 +1,7 @@
 # Newsblog
 
 ## 2017
+* **20.07.2017** The NOKO diagnostic tool was updated to V0.3.  
 * **30.06.2017** **Release V1.0-300617**  
 Second NOKO release with new firmware 1.0-300617. I spend a lot of time looking for bugs. Since last firmware 1.0-240617, the belly button debounce was improved again, i also fred up some flash memory und did some small powersave improvents. This should be the last V1.0 release. Hopefully...  
 * **24.06.2017** - Firmware **1.0-240617** - Belly button debounce improvement - it was about time! And some code optimizations. 100 Bytes freed! Wheee!  
