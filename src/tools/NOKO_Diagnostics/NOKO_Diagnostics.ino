@@ -1,4 +1,4 @@
- /* NOKO Diagnostics V0.2 31.05.2017 - Nikolai Radke
+ /* NOKO Diagnostics V0.3 20.06.2017 - Nikolai Radke
   *  
   *  Sketch for testing NOKO functions.
   *  This sketch aims to be easy. Clear source code and no libraries.
@@ -114,14 +114,15 @@ void loop()
   
   Serial.print(F("\nChoose -> "));
   
-  while(Serial.available() == 0);
+  while(Serial.available()==0);
   select=Serial.read();
   Serial.println(select);
+  Serial.println();
   switch(select)
   {
     case '0':
       Serial.println(F("LED will blink. Send Space to stop."));
-      while(Serial.available() == 0)
+      while(Serial.available()==0)
       {
         digitalWrite(10,HIGH);
         delay(500);
@@ -130,10 +131,10 @@ void loop()
       } 
      break;
     case '1':
-      if (!amp) Serial.println(F("Amplifier is off!"));
+      if (!amp) Serial.println(F("Amplifier is off! (HIGH)"));
       Serial.println(F("Pin 6 will give short tones. Send Space to stop."));
       digitalWrite(6,LOW);
-      while(Serial.available() == 0)
+      while(Serial.available()==0)
       {
         tone(11,800,100);
         delay(200);
@@ -145,7 +146,8 @@ void loop()
       amp=!amp;
       break;
     case '3':
-      while(Serial.available() == 0) digitalWrite(7,HIGH);
+      Serial.println(F("Setting AUX (D7) High. Send Space to stop."));
+      while(Serial.available()==0) digitalWrite(7,HIGH);
       digitalWrite(7,LOW);
       break;
     case '5':
@@ -163,7 +165,8 @@ void loop()
       Serial.println();
       break;
     case '6':
-      while(Serial.available() == 0)
+      Serial.println(F("Reading distance 10 times:"));
+      for (help=0;help<10;help++)
       {
         digitalWrite(13, LOW);
         delayMicroseconds(2);
@@ -173,7 +176,7 @@ void loop()
         duration=pulseIn(12, HIGH);
         Serial.print(duration/29/2);
         Serial.println("cm");
-        delay(100);
+        delay(250);
       }
       Serial.println();
       break;
@@ -187,19 +190,30 @@ void loop()
       Serial.println("°C");
       break;
     case '8':
+      Serial.println(F("Reading first 100 characters from EEPROM:"));
       for (help=0;help<100;help++)
         Serial.print(char(readDisk(Disk1,help)));
       Serial.println();
       break;
     case '9':
+      Serial.println(F("Reading owner name and email address:"));
       for (help=20;help<80;help++)
         Serial.print(char(readDisk(Disk0,help)));
       Serial.println();
       break;
     case 'a':
-      Serial.println("Will follow...");
+      Serial.println(F("Display should turn off and on..."));
+      Wire.beginTransmission(lcd_address);
+      Wire.write(0x00);
+      Wire.endTransmission();
+      delay(500);
+      Wire.beginTransmission(lcd_address);
+      Wire.write(0x08);
+      Wire.endTransmission();
       break;
     case 'b':
+      if (!amp) Serial.println(F("Warning: Amplifier is off!"));
+      Serial.println(F("Playing file number 70..."));
       mp3.write("\x7E\x04\x03\x01");     // Play file number 
       mp3.write(70);                     // 70
       mp3.write("\xEF");
@@ -207,7 +221,8 @@ void loop()
       mp3.write("\x7E\x02\x0D\xEF");     // Play
       break;
   }
-  delay(1000);
+  Serial.read();
+  delay(100);
   Serial.println("\nDone.\n");
 }
 
