@@ -2173,18 +2173,18 @@ void print_block(uint16_t address, uint8_t event) // Prints text blocks from EEP
 {
   uint8_t help;
   uint8_t y=0;
-  uint8_t offset=80;
+  uint8_t text_offset=80;
   uint8_t help2=newrandom(0,(event==3)? 26:100);
   if (event==1) 
   {
     y=1;
-    offset=60;
+    text_offset=60;
   }
   for (help=0;help<20;help++)
   {
-    put_char(help,y,(read_disk(Disk1,address+(help2*offset)+help)));
-    put_char(help,y+1,(read_disk(Disk1,address+(help2*offset)+help+20)));
-    put_char(help,y+2,(read_disk(Disk1,address+(help2*offset)+help+40)));
+    put_char(help,y,(read_disk(Disk1,address+(help2*text_offset)+help)));
+    put_char(help,y+1,(read_disk(Disk1,address+(help2*text_offset)+help+20)));
+    put_char(help,y+2,(read_disk(Disk1,address+(help2*text_offset)+help+40)));
     if (event>1) put_char(help,3,(read_disk(Disk1,address+(help2*80)+help+60)));
   }
   wait_1m(true,true);
