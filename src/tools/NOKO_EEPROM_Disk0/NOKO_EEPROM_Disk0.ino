@@ -88,7 +88,7 @@
 // Length of stories - mm:ss
 const uint8_t stories_length[]={53,6, 45,6, 53,23, 48,40, 48,22, 47,9, 52,44, 43,56, 48,28, 49,38, 46,16, 53,20, 53,1,
 50,15, 52,46, 52,29, 53,8, 50,15, 52,20, 35,25, 50,27, 51,33, 51,23, 48,4, 25,20, 42,39, 47,4, 52,14, 49,36,
-53,51, 50,3, 49,27, 52,47, 49,53, 31,13, 32,14, 50,38, 51,8, 47,45, 65,12};
+53,51, 50,3, 49,27, 52,47, 49,53, 31,13, 32,14, 50,38, 51,8, 47,45, 65,12, 1,0};
 
 uint16_t addr,c;
 
@@ -187,9 +187,11 @@ void setup()
   delay(30);
   #ifdef def_stories
     for (addr=0;addr<(max_stories*2);addr++)
-      writeDisk(Disk0,addr+(max_stories-1)*80+100,stories_length[addr]);
-    addr=100; // Starting adress
+      writeDisk(Disk0,addr+(max_stories-1)*40+100,stories_length[addr]);
   #endif
+
+   // Starting adress
+  addr=100;
 }
 
 void loop() 

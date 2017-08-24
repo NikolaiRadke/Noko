@@ -15,8 +15,8 @@
 
 char      select;
 boolean   radio,eeprom,rtc,rtc_eeprom,lcd,amp=false;
-uint8_t   lcd_address,help;
-uint32_t  duration;
+uint8_t   lcd_address;
+uint32_t  help,duration;
 
 SoftwareSerial mp3(2,3);           // TX to D0, RX to D1
 

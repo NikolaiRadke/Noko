@@ -1337,9 +1337,9 @@ void menue_MP3(uint8_t modus)
       if (story<10) print_zero();
       lcd.print(story); // Print story number
       print_onespace();
-      lcd.print(read_disk(Disk0,((max_stories-1)*80+100)+((story-1)*2))); // Print lenght in minutes
+      lcd.print(read_disk(Disk0,((max_stories-1)*40+100)+((story-1)*2))); // Print lenght in minutes
       lcd.print(char(58));
-      help=read_disk(Disk0,((max_stories-1)*80+101)+((story-1)*2)); // And print seconds
+      help=read_disk(Disk0,((max_stories-1)*40+101)+((story-1)*2)); // And print seconds
       if (help<10) print_zero();
       lcd.print(help);
       for (help=0;help<20;help++) // Print name and author

@@ -1,4 +1,4 @@
- /* NOKO V1.0 30.06.2017 - Nikolai Radke
+ /* NOKO V1.0 24.08.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module! Uncommend line 88 if it's not present.
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-300617"
+#define Firmware "-240817"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -1323,9 +1323,9 @@ void menue_MP3(uint8_t modus)
       if (story<10) print_zero();
       lcd.print(story); // Print story number
       print_onespace();
-      lcd.print(read_disk(Disk0,((max_stories-1)*80+100)+((story-1)*2))); // Print length in minutes
+      lcd.print(read_disk(Disk0,((max_stories-1)*40+100)+((story-1)*2))); // Print length in minutes
       lcd.print(char(58));
-      help=read_disk(Disk0,((max_stories-1)*80+101)+((story-1)*2)); // And print seconds
+      help=read_disk(Disk0,((max_stories-1)*40+101)+((story-1)*2)); // And print seconds
       if (help<10) print_zero();
       lcd.print(help);
       for (help=0;help<20;help++) // Print name and author
