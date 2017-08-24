@@ -1,6 +1,8 @@
 # Newsblog
 
 ## 2017
+* **24.08.2017** Firmware **1.0-240817** - Bugfix: NOKO supports now 95 stories instead of 42.  
+* **10.08.2017** NOKO moved to Berlin!  
 * **21.07.2017** ...and updated to V0.5. I have had some free time.  
 * **20.07.2017** The NOKO diagnostic tool was updated to V0.3.  
 * **30.06.2017** **Release V1.0-300617**  
