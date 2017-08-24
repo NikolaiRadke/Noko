@@ -1,5 +1,5 @@
 /*
- * NOKO Settings Disk1 V1.01 12.01.2017 - Nikolai Radke
+ * NOKO Settings Disk1 V1.02 24.08.2017 - Nikolai Radke
  * 
  * This sketch writes the event poems, phrases and stuff into 24LC256.
  * Umlaute are converted, NOKOs LCD uses another charset!
@@ -46,11 +46,11 @@ void loop()
   addr++;
 }
 
-void writeDisk(int disknummer, unsigned int adresse, byte data) 
+void writeDisk(int disknumber, unsigned int address, byte data) 
 {
-  Wire.beginTransmission(disknummer);
-  Wire.write((int)(adresse >> 8));   
-  Wire.write((int)(adresse & 0xFF)); 
+  Wire.beginTransmission(disknumber);
+  Wire.write((int)(address >> 8));   
+  Wire.write((int)(address & 0xFF)); 
   Wire.write(data);
   Wire.endTransmission();
   delay(5); // better 10?
