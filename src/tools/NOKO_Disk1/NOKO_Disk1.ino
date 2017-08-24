@@ -46,11 +46,11 @@ void loop()
   addr++;
 }
 
-void writeDisk(int disknumber, unsigned int address, byte data) 
+void writeDisk(uint8_t disknumber, uint16_t address, uint8_t data) 
 {
   Wire.beginTransmission(disknumber);
-  Wire.write((int)(address >> 8));   
-  Wire.write((int)(address & 0xFF)); 
+  Wire.write((uint16_t)(address >> 8));   
+  Wire.write((uint16_t)(address & 0xFF)); 
   Wire.write(data);
   Wire.endTransmission();
   delay(5); // better 10?

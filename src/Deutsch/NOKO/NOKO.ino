@@ -207,7 +207,7 @@ const uint8_t event_trigger[10]={0,120,60,45,30,15,10,5,3,1};
 
 // Custom characters. Number set was made by Ishan Karve. Awesome!
 // Putting this array into PROGMEM caused strange output. Bizarre.
-byte custom_char[19][8]=
+uint8_t custom_char[19][8]=
 {
   {B00111,B01111,B11111,B11111,B11111,B11111,B11111,B11111},
   {B11111,B11111,B11111,B00000,B00000,B00000,B00000,B00000},

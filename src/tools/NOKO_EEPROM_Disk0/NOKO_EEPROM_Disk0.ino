@@ -86,7 +86,7 @@
 #define max_stories 40 // Max 95
 
 // Length of stories - mm:ss
-const byte stories_length[]={53,6, 45,6, 53,23, 48,40, 48,22, 47,9, 52,44, 43,56, 48,28, 49,38, 46,16, 53,20, 53,1,
+const uint8_t stories_length[]={53,6, 45,6, 53,23, 48,40, 48,22, 47,9, 52,44, 43,56, 48,28, 49,38, 46,16, 53,20, 53,1,
 50,15, 52,46, 52,29, 53,8, 50,15, 52,20, 35,25, 50,27, 51,33, 51,23, 48,4, 25,20, 42,39, 47,4, 52,14, 49,36,
 53,51, 50,3, 49,27, 52,47, 49,53, 31,13, 32,14, 50,38, 51,8, 47,45, 65,12};
 
@@ -252,11 +252,11 @@ bool check_summertime() // Check summer time
     return false;
 }
 
-void writeDisk(int disknumber, int adresse, byte data) // Write to disk
+void writeDisk(uint8_t disknumber, uint16_t adresse, uint8_t data) // Write to disk
 {
   Wire.beginTransmission(disknumber);
-  Wire.write((int)(adresse >> 8));   
-  Wire.write((int)(adresse & 0xFF)); 
+  Wire.write((uint16_t)(adresse >> 8));   
+  Wire.write((uint16_t)(adresse & 0xFF)); 
   Wire.write(data);
   Wire.endTransmission();
   delay(5);
