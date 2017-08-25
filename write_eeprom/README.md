@@ -60,7 +60,8 @@ or **Line 17** in **NOKO_Disk1.ino**.
 ## The textfiles DISK0 and DISK1
 
 ### DISK0 format
-The Disk0 file contains the author and title of the stories. Every item has exactly **2x20** characters, including unused spaces. The next item follows immediately. Do not use the return key, the file is like a single long string. It has to be plain text, don't use a word processor, just a simple text editor. **Note:** NOKO counts from zero, maybe your editor starts with 1 - change nothing. Just type.
+The Disk0 file contains the author and title of the stories. Every item has exactly **2x20** characters, including unused spaces. The next item follows immediately. Do not use the return key, the file is like a single long string. It has to be plain text, don't use a word processor, just a simple text editor. **Note:** NOKO counts from zero, maybe your editor starts with 1 - change nothing. Just type. The number of stories ist limited to **95**, the AT24C32 is limited to measy 4096 bytes. In this repository, there are 40 german stories. If you want more or less, modifiy **max_stories** in line
+``` #define max_stories 40 // Max 95 ```.  
 
 ### DISK1 format
 Nearly the same as DISK0. No return key, just space bar. 
