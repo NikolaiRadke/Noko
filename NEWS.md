@@ -1,6 +1,7 @@
 # Newsblog
 
 ## 2017
+* **25.08.2017** IDE 1.8.4 with AVR Core 1.6.20 is out. Again, since AVR Core 1.6.18 compiler options aren't supported anymore.  
 * **24.08.2017** Firmware **1.0-240817** - Bugfix: Now NOKO supports 95 stories instead of 42.  
 * **10.08.2017** NOKO moved to Berlin!  
 * **21.07.2017** ...and updated to V0.5. I have had some free time.  
