@@ -1,7 +1,7 @@
 # Newsblog
 
 ## 2017
-* **04.10.2017** IDE 1.8.5 is out. Still no compilier options. It seems to be AVR core specific, maybe platform.txt is being ignored.  
+* **04.10.2017** IDE 1.8.5 is out. Still no compilier options. It seems to be AVR core specific, maybe platform.txt is being ignored. Stay with 1.6.18 if you care about free flash.  
 * **25.08.2017** IDE 1.8.4 with AVR Core 1.6.20 is out. Again, since AVR Core 1.6.19 compiler options aren't supported anymore. You can stay with 1.6.18. 
 * **24.08.2017** Firmware **1.0-240817** - Bugfix: Now NOKO supports 95 stories instead of 42.  
 * **10.08.2017** NOKO moved to Berlin!  
