@@ -1,7 +1,8 @@
- /* NOKO Diagnostics V0.4 21.07.2017 - Nikolai Radke
+ /* NOKO Diagnostics V0.5 04.10.2017 - Nikolai Radke
   *  
   *  Sketch for testing NOKO functions.
   *  This sketch aims to be easy. Clear source code and no libraries.
+  *  The modified Si4703-code was taken from Nathan Seidle.
   *  
   *  Just upload and open a serial monitor with 9600 Baud.
   *  
@@ -10,13 +11,19 @@
 #include <Wire.h> 
 #include <SoftwareSerial.h>
 
-#define Disk0 0x57        // AH24C32 4 kByte EEPROM
+#define Radio 0x10        // Si4703 radio
 #define Disk1 0x50        // 24LC256 32 kBye EEPROM
+#define Disk0 0x57        // AH24C32 4 kByte EEPROM
+#define RTC   0x68        // Real time clock DS3231
+
+#define Freq  997         // Radio station
 
 char      select;
 boolean   radio,eeprom,rtc,rtc_eeprom,lcd,amp=false;
-uint8_t   lcd_address;
-uint32_t  help,duration;
+uint8_t   help,lcd_address;
+uint16_t  newFreq=Freq;
+uint32_t  duration;
+uint16_t  si4703_registers[16];     //There are 16 registers, each 16 bits large
 
 SoftwareSerial mp3(2,3);           // TX to D0, RX to D1
 
@@ -57,22 +64,22 @@ void setup()
         lcd_address=help;
         lcd=true;
       }
-      if (help==0x10) 
+      if (help==Radio) 
       {
         Serial.println(F(" Radio found"));
         radio=true;
       }
-      if (help==0x50) 
+      if (help==Disk1) 
       {
         Serial.println(F(" 24LCXXX found"));
         eeprom=true;
       }
-      if (help==0x57) 
+      if (help==Disk0) 
       {
         Serial.println(F(" AT24C32 found"));
         rtc_eeprom=true;
       }
-      if (help==0x68) 
+      if (help==RTC) 
       {
         Serial.println(F(" RTC found"));
         rtc=true;
@@ -111,6 +118,7 @@ void loop()
   Serial.println(F("9: Test AH24C32"));
   Serial.println(F("a: Test Display"));
   Serial.println(F("b: Play MP3 file"));
+  Serial.println(F("c: Test Si4703 radio"));
   
   Serial.print(F("\nChoose -> "));
   
@@ -185,7 +193,7 @@ void loop()
       Wire.write(byte(0x11));
       Wire.endTransmission();
       Wire.requestFrom(0x68,2);
-      help = Wire.read();
+      help=Wire.read();
       Serial.print(help)+0.25*(Wire.read()>>6);
       Serial.println("°C");
       break;
@@ -220,6 +228,39 @@ void loop()
       delay(1000);
       mp3.write("\x7E\x02\x0D\xEF");     // Play
       break;
+    case 'c':
+      digitalWrite(5, LOW);              // Reset radio
+      delay(1);
+      digitalWrite(5, HIGH);             // Restart radio
+      delay(1);
+      si4703_readRegisters();   
+      si4703_registers[0x07]=0x8100;          // Enable the oscillator
+      si4703_updateRegisters();               // Always write the registers if one is changed
+      delay(500);                             // Wait for clock 
+      si4703_readRegisters(); 
+      si4703_registers[0x02]=0x4001;          // Enable the IC
+      si4703_registers[0x04] |= (1<<12);      // Enable RDS
+      si4703_registers[0x04] |= (1<<11);      // 50kHz Europe setup
+      si4703_registers[0x05] |= (1<<4);       // 100kHz channel spacing for Europe
+      si4703_registers[0x05] &= 0xFFF0;       // Clear volume bits
+      si4703_registers[0x05] |= 0x0005;       // Set volume 
+      si4703_updateRegisters(); //Update
+      delay(110);                             // Max powerup time,
+      newFreq*=10;
+      newFreq-=8750;
+      newFreq/=10;
+      si4703_readRegisters();
+      si4703_registers[0x03] &= 0xFE00;       // Clear out the channel bits
+      si4703_registers[0x03] |= newFreq;      // Mask in the new channel
+      si4703_registers[0x03] |= (1<<15);      // Set the TUNE bit to start
+      si4703_updateRegisters();
+      Serial.println(F("Playing Radio. Send space to stop"));
+      delay(100);
+      while(Serial.available()==0);
+      si4703_readRegisters();
+      si4703_registers[0x02] |= (1<<6);       // Disable radio
+      si4703_updateRegisters();   
+      break;
   }
   Serial.read();
   delay(100);
@@ -236,5 +277,32 @@ byte readDisk(uint8_t disknummer, int adresse) // Read an EEPROM
   Wire.requestFrom(disknummer,1);
   if (Wire.available()) rdata = Wire.read();
   return rdata;
+}
+
+//Read the entire register control set from 0x00 to 0x0F
+void si4703_readRegisters()
+{
+  Wire.requestFrom(0x10,32);      // Read all 32 bytes
+  while(Wire.available()<32) ; 
+  for(byte x=0x0A;;x++) 
+  { 
+    if(x==0x10) x=0;              // Loop back to zero
+    si4703_registers[x]=Wire.read()<<8;
+    si4703_registers[x]|=Wire.read();
+    if(x == 0x09) break;
+  }
+}
+
+void si4703_updateRegisters() 
+{
+  Wire.beginTransmission(0x10);             // Writing begins with 0x02
+  for (byte regSpot=0x02 ;regSpot<0x08;regSpot++) 
+  {
+    byte high_byte=si4703_registers[regSpot] >> 8;
+    byte low_byte=si4703_registers[regSpot] & 0x00FF;
+    Wire.write(high_byte);                  // Upper 8 bits
+    Wire.write(low_byte);                   // Lower 8 bits
+  }
+  Wire.endTransmission();
 }
 

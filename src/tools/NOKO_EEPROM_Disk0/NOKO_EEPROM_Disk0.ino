@@ -1,5 +1,5 @@
 /*
- * NOKO settings EEPROM and Disk0 V1.1 24.08.2017 - Nikolai Radke
+ * NOKO settings EEPROM and Disk0 V1.1 04.10.2017 - Nikolai Radke
  * 
  * This sketch writes the presets into Arduino EEPROM and the owner name in email
  * into the AT24C32-EEPROM. If there are stories on the SD card an def_stories is
@@ -88,7 +88,7 @@
 // Length of stories - mm:ss
 const uint8_t stories_length[]={53,6, 45,6, 53,23, 48,40, 48,22, 47,9, 52,44, 43,56, 48,28, 49,38, 46,16, 53,20, 53,1,
 50,15, 52,46, 52,29, 53,8, 50,15, 52,20, 35,25, 50,27, 51,33, 51,23, 48,4, 25,20, 42,39, 47,4, 52,14, 49,36,
-53,51, 50,3, 49,27, 52,47, 49,53, 31,13, 32,14, 50,38, 51,8, 47,45, 65,12, 1,0};
+53,51, 50,3, 49,27, 52,47, 49,53, 31,13, 32,14, 50,38, 51,8, 47,45, 65,1};
 
 uint16_t addr,c;
 
@@ -132,35 +132,35 @@ void setup()
     
   
   // Write EEPROM
-  EEPROM.write(0,0);
-  EEPROM.write(1,0);
-  EEPROM.write(2,6);
-  EEPROM.write(3,0);
-  EEPROM.write(4,10);
-  EEPROM.write(5,15);
-  EEPROM.write(6,0);
-  EEPROM.write(7,3);
-  EEPROM.write(8,5);
-  EEPROM.write(9,4);
-  EEPROM.write(10,1);
-  EEPROM.write(11,1);
-  EEPROM.write(12,22);
-  EEPROM.write(13,0);
-  EEPROM.write(14,9);
-  EEPROM.write(15,0);
-  EEPROM.write(16,check_summertime());
-  EEPROM.write(17,99);
-  EEPROM.write(18,25);
-  EEPROM.write(19,2);
-  EEPROM.write(20,10);
-  EEPROM.write(21,101);
-  EEPROM.write(22,30);
-  EEPROM.write(23,89);
-  EEPROM.write(24,50);
-  EEPROM.write(25,104);
-  EEPROM.write(26,0);
-  EEPROM.write(27,1);
-  EEPROM.write(28,0);
+  EEPROM.update(0,0);
+  EEPROM.update(1,0);
+  EEPROM.update(2,6);
+  EEPROM.update(3,0);
+  EEPROM.update(4,10);
+  EEPROM.update(5,15);
+  EEPROM.update(6,0);
+  EEPROM.update(7,3);
+  EEPROM.update(8,5);
+  EEPROM.update(9,4);
+  EEPROM.update(10,1);
+  EEPROM.update(11,1);
+  EEPROM.update(12,22);
+  EEPROM.update(13,0);
+  EEPROM.update(14,9);
+  EEPROM.update(15,0);
+  EEPROM.update(16,check_summertime());
+  EEPROM.update(17,99);
+  EEPROM.update(18,25);
+  EEPROM.update(19,2);
+  EEPROM.update(20,10);
+  EEPROM.update(21,101);
+  EEPROM.update(22,30);
+  EEPROM.update(23,89);
+  EEPROM.update(24,50);
+  EEPROM.update(25,104);
+  EEPROM.update(26,0);
+  EEPROM.update(27,1);
+  EEPROM.update(28,0);
   
   // Write AT24C32
   writeDisk(Disk0,0,birth_day);
@@ -230,7 +230,7 @@ bool getTime(const char *str) // Read time
 bool getDate(const char *str) // Read date
 {
   char Month[12];
-  int Day, Year;
+  int16_t Day, Year;
   uint8_t monthIndex;
 
   if (sscanf(str, "%s %d %d", Month, &Day, &Year) != 3) return false;
