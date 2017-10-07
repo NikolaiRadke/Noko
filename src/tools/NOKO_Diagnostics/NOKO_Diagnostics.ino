@@ -1,4 +1,4 @@
- /* NOKO Diagnostics V0.5 04.10.2017 - Nikolai Radke
+ /* NOKO Diagnostics V0.5 07.10.2017 - Nikolai Radke
   *  
   *  Sketch for testing NOKO functions.
   *  This sketch aims to be easy. Clear source code and no libraries.
