@@ -1,12 +1,12 @@
 # Newsblog
 
 ## 2017
-* **07.10.2017** Firmware **1.0-210917** - Enhancement: EEPROM lifecycle was improved mit EEPROM.update() instead of EEPROM.write(). I tried to fix more bugs but couldn't find any of them ;-). NOKO_EEPROM_DISK0 was also modified with this function. NOKO_Diagnostics now supports a library-free radio test.  
+* **07.10.2017** Firmware **1.0-210917** - Enhancement: EEPROM lifecycle was improved mit EEPROM.update() instead of EEPROM.write(). I tried to fix more bugs but couldn't find any of them ;-). NOKO_EEPROM_DISK0 was also modified with this function. NOKO_Diagnostics V0.5 now supports a library-free radio test.  
 * **04.10.2017** IDE 1.8.5 is out. Still no compilier options. It seems to be AVR Core specific, maybe platform.txt is being ignored. Stay with 1.6.18 if you care about free flash.  
 * **25.08.2017** IDE 1.8.4 with AVR Core 1.6.20 is out. Again, since AVR Core 1.6.19 compiler options aren't supported anymore. You can stay with 1.6.18. 
 * **24.08.2017** Firmware **1.0-240817** - Bugfix: Now NOKO supports 95 stories instead of 42.  
 * **10.08.2017** NOKO moved to Berlin!  
-* **21.07.2017** ...and updated to V0.5. I have had some free time.  
+* **21.07.2017** ...and updated to V0.4. I have had some free time.  
 * **20.07.2017** The NOKO diagnostic tool was updated to V0.3.  
 * **30.06.2017** **Release V1.0-300617**  
 Second NOKO release with new firmware 1.0-300617. I spend a lot of time looking for bugs. Since last firmware 1.0-240617, the belly button debounce was improved again, i also fred up some flash memory und did some small powersave improvents. This should be the last V1.0 release. Hopefully...  
