@@ -704,13 +704,13 @@ void stop_delay(uint16_t wait_ms) // Delay with stop when nose is pressed
   if (read_button(true)==4) selected=4;
 }
 
-void wait_1m(boolean quiet,boolean timeout) // Wait for nose until timeout 1 minute
+void wait_1m(boolean wait_quiet,boolean timeout) // Wait for nose until timeout 1 minute
 {
   uint32_t ende=millis()+60000; // 2 MHz -> 60s:8
   selected=0;
   while (selected==0) 
   {
-    selected=read_button(quiet);
+    selected=read_button(wait_quiet);
     if (!timeout) powerdown_delay(120);
     else if (millis()>ende) selected=4;
   }
