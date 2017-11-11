@@ -14,6 +14,7 @@ Active supporters:
 - **David Feindel** - corrections.  
 - **Reinhard Hund** - corrections.  
 - **Ronny Roscher** - he found an annoying hardware bug.  
+- **Thomas "Crayfish68"** - schemtics corrections.  
 - **Issue-Community** - ideas, inspirations and (alas!) bugs.  
 
 Used ressources:  
