@@ -2,6 +2,8 @@
 
 The DIY-**NOKO Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. NOKO is for everyone. What's new? See the [newsblog](https://github.com/NikolaiRadke/NOKO/tree/master/NEWS.md).  
 
+**31.11.2017** - The PCB is ready! Stay tuned and read more in a frew days!  
+
 ![NOKO Orange](http://www.nikolairadke.de/NOKO/noko_echt.png)  
 
 NOKO is a multifunctional monster with an ATmega328  microcontroller on an **Arduino Nano**, display, clock, radio, mp3 player, four buttons as user interface, battery, voice set and  tons of gimmicks, packed in a cuddly monster suit - sturdy,
