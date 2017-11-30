@@ -118,19 +118,7 @@ void setup()
   #endif
   Wire.begin();
   delay(100);
-
-  while (!Serial);
-  delay(200);
-  if (parse)
-  {
-    Serial.print(__TIME__);
-    Serial.println(__DATE__);
-    if (check_summertime()) Serial.println("Summertime");
-    else Serial.println("Wintertime");
-  } 
-  else Serial.print("ERROR!");
-    
-  
+     
   // Write EEPROM
   EEPROM.update(0,0);
   EEPROM.update(1,0);
@@ -164,32 +152,33 @@ void setup()
   
   // Write AT24C32
   writeDisk(Disk0,0,birth_day);
-  delay(30);
+  delay(10);
   writeDisk(Disk0,1,birth_month);
-  delay(30);
+  delay(10);
 
   // Write owner name
   for (addr=0;addr<20;addr++)
   {
     writeDisk(Disk0,addr+20,name[addr]);
-    delay(50);
+    delay(10);
   }
 
   // Write owner email
   for (addr=0;addr<40;addr++)
   {
     writeDisk(Disk0,addr+40,email[addr]);
-    delay(50);
+    delay(10);
   }
 
   // Write number of stories
   writeDisk(Disk0,2,max_stories);
-  delay(30);
+  delay(10);
 
   // Write length of stories
   #ifdef def_stories
     for (addr=0;addr<(max_stories*2);addr++)
-      writeDisk(Disk0,addr+(max_stories-1)*40+100,stories_length[addr]);
+      writeDisk(Disk0,addr+100,stories_length[addr]);
+      delay(10);
   #endif
 
    // Starting adress of stories
