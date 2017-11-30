@@ -1,11 +1,11 @@
- /* NOKO V1.0 21.09.2017 - Nikolai Radke
+ /* NOKO V1.0 30.11.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module! Uncommend line 88 if it's not present.
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.048 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 27.004 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -1323,15 +1323,16 @@ void menue_MP3(uint8_t modus)
       if (story<10) print_zero();
       lcd.print(story); // Print story number
       print_onespace();
-      lcd.print(read_disk(Disk0,((max_stories-1)*40+100)+((story-1)*2))); // Print length in minutes
+      lcd.print(read_disk(Disk0,((story-1)*2)+100)); // Print length in minutes
       lcd.print(char(58));
-      help=read_disk(Disk0,((max_stories-1)*40+101)+((story-1)*2)); // And print seconds
+      help=read_disk(Disk0,((story-1)*2)+101); // And print seconds
       if (help<10) print_zero();
       lcd.print(help);
+      print_onespace();
       for (help=0;help<20;help++) // Print name and author
       {
-        put_char(help,1,(read_disk(Disk0,100+((story-1)*max_stories)+help)));
-        put_char(help,2,(read_disk(Disk0,100+((story-1)*max_stories)+help+20)));
+        put_char(help,1,(read_disk(Disk0,291+((story-1)*40)+help)));
+        put_char(help,2,(read_disk(Disk0,291+((story-1)*40)+help+20)));
       }  
     }
     if (modus==2) // MP3 menue "Play own files"

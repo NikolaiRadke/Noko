@@ -1,5 +1,5 @@
 /*
- * NOKO settings EEPROM and Disk0 V1.1 04.10.2017 - Nikolai Radke
+ * NOKO settings EEPROM and Disk0 V1.2 30.11.2017 - Nikolai Radke
  * 
  * This sketch writes the presets into Arduino EEPROM and the owner name in email
  * into the AT24C32-EEPROM. If there are stories on the SD card an def_stories is
@@ -50,8 +50,8 @@
  * Byte 20-39       Owner name
  * Byte 40-79       Owner email
  * Byte 80-99       Reserverd for... whatever the future tells me
- * Byte 100-4096    Author and title of the stories 2 x 20 Byte blocks
- *                  Length mm:ss of the stories 2 Byte
+ * Byte 100-290     Length of story mm:ss
+ * Byte 291-4091    Author and title of the stories 2 x 20 Byte blocks
  */
 
 #include <Wire.h>
@@ -182,16 +182,18 @@ void setup()
     delay(50);
   }
 
-  //Write number of stories
+  // Write number of stories
   writeDisk(Disk0,2,max_stories);
   delay(30);
+
+  // Write length of stories
   #ifdef def_stories
     for (addr=0;addr<(max_stories*2);addr++)
       writeDisk(Disk0,addr+(max_stories-1)*40+100,stories_length[addr]);
   #endif
 
-   // Starting adress
-  addr=100;
+   // Starting adress of stories
+  addr=291;
 }
 
 void loop() 
@@ -199,7 +201,7 @@ void loop()
   #ifdef def_stories
     while(Serial.available()==0);
     c=Serial.read();
-    switch(c) // Convert Umlaute
+    switch(c) // Convert german Umlaute
     {
       case 35:c=225;break; // #=ä
       case 36:c=239;break; // $=ö
@@ -244,7 +246,7 @@ bool getDate(const char *str) // Read date
   return true;
 }
 
-bool check_summertime() // Check summer time
+bool check_summertime() // Check summertime
 {
   if ((tm.Month<3) || (tm.Month>10)) return false;
   if ((tm.Month>3) && (tm.Month<10)) return true;
@@ -263,4 +265,5 @@ void writeDisk(uint8_t disknumber, uint16_t adresse, uint8_t data) // Write to d
   Wire.endTransmission();
   delay(5);
 }
+
 
