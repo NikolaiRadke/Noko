@@ -2,7 +2,7 @@
 
 The DIY-**NOKO Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. NOKO is for everyone. What's new? See the [newsblog](https://github.com/NikolaiRadke/NOKO/tree/master/NEWS.md).  
 
-**30.11.2017** - The PCB is ready! Stay tuned and read more in a frew days!  
+**30.11.2017** - The PCB is ready! Stay tuned and read more in a few days!  
 
 ![NOKO Orange](http://www.nikolairadke.de/NOKO/noko_echt.png)  
 
