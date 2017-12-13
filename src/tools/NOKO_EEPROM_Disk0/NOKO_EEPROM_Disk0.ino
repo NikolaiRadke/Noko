@@ -255,4 +255,3 @@ void writeDisk(uint8_t disknumber, uint16_t adresse, uint8_t data) // Write to d
   delay(5);
 }
 
-
