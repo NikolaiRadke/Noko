@@ -49,7 +49,10 @@ NOKO/
 |   Voiceset for NOKO in German. English needed? Contribute!
 |   └── alternative/
 |       Some less rude voice files.
-|          
+| 
+├── pcb/
+|   The gerber files for your own easy-to-build NOKO-on-a-pcb.  
+|
 ├── schematics/
 |   The Schematics for the NOKO parts, the NOKO sewing pattern and shopping lists.
 |   └── geda/
