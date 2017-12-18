@@ -1,6 +1,7 @@
 # Newsblog
 
 ## 2017
+* **18.12.2017** The gerber files are now online! Build your NOKO in an easy way! Thanks to the community!  
 * **30.11.2017** Firmware **1.0-301117** - Bugfix: The story addressing is now working correctly.  
 NOTE: You need to reflash your AH24C32. Sorry. I'm a lousy coder.  
 * **07.10.2017** Firmware **1.0-210917** - Enhancement: EEPROM lifecycle was improved mit EEPROM.update() instead of EEPROM.write(). I tried to fix more bugs but couldn't find any of them ;-). NOKO_EEPROM_DISK0 was also modified with this function. NOKO_Diagnostics V0.5 now supports a library-free radio test.  
