@@ -23,9 +23,9 @@ boolean   radio,eeprom,rtc,rtc_eeprom,lcd,amp=false;
 uint8_t   help,lcd_address;
 uint16_t  newFreq=Freq;
 uint32_t  duration;
-uint16_t  si4703_registers[16];     //There are 16 registers, each 16 bits large
+uint16_t  si4703_registers[16];      // There are 16 registers, each 16 bits large
 
-SoftwareSerial mp3(2,3);           // TX to D0, RX to D1
+SoftwareSerial mp3(2,3);             // TX to D0, RX to D1
 
 void setup()
 {
