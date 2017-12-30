@@ -109,7 +109,7 @@
 #define vol_mp3       30  // JQ6500 volume 0-30
 #define vol_radio     10  // Si4703 volume 0-15
 #define def_sysinfo       // Sysinfo menu. Comment out for additional 640 bytes
-//#define busy_analog     // Uncomment out if reading the busy signal analog via A1
+//#define busy_analog     // Set if reading the busy signal analog via A1
 
 // Battery calculation
 #define min_V         2.85
@@ -126,7 +126,6 @@
 #define Disk1 0x50        // 24LC256 32 kByte EEPROM
 
 // Pin operations shortcuts
-#define mp3_busy        PIND & (1<<4)    // Busy=HIGH?
 #define turnOn_pingPin  PORTB |= (1<<5)  // pingPin HIGH
 #define turnOff_pingPin PORTB &= ~(1<<5) // pingPin LOW 
 #define turnOn_amp      PORTD &= ~(1<<6) // Amplifier LOW=on
