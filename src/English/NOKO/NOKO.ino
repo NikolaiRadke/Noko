@@ -1,4 +1,4 @@
- /* NOKO V1.0 30.11.2017 - Nikolai Radke
+ /* NOKO V1.0 30.12.2017 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module! Uncommend line 88 if it's not present.
@@ -39,7 +39,7 @@
  * JQ6500 GND   13  GND
  * JQ6500 TX    26  D2    (Software-TX)
  * JQ6500 RX    25  D3    (Software-RX), connect with 1kOhm resistor
- * JQ6500 Busy  23  D4    With 4,7kOhm connected to 5V to get a clear HIGH
+ * JQ6500 Busy  23  D4/A1 D4: With 4,7kOhm connected to 5V to get a clear HIGH
  * JQ6500 LOUT  27  L Amp
  * JQ6500 ROUT  28  R Amp
  * ULTRA GND        GND
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-210917"
+#define Firmware "-301217"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -109,6 +109,7 @@
 #define vol_mp3       30  // JQ6500 volume 0-30
 #define vol_radio     10  // Si4703 volume 0-15
 #define def_sysinfo       // Sysinfo menu. Comment out for additional 640 bytes
+//#define busy_analog     // Uncomment out if reading the busy signal analog via A1
 
 // Battery calculation
 #define min_V         2.85
@@ -132,6 +133,12 @@
 #define turnOff_amp     PORTD |= (1<<6)  // Amplifier HIGH=off
 #define turnOn_aux      PORTD |= (1<<7)  // AUX on;
 #define turnOff_aux     PORTD &= ~(1<<7) // AUX LOW
+
+#ifdef busy_analog                       // Busy=HIGH?
+  #define mp3_busy     (analogRead(1)>1) // Analog reading on A1
+#else
+  #define mp3_busy     PIND & (1<<4)     // Digital reading on D4
+#endif
 
 // Libraries
 #include <avr/power.h>

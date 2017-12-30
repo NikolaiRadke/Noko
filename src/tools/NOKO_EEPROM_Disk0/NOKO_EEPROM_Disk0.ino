@@ -92,6 +92,7 @@ const uint8_t stories_length[]={53,6, 45,6, 53,23, 48,40, 48,22, 47,9, 52,44, 43
 
 uint16_t addr,c;
 
+// Needed to parse __DATE__ but does not touch NOKOs language
 const char *monthName[12] = {
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
