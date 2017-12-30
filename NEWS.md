@@ -1,6 +1,7 @@
 # Newsblog
 
 ## 2017
+* **30.12.2016** Firmware **1.0-301217** - Enhancement/optional: NOKO can read the busy signal more reliable analog via A1  
 * **18.12.2017** The gerber files are now online! Build your NOKO in an easy way! Thanks to the community!  
 * **30.11.2017** Firmware **1.0-301117** - Bugfix: The story addressing is now working correctly.  
 NOTE: You need to reflash your AH24C32. Sorry. I'm a lousy coder.  
