@@ -1,5 +1,8 @@
 # Newsblog
 
+## 2018  
+* **01.01.2018** Happy new year! Stay tuned for the new NOKO board and the enhanced voice set!  
+  
 ## 2017
 * **30.12.2017** Firmware **1.0-301217** - Enhancement/optional: NOKO can read the busy signal reliable analog via A1  
 * **18.12.2017** The gerber files are now online! Build your NOKO in an easy way! Thanks to the community!  
