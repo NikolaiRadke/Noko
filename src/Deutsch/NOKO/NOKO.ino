@@ -112,8 +112,8 @@
 //#define busy_analog     // Set if reading the busy signal analog via A1
 
 // Choose your voice set              
-//#define voice_set_111     // Old set with 111 files
-#define voice_set_226   // New set with 235 files
+//#define voice_set_111   // Old set with 111 files
+#define voice_set_226     // New set with 235 files
 //#define own_set         // Define your own set below
 
 #ifdef voice_set_111

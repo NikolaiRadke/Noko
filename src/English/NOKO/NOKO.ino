@@ -5,7 +5,7 @@
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.128 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 27.150 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -113,7 +113,7 @@
 
 // Choose your voice set              
 //#define voice_set_111   // Old set with 111 files
-#define voice_set_226   // New set with 235 files
+#define voice_set_226     // New set with 235 files
 //#define own_set         // Define your own set below
 
 #ifdef voice_set_111
@@ -123,7 +123,7 @@
   #define voice_birthday      111
 #endif
 
-#ifdef voice_set_235
+#ifdef voice_set_226
   #define voice_nose_start    51
   #define voice_sensor_start  101
   #define voice_time_start    151
