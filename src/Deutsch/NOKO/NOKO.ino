@@ -113,7 +113,7 @@
 
 // Choose your voice set              
 //#define voice_set_111     // Old set with 111 files
-#define voice_set_235   // New set with 235 files
+#define voice_set_226   // New set with 235 files
 //#define own_set         // Define your own set below
 
 #ifdef voice_set_111
@@ -123,7 +123,7 @@
   #define voice_birthday      111
 #endif
 
-#ifdef voice_set_235
+#ifdef voice_set_226
   #define voice_nose_start    51
   #define voice_sensor_start  101
   #define voice_time_start    151
