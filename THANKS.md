@@ -17,6 +17,8 @@ Active supporters:
 - **Thomas "Crayfish68"** - schemtics corrections and the (wheeee!) pcb.  
 - **Yannik "ylth94"** - for supporting Thomas with the pcb design.  
 - **Tim "Wetimer"** - for supporting Thomas with the pcb design.  
+- **"jlegen"** - for supporting Thomas with the pcb design.  
+- **Thomas "teuler"** - for supporting Thomas with the pcb design.  
 - **Issue-Community** - ideas, inspirations and (alas!) bugs.  
 
 Used ressources:  

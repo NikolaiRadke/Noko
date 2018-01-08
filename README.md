@@ -2,7 +2,7 @@
 
 The DIY-**NOKO Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. NOKO is for everyone. What's new? See the [newsblog](https://github.com/NikolaiRadke/NOKO/tree/master/NEWS.md).  
 
-**18.12.2017** - The PCB is ready! See the gerber files in the new directory [pcb](https://github.com/NikolaiRadke/NOKO/tree/master/pcb). Further instructions and an updated Wiki will follow soon.  
+**04.01.2018** - The new easy-to-build-PCB is nearly ready to release. Right now, there is still some debugging and enhanching to do. Further instructions and an updated Wiki will follow soon.  
 
 ![NOKO Orange](http://www.nikolairadke.de/NOKO/noko_echt.png)  
 
