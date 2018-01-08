@@ -1,6 +1,7 @@
 # Newsblog
 
 ## 2018  
+* **08.01.2018** Finished the enhanced voice set. Now the firmware needs to be updated. Coming soon!  
 * **01.01.2018** Happy new year! Stay tuned for the new NOKO board and the enhanced voice set!  
   
 ## 2017
