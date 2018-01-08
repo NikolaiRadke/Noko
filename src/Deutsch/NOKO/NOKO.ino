@@ -1,11 +1,11 @@
- /* NOKO V1.0 30.12.2017 - Nikolai Radke
+ /* NOKO V1.0 08.01.2018 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module! Uncommend line 88 if it's not present.
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.116 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 27.240 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-301217"
+#define Firmware "-080118"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
@@ -110,6 +110,32 @@
 #define vol_radio     10  // Si4703 volume 0-15
 #define def_sysinfo       // Sysinfo menu. Comment out for additional 640 bytes
 //#define busy_analog     // Set if reading the busy signal analog via A1
+
+// Choose your voice set              
+//#define voice_set_111     // Old set with 111 files
+#define voice_set_235   // New set with 235 files
+//#define own_set         // Define your own set below
+
+#ifdef voice_set_111
+  #define voice_nose_start    31  // Starts with 31.mp3
+  #define voice_sensor_start  61
+  #define voice_time_start    81
+  #define voice_birthday      111
+#endif
+
+#ifdef voice_set_235
+  #define voice_nose_start    51
+  #define voice_sensor_start  101
+  #define voice_time_start    151
+  #define voice_birthday      226
+#endif
+
+#ifdef own_set
+  #define voice_nose_start    0    
+  #define voice_sensor_start  0
+  #define voice_birthday      0  
+  #define voice_birhday       0
+#endif  
 
 // Battery calculation
 #define min_V         2.85
@@ -164,8 +190,6 @@ uint8_t  xlcd=0;                 // X and
 uint8_t  ylcd=0;                 // Y position of LCD cursor
 uint8_t  story=1;                // Selected story
 uint8_t  max_stories;            // Number of stories
-uint8_t  file=1;                 // Selected MP3
-uint8_t  max_files;              // Number of own MP3s files on SD card
 uint8_t  led_val;                // LED brightness 0-9
 uint8_t  birth_day,birth_month;  // Birthday gt=day, gm=month
 uint8_t  alarm_type;             // Whicht type of alarm
@@ -201,6 +225,8 @@ boolean  night_lcd_dimm;         // Will the display mute at nighttime?
 boolean  quiet;                  // All sound off?
 boolean  charging;               // Is NOKO's battery charging?
 
+uint16_t file=1;                 // Selected MP3
+uint16_t max_files;              // Number of own MP3s files on SD card
 uint16_t offset;                 // EEPROM start position to expand life cyle
 uint16_t radio_freq;             // Used frequency * 100
 uint16_t radio_station[3];       // 3 radiostations
@@ -363,7 +389,7 @@ init();
   read_time(); // Read RTC
   night_over=check_night(); // Has nightmode switched before startup?
 
-  max_files=mp3.countFiles(MP3_SRC_SDCARD)-(111+max_stories); // Number own of files on SD card
+  max_files=mp3.countFiles(MP3_SRC_SDCARD)-(voice_birthday+max_stories); // Number own of files on SD card
 }
 
 // MAIN LOOP
@@ -487,7 +513,7 @@ uint8_t read_button(boolean silent)  // Read pressed button und debounce | silen
       if (analogRead(Buttons)>150)
       {
        if ((!(mp3_busy)) && (!quiet) && (!silent) && (!mp3_pause))
-         if (newrandom(1,5)==4) JQ6500_play(newrandom(31,61));
+         if (newrandom(1,5)==4) JQ6500_play(newrandom(voice_nose_start,voice_sensor_start));
        return 4;
       }
     }
@@ -506,7 +532,7 @@ uint8_t read_button(boolean silent)  // Read pressed button und debounce | silen
       if (analogRead(Buttons)>0)
       {
         if ((!(mp3_busy)) && (!quiet) && (!silent) && (!mp3_pause))
-          if (newrandom(1,8)==4) JQ6500_play(newrandom(11,31)); 
+          if (newrandom(1,8)==4) JQ6500_play(newrandom(11,voice_nose_start)); 
         powerdown_delay(pwd_delay);
         return 1;
       }
@@ -926,7 +952,12 @@ boolean check_night() // Is it nighttime?
   }
   if (ja!=night_over) // When nightmode changes play sound
   {
-    ja? JQ6500_play(71):JQ6500_play(102); // Off: Rooster. On: Let me sleep!
+    #ifdef voice_set_111 
+      ja? JQ6500_play(71):JQ6500_play(102); // Off: Rooster. On: Let me sleep!
+    #endif
+    #ifdef voice_set_226
+      ja? JQ6500_play(111):JQ6500_play(172); // Same but other voice set
+    #endif
     night_over=ja;
   }
   return ja;
@@ -946,7 +977,7 @@ void check_ultra()  // Ultrasonic event: Distance_val= 0..9 * 10cm
     }
     if ((!night_now) && (!distance_now) && (!radio_on) && (!mp3_pause) && (!quiet) && (!(mp3_busy)))
     {
-      JQ6500_play(newrandom(61,81)); // Play random voice event. Voice 61-80
+      JQ6500_play(newrandom(voice_sensor_start,voice_time_start)); // Play random voice event. 
       distance_now=true; // Set ultra_evet flag to prevent more events than one in a minute
     }
   }
@@ -1359,7 +1390,7 @@ void menue_MP3(uint8_t modus)
     {
       if (!(mp3_busy) && (!mp3_pause) && (!story_on)) 
       {
-        mp3.playFileByIndexNumber(111+max_stories+file); // Set index to first file
+        mp3.playFileByIndexNumber(voice_birthday+max_stories+file); // Set index to first file
         powerdown_delay(100);
         mp3_off(); // Stop at once to keep index set
         powerdown_delay(100);
@@ -1375,7 +1406,7 @@ void menue_MP3(uint8_t modus)
       if ((mp3_busy) && (!story_on))
       {
         powerdown_delay(100);
-        file=mp3.currentFileIndexNumber(MP3_SRC_SDCARD)-151; // Read file number
+        file=mp3.currentFileIndexNumber(MP3_SRC_SDCARD)-(voice_birthday+max_stories); // Read file number
       }
       if (file<10) print_zero();
       lcd.print(file); // Print file number
@@ -1399,13 +1430,13 @@ void menue_MP3(uint8_t modus)
           {
             if (story>1) story--;
             if (file_on) {file_on=false; story_on=true;}
-            if (mp3_busy) JQ6500_play(story+111);
+            if (mp3_busy) JQ6500_play(story+voice_birthday);
             }
           if (modus==2)
           {
             if (file>1) file--;
             if (story_on) {story_on=false; file_on=true;}
-            if (mp3_busy) JQ6500_play(file+111+max_stories);
+            if (mp3_busy) JQ6500_play(file+voice_birthday+max_stories);
           }
           break;
         case 1: // On/Off
@@ -1415,12 +1446,12 @@ void menue_MP3(uint8_t modus)
             if (modus==1)
             {
               story_on=true;
-              JQ6500_play(story+111);
+              JQ6500_play(story+voice_birthday);
             }
             if (modus==2)
             {
               file_on=true;
-              JQ6500_play(file+111+max_stories);
+              JQ6500_play(file+voice_birthday+max_stories);
             }
             mp3_on=true;
           }
@@ -1449,13 +1480,13 @@ void menue_MP3(uint8_t modus)
           {
             if (story<max_stories) story++;
             if (file_on) {file_on=false; story_on=true;}
-            if (mp3_busy) JQ6500_play(story+111);
+            if (mp3_busy) JQ6500_play(story+voice_birthday);
           }
           if (modus==2)
           {
             if (file<max_files) file++;
             if (story_on) {story_on=false; file_on=true;}
-            if (mp3_busy) JQ6500_play(file+111+max_stories);
+            if (mp3_busy) JQ6500_play(file+voice_birthday+max_stories);
           }
           break;
         }
@@ -2138,7 +2169,7 @@ void event() // Time bases events
       stop_delay(2000);
       break;
     default:
-      JQ6500_play(newrandom(81,111)); // Voice event: NOKO says something. File 81-110
+      JQ6500_play(newrandom(voice_time_start,voice_birthday)); // Voice event: NOKO says something. 
       break;
   }
   if (help2<8) 
@@ -2225,7 +2256,7 @@ void party() // Birthdaytime! Party! Party!
     if (radio_on) Radio.powerOff();
   #endif
   if (aux_on) turnOff_aux;
-  if ((!quiet) && (!mp3_on)) JQ6500_play(111); // Play birthday song 111
+  if ((!quiet) && (!mp3_on)) JQ6500_play(voice_birthday); // Play birthday song 
   NewDelay(2000);
   minute_now=minute();
   while (((minute_now==minute()) || (mp3_busy)) && (selected!=4))
@@ -2330,7 +2361,7 @@ void sound_on() // Turns on amplifier with a small delay for beep tones
   NewDelay(reaction_time);
 }
 
-void JQ6500_play(uint8_t file) // Plays MP3 number v
+void JQ6500_play(uint16_t file) // Plays MP3 number v
 {
   sound_on(); // Amplifier on
   mp3.playFileByIndexNumber(file);
