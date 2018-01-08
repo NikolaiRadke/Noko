@@ -47,8 +47,12 @@ NOKO/
 |
 ├── mp3/
 |   Voiceset for NOKO in German. English needed? Contribute!
-|   └── alternative/
-|       Some less rude voice files.
+|   ├── alternative/
+|   |   Some less rude voice files.
+|   ├── VoiceSet_111/
+|   |   Voice set for older NOKOs.
+|   └── VoiceSet_226/
+|       Enhanced voice set.
 | 
 ├── pcb/
 |   The gerber files for your own easy-to-build NOKO-on-a-pcb.  
