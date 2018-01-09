@@ -13,5 +13,5 @@ Copy these mp3s into the folder **001** on your microSD card. Strictly observe t
 | 151-225 | Time based events        |
 | 226     | Birthday song            |
 
-011-225 have been spoken by my fellow actor [Carsten Caniglia](http://www.carstencaniglia.com). Why? 
+011-225 have been spoken by my fellow actor [Carsten Caniglia](https://filmmakers.de/carsten-caniglia). Why? 
 He has done a great job - moreover I don't want to listen to my own voice every day, especially when development takes more than a year! (Ian said I sound really weird in real life. Thanks, mate.)
