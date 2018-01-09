@@ -78,7 +78,7 @@ You can find an intruction on how to flash a new bootloader in German [here in t
 
 ## How to upload a precompiled hex-file  
 
-Select the hex-file of your choice in [howto_compile/precompiled](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled). Notice that files **older than 170517** are made for **displays** with **0x27**-address. If you need a file with anoher address like *0x3f* just contact me.
+Select the hex-file of your choice in [howto_compile/precompiled](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled). Notice that files **older than 170517** are made for **displays** with **0x27**-address. If you need a file with anoher address like *0x3f* just contact me. You need a special file? Feel free to ask me, i'll try my best!  
 
 ### Linux  
 See if you habe *avrdude* installed. Open a shell and type ```avrdude```. If not, install is with ```sudo apt-get install avrdude``` for Debian-based systems. Test again. Connect your Arduino via USB, open a terminal and use the following command:
