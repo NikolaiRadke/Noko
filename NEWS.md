@@ -1,8 +1,9 @@
 # Newsblog
 
 ## 2018  
+* **12.01.2018** Added a simple tool to set the current time without touching the EEPROM.  
 * **08.01.2018** Finished the enhanced voice set. Firmware was updatet to **1.0-080118**. Have fun!  
-  Warning: The new voice set ist preselected. If you want to use or old set, modiy the comments in line **116** and **117**.  
+  Warning: The new voice set ist preselected. If you want to use the old set, modify the comments in line **116** and **117**.  
 * **01.01.2018** Happy new year! Stay tuned for the new NOKO board and the enhanced voice set!  
   
 ## 2017

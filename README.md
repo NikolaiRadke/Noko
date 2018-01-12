@@ -80,9 +80,12 @@ NOKO/
 |       |   Tool to test NOKO functions via serial monitor.
 |       ├── NOKO_Disk1/
 |       |   Sketch to write the Disk1 textfile into 24LC256-EEPROMs.
-|       └── NOKO_EEPROM_Disk0/
-|           Sketch to write NOKO presets into the Arduino EEPROM and the Disk0 textfile into the
-|           AH24C32 EEPROM.
+|       ├── NOKO_EEPROM_Disk0/
+|       |   Sketch to write NOKO presets into the Arduino EEPROM and the Disk0 textfile into the
+|       |   AH24C32 EEPROM.
+|       └── NOKO_Time/
+|           Simple tool to set the current time without touching the EEPROM
+|
 └── write_EEPROM/
     Tools to write data through serial connection to the Arduino and the EEPROMs. 
 ```
