@@ -1411,7 +1411,7 @@ void menue_MP3(uint8_t modus)
       case 1:
         switch(menue)
         {
-        case 0: // Prev
+        case 0: // Previous
           if (modus==1)
           {
             if (story>1) story--;

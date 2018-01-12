@@ -1,5 +1,5 @@
 /*
- * NOKO settings EEPROM and Disk0 V1.2 30.11.2017 - Nikolai Radke
+ * NOKO settings EEPROM and Disk0 V1.2 12.01.2018 - Nikolai Radke
  * 
  * This sketch writes the presets into Arduino EEPROM and the owner name in email
  * into the AT24C32-EEPROM. If there are stories on the SD card an def_stories is
@@ -102,16 +102,9 @@ tmElements_t tm;
 
 void setup() 
 {
-  bool parse=false;
-
   // Read time from computer
-  if (getDate(__DATE__) && getTime(__TIME__)) 
-  {
-    parse=true;
-    RTC.write(tm);
-  }
+  if (getDate(__DATE__) && getTime(__TIME__)) RTC.write(tm);
   
-  // Read RTC
   #ifdef Windows10
     Serial.begin(115200);
   #else
