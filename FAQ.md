@@ -6,6 +6,9 @@ Yes, but much more complicated to install, larger and takes MUCH more battery po
 ### Why this crappy LCD? There are cheap colorful touchscreens.
 Yes, there are, but the LC display should be an easy-to-read clock and a lightsource. Besides, the Arduino ressources are very VERY limited. NOKO doesn't need a touchscreen. He has buttons for a more haptical experience.
 
+### Is it possible to fast forward a story or an own MP3?
+No, it is not supported by the JQ6500-Module. 
+  
 ### Why does it not do or have XXX?
 You got a good idea? Write me!
 
