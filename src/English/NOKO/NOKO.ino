@@ -122,14 +122,12 @@
   #define voice_time_start    81
   #define voice_birthday      111
 #endif
-
 #ifdef voice_set_226
   #define voice_nose_start    51
   #define voice_sensor_start  101
   #define voice_time_start    151
   #define voice_birthday      226
 #endif
-
 #ifdef own_set
   #define voice_nose_start    0    
   #define voice_sensor_start  0
