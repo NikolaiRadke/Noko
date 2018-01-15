@@ -1,11 +1,11 @@
- /* NOKO V1.0 08.01.2018 - Nikolai Radke
+ /* NOKO V1.0 15.01.2018 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module! Uncommend line 88 if it's not present.
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.262 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 27.320 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-080118"
+#define Firmware "-150118"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
@@ -1372,7 +1372,19 @@ void menue_MP3(uint8_t modus)
       if (story<10) print_zero();
       lcd.print(story); // Print story number
       print_onespace();
-      lcd.print(read_disk(Disk0,((story-1)*2)+100)); // Print lenght in minutes
+      help=read_disk(Disk0,((story-1)*2)+100); // Print lenght 
+      if (help>59)
+      {
+        lcd.print(help/60);
+        lcd.print(char(58));
+        if (help%60<10) print_zero();
+        lcd.print(help%60);
+      }
+      else
+      {
+        if (help<10) print_zero();
+        lcd.print(help);  
+      }
       lcd.print(char(58));
       help=read_disk(Disk0,((story-1)*2)+101); // And print seconds
       if (help<10) print_zero();
