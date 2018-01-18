@@ -15,10 +15,11 @@ Active supporters:
 - **Reinhard Hund** - corrections.  
 - **Ronny Roscher** - he found an annoying hardware bug.  
 - **Thomas "Crayfish68"** - schemtics corrections and the (wheeee!) pcb.  
-- **Yannik "ylth94"** - for supporting Thomas with the pcb design.  
+- **Yannik "ylth94"** - for the first pcb and supporting Thomas with the pcb design.  
 - **Tim "Wetimer"** - for supporting Thomas with the pcb design.  
 - **"jlegen"** - for supporting Thomas with the pcb design.  
 - **Thomas "teuler"** - for supporting Thomas with the pcb design.  
+- **Ralf Warmuth** - corrections.  
 - **Issue-Community** - ideas, inspirations and (alas!) bugs.  
 
 Used ressources:  
