@@ -370,7 +370,7 @@ init();
     lcd.print(Version/10);
     print_dot();
     lcd.print(Version%10); // lcd.print does not support printf-formatting
-    lcd.setCursor(4,4);
+    lcd.setCursor(4,3);
     lcd.print(F("Nase dr cken"));
     put_char(11,4,245);
     EEPROM.write(20,Version); // Write new internal version
