@@ -1,0 +1,8 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP Speaker
+D Connector, single row, 01x02, pin header
+K connector
+$ENDCMP
+#
+#End Doc Library
