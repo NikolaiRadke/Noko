@@ -1291,10 +1291,10 @@
       (net 3 T8))
     (pad 1 thru_hole circle (at -3.81 -8.89 90) (size 1.524 1.524) (drill 1) (layers *.Cu *.Mask)
       (net 49 "Net-(U3-Pad1)"))
-    (model ../../../../../home/stoth05/kicad-library/modules/packages3d/arduino_nano.3dshapes/arduino_nano.wrl
-      (at (xyz 0.3 1.6 -0.15))
-      (scale (xyz 0.395 0.395 0.3))
-      (rotate (xyz 0 0 90))
+    (model ../../../../../home/stoth05/kicad-library/modules/packages3d/Housings_DIP.3dshapes/DIP-16_W7.62mm.wrl
+      (at (xyz -0.15 0.35 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz 0 0 0))
     )
   )
 
