@@ -3,7 +3,7 @@
   (general
     (links 126)
     (no_connects 0)
-    (area 88.074999 58.3 209.95 144.251001)
+    (area 88.224999 64.024999 198.375001 144.175001)
     (thickness 1.6)
     (drawings 72)
     (tracks 514)
@@ -320,9 +320,9 @@
       (net 2 GND))
     (pad 2 thru_hole oval (at 7.62 0 90) (size 2.2 2.2) (drill 1.1) (layers *.Cu *.Mask)
       (net 1 P1))
-    (model Diodes_THT.3dshapes/D_DO-41_SOD81_P7.62mm_Horizontal.wrl
+    (model ../../../../../home/stoth05/kicad-library/modules/packages3d/Diodes_THT.3dshapes/D_DO-41_SOD81_P7.62mm_Horizontal.wrl
       (at (xyz 0 0 0))
-      (scale (xyz 0.393701 0.393701 0.393701))
+      (scale (xyz 0.4 0.31937 0.31937))
       (rotate (xyz 0 0 0))
     )
   )
@@ -650,6 +650,11 @@
       (net 4 5V))
     (pad 1 thru_hole oval (at -2.54 0 270) (size 2.032 2.54) (drill 1.143) (layers *.Cu *.Mask)
       (net 42 D6))
+    (model ../../../../../home/stoth05/kicad-library/modules/packages3d/walter/to/to220.wrl
+      (at (xyz 0 0 0))
+      (scale (xyz 0.7 0.7 0.7))
+      (rotate (xyz 0 0 0))
+    )
   )
 
   (module Resistors_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal (layer F.Cu) (tedit 5A5BCE0C) (tstamp 5A06294A)
@@ -1286,7 +1291,7 @@
       (net 3 T8))
     (pad 1 thru_hole circle (at -3.81 -8.89 90) (size 1.524 1.524) (drill 1) (layers *.Cu *.Mask)
       (net 49 "Net-(U3-Pad1)"))
-    (model Housings_DIP.3dshapes/DIP-16_W7.62mm.wrl
+    (model ../../../../../home/stoth05/kicad-library/modules/packages3d/Housings_DIP.3dshapes/DIP-16_W7.62mm.wrl
       (at (xyz -0.15 0.35 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
