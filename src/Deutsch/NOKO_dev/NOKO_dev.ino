@@ -113,7 +113,7 @@
 
 // Choose your voice set              
 //#define voice_set_111   // Old set with 111 files
-#define voice_set_226     // New set with 235 files
+#define voice_set_226     // New set with 226 files
 //#define own_set         // Define your own set below
 
 #ifdef voice_set_111
@@ -370,9 +370,9 @@ init();
     lcd.print(Version/10);
     print_dot();
     lcd.print(Version%10); // lcd.print does not support printf-formatting
-    lcd.setCursor(3,4);
+    lcd.setCursor(4,3);
     lcd.print(F("Nase dr cken"));
-    put_char(11,4,245);
+    put_char(11,3,245);
     EEPROM.write(20,Version); // Write new internal version
     wait_1m(true,false);      // Wait for button
     lcd.clear();
@@ -1403,39 +1403,13 @@ void menue_MP3(uint8_t modus)
         mp3.currentFileName(name_buffer,sizeof(name_buffer));
         lcd.print(name_buffer);
       }
-    if (modus==2) // MP3 menue "Eigenes hören"
-    {
-      if (!(mp3_busy) && (!mp3_pause) && (!story_on)) 
-      {
-        mp3.playFileByIndexNumber(voice_birthday+max_stories+file); // Set index to first file
-        powerdown_delay(100);
-        mp3_off(); // Stop at once to keep index set
-        powerdown_delay(100);
-      }
-      if (story_on) lcd.print(F("Geschichte")); // Is a story running?
-      else
-      {
-        powerdown_delay(100); // Read filename. Only 8 chars possible :-(
-        
-      }
-      lcd.setCursor(7,2);
-      if ((mp3_busy) && (!story_on))
-      {
-        powerdown_delay(100);
-        
-      }
-      if (file<10) print_zero();
-      lcd.print(file); // Print file number
-      lcd.print(char(47));
-      if (max_files<10) print_zero();
-      lcd.print(max_files); // Print last file number
+      if (modus==3) lcd.print(F("Keine MP3s"));// No MP3s found!
+      lcd.setCursor(15,0);
+      if (mp3_pause) lcd.print(F("PAUSE")); else print_space(15,0,5);
+      put_char(8,3,((mp3_busy) || (mp3_pause))? 1:3);
+      lcd.setCursor(5+(menue*3),3);
+      wait_1m(true,true);
     }
-    if (modus==3) lcd.print(F("Keine MP3s"));// No MP3s found!
-    lcd.setCursor(15,0);
-    if (mp3_pause) lcd.print(F("PAUSE")); else print_space(15,0,5);
-    put_char(8,3,((mp3_busy) || (mp3_pause))? 1:3);
-    lcd.setCursor(5+(menue*3),3);
-    wait_1m(true,true);
     switch(selected)
     {
       case 1:

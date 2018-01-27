@@ -113,7 +113,7 @@
 
 // Choose your voice set              
 //#define voice_set_111   // Old set with 111 files
-#define voice_set_226     // New set with 235 files
+#define voice_set_226     // New set with 226 files
 //#define own_set         // Define your own set below
 
 #ifdef voice_set_111
@@ -372,7 +372,7 @@ init();
     lcd.print(Version%10); // lcd.print does not support printf-formatting
     lcd.setCursor(4,3);
     lcd.print(F("Nase dr cken"));
-    put_char(11,4,245);
+    put_char(11,3,245);
     EEPROM.write(20,Version); // Write new internal version
     wait_1m(true,false);      // Wait for button
     lcd.clear();
