@@ -1,4 +1,4 @@
-update=Mi 24 Jan 2018 14:36:20 CET
+update=Di 30 Jan 2018 16:27:49 CET
 version=1
 last_client=eeschema
 [general]
@@ -61,3 +61,13 @@ LibName27=atmel
 LibName28=contrib
 LibName29=valves
 LibName30=NOKO_2
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=60
