@@ -1,4 +1,4 @@
- /* NOKO Diagnostics V0.5 07.10.2017 - Nikolai Radke
+ /* NOKO Diagnostics V0.6 30.01.2017 - Nikolai Radke
   *  
   *  Sketch for testing NOKO functions.
   *  This sketch aims to be easy. Clear source code and no libraries.
@@ -157,6 +157,9 @@ void loop()
       Serial.println(F("Setting AUX (D7) High. Send Space to stop."));
       while(Serial.available()==0) digitalWrite(7,HIGH);
       digitalWrite(7,LOW);
+      break;
+    case '4':
+      Serial.println(analogRead(6));
       break;
     case '5':
       Serial.print("I2C: ");  // Show all I2C devices
