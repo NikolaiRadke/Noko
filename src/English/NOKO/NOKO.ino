@@ -154,8 +154,8 @@
 #define turnOff_pingPin PORTB &= ~(1<<5) // pingPin LOW 
 #define turnOn_amp      PORTD &= ~(1<<6) // Amplifier LOW=on
 #define turnOff_amp     PORTD |= (1<<6)  // Amplifier HIGH=off
-#define turnOn_aux      PORTD |= (1<<7)  // AUX on;
-#define turnOff_aux     PORTD &= ~(1<<7) // AUX LOW
+#define turnOn_aux      PORTD |= (1<<7)  // AUX HIGH=on
+#define turnOff_aux     PORTD &= ~(1<<7) // AUX LOW=off
 
 #ifdef busy_analog                       // Busy=HIGH?
   #define mp3_busy     (analogRead(1)>1) // Analog reading on A1

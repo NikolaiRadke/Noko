@@ -1,4 +1,4 @@
- /* NOKO Diagnostics V0.6 30.01.2017 - Nikolai Radke
+ /* NOKO Diagnostics V0.8 03.02.2017 - Nikolai Radke
   *  
   *  Sketch for testing NOKO functions.
   *  This sketch aims to be easy. Clear source code and no libraries.
@@ -18,9 +18,14 @@
 
 #define Freq  997         // Radio station
 
+// Battery calculation
+#define min_V         2.85
+#define max_V         4.15
+
 char      select;
 boolean   radio,eeprom,rtc,rtc_eeprom,lcd,amp=false;
 uint8_t   help,lcd_address;
+uint16_t  help16;
 uint16_t  newFreq=Freq;
 uint32_t  duration;
 uint16_t  si4703_registers[16];      // There are 16 registers, each 16 bits large
@@ -34,18 +39,19 @@ void setup()
   delay(500);
   mp3.write("\x7E\x03\x11\x04\xEF"); // No loop
   delay(128);
-  pinMode(5,OUTPUT);  // Radio Reset Pin
-  pinMode(6,OUTPUT);  // MOSFET
-  pinMode(7,OUTPUT);  // AUX
-  pinMode(10,OUTPUT); // LED
-  pinMode(11,OUTPUT); // Beep
-  pinMode(12,INPUT);  // Ultrasonic Echo
-  pinMode(13,OUTPUT); // Ultrasonic Trigger
-
-  digitalWrite(5,LOW); // Reset Radio
+  pinMode(5,OUTPUT);     // Radio Reset Pin
+  pinMode(6,OUTPUT);     // MOSFET
+  pinMode(7,OUTPUT);     // AUX
+  pinMode(10,OUTPUT);    // LED
+  pinMode(11,OUTPUT);    // Beep
+  pinMode(12,INPUT);     // Ultrasonic Echo
+  pinMode(13,OUTPUT);    // Ultrasonic Trigger
+ 
+  digitalWrite(5,LOW);   // Reset Radio
   delay(1);
-  digitalWrite(5, HIGH);
-  digitalWrite(6,HIGH); // Amplifier MOSFET Off
+  digitalWrite(5,HIGH);
+  digitalWrite(6,HIGH);  // Amplifier MOSFET Off
+  digitalWrite(A0,HIGH); // Input pullup
   
   Serial.begin(9600);
   Serial.println(F("\nAnalysing NOKO..."));
@@ -91,19 +97,23 @@ void setup()
 
 void loop()
 {
-  Serial.println(F("NOKO Diagnostics"));
+  Serial.println(F("NOKO Diagnostics V0.8\n\n"));
   Serial.print(F("Display ["));
   Serial.print(lcd? "X":" ");
   Serial.print(F("] Radio ["));
   Serial.print(radio? "X":" ");
   Serial.print(F("] RTC ["));
   Serial.print(rtc? "X":" ");
-  Serial.print(F("] AH24C32 ["));
+  Serial.print(F("] AT24C32 ["));
   Serial.print(rtc_eeprom? "X":" ");
   Serial.print(F("] EEPROM ["));
   Serial.println(eeprom? "X]":" ]");
-  Serial.print(F("Amplifier ["));
-  Serial.println(amp? "on ]\n":"off]\n");
+  Serial.print(F("\nAmplifier ["));
+  Serial.print(amp? "on ]":"off]");
+  Serial.print(F(" Charging ["));
+  Serial.print((analogRead(7)>800)? "X]":" ]");
+  Serial.print(F(" MP3 playing ["));
+  Serial.println((analogRead(1)>0)? "X]\n":" ]\n");
   Serial.println(F("Menue"));
   Serial.println(F("---------------------------------"));
   Serial.println(F("0: Pin D10 - LED"));
@@ -119,6 +129,7 @@ void loop()
   Serial.println(F("a: Test Display"));
   Serial.println(F("b: Play MP3 file"));
   Serial.println(F("c: Test Si4703 radio"));
+  Serial.println(F("d: Button test"));
   
   Serial.print(F("\nChoose -> "));
   
@@ -150,7 +161,7 @@ void loop()
       digitalWrite(6,HIGH);
      break;
     case '2':
-      digitalWrite(6,amp? LOW:HIGH);
+      digitalWrite(6,amp? HIGH:LOW);
       amp=!amp;
       break;
     case '3':
@@ -159,7 +170,18 @@ void loop()
       digitalWrite(7,LOW);
       break;
     case '4':
-      Serial.println(analogRead(6));
+      help16=analogRead(6); // Calculate power level from 5 measurements
+      for (help=4;help>0;help--)
+      {
+        delay(10);
+        help16+=analogRead(6);
+      }
+      help16=(uint16_t)(((help16/5)*(5.0/1024)-min_V)/((max_V-min_V)/100)); 
+      help16=constrain(help16,1,99);
+      if (help16>57) help16=map(help16,57,99,8,99); 
+      else help16=map(help16,1,56,1,8);
+      Serial.print(help16);
+      Serial.println("%");
       break;
     case '5':
       Serial.print("I2C: ");  // Show all I2C devices
@@ -224,12 +246,8 @@ void loop()
       break;
     case 'b':
       if (!amp) Serial.println(F("Warning: Amplifier is off!"));
-      Serial.println(F("Playing file number 70..."));
-      mp3.write("\x7E\x04\x03\x01");     // Play file number 
-      mp3.write(70);                     // 70
-      mp3.write("\xEF");
-      delay(1000);
-      mp3.write("\x7E\x02\x0D\xEF");     // Play
+      Serial.println(F("Playing first file..."));
+      mp3.write("\x7E\x02\x0D\xEF");     // Play first title
       break;
     case 'c':
       digitalWrite(5, LOW);              // Reset radio
@@ -246,7 +264,7 @@ void loop()
       si4703_registers[0x04] |= (1<<11);      // 50kHz Europe setup
       si4703_registers[0x05] |= (1<<4);       // 100kHz channel spacing for Europe
       si4703_registers[0x05] &= 0xFFF0;       // Clear volume bits
-      si4703_registers[0x05] |= 0x0005;       // Set volume 
+      si4703_registers[0x05] |= 0x000C;       // Set volume 
       si4703_updateRegisters(); //Update
       delay(110);                             // Max powerup time,
       newFreq*=10;
@@ -263,6 +281,16 @@ void loop()
       si4703_readRegisters();
       si4703_registers[0x02] |= (1<<6);       // Disable radio
       si4703_updateRegisters();   
+      break;
+    case 'd':
+      help16=(analogRead(0));
+      if (help16>200) Serial.print(F("No "));
+      else if (help16>150) Serial.print(F("Nose "));
+      else if (help16>100) Serial.print(F("Left "));
+      else if (help16>50) Serial.print(F("Right "));
+      else Serial.print(F("Belly "));
+      Serial.print(F("Button: "));
+      Serial.println(help16);
       break;
   }
   Serial.read();
@@ -285,7 +313,7 @@ byte readDisk(uint8_t disknummer, int adresse) // Read an EEPROM
 //Read the entire register control set from 0x00 to 0x0F
 void si4703_readRegisters()
 {
-  Wire.requestFrom(0x10,32);      // Read all 32 bytes
+  Wire.requestFrom(Radio,32);      // Read all 32 bytes
   while(Wire.available()<32) ; 
   for(byte x=0x0A;;x++) 
   { 
@@ -298,7 +326,7 @@ void si4703_readRegisters()
 
 void si4703_updateRegisters() 
 {
-  Wire.beginTransmission(0x10);             // Writing begins with 0x02
+  Wire.beginTransmission(Radio);             // Writing begins with 0x02
   for (byte regSpot=0x02 ;regSpot<0x08;regSpot++) 
   {
     byte high_byte=si4703_registers[regSpot] >> 8;
