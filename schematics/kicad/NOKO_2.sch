@@ -55,17 +55,6 @@ F 3 "" H 650 1150 50  0000 C CNN
 	1    650  1150
 	-1   0    0    -1  
 $EndComp
-$Comp
-L MT3608 U1
-U 1 1 5A05A010
-P 2050 2650
-F 0 "U1" H 1950 2550 60  0000 C CNN
-F 1 "MT3608" H 1950 2850 60  0000 C CNN
-F 2 "NOKO_Wetimer:MT3608" H 1950 3050 60  0001 C CNN
-F 3 "" H 1950 3050 60  0001 C CNN
-	1    2050 2650
-	-1   0    0    -1  
-$EndComp
 Text GLabel 3650 2050 0    39   Input ~ 0
 5V
 $Comp
@@ -224,7 +213,7 @@ F 3 "" H 3500 5200 50  0000 L CNN
 	1    3500 5200
 	-1   0    0    1   
 $EndComp
-Text GLabel 3050 2500 2    39   Input ~ 0
+Text GLabel 3150 2500 2    39   Input ~ 0
 5V
 Text GLabel 3400 4900 1    39   Input ~ 0
 5V
@@ -548,10 +537,10 @@ Text GLabel 2450 3050 2    39   Input ~ 0
 T8
 Text GLabel 4150 1850 0    39   Input ~ 0
 A6
-NoConn ~ 4350 5200
-NoConn ~ 4350 5400
-NoConn ~ 4850 5300
-NoConn ~ 4850 5700
+NoConn ~ 4300 5200
+NoConn ~ 4300 5400
+NoConn ~ 4900 5300
+NoConn ~ 4900 5700
 Text GLabel 5250 1450 2    39   Input ~ 0
 P1
 $Comp
@@ -568,12 +557,12 @@ $EndComp
 $Comp
 L GND #PWR5
 U 1 1 5A05A045
-P 3050 2900
-F 0 "#PWR5" H 3050 2650 50  0001 C CNN
-F 1 "GND" H 3050 2750 50  0000 C CNN
-F 2 "" H 3050 2900 50  0000 C CNN
-F 3 "" H 3050 2900 50  0000 C CNN
-	1    3050 2900
+P 3150 2900
+F 0 "#PWR5" H 3150 2650 50  0001 C CNN
+F 1 "GND" H 3150 2750 50  0000 C CNN
+F 2 "" H 3150 2900 50  0000 C CNN
+F 3 "" H 3150 2900 50  0000 C CNN
+	1    3150 2900
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -773,15 +762,9 @@ Wire Wire Line
 Wire Wire Line
 	3400 4900 3400 5000
 Wire Wire Line
-	4350 5600 3400 5600
-Wire Wire Line
 	3400 5400 3400 5700
 Wire Wire Line
-	4350 5900 4250 5900
-Wire Wire Line
 	4250 5300 4250 6250
-Wire Wire Line
-	4250 5300 4350 5300
 Wire Wire Line
 	3750 2150 3750 2050
 Connection ~ 3750 2050
@@ -841,13 +824,9 @@ Wire Wire Line
 Wire Wire Line
 	6100 2000 6100 2050
 Wire Wire Line
-	4350 5500 4050 5500
-Wire Wire Line
 	4050 5500 4050 5900
 Wire Wire Line
 	4050 6200 4050 6450
-Wire Wire Line
-	4350 5700 3800 5700
 Wire Wire Line
 	3800 5700 3800 5900
 Wire Wire Line
@@ -856,11 +835,7 @@ Connection ~ 4250 5900
 Wire Wire Line
 	1700 3550 1700 3450
 Wire Wire Line
-	4850 5400 5100 5400
-Wire Wire Line
 	5100 5400 5100 6050
-Wire Wire Line
-	5100 5800 4850 5800
 Connection ~ 5100 5800
 Wire Wire Line
 	6650 5550 7600 5550
@@ -1136,12 +1111,6 @@ Wire Wire Line
 	900  3150 900  4000
 Connection ~ 1700 4000
 Wire Wire Line
-	2850 2800 3050 2800
-Wire Wire Line
-	3050 2800 3050 2900
-Wire Wire Line
-	2850 2500 3050 2500
-Wire Wire Line
 	850  3050 2450 3050
 Connection ~ 1700 3050
 Connection ~ 2200 3050
@@ -1177,15 +1146,11 @@ F 3 "" H 5540 5150 50  0001 C CNN
 	1    0    0    1   
 $EndComp
 Wire Wire Line
-	4850 5200 4850 5100
+	4950 5200 4950 5100
 Wire Wire Line
-	4850 5100 5350 5100
+	5000 5500 5000 5200
 Wire Wire Line
-	4850 5500 4950 5500
-Wire Wire Line
-	4950 5500 4950 5200
-Wire Wire Line
-	4950 5200 5350 5200
+	5000 5200 5350 5200
 $Comp
 L Speaker Rechts1
 U 1 1 5A204096
@@ -1197,10 +1162,6 @@ F 3 "" H 5540 5750 50  0001 C CNN
 	1    5550 5800
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	4850 5900 5350 5900
-Wire Wire Line
-	4850 5600 5200 5600
 Wire Wire Line
 	5200 5600 5200 5800
 Wire Wire Line
@@ -1399,31 +1360,25 @@ Connection ~ 950  1200
 $Comp
 L PWR_FLAG #FLG1
 U 1 1 5A576CE4
-P 2950 2450
-F 0 "#FLG1" H 2950 2525 50  0001 C CNN
-F 1 "PWR_FLAG" H 2950 2600 50  0000 C CNN
-F 2 "" H 2950 2450 50  0001 C CNN
-F 3 "" H 2950 2450 50  0001 C CNN
-	1    2950 2450
+P 3050 2450
+F 0 "#FLG1" H 3050 2525 50  0001 C CNN
+F 1 "PWR_FLAG" H 3050 2600 50  0000 C CNN
+F 2 "" H 3050 2450 50  0001 C CNN
+F 3 "" H 3050 2450 50  0001 C CNN
+	1    3050 2450
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	2950 2450 2950 2500
-Connection ~ 2950 2500
 $Comp
 L PWR_FLAG #FLG2
 U 1 1 5A57710F
-P 2950 2750
-F 0 "#FLG2" H 2950 2825 50  0001 C CNN
-F 1 "PWR_FLAG" H 2950 2900 50  0000 C CNN
-F 2 "" H 2950 2750 50  0001 C CNN
-F 3 "" H 2950 2750 50  0001 C CNN
-	1    2950 2750
+P 3050 2750
+F 0 "#FLG2" H 3050 2825 50  0001 C CNN
+F 1 "PWR_FLAG" H 3050 2900 50  0000 C CNN
+F 2 "" H 3050 2750 50  0001 C CNN
+F 3 "" H 3050 2750 50  0001 C CNN
+	1    3050 2750
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	2950 2750 2950 2800
-Connection ~ 2950 2800
 $Comp
 L FRT5 U7
 U 1 1 5A5A8B61
@@ -1465,11 +1420,58 @@ F 3 "" H 3650 6150 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	4350 5800 3650 5800
-Wire Wire Line
 	3650 5800 3650 6150
 Wire Wire Line
 	4600 750  4600 700 
 Wire Wire Line
 	4800 750  4800 700 
+$Comp
+L MT3608 U?
+U 1 1 5A6F4110
+P 2300 2650
+F 0 "U?" H 2200 2550 60  0000 C CNN
+F 1 "MT3608" H 2200 2850 60  0000 C CNN
+F 2 "" H 2200 3050 60  0001 C CNN
+F 3 "" H 2200 3050 60  0001 C CNN
+	1    2300 2650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2950 2500 3150 2500
+Wire Wire Line
+	3050 2450 3050 2500
+Connection ~ 3050 2500
+Wire Wire Line
+	2950 2800 3150 2800
+Wire Wire Line
+	3150 2800 3150 2900
+Wire Wire Line
+	3050 2750 3050 2800
+Connection ~ 3050 2800
+Wire Wire Line
+	4250 5900 4300 5900
+Wire Wire Line
+	4300 5800 3650 5800
+Wire Wire Line
+	4300 5700 3800 5700
+Wire Wire Line
+	4300 5600 3400 5600
+Wire Wire Line
+	4300 5500 4050 5500
+Wire Wire Line
+	4300 5300 4250 5300
+Wire Wire Line
+	4950 5100 5350 5100
+Wire Wire Line
+	4950 5200 4900 5200
+Wire Wire Line
+	4900 5400 5100 5400
+Wire Wire Line
+	5000 5500 4900 5500
+Wire Wire Line
+	5200 5600 4900 5600
+Wire Wire Line
+	5100 5800 4900 5800
+Wire Wire Line
+	5350 5900 4900 5900
 $EndSCHEMATC
