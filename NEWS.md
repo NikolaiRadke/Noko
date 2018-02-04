@@ -1,6 +1,7 @@
 # Newsblog
 
 ## 2018  
+* **04.02.2018** The diagnostics tool got an update to V0.8. I needed more functions to test the new PCB.  
 * **15.01.2018** Firmware **1.0-150118** - Enhancement: Story menu no shows length in hours and minutes.  
 * **12.01.2018** Added a simple tool to set the current time without touching the EEPROM.  
 * **08.01.2018** Finished the enhanced voice set. Firmware was updatet to **1.0-080118**. Have fun!  
