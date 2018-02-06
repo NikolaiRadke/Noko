@@ -1,7 +1,7 @@
 # Newsblog
 
 ## 2018  
-* **06.02.2018** Added Firmwar **2.0-060218** and directory V20. These files are for PCB-NOKOs. V1.0 will certainly get the same love. No NOKO will be left behind!  
+* **06.02.2018** Added Firmwar **2.0-060218** and directory V20. These files are for PCB-NOKOs. V1.0 in folder V10 will certainly get the same maintenance. No NOKO will be left behind!  
 * **04.02.2018** Finished testing the PCB. Nearly everything is working! There are some minor issues with the hub left.  
 * **03.02.2018** The diagnostics tool got an update to V0.8. I needed more functions to test the new PCB.  
 * **15.01.2018** Firmware **1.0-150118** - Enhancement: Story menu no shows length in hours and minutes.  
