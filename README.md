@@ -28,7 +28,7 @@ NOKO needs Arduino IDE 1.6.6 - [1.8.2](https://www.arduino.cc/en/Main/Software) 
 ```
 NOKO/
 ├── howto_compile/
-|   Manual how compile the sketches in your Arduino IDE and precompiled sketched  
+|   Manual how compile the sketches in your Arduino IDE and precompiled sketches.  
 |   └── precompiled/
 |       Precompiled hex-files and windows tools
 |       ├── Deutsch/
