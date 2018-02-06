@@ -2407,7 +2407,3 @@ void write_EEPROM(uint8_t address, uint8_t data) // Write internal EEPROM with o
   EEPROM.update(address+offset,data);
 }
 
-
-
-
-
