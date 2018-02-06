@@ -11,7 +11,7 @@
     (via_costs 50)
     (plane_via_costs 5)
     (start_ripup_costs 100)
-    (start_pass_no 2276)
+    (start_pass_no 2229)
     (layer_rule F.Cu
       (active on)
       (preferred_direction horizontal)
@@ -71,10 +71,10 @@
     D13 D6 A7 "Net-(R8-Pad1)" "Net-(R9-Pad2)" "Net-(U3-Pad11)" "Net-(U3-Pad15)" "Net-(U3-Pad3)"
     "Net-(U3-Pad1)" "Net-(U4-Pad5)" D5 "Net-(U4-Pad7)" "Net-(U4-Pad8)" "Net-(U5-Pad1)" "Net-(U5-Pad2)" "Net-(U5-Pad18)"
     "Net-(U5-Pad3)" "Net-(U5-Pad21)" "Net-(U5-Pad22)" "Net-(U5-Pad11)" "Net-(U5-Pad12)" "Net-(U5-Pad28)" "Net-(U5-Pad30)" "Net-(U7-Pad6)"
-    "Net-(U7-Pad5)" "Net-(J1-Pad4)" "Net-(Links1-Pad1)" "Net-(Links1-Pad2)" "Net-(Rechts1-Pad1)" "Net-(Rechts1-Pad2)" DP DM
-    A1 "Net-(U5-Pad7)" "Net-(P1-Pad1)" A6 "A_D+" "A_D-" "Net-(J1-Pad1)" "Net-(C2-Pad1)"
-    "Net-(C4-Pad1)" "Net-(C9-Pad1)" "Net-(C9-Pad2)" "Net-(C14-Pad2)" "Net-(C15-Pad1)" "Net-(M1-Pad3)" "Net-(M1-Pad2)" "Net-(M1-Pad1)"
-    "Net-(M1-Pad4)" "Net-(M3-Pad5)" "Net-(M3-Pad6)" "Net-(P3-Pad1)" "Net-(R4-Pad2)"
+    "Net-(U7-Pad5)" "Net-(J1-Pad4)" "Net-(Links1-Pad1)" "Net-(Links1-Pad2)" "Net-(Rechts1-Pad1)" "Net-(Rechts1-Pad2)" A1 "Net-(U5-Pad7)"
+    "Net-(P1-Pad1)" A6 "A_D+" "A_D-" "Net-(J1-Pad1)" "Net-(C2-Pad1)" "Net-(C4-Pad1)" "Net-(C9-Pad1)"
+    "Net-(C9-Pad2)" "Net-(C14-Pad2)" "Net-(C15-Pad1)" "Net-(M1-Pad3)" "Net-(M1-Pad2)" "Net-(M1-Pad1)" "Net-(M1-Pad4)" "Net-(M3-Pad5)"
+    "Net-(M3-Pad6)" "Net-(P3-Pad1)" "Net-(R4-Pad2)" "MP3_D_P" "MP3_D_N"
     (clearance_class "kicad_default")
     (via_rule kicad_default)
     (rule
