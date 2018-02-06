@@ -2,7 +2,7 @@
 
 The DIY-**NOKO Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. NOKO is for everyone. What's new? See the [newsblog](https://github.com/NikolaiRadke/NOKO/tree/master/NEWS.md).  
 
-**22.01.2018** - The new PCB arrived. With 8x10 cm it's quite small. Now, me and the other supporters are going to test the PCB. Whenn everything is working well, another pcb related Wiki will be made and every NOKO fan will get the opportunity to order his board. Stay tuned. Again ;-)  
+**06.02.2018** - The PCB is working great! There are only small issues left. When everthing ist ready, i will make a PCB fork with it's own wiki. Stay tuned...   
   
 ![NOKO Orange](http://www.nikolairadke.de/NOKO/noko_echt.png)  
 
@@ -64,14 +64,24 @@ NOKO/
 |
 ├── src/
 |   Arduino sketches
-|   ├── Deutsch/
-|   |   German version
-|   |   └── NOKO/
-|   |       Main sourcecode with all the required libraries.
-|   ├── English/
-|   |   English version. 
-|   |   └── NOKO/
-|   |       Same files but translated. 
+|   ├── V10
+|   |   ├── Deutsch/
+|   |   |   German version
+|   |   |   └── NOKO/
+|   |   |       Main sourcecode with all the required libraries.
+|   |   └── English/
+|   |       English version. 
+|   |       └── NOKO/
+|   |           Same files but translated. 
+|   ├── V20
+|   |   ├── Deutsch/
+|   |   |   German version
+|   |   |   └── NOKO/
+|   |   |       Main sourcecode with all the required libraries.
+|   |   └── English/
+|   |       English version. 
+|   |       └── NOKO/
+|   |           Same files but translated. 
 |   └── tools/
 |       Tools for using components and diagnostic    
 |       ├── I2C-Scanner/
