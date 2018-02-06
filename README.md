@@ -63,7 +63,7 @@ NOKO/
 |       Source documents for gEDA.
 |
 ├── src/
-|   Arduino sketches
+|   Arduino sketches. V10 for the NOKO of this Wiki, V20 for PCB NOKOs.  
 |   ├── V10
 |   |   ├── Deutsch/
 |   |   |   German version
