@@ -1,11 +1,11 @@
- /* NOKO V2.0 05.02.2018 - Nikolai Radke
+ /* NOKO V2.0 08.02.2018 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module! Uncommend line 88 if it's not present.
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.472 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 28.468 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -69,7 +69,7 @@
  * Battery VCC      A6    
  * USB VCC          A7    With 1kOhm
  * 
- * Unused           A1.A2,A3,D8,D9,(ICSP)
+ * Unused           A2,A3,D4,D8,D9,(ICSP)
  * 
  * I2C address list:
  * SI4703           0x10 (Radio)
@@ -80,8 +80,8 @@
 */
 
 // Softwareversion
-#define Firmware "-050218"
-#define Version 10  // 2.0 - PCB
+#define Firmware "-080218"
+#define Version 20  // 2.0 - PCB
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
 // Features on/off. Comment out to disable
@@ -160,7 +160,6 @@
 #include "LiquidCrystal_I2C.h"
 #include "Si4703.h"
 #include "DS3231RTC.h"
-#include "NewTone.h"
 #include "JQ6500_Serial.h"
 
 SIGNAL(WDT_vect) // Watchdog to wake NOKO from powerdown_delay()
@@ -270,12 +269,11 @@ init();
   DIDR0=0x3F;            // Disable digital input buffer on all analog ports
   power_spi_disable();       
   power_usart0_disable(); 
-  power_timer2_disable();
   
   // Portdefinitions. Direct manipulation is much faster and saves flash
-  DDRD=B11101000;   // D7-D0 | 1=OUTPUT
+  DDRD=B11111000;   // D7-D0 | 1=OUTPUT
   DDRB=B00101100;   // D13-D8
-  DDRC=B00111110;   // A7-A0 | Set unused analog pins to output to prevent catching noise from open ports
+  DDRC=B00001100;   // A7-A0 | Set unused analog pins to output to prevent catching noise from open ports
   PORTD=B01000000;  // D6 MOSFET HIGH: Turn off amplifier to prevent startup noise
   //PORTB=B00000000; 
   PORTC=B00000001;  // A0: INPUT_PULLUP 
@@ -555,7 +553,7 @@ void init_menue()
 // Plays tone with delay. Delay can be stopped by pressing SW4 when stopd is set TRUE
 void play_tone(uint16_t h,uint16_t l,boolean stopd,uint16_t d) 
 {
-  NewTone(Speaker,h,l);
+  tone(Speaker,h,l);
   if (!stopd) NewDelay(d);
   else if (selected!=4) stop_delay(d);
 }
@@ -1017,7 +1015,7 @@ void alarm() // Play alarm
     selected=read_button(true);
     analogWrite(LED,255);   
     if ((alarm_type==0) || (mp3_on) || (mp3_pause))    // Tone alarm
-      play_tone(alarm_tone); 
+      play_alarm_tone(alarm_tone); 
     if ((alarm_type==2) && (!(mp3_busy)) && (!mp3_on)) // MP3 alarm
       JQ6500_play(alarm_mp3+1); 
     stop_delay(500);
@@ -1205,7 +1203,7 @@ void menue_Radio() // Radio menue "Radio hoeren"
       print_space(9,0,10);
       save=false;
     }
-    switch (menue)
+    switch(menue)
     {
        case 5: 
          xlcd=3;
@@ -1650,7 +1648,7 @@ void menue_SelectAlarm(uint8_t modus)
       {
         (alarm_tone==5)? alarm_tone=0:alarm_tone++;
         lcd.print(alarm_tone);
-        play_tone(alarm_tone);
+        play_alarm_tone(alarm_tone);
       }
       else
       {
@@ -1843,7 +1841,7 @@ void menue_NightMode() // Set nightmode
       lcd.setCursor(0,3);
     }
     lcd.print(char(126));
-    switch (menue)
+    switch(menue)
     {
       case 0: lcd.setCursor(3,1); break;
       case 1: lcd.setCursor(16,1); break;
@@ -2277,10 +2275,10 @@ void party() // Birthdaytime! Party! Party!
   draw_all();
 }
 
-void play_tone(uint8_t tone_number) // 6 alarm tunes
+void play_alarm_tone(uint8_t tone_number) // 6 alarm tunes
 {
   uint8_t help;
-  switch (tone_number)
+  switch(tone_number)
   {
     case 0:
       play_tone(262,250,true,333);
@@ -2356,7 +2354,6 @@ void sound_on() // Turns on amplifier with a small delay for beep tones
 {
   turnOn_amp;
   NewDelay(reaction_time);
-  //play_tone(920,1,false,1); // Beep needs a short impule
 }
 
 void JQ6500_play(uint16_t file) // Plays MP3 number v
@@ -2394,8 +2391,5 @@ void write_EEPROM(uint8_t address, uint8_t data) // Write internal EEPROM with o
 {
   EEPROM.update(address+offset,data);
 }
-
-
-
 
 

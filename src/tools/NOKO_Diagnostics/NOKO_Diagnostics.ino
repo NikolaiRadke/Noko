@@ -23,7 +23,8 @@
 #define max_V         4.15
 
 char      select;
-boolean   radio,eeprom,rtc,rtc_eeprom,lcd,amp=false;
+boolean   radio,eeprom,rtc,rtc_eeprom,lcd;
+boolean   amp=false;
 uint8_t   help,lcd_address;
 uint16_t  help16;
 uint16_t  newFreq=Freq;

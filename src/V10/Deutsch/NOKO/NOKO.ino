@@ -1,4 +1,4 @@
- /* NOKO V1.0 15.01.2018 - Nikolai Radke
+ /* NOKO V1.0 07.02.2018 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module! Uncommend line 88 if it's not present.
@@ -69,7 +69,7 @@
  * Battery VCC      A6    
  * USB VCC          A7    With 1kOhm
  * 
- * Unused           A1.A2,A3,D8,D9,(ICSP)
+ * Unused           A1.A2,A3,D8,D9,(ICSP), A0 or D4
  * 
  * I2C address list:
  * SI4703           0x10 (Radio)
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-150118"
+#define Firmware "-070218"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
@@ -288,7 +288,7 @@ init();
   // Portdefinitions. Direct manipulation is much faster and saves flash
   DDRD=B11101000;   // D7-D0 | 1=OUTPUT
   DDRB=B00101100;   // D13-D8
-  DDRC=B00111110;   // A7-A0 | Set unused analog pins to output to prevent catching noise from open ports
+  DDRC=B00001100;   // A7-A0 | Set unused analog pins to output to prevent catching noise from open ports
   PORTD=B01000000;  // D6 MOSFET HIGH: Turn off amplifier to prevent startup noise
   //PORTB=B00000000; 
   PORTC=B00000001;  // A0: INPUT_PULLUP 
@@ -1030,7 +1030,7 @@ void alarm() // Play alarm
     selected=read_button(true);
     analogWrite(LED,255);   
     if ((alarm_type==0) || (mp3_on) || (mp3_pause))    // Tone alarm
-      play_tone(alarm_tone); 
+      play_alarm_tone(alarm_tone); 
     if ((alarm_type==2) && (!(mp3_busy)) && (!mp3_on)) // MP3 alarm
       JQ6500_play(alarm_mp3+1); 
     stop_delay(500);
@@ -1218,7 +1218,7 @@ void menue_Radio() // Radio menue "Radio hoeren"
       print_space(9,0,10);
       save=false;
     }
-    switch (menue)
+    switch(menue)
     {
        case 5: 
          xlcd=3;
@@ -1663,7 +1663,7 @@ void menue_SelectAlarm(uint8_t modus)
       {
         (alarm_tone==5)? alarm_tone=0:alarm_tone++;
         lcd.print(alarm_tone);
-        play_tone(alarm_tone);
+        play_alarm_tone(alarm_tone);
       }
       else
       {
@@ -1856,7 +1856,7 @@ void menue_NightMode() // Set nightmode
       lcd.setCursor(0,3);
     }
     lcd.print(char(126));
-    switch (menue)
+    switch(menue)
     {
       case 0: lcd.setCursor(3,1); break;
       case 1: lcd.setCursor(16,1); break;
@@ -2290,10 +2290,10 @@ void party() // Birthdaytime! Party! Party!
   draw_all();
 }
 
-void play_tone(uint8_t tone_number) // 6 alarm tunes
+void play_alarm_tone(uint8_t tone_number) // 6 alarm tunes
 {
   uint8_t help;
-  switch (tone_number)
+  switch(tone_number)
   {
     case 0:
       play_tone(262,250,true,333);
