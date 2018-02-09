@@ -1,7 +1,9 @@
 # Newsblog
 
 ## 2018  
-* **06.02.2018** Added Firmwar **2.0-060218** and directory V20. These files are for PCB-NOKOs. V1.0 in folder V10 will certainly get the same maintenance. No NOKO will be left behind!  
+* **08.02.2018** Added Firmware **2.0-080218** - Bugfix: I encountered too much troubles with the tone generation on the PCB. Switched back from the beloved NewTone library to standard tone library. Now it is working fine, but takes 1500 Bytes more flash. Sight.  
+* **07.02.2018** Added Firmware **1.0-070218** - Some tone code reworks.   
+* **06.02.2018** Added Firmware **2.0-060218** and directory V20. These files are for PCB-NOKOs. V1.0 in folder V10 will certainly get the same maintenance. No NOKO will be left behind!  
 * **04.02.2018** Finished testing the PCB. Nearly everything is working! There are some minor issues with the hub left.  
 * **03.02.2018** The diagnostics tool got an update to V0.8. I needed more functions to test the new PCB.  
 * **15.01.2018** Firmware **1.0-150118** - Enhancement: Story menu no shows length in hours and minutes.  
