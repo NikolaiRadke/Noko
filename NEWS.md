@@ -1,7 +1,7 @@
 # Newsblog
 
 ## 2018  
-* **09.02.2018** Firmware **X.0-080218** - Instead of NewTone library, which caused some troubles, NOKO now uses TimerFreeTone library.   
+* **09.02.2018** Firmware **X.0-080218** - Instead of NewTone library, which caused some troubles, NOKO now uses TimerFreeTone library. NOKO has his lost flash space back and tone generation works great.   
 * **08.02.2018** Added Firmware **2.0-080218** - Bugfix: I encountered too much troubles with the tone generation on the PCB. Switched back from the beloved NewTone library to standard tone library. Now it is working fine, but takes 1500 Bytes more flash. Sight.  
 * **07.02.2018** Added Firmware **1.0-070218** - Some tone code reworks.   
 * **06.02.2018** Added Firmware **2.0-060218** and directory V20. These files are for PCB-NOKOs. V1.0 in folder V10 will certainly get the same maintenance. No NOKO will be left behind!  
