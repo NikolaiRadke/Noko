@@ -1,11 +1,11 @@
- /* NOKO V2.0 08.02.2018 - Nikolai Radke
+ /* NOKO V2.0 09.02.2018 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module! Uncommend line 88 if it's not present.
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.468 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 27.420 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-080218"
+#define Firmware "-090218"
 #define Version 20  // 2.0 - PCB
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
@@ -160,6 +160,7 @@
 #include "LiquidCrystal_I2C.h"
 #include "Si4703.h"
 #include "DS3231RTC.h"
+#include "TimerFreeTone.h"
 #include "JQ6500_Serial.h"
 
 SIGNAL(WDT_vect) // Watchdog to wake NOKO from powerdown_delay()
@@ -269,6 +270,7 @@ init();
   DIDR0=0x3F;            // Disable digital input buffer on all analog ports
   power_spi_disable();       
   power_usart0_disable(); 
+  power_timer2_disable();
   
   // Portdefinitions. Direct manipulation is much faster and saves flash
   DDRD=B11111000;   // D7-D0 | 1=OUTPUT
@@ -553,9 +555,9 @@ void init_menue()
 // Plays tone with delay. Delay can be stopped by pressing SW4 when stopd is set TRUE
 void play_tone(uint16_t h,uint16_t l,boolean stopd,uint16_t d) 
 {
-  tone(Speaker,h,l);
-  if (!stopd) NewDelay(d);
-  else if (selected!=4) stop_delay(d);
+  TimerFreeTone(Speaker,h,l);
+  if (!stopd) NewDelay(d-l);
+  else if (selected!=4) stop_delay(d-l);
 }
 
 // Constantly used strings. Saves a lot of flash space. 
