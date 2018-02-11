@@ -552,7 +552,7 @@ F 1 "D" H 9300 5750 50  0000 C CNN
 F 2 "Diodes_THT:D_DO-41_SOD81_P7.62mm_Horizontal" H 9300 5850 50  0001 C CNN
 F 3 "" H 9300 5850 50  0000 C CNN
 	1    9300 5850
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L GND #PWR01

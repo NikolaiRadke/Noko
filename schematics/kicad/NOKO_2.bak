@@ -1192,13 +1192,13 @@ Wire Wire Line
 	9750 5850 9750 5600
 Connection ~ 9750 5600
 Text GLabel 2900 1750 2    39   Input ~ 0
-DM_N
+MP3_D_N
 Text GLabel 2900 1650 2    39   Input ~ 0
-DP_P
+MP3_D_P
 Text GLabel 6100 2650 0    39   Input ~ 0
-DP_P
+MP3_D_P
 Text GLabel 6100 2550 0    39   Input ~ 0
-DM_N
+MP3_D_N
 Wire Wire Line
 	6100 2550 6200 2550
 Wire Wire Line
