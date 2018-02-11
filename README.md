@@ -2,7 +2,7 @@
 
 The DIY-**NOKO Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. NOKO is for everyone. What's new? See the [newsblog](https://github.com/NikolaiRadke/NOKO/tree/master/NEWS.md).  
 
-**22.01.2018** - The new PCB arrived. With 8x10 cm it's quite small. Now, me and the other supporters are going to test the PCB. Whenn everything is working well, another pcb related Wiki will be made and every NOKO fan will get the opportunity to order his board. Stay tuned. Again ;-)  
+**06.02.2018** - The PCB is working great! There are only small issues left. When everthing ist ready, i will make a PCB fork with it's own wiki. Stay tuned...   
   
 ![NOKO Orange](http://www.nikolairadke.de/NOKO/noko_echt.png)  
 
@@ -15,7 +15,7 @@ lovely and sometimes a bit mean and annoying. Just the way you want him to be. H
 There are a German and an English version. Right now, the building wiki, the voice set, the manual and the optional EEPROM text files are in German. I'll try to translate the wiki and the manual one day. Until then, feel free to ask me for translation, if you need help. **Contribute!** I need an English voice set and English text files. In addition, any other language is welcome, NOKO is to be cosmopolitan!
 
 ### Prerequisites
-NOKO needs Arduino IDE 1.6.6 - [1.8.2](https://www.arduino.cc/en/Main/Software) Copy the folder `NOKO/src/[language]/NOKO/` into your sketch folder. When using 1.6.10 or newer with AVR core 1.6.12 or newer, everything will compile out-of-the-box. With 1.6.9 or lower, *NOKO.ino* won't compile, the sketch size is too large. 
+NOKO needs Arduino IDE 1.6.6 - [1.8.2](https://www.arduino.cc/en/Main/Software) Copy the folder `NOKO/V10/src/[language]/NOKO/` into your sketch folder. When using 1.6.10 or newer with AVR core 1.6.12 or newer, everything will compile out-of-the-box. With 1.6.9 or lower, *NOKO.ino* won't compile, the sketch size is too large. 
 
 **Option 1:** Install newest  [IDE](https://www.arduino.cc/en/Main/Software) and relax.  
 **Option 2:** If you are using IDE 1.6.9 or lower, you need to install [Optiboot](https://github.com/Optiboot/optiboot) onto your Nano.  
@@ -28,7 +28,7 @@ NOKO needs Arduino IDE 1.6.6 - [1.8.2](https://www.arduino.cc/en/Main/Software) 
 ```
 NOKO/
 ├── howto_compile/
-|   Manual how compile the sketches in your Arduino IDE and precompiled sketched  
+|   Manual how compile the sketches in your Arduino IDE and precompiled sketches.  
 |   └── precompiled/
 |       Precompiled hex-files and windows tools
 |       ├── Deutsch/
@@ -55,7 +55,7 @@ NOKO/
 |       Enhanced voice set.
 | 
 ├── pcb/
-|   The gerber files for your own easy-to-build NOKO-on-a-pcb.  
+|   The gerber files for your own easy-to-build NOKO-on-a-pcb. BETA!  
 |
 ├── schematics/
 |   The Schematics for the NOKO parts, the NOKO sewing pattern and shopping lists.
@@ -63,15 +63,25 @@ NOKO/
 |       Source documents for gEDA.
 |
 ├── src/
-|   Arduino sketches
-|   ├── Deutsch/
-|   |   German version
-|   |   └── NOKO/
-|   |       Main sourcecode with all the required libraries.
-|   ├── English/
-|   |   English version. 
-|   |   └── NOKO/
-|   |       Same files but translated. 
+|   Arduino sketches. V10 for the NOKO of this Wiki, V20 for PCB NOKOs.  
+|   ├── V10
+|   |   ├── Deutsch/
+|   |   |   German version
+|   |   |   └── NOKO/
+|   |   |       Main sourcecode with all the required libraries.
+|   |   └── English/
+|   |       English version. 
+|   |       └── NOKO/
+|   |           Same files but translated. 
+|   ├── V20
+|   |   ├── Deutsch/
+|   |   |   German version
+|   |   |   └── NOKO/
+|   |   |       Main sourcecode with all the required libraries.
+|   |   └── English/
+|   |       English version. 
+|   |       └── NOKO/
+|   |           Same files but translated. 
 |   └── tools/
 |       Tools for using components and diagnostic    
 |       ├── I2C-Scanner/

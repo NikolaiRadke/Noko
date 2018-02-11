@@ -30,7 +30,7 @@ Used ressources:
 - **RTC library** - [Wagner Sartori Junior](https://github.com/trunet/DS3231RTC)   
 - **JQ6500 library** - [James Sleeman](https://github.com/sleemanj/JQ6500_Serial)  
 - **Si4703 library** - [Gary Bell](https://github.com/whiteneon/Si4703_FMRadio)     
-- **NewTone library** - [Tim Eckel](https://bitbucket.org/teckel12/arduino-new-tone/wiki/Home)  
+- **TimerFreeTone library** - [Tim Eckel](https://bitbucket.org/teckel12/arduino-timer-free-tone/wiki/Home)  
 - **Time library** - [Michael Margolis](https://github.com/michaelmargolis/arduino_time/tree/master/Time)  
 - **Clock font** - [Ishan Karve](http://karve.in/?p=59)  
 - **Suit inspiration - Ninni** - [RevoluzZa Blog](http://blog.revoluzzza.com/2009/02/25/tutorial-hopw-to-sew-a-revoluzzzionary-monster-wie-man-ein-revoluzzzionares-monster-naht/)  
