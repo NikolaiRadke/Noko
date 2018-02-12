@@ -1,4 +1,4 @@
-update=Di 30 Jan 2018 16:27:49 CET
+update=So 11 Feb 2018 16:19:29 CET
 version=1
 last_client=eeschema
 [general]
@@ -67,7 +67,7 @@ PageLayoutDescrFile=
 PlotDirectoryName=
 SubpartIdSeparator=0
 SubpartFirstId=65
-NetFmtName=
+NetFmtName=Pcbnew
 SpiceForceRefPrefix=0
 SpiceUseNetNumbers=0
 LabSize=60

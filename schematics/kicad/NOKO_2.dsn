@@ -105,9 +105,6 @@
     )
   )
   (placement
-    (component "Diodes_THT:D_DO-41_SOD81_P7.62mm_Horizontal"
-      (place 1N1 156200 -118700 front 90 (PN D))
-    )
     (component Capacitors_THT:CP_Radial_D5.0mm_P2.50mm
       (place C1 101500 -134100 front 180 (PN 1uF))
       (place C13 186200 -123300 front 270 (PN 100uF))
@@ -196,30 +193,11 @@
     (component "NOKO_2:Micro-USB-Hub"
       (place M1 125900 -74450 front 0 (PN Micro_USB_Hub))
     )
+    (component "Diodes_THT:D_DO-41_SOD81_P7.62mm_Horizontal"
+      (place 1N1 156200 -111050 front 270 (PN D))
+    )
   )
   (library
-    (image "Diodes_THT:D_DO-41_SOD81_P7.62mm_Horizontal"
-      (outline (path signal 100  1210 1350  1210 -1350))
-      (outline (path signal 100  1210 -1350  6410 -1350))
-      (outline (path signal 100  6410 -1350  6410 1350))
-      (outline (path signal 100  6410 1350  1210 1350))
-      (outline (path signal 100  0 0  1210 0))
-      (outline (path signal 100  7620 0  6410 0))
-      (outline (path signal 100  1990 1350  1990 -1350))
-      (outline (path signal 120  1150 1280  1150 1410))
-      (outline (path signal 120  1150 1410  6470 1410))
-      (outline (path signal 120  6470 1410  6470 1280))
-      (outline (path signal 120  1150 -1280  1150 -1410))
-      (outline (path signal 120  1150 -1410  6470 -1410))
-      (outline (path signal 120  6470 -1410  6470 -1280))
-      (outline (path signal 120  1990 1410  1990 -1410))
-      (outline (path signal 50  -1350 1700  -1350 -1700))
-      (outline (path signal 50  -1350 -1700  9000 -1700))
-      (outline (path signal 50  9000 -1700  9000 1700))
-      (outline (path signal 50  9000 1700  -1350 1700))
-      (pin Rect[A]Pad_2200x2200_um 1 0 0)
-      (pin Oval[A]Pad_2200x2200_um 2 7620 0)
-    )
     (image Capacitors_THT:CP_Radial_D5.0mm_P2.50mm
       (outline (path signal 100  3750 0  3627.64 -772.542  3272.54 -1469.46  2719.46 -2022.54
             2022.54 -2377.64  1250 -2500  477.458 -2377.64  -219.463 -2022.54
@@ -1052,6 +1030,28 @@
       (pin Round[A]Pad_1524_um 7 11900 -3200)
       (pin Round[A]Pad_1524_um 6 11900 -6200)
     )
+    (image "Diodes_THT:D_DO-41_SOD81_P7.62mm_Horizontal"
+      (outline (path signal 100  1210 1350  1210 -1350))
+      (outline (path signal 100  1210 -1350  6410 -1350))
+      (outline (path signal 100  6410 -1350  6410 1350))
+      (outline (path signal 100  6410 1350  1210 1350))
+      (outline (path signal 100  0 0  1210 0))
+      (outline (path signal 100  7620 0  6410 0))
+      (outline (path signal 100  1990 1350  1990 -1350))
+      (outline (path signal 120  1150 1280  1150 1410))
+      (outline (path signal 120  1150 1410  6470 1410))
+      (outline (path signal 120  6470 1410  6470 1280))
+      (outline (path signal 120  1150 -1280  1150 -1410))
+      (outline (path signal 120  1150 -1410  6470 -1410))
+      (outline (path signal 120  6470 -1410  6470 -1280))
+      (outline (path signal 120  1990 1410  1990 -1410))
+      (outline (path signal 50  -1350 1700  -1350 -1700))
+      (outline (path signal 50  -1350 -1700  9000 -1700))
+      (outline (path signal 50  9000 -1700  9000 1700))
+      (outline (path signal 50  9000 1700  -1350 1700))
+      (pin Rect[A]Pad_2200x2200_um 1 0 0)
+      (pin Oval[A]Pad_2200x2200_um 2 7620 0)
+    )
     (padstack Round[A]Pad_1524_um
       (shape (circle F.Cu 1524))
       (shape (circle B.Cu 1524))
@@ -1105,12 +1105,12 @@
   )
   (network
     (net P1
-      (pins 1N1-2 U7-1 U5-10)
+      (pins U7-1 U5-10 1N1-1)
     )
     (net GND
-      (pins 1N1-1 C1-2 C13-2 R3-2 R6-1 D1-1 U3-10 U3-14 U3-7 U6-1 U6-2 U6-3 U6-7 U6-4
-        U7-10 P6-1 P7-2 P8-3 C2-2 C3-2 C6-1 C10-2 U1-2 U1-4 M2-16 M2-17 M2-12 M2-13
-        M3-1 U4-2 U2-6 U5-4 U5-29)
+      (pins C1-2 C13-2 R3-2 R6-1 D1-1 U3-10 U3-14 U3-7 U6-1 U6-2 U6-3 U6-7 U6-4 U7-10
+        P6-1 P7-2 P8-3 C2-2 C3-2 C6-1 C10-2 U1-2 U1-4 M2-16 M2-17 M2-12 M2-13 M3-1
+        U4-2 U2-6 U5-4 U5-29 1N1-2)
     )
     (net T8
       (pins C1-1 R4-1 J1-3 U3-8 U3-2)
@@ -1386,22 +1386,22 @@
       (pins M2-3 M1-10)
     )
     (class kicad_default "" 3.3V 5V A0 A1 A6 A7 A_D+ "A_D-" D12 D13 D2 D3
-      D5 D6 DM_M DM_N DP_P GND MP3_DM_M MP3_DP_P MP3_D_N MP3_D_P "Net-(C11-Pad1)"
-      "Net-(C12-Pad1)" "Net-(C12-Pad2)" "Net-(C14-Pad1)" "Net-(C14-Pad2)"
-      "Net-(C15-Pad1)" "Net-(C2-Pad1)" "Net-(C4-Pad1)" "Net-(C5-Pad1)" "Net-(C7-Pad1)"
-      "Net-(C8-Pad1)" "Net-(C9-Pad1)" "Net-(C9-Pad2)" "Net-(D1-Pad2)" "Net-(J1-Pad1)"
-      "Net-(J1-Pad4)" "Net-(Links1-Pad1)" "Net-(Links1-Pad2)" "Net-(M1-Pad1)"
-      "Net-(M1-Pad2)" "Net-(M1-Pad3)" "Net-(M1-Pad4)" "Net-(M2-Pad1)" "Net-(M2-Pad10)"
-      "Net-(M2-Pad11)" "Net-(M2-Pad18)" "Net-(M2-Pad19)" "Net-(M2-Pad2)" "Net-(M2-Pad20)"
-      "Net-(M2-Pad21)" "Net-(M2-Pad22)" "Net-(M2-Pad24)" "Net-(M2-Pad5)" "Net-(M2-Pad6)"
-      "Net-(M2-Pad7)" "Net-(M2-Pad8)" "Net-(M2-Pad9)" "Net-(M3-Pad5)" "Net-(M3-Pad6)"
-      "Net-(P1-Pad1)" "Net-(P3-Pad1)" "Net-(P4-Pad1)" "Net-(P5-Pad1)" "Net-(R4-Pad2)"
-      "Net-(R8-Pad1)" "Net-(R9-Pad2)" "Net-(Rechts1-Pad1)" "Net-(Rechts1-Pad2)"
-      "Net-(U3-Pad1)" "Net-(U3-Pad11)" "Net-(U3-Pad15)" "Net-(U3-Pad3)" "Net-(U4-Pad5)"
-      "Net-(U4-Pad7)" "Net-(U4-Pad8)" "Net-(U5-Pad1)" "Net-(U5-Pad11)" "Net-(U5-Pad12)"
-      "Net-(U5-Pad18)" "Net-(U5-Pad2)" "Net-(U5-Pad21)" "Net-(U5-Pad22)" "Net-(U5-Pad28)"
-      "Net-(U5-Pad3)" "Net-(U5-Pad30)" "Net-(U5-Pad7)" "Net-(U7-Pad5)" "Net-(U7-Pad6)"
-      P1 P2 P3 P8 P9 SCL SDA T8
+      D5 D6 GND MP3_D_N MP3_D_P "Net-(C11-Pad1)" "Net-(C12-Pad1)" "Net-(C12-Pad2)"
+      "Net-(C14-Pad1)" "Net-(C14-Pad2)" "Net-(C15-Pad1)" "Net-(C2-Pad1)" "Net-(C4-Pad1)"
+      "Net-(C5-Pad1)" "Net-(C7-Pad1)" "Net-(C8-Pad1)" "Net-(C9-Pad1)" "Net-(C9-Pad2)"
+      "Net-(D1-Pad2)" "Net-(J1-Pad1)" "Net-(J1-Pad4)" "Net-(Links1-Pad1)"
+      "Net-(Links1-Pad2)" "Net-(M1-Pad1)" "Net-(M1-Pad2)" "Net-(M1-Pad3)"
+      "Net-(M1-Pad4)" "Net-(M2-Pad1)" "Net-(M2-Pad10)" "Net-(M2-Pad11)" "Net-(M2-Pad18)"
+      "Net-(M2-Pad19)" "Net-(M2-Pad2)" "Net-(M2-Pad20)" "Net-(M2-Pad21)" "Net-(M2-Pad22)"
+      "Net-(M2-Pad24)" "Net-(M2-Pad5)" "Net-(M2-Pad6)" "Net-(M2-Pad7)" "Net-(M2-Pad8)"
+      "Net-(M2-Pad9)" "Net-(M3-Pad5)" "Net-(M3-Pad6)" "Net-(P1-Pad1)" "Net-(P3-Pad1)"
+      "Net-(P4-Pad1)" "Net-(P5-Pad1)" "Net-(R4-Pad2)" "Net-(R8-Pad1)" "Net-(R9-Pad2)"
+      "Net-(Rechts1-Pad1)" "Net-(Rechts1-Pad2)" "Net-(U3-Pad1)" "Net-(U3-Pad11)"
+      "Net-(U3-Pad15)" "Net-(U3-Pad3)" "Net-(U4-Pad5)" "Net-(U4-Pad7)" "Net-(U4-Pad8)"
+      "Net-(U5-Pad1)" "Net-(U5-Pad11)" "Net-(U5-Pad12)" "Net-(U5-Pad18)" "Net-(U5-Pad2)"
+      "Net-(U5-Pad21)" "Net-(U5-Pad22)" "Net-(U5-Pad28)" "Net-(U5-Pad3)" "Net-(U5-Pad30)"
+      "Net-(U5-Pad7)" "Net-(U7-Pad5)" "Net-(U7-Pad6)" P1 P2 P3 P8 P9 SCL SDA
+      T8
       (circuit
         (use_via Via[0-1]_600:400_um)
       )
@@ -1412,17 +1412,5 @@
     )
   )
   (wiring
-    (wire (path F.Cu 200  136050 -97650  137300 -96400  137300 -81721.8  136738 -81159.8
-            136738 -80140.2  137300 -79578.2  137300 -78150)(net A_D+)(type protect))
-    (wire (path F.Cu 200  136050 -91600  136050 -97650)(net A_D+)(type protect))
-    (wire (path F.Cu 200  137800 -77650  137300 -78150)(net A_D+)(type protect))
-    (wire (path F.Cu 250  137800 -77650  137350 -78100)(net A_D+)(type protect))
-    (wire (path F.Cu 200  136050 -98150  136257 -98150  137800 -96607.1  137800 -81150
-            137800 -80650)(net "A_D-")(type protect))
-    (wire (path F.Cu 200  136050 -104200  136050 -98150)(net "A_D-")(type protect))
-    (wire (path F.Cu 200  147590 -84481.5  148610 -85501.5)(net MP3_D_P)(type protect))
-    (wire (path F.Cu 200  137800 -68250  147590 -78040  147590 -84481.5)(net MP3_D_P)(type protect))
-    (wire (path F.Cu 200  137800 -71250  140093 -71250  147090 -78247.1  147090 -84481.5
-            146070 -85501.5)(net MP3_D_N)(type protect))
   )
 )
