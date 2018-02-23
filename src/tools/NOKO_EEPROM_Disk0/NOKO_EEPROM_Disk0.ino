@@ -85,11 +85,6 @@
 // Number of Stories
 #define max_stories 40 // Max 95
 
-// Length of stories - mm:ss
-const uint8_t stories_length[]={53,6, 45,6, 53,23, 48,40, 48,22, 47,9, 52,44, 43,56, 48,28, 49,38, 46,16, 53,20, 53,1,
-50,15, 52,46, 52,29, 53,8, 50,15, 52,20, 35,25, 50,27, 51,33, 51,23, 48,4, 25,20, 42,39, 47,4, 52,14, 49,36,
-53,51, 50,3, 49,27, 52,47, 49,53, 31,13, 32,14, 50,38, 51,8, 47,45, 65,1};
-
 uint16_t addr,c;
 
 // Needed to parse __DATE__ but does not touch NOKOs language
@@ -167,13 +162,6 @@ void setup()
   // Write number of stories
   writeDisk(Disk0,2,max_stories);
   delay(10);
-
-  // Write length of stories
-  #ifdef def_stories
-    for (addr=0;addr<(max_stories*2);addr++)
-      writeDisk(Disk0,addr+100,stories_length[addr]);
-      delay(10);
-  #endif
 
    // Starting adress of stories
   addr=291;
