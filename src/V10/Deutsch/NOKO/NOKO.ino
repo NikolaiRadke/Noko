@@ -5,7 +5,7 @@
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.240 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 27.250 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -1354,6 +1354,7 @@ void menue_MP3(uint8_t modus)
   uint8_t menue=1;
   uint8_t help;
   uint16_t file_length,index_start,index,max_index;
+  boolean must_update=true;
   char name_buffer[12];
   lcd.createChar(1,custom_char[9]);
   lcd.createChar(2,custom_char[10]);
@@ -1367,85 +1368,90 @@ void menue_MP3(uint8_t modus)
   lcd.blink();
   while (selected!=4)
   {
-    lcd.setCursor(2,0);
-    if (modus==1)
+    if (must_update)
     {
-      index_start=voice_birthday;
-      index=story;
-      max_index=max_stories;
-    }
-    if (modus==2)
-    {
-      index_start=voice_birthday+max_stories;
-      index=file;
-      max_index=max_files;
-    }
-    if ((!mp3_busy) && (!mp3_pause)) 
-    {
-      powerdown_delay(120);
-      mp3.playFileByIndexNumber(index_start+index); // Set index to file
-      powerdown_delay(100);
-      mp3_off(); // Stop at once to keep index set
-      powerdown_delay(100);   
-    }
-    if (index<10) print_zero();
-    if (index<100) print_zero();
-    lcd.print(index); // Print story number
-    lcd.print(char(47));
-    if (max_index<10) print_zero();
-    if (max_index<100) print_zero();
-    lcd.print(max_index); // Print last story number
-    print_space(12,0,8);
-    if (((modus==1) && (!file_on)) || ((modus==2) && (!story_on))) // Print file length
-    {
-      lcd.setCursor(12,0);
-      powerdown_delay(100);
-      file_length=mp3.currentFileLengthInSeconds(); // Read file length 
-      help=file_length/3600;
-      if (help<10) print_zero();
-      lcd.print(help);
-      lcd.print(char(58));
-      help=(file_length%3600)/60;
-      if (help<10) print_zero();
-      lcd.print(help);
-      lcd.print(char(58));
-      help=(file_length%3600)%60;
-      if (help<10) print_zero();
-      lcd.print(help);  
-    }    
-    if (modus==1) // Story menu "Geschichten hören"
-    {
-      for (help=0;help<20;help++) // Print name and author
+      must_update=false;
+      lcd.setCursor(2,0);
+      if (modus==1)
       {
-        put_char(help,1,(read_disk(Disk0,291+((story-1)*40)+help)));
-        put_char(help,2,(read_disk(Disk0,291+((story-1)*40)+help+20)));
-      }  
-    }
-    if (modus==2) // MP3 menue "Eigenes hören"
-    {    
-      lcd.setCursor(2,1);
-      if (story_on) lcd.print(F("Geschichte")); // Is a story running?
-      else
-      {
-        powerdown_delay(100); // Read filename. Only 8 chars possible :-(
-        mp3.currentFileName(name_buffer,sizeof(name_buffer));
-        lcd.print(name_buffer);
+       index_start=voice_birthday;
+       index=story;
+       max_index=max_stories;
       }
-      if (file_on)
+      if (modus==2)
       {
+        index_start=voice_birthday+max_stories;
+        index=file;
+        max_index=max_files;
+      }
+      if ((!mp3_busy) && (!mp3_pause)) 
+      {
+        powerdown_delay(120);
+        mp3.playFileByIndexNumber(index_start+index); // Set index to file
         powerdown_delay(100);
-        file=mp3.currentFileIndexNumber(MP3_SRC_SDCARD)-(voice_birthday+max_stories); // Read file number
+        mp3_off(); // Stop at once to keep index set
+        powerdown_delay(100);         
       }
+      if (index<10) print_zero();
+      if (index<100) print_zero();
+      lcd.print(index); // Print story number
+      lcd.print(char(47));
+      if (max_index<10) print_zero();
+      if (max_index<100) print_zero();
+      lcd.print(max_index); // Print last story number
+      print_space(12,0,8);
+      if (((modus==1) && (!file_on)) || ((modus==2) && (!story_on))) // Print file length
+      {
+        lcd.setCursor(12,0);
+        powerdown_delay(100);
+        file_length=mp3.currentFileLengthInSeconds(); // Read file length 
+        help=file_length/3600;
+        if (help<10) print_zero();
+        lcd.print(help);
+        lcd.print(char(58));
+        help=(file_length%3600)/60;
+        if (help<10) print_zero();
+        lcd.print(help);
+        lcd.print(char(58));
+        help=(file_length%3600)%60;
+        if (help<10) print_zero();
+        lcd.print(help);  
+      }    
+      if (modus==1) // Story menu "Geschichten hören"
+      {
+        for (help=0;help<20;help++) // Print name and author
+        {
+          put_char(help,1,(read_disk(Disk0,291+((story-1)*40)+help)));
+          put_char(help,2,(read_disk(Disk0,291+((story-1)*40)+help+20)));
+        }  
+      }
+      if (modus==2) // MP3 menue "Eigenes hören"
+      {    
+        lcd.setCursor(2,1);
+        if (story_on) lcd.print(F("Geschichte")); // Is a story running?
+        else
+        {
+          powerdown_delay(100); // Read filename. Only 8 chars possible :-(
+          mp3.currentFileName(name_buffer,sizeof(name_buffer));
+          lcd.print(name_buffer);
+        }
+        if (file_on)
+        {
+          powerdown_delay(100);
+          file=mp3.currentFileIndexNumber(MP3_SRC_SDCARD)-(voice_birthday+max_stories); // Read file number
+        }
+      }
+      if (modus==3) lcd.print(F("Keine MP3s"));// No MP3s found!
+      lcd.setCursor(12,0);
+      if (mp3_pause) lcd.print(F("   PAUSE"));
+      put_char(8,3,((mp3_busy) || (mp3_pause))? 1:3);
     }
-    if (modus==3) lcd.print(F("Keine MP3s"));// No MP3s found!
-    lcd.setCursor(12,0);
-    if (mp3_pause) lcd.print(F("   PAUSE"));
-    put_char(8,3,((mp3_busy) || (mp3_pause))? 1:3);
     lcd.setCursor(5+(menue*3),3);
     wait_1m(true,true);
     switch(selected)
     {
-      case 1:
+     case 1:
+        must_update=true;
         switch(menue)
         {
         case 0: // Prev
@@ -1463,7 +1469,7 @@ void menue_MP3(uint8_t modus)
             if (story_on) {story_on=false; file_on=true;}
             index=file;
           }
-           if (mp3_busy) JQ6500_play(index_start+index);
+          if (mp3_busy) JQ6500_play(index_start+index);
           break;
         case 1: // On/Off
           radio_off(); 
@@ -1521,11 +1527,10 @@ void menue_MP3(uint8_t modus)
       case 3:
         if ((!mp3_pause) && (menue>0)) menue--;
         break;
-    }
-  }
+      }
+   }
   init_char();
 }
-
 void menue_Alarm()  // Set alarm. No alarm allowed in this menue
 {
   uint8_t menue=0;
