@@ -98,6 +98,7 @@
 #define phrase_address 4000    // Starting address of the phrases in 24LC256
 #define quote_address 10000    // Quotations
 #define poem_address  18000    // Poems
+#define story_address 20082    // Story name and author
 
 // Timezone GMT+1=1
 #define TZ 1 
@@ -1408,8 +1409,8 @@ void menue_MP3(uint8_t modus)
       {
         for (help=0;help<20;help++) // Print name and author
         {
-          put_char(help,1,(read_disk(Disk0,291+((story-1)*40)+help)));
-          put_char(help,2,(read_disk(Disk0,291+((story-1)*40)+help+20)));
+          put_char(help,1,(read_disk(Disk1,story_address+((story-1)*40)+help)));
+          put_char(help,2,(read_disk(Disk1,story_adress+((story-1)*40)+help+20)));
         }  
       }
       if (modus==2) // MP3 menue "Eigenes hören"
