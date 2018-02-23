@@ -1,7 +1,6 @@
 # Setting up a serial connection and writing to EEPROMs
 
-Open the NOKO writer sketch **NOKO_EEPROM_Disk0.ino** or **NOKO_Disk1.ino** in the Arduino IDE and start it. 
-Wait for *10 seconds*. When running *NOKO_Disk1.ino* you can go on immediately.
+Open the NOKO writer sketch **NOKO_Disk1.ino** in the Arduino IDE and start it. 
 
 ## Linux
 
@@ -17,13 +16,13 @@ if another USB port is used by NOKO, modify /dev/USB0 to /dev/USB1 or whatever t
 4. Change the directoy to ` NOKO/write_eeprom/ `
 
 5. Write the text file to EEPROM with the command  
-``` ./write_Disk0 > /dev/ttyUSB0 ```  
+``` ./write_eeprom > /dev/ttyUSB0 ```  
 or  
-``` ./write_Disk1 > /dev/ttyUSB0 ```  
-The program sends the content of the text file **Disk0** or **Disk1** via Arduino to the EEPROM. You can watch your Arduino's RX and TX LEDs blinking furiously. This may take a while, Disk1 needs about 20 minutes... *yawn*
+``` ./write_eeprom > /dev/ttyUSB0 ```  
+The program sends the content of the text file **EEPROM** via Arduino to the EEPROM. You can watch your Arduino's RX and TX LEDs blinking furiously. This may take a while, Disk1 needs about 18 minutes... *yawn*
 
 ### NOTE 
-*write_DiskX* was compiled with *x86_64*. For other platforms, see *write_DiskX.c* comments to compile it for yourself.
+*write_eeprom* was compiled with *x86_64*. For other platforms, see *write_eeprom.c* comments to compile it for yourself.
 
 ## Windows
 
@@ -31,11 +30,8 @@ The program sends the content of the text file **Disk0** or **Disk1** via Arduin
 
 2. Chance the directoy to ` NOKO/write_eeprom/  `  
 
-3. Write the text file to EEPROM with the command  
-``` write_Disk0 > COM1 ```  
-or  
-``` ./write_Disk1 > COM1 ```  
-If another USB port is used by NOKO, modify COM1 to COM2 or whatever the IDE tells you. The program sends the content of the text file **Disk0** or **Disk1** via Arduino to the EEPROM. You can watch your Arduino's RX and TX LEDs blinking furiously. This may take a while, Disk1 needs about 20 minutes... *yawn*
+3. Write the text file to EEPROM with the command  ``` ./write_eeprom > COM1 ```  
+If another USB port is used by NOKO, modify COM1 to COM2 or whatever the IDE tells you. The program sends the content of the text file **EEPROM** via Arduino to the EEPROM. You can watch your Arduino's RX and TX LEDs blinking furiously. This may take a while, Disk1 needs about 18 minutes... *yawn*
 
 ## Windows 8  
 
@@ -44,8 +40,7 @@ Users report troubles writing an EEPROM with the provided tools. Please try anot
 ## Windows 10
 
 Like written above, but first Windows 10 needs another **baud rate**. You need admin rights.  
-
-1. Uncommend **Line 65** in sketch **NOKO_EEPROM_Disk0.ino**  
+ 
 or **Line 17** in **NOKO_Disk1.ino**.  
   
 2. *Right click Start* -> *Device Manager* -> *Ports* -> *USB Serial Port (COMX)* -> *Right click Port Settings*  
@@ -55,16 +50,11 @@ or **Line 17** in **NOKO_Disk1.ino**.
 4. Take steps above.  
 
 ### NOTE 
-*write_DiskX.exe* was compiled with *x86_64*. For other platforms, see *write_DiskX.c* comments to compile it for yourself.
+*write_eeprom.exe* was compiled with *x86_64*. For other platforms, see *write_eeprom.c* comments to compile it for yourself.
 
 ## The textfiles DISK0 and DISK1
 
-### DISK0 format
-The Disk0 file contains the author and title of the stories. Every item has exactly **2x20** characters, including unused spaces. The next item follows immediately. Do not use the return key, the file is like a single long string. It has to be plain text, don't use a word processor, just a simple text editor. **Note:** NOKO counts from zero, maybe your editor starts with 1 - change nothing. Just type. The number of stories ist limited to **95**, the AT24C32 is limited to measy 4096 bytes. In this repository, there are 40 german stories. If you want more or less, modifiy in *NOKO_EEPROM_DISK0* **max_stories** in line  
-``` #define max_stories 40 // Max 95 ```.  
-
-### DISK1 format
-Nearly the same as DISK0. No return key, just space bar. 
+### EEPROM format
 * **0000-3999** are for the swearword generator:  
 *German version*  
 **0000-0999** 10 chars for an adjective. If it's male, the funtions adds an "r" and a space.  
@@ -82,7 +72,9 @@ Every phrase starts with *Wusstest Du, dass...* in German and *Did you know that
 * **10000-17999** are for the quotations:    
 Just **4x20** chars. NOKO pretends to be sophisticated.
 
-* **18000-20079** are for the poems:   
+* **18000-20071** are for the poems:   
 Again **4x20**. Try to be lyrical.
+
+* **20072-XXX** 20 chars for author's name and 20 chars for the story title
 
 if you want to write less items, just change the starting adresses in *NOKO.ino*. Right now, the swearword generator needs 4000 chars, so the phrases always start at 4000. Change the adresses of the quotations and poems in line **95 and 96**.
