@@ -64,7 +64,7 @@ NOKO/
 |
 ├── src/
 |   Arduino sketches. V10 for the NOKO of this Wiki, V20 for PCB NOKOs.  
-|   ├── V10
+|   ├── V10/
 |   |   ├── Deutsch/
 |   |   |   German version
 |   |   |   └── NOKO/
@@ -73,7 +73,7 @@ NOKO/
 |   |       English version. 
 |   |       └── NOKO/
 |   |           Same files but translated. 
-|   ├── V20
+|   ├── V20/
 |   |   ├── Deutsch/
 |   |   |   German version
 |   |   |   └── NOKO/
@@ -98,6 +98,10 @@ NOKO/
 |
 └── write_EEPROM/
     Tools to write data through serial connection to the Arduino and the EEPROMs. 
+    ├──  V10/
+    |    Old version, working with this wiki  
+    └──  V20/
+         New upcoming verion für PCB NOKOs
 ```
 ### Let's get started!
 
