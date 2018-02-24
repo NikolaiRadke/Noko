@@ -1,11 +1,11 @@
- /* NOKO V2.0 23.02.2018 - Nikolai Radke
+ /* NOKO V2.0 24.02.2018 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module! Uncommend line 88 if it's not present.
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.466 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 27.532 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -139,8 +139,8 @@
 #define USB 7             // Is NOKO connected to USB?
 #define Speaker 11        // PWM beep 
 #define Buttons A0        // ADC buttons
-#define Disk0 0x57        // AH24C32 4 kByte EEPROM
-#define Disk1 0x50        // 24LC256 32 kByte EEPROM
+#define Disc0 0x57        // AH24C32 4 kByte EEPROM
+#define Disc1 0x50        // 24LC256 32 kByte EEPROM
 
 // Pin operations shortcuts
 #define turnOn_pingPin  PORTB |= (1<<5)   // pingPin HIGH
@@ -320,12 +320,15 @@ init();
     radio_station[help]=(read_EEPROM(21+(help*2))*10)+(read_EEPROM(22+(help*2)));
   distance_light=read_EEPROM(27);
   night_lcd_dimm=read_EEPROM(28);
+  max_stories=(read_EEPROM(17)*29)+(read_EEPROM(30));
 
   //  Read AT24C32 
-  birth_day=read_disk(Disk0,0);          // Birthday day
-  birth_month=read_disk(Disk0,1);        // Birthday month
+  birth_day=read_disc(Disc0,0);          // Birthday day
+  birth_month=read_disc(Disc0,1);        // Birthday month
   #ifdef def_stories
-    max_stories=read_disk(Disk0,2);      // Number of stories
+    max_stories = read_disc(Disc0,2);
+    max_stories <<= 8;
+    max_stories += read_disc(Disc0,3);
   #else
     max_stories=0;
   #endif
@@ -1409,8 +1412,8 @@ void menue_MP3(uint8_t modus)
       {
         for (help=0;help<20;help++) // Print name and author
         {
-          put_char(help,1,(read_disk(Disk1,story_address+((story-1)*40)+help)));
-          put_char(help,2,(read_disk(Disk1,story_adress+((story-1)*40)+help+20)));
+          put_char(help,1,(read_disc(Disc1,story_address+((story-1)*40)+help)));
+          put_char(help,2,(read_disc(Disc1,story_address+((story-1)*40)+help+20)));
         }  
       }
       if (modus==2) // MP3 menue "Eigenes hören"
@@ -2049,7 +2052,7 @@ void menue_NOKO() // "Mein NOKO": About NOKO and secret sysinfo
   {
     if (help==20) lcd.setCursor(0,2);
     if (help==40) lcd.setCursor(0,3);
-    lcd.print(char(read_disk(Disk0,20+help)));   
+    lcd.print(char(read_disc(Disc0,20+help)));   
   }
   wait_1m(false,false);
   lcd.createChar(0,custom_char[0]);
@@ -2220,7 +2223,7 @@ void write_swearword(uint16_t num) // Helps swearword event
   uint16_t help;
   for (help=num;help<num+10;help++)
   {
-    character=read_disk(Disk1,help);
+    character=read_disc(Disc1,help);
     if (character!=32) lcd.print(char(character));
   }
 }
@@ -2238,10 +2241,10 @@ void print_block(uint16_t address, uint8_t event) // Prints text blocks from EEP
   }
   for (help=0;help<20;help++)
   {
-    put_char(help,y,(read_disk(Disk1,address+(help2*text_offset)+help)));
-    put_char(help,y+1,(read_disk(Disk1,address+(help2*text_offset)+help+20)));
-    put_char(help,y+2,(read_disk(Disk1,address+(help2*text_offset)+help+40)));
-    if (event>1) put_char(help,3,(read_disk(Disk1,address+(help2*80)+help+60)));
+    put_char(help,y,(read_disc(Disc1,address+(help2*text_offset)+help)));
+    put_char(help,y+1,(read_disc(Disc1,address+(help2*text_offset)+help+20)));
+    put_char(help,y+2,(read_disc(Disc1,address+(help2*text_offset)+help+40)));
+    if (event>1) put_char(help,3,(read_disc(Disc1,address+(help2*80)+help+60)));
   }
   wait_1m(true,true);
 }
@@ -2395,13 +2398,13 @@ int16_t freeRam() // Free RAM in bytes
   return (int16_t)&v-(__brkval==0? (int16_t)&__heap_start:(int16_t)__brkval);
 }
 
-uint8_t read_disk(uint8_t disk_number,uint16_t address) // Read an EEPROM
+uint8_t read_disc(uint8_t disc_number,uint16_t address) // Read an EEPROM
 {
-  Wire.beginTransmission(disk_number);
+  Wire.beginTransmission(disc_number);
   Wire.write((uint16_t)(address >> 8));   
   Wire.write((uint16_t)(address & 0xFF)); 
   Wire.endTransmission();
-  Wire.requestFrom(disk_number,1);
+  Wire.requestFrom(disc_number,1);
   return Wire.read();
 }
 
