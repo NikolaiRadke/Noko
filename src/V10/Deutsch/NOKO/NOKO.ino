@@ -1,11 +1,11 @@
- /* NOKO V1.0 09.02.2018 - Nikolai Radke
+ /* NOKO V1.0 23.02.2018 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module! Uncommend line 88 if it's not present.
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.268 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 27.250 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-090218"
+#define Firmware "-230218"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
@@ -146,8 +146,8 @@
 #define USB 7             // Is NOKO connected to USB?
 #define Speaker 11        // PWM beep 
 #define Buttons A0        // ADC buttons
-#define Disk0 0x57        // AH24C32 4 kByte EEPROM
-#define Disk1 0x50        // 24LC256 32 kByte EEPROM
+#define Disc0 0x57        // AH24C32 4 kByte EEPROM
+#define Disc1 0x50        // 24LC256 32 kByte EEPROM
 
 // Pin operations shortcuts
 #define turnOn_pingPin  PORTB |= (1<<5)  // pingPin HIGH
@@ -186,8 +186,6 @@ SIGNAL(WDT_vect) // Watchdog to wake NOKO from powerdown_delay()
 uint8_t  selected=0;             // Which menu item selected
 uint8_t  xlcd=0;                 // X and
 uint8_t  ylcd=0;                 // Y position of LCD cursor
-uint8_t  story=1;                // Selected story
-uint8_t  max_stories;            // Number of stories
 uint8_t  led_val;                // LED brightness 0-9
 uint8_t  birth_day,birth_month;  // Birthday gt=day, gm=month
 uint8_t  alarm_type;             // Whicht type of alarm
@@ -224,14 +222,16 @@ boolean  quiet;                  // All sound off?
 boolean  charging;               // Is NOKO's battery charging?
 
 uint16_t file=1;                 // Selected MP3
+uint16_t story=1;                // Selected story
+uint16_t max_stories;            // Number of stories
 uint16_t max_files;              // Number of own MP3s files on SD card
 uint16_t offset;                 // EEPROM start position to expand life cyle
 uint16_t radio_freq;             // Used frequency * 100
-uint16_t radio_station[3];       // 3 radiostations
+uint16_t radio_station[3];       // 3 radiostationsry
 
-int16_t   thisyear;              // Year is integer type
-int16_t   power;                 // Voltage * 100
-uint32_t  lcd_dimm_time;         // Milliseconds until display mutes
+int16_t  thisyear;               // Year is integer type
+int16_t  power;                  // Voltage * 100
+uint32_t lcd_dimm_time;          // Milliseconds until display mutes
   
 const uint8_t event_trigger[10]={0,120,60,45,30,15,10,5,3,1};
 
@@ -334,10 +334,10 @@ init();
   night_lcd_dimm=read_EEPROM(28);
 
   //  Read AT24C32 
-  birth_day=read_disk(Disk0,0);          // Birthday day
-  birth_month=read_disk(Disk0,1);        // Birthday month
+  birth_day=read_disc(Disc0,0);          // Birthday day
+  birth_month=read_disc(Disc0,1);        // Birthday month
   #ifdef def_stories
-    max_stories=read_disk(Disk0,2);      // Number of stories
+    max_stories=read_disc(Disc0,2);      // Number of stories
   #else
     max_stories=0;
   #endif
@@ -931,34 +931,34 @@ void print_station(uint8_t s) // Print the stations frequencies
 
 boolean check_night() // Is it nighttime?
 {
-  boolean ja=false;
+  boolean yes=false;
   if (nightmode_on)
   {
     if (night_hh>night_to_hh)
-      if ((tm.Hour>night_hh) || (tm.Hour<night_to_hh)) ja=true;
+      if ((tm.Hour>night_hh) || (tm.Hour<night_to_hh)) yes=true;
     if (night_hh<night_to_hh)
-      if ((tm.Hour>night_hh) && (tm.Hour<night_to_hh)) ja=true;
+      if ((tm.Hour>night_hh) && (tm.Hour<night_to_hh)) yes=true;
     if (night_hh==night_to_hh)
     {
       if (night_mm<=night_to_mm)
-        if ((tm.Minute>=night_mm) && (tm.Minute<=night_to_mm)) ja=true;
+        if ((tm.Minute>=night_mm) && (tm.Minute<=night_to_mm)) yes=true;
       if (night_hh>night_to_mm)
-        if ((tm.Minute<=night_to_mm) || (tm.Minute>=night_to_mm)) ja=true;
+        if ((tm.Minute<=night_to_mm) || (tm.Minute>=night_to_mm)) yes=true;
     }
-    if ((tm.Hour==night_hh) && (tm.Minute>=night_mm)) ja=true;
-    if ((tm.Hour==night_to_hh) && (tm.Minute<night_to_mm)) ja=true;
+    if ((tm.Hour==night_hh) && (tm.Minute>=night_mm)) yes=true;
+    if ((tm.Hour==night_to_hh) && (tm.Minute<night_to_mm)) yes=true;
   }
-  if (ja!=night_over) // When nightmode changes play sound
+  if (yes!=night_over) // When nightmode changes play sound
   {
     #ifdef voice_set_111 
-      ja? JQ6500_play(71):JQ6500_play(102); // Off: Rooster. On: Let me sleep!
+      yes? JQ6500_play(71):JQ6500_play(102); // Off: Rooster. On: Let me sleep!
     #endif
     #ifdef voice_set_226
-      ja? JQ6500_play(111):JQ6500_play(172); // Same but other voice set
+      yes? JQ6500_play(111):JQ6500_play(172); // Same but other voice set
     #endif
-    night_over=ja;
+    night_over=yes;
   }
-  return ja;
+  return yes;
 }
 
 void check_ultra()  // Ultrasonic event: Distance_val= 0..9 * 10cm
@@ -1353,6 +1353,8 @@ void menue_MP3(uint8_t modus)
 {
   uint8_t menue=1;
   uint8_t help;
+  uint16_t file_length,index_start,index,max_index;
+  boolean must_update=true;
   char name_buffer[12];
   lcd.createChar(1,custom_char[9]);
   lcd.createChar(2,custom_char[10]);
@@ -1366,107 +1368,122 @@ void menue_MP3(uint8_t modus)
   lcd.blink();
   while (selected!=4)
   {
-    lcd.setCursor(2,0);
-    if (modus==1) // Story menu "Geschichten hören"
+    if (must_update)
     {
-      if (story<10) print_zero();
-      lcd.print(story); // Print story number
-      print_onespace();
-      help=read_disk(Disk0,((story-1)*2)+100); // Print lenght 
-      if (help>59)
+      must_update=false;
+      lcd.setCursor(2,0);
+      if (modus==1)
       {
-        lcd.print(help/60);
-        lcd.print(char(58));
-        if (help%60<10) print_zero();
-        lcd.print(help%60);
+       index_start=voice_birthday;
+       index=story;
+       max_index=max_stories;
       }
-      else
+      if (modus==2)
       {
-        if (help<10) print_zero();
-        lcd.print(help);  
+        index_start=voice_birthday+max_stories;
+        index=file;
+        max_index=max_files;
       }
-      lcd.print(char(58));
-      help=read_disk(Disk0,((story-1)*2)+101); // And print seconds
-      if (help<10) print_zero();
-      lcd.print(help);
-      print_onespace();
-      for (help=0;help<20;help++) // Print name and author
+      if ((!mp3_busy) && (!mp3_pause)) 
       {
-        put_char(help,1,(read_disk(Disk0,291+((story-1)*40)+help)));
-        put_char(help,2,(read_disk(Disk0,291+((story-1)*40)+help+20)));
-      }  
-    }
-    if (modus==2) // MP3 menue "Eigenes hören"
-    {
-      if (!(mp3_busy) && (!mp3_pause) && (!story_on)) 
-      {
-        mp3.playFileByIndexNumber(voice_birthday+max_stories+file); // Set index to first file
+        powerdown_delay(120);
+        mp3.playFileByIndexNumber(index_start+index); // Set index to file
         powerdown_delay(100);
         mp3_off(); // Stop at once to keep index set
-        powerdown_delay(100);
+        powerdown_delay(100);         
       }
-      if (story_on) lcd.print(F("Geschichte")); // Is a story running?
-      else
-      {
-        powerdown_delay(100); // Read filename. Only 8 chars possible :-(
-        mp3.currentFileName(name_buffer,sizeof(name_buffer));
-        lcd.print(name_buffer);
-      }
-      lcd.setCursor(7,2);
-      if ((mp3_busy) && (!story_on))
-      {
-        powerdown_delay(100);
-        file=mp3.currentFileIndexNumber(MP3_SRC_SDCARD)-(voice_birthday+max_stories); // Read file number
-      }
-      if (file<10) print_zero();
-      lcd.print(file); // Print file number
+      if (index<10) print_zero();
+      if (index<100) print_zero();
+      lcd.print(index); // Print story number
       lcd.print(char(47));
-      if (max_files<10) print_zero();
-      lcd.print(max_files); // Print last file number
+      if (max_index<10) print_zero();
+      if (max_index<100) print_zero();
+      lcd.print(max_index); // Print last story number
+      print_space(12,0,8);
+      if (((modus==1) && (!file_on)) || ((modus==2) && (!story_on))) // Print file length
+      {
+        lcd.setCursor(12,0);
+        powerdown_delay(100);
+        file_length=mp3.currentFileLengthInSeconds(); // Read file length 
+        help=file_length/3600;
+        if (help<10) print_zero();
+        lcd.print(help);
+        lcd.print(char(58));
+        help=(file_length%3600)/60;
+        if (help<10) print_zero();
+        lcd.print(help);
+        lcd.print(char(58));
+        help=(file_length%3600)%60;
+        if (help<10) print_zero();
+        lcd.print(help);  
+      }    
+      if (modus==1) // Story menu "Geschichten hören"
+      {
+        for (help=0;help<20;help++) // Print name and author
+        {
+          put_char(help,1,(read_disc(Disc0,291+((story-1)*40)+help)));
+          put_char(help,2,(read_disc(Disc0,291+((story-1)*40)+help+20)));
+        }  
+      }
+      if (modus==2) // MP3 menue "Eigenes hören"
+      {    
+        lcd.setCursor(2,1);
+        if (story_on) lcd.print(F("Geschichte")); // Is a story running?
+        else
+        {
+          powerdown_delay(100); // Read filename. Only 8 chars possible :-(
+          mp3.currentFileName(name_buffer,sizeof(name_buffer));
+          lcd.print(name_buffer);
+        }
+        if (file_on)
+        {
+          powerdown_delay(100);
+          file=mp3.currentFileIndexNumber(MP3_SRC_SDCARD)-(voice_birthday+max_stories); // Read file number
+        }
+      }
+      if (modus==3) lcd.print(F("Keine MP3s"));// No MP3s found!
+      lcd.setCursor(12,0);
+      if (mp3_pause) lcd.print(F("   PAUSE"));
+      put_char(8,3,((mp3_busy) || (mp3_pause))? 1:3);
     }
-    if (modus==3) lcd.print(F("Keine MP3s"));// No MP3s found!
-    lcd.setCursor(15,0);
-    if (mp3_pause) lcd.print(F("PAUSE")); else print_space(15,0,5);
-    put_char(8,3,((mp3_busy) || (mp3_pause))? 1:3);
     lcd.setCursor(5+(menue*3),3);
     wait_1m(true,true);
     switch(selected)
     {
-      case 1:
+     case 1:
+        must_update=true;
         switch(menue)
         {
         case 0: // Prev
           if (modus==1)
           {
             if (story>1) story--;
-            if (file_on) {file_on=false; story_on=true;}
-            if (mp3_busy) JQ6500_play(story+voice_birthday);
+            else story=max_stories;
+            if (file_on) {file_on=false; story_on=true;}     
+            index=story;
             }
           if (modus==2)
           {
             if (file>1) file--;
+            else file=max_files;
             if (story_on) {story_on=false; file_on=true;}
-            if (mp3_busy) JQ6500_play(file+voice_birthday+max_stories);
+            index=file;
           }
+          if (mp3_busy) JQ6500_play(index_start+index);
           break;
         case 1: // On/Off
-          if (radio_on) radio_off(); 
-          if (!(mp3_busy)) 
+          radio_off(); 
+          aux_off();
+          story_on=false;
+          file_on=false;
+          if (!mp3_busy)
           {
-            if (modus==1)
-            {
-              story_on=true;
-              JQ6500_play(story+voice_birthday);
-            }
-            if (modus==2)
-            {
-              file_on=true;
-              JQ6500_play(file+voice_birthday+max_stories);
-            }
+            if (modus==1) story_on=true;
+            if (modus==2) file_on=true;
+            JQ6500_play(index_start+index);
             mp3_on=true;
           }
           else mp3_off();
-          aux_off();
           break;
         case 2: // Pause
           if ((mp3_busy) || (mp3_pause))
@@ -1489,15 +1506,18 @@ void menue_MP3(uint8_t modus)
           if (modus==1)
           {
             if (story<max_stories) story++;
+            else story=1;
             if (file_on) {file_on=false; story_on=true;}
-            if (mp3_busy) JQ6500_play(story+voice_birthday);
+            index=story;
           }
           if (modus==2)
           {
             if (file<max_files) file++;
+            else file=1;
             if (story_on) {story_on=false; file_on=true;}
-            if (mp3_busy) JQ6500_play(file+voice_birthday+max_stories);
+            index=file;
           }
+          if (mp3_busy) JQ6500_play(index_start+index);
           break;
         }
         break;
@@ -1507,11 +1527,10 @@ void menue_MP3(uint8_t modus)
       case 3:
         if ((!mp3_pause) && (menue>0)) menue--;
         break;
-    }
-  }
+      }
+   }
   init_char();
 }
-
 void menue_Alarm()  // Set alarm. No alarm allowed in this menue
 {
   uint8_t menue=0;
@@ -2041,7 +2060,7 @@ void menue_NOKO() // "Mein NOKO": About NOKO and secret sysinfo
   {
     if (help==20) lcd.setCursor(0,2);
     if (help==40) lcd.setCursor(0,3);
-    lcd.print(char(read_disk(Disk0,20+help)));   
+    lcd.print(char(read_disc(Disc0,20+help)));   
   }
   wait_1m(false,false);
   lcd.createChar(0,custom_char[0]);
@@ -2212,7 +2231,7 @@ void write_swearword(uint16_t num) // Helps swearword event
   uint16_t help;
   for (help=num;help<num+10;help++)
   {
-    character=read_disk(Disk1,help);
+    character=read_disc(Disc1,help);
     if (character!=32) lcd.print(char(character));
   }
 }
@@ -2230,10 +2249,10 @@ void print_block(uint16_t address, uint8_t event) // Prints text blocks from EEP
   }
   for (help=0;help<20;help++)
   {
-    put_char(help,y,(read_disk(Disk1,address+(help2*text_offset)+help)));
-    put_char(help,y+1,(read_disk(Disk1,address+(help2*text_offset)+help+20)));
-    put_char(help,y+2,(read_disk(Disk1,address+(help2*text_offset)+help+40)));
-    if (event>1) put_char(help,3,(read_disk(Disk1,address+(help2*80)+help+60)));
+    put_char(help,y,(read_disc(Disc1,address+(help2*text_offset)+help)));
+    put_char(help,y+1,(read_disc(Disc1,address+(help2*text_offset)+help+20)));
+    put_char(help,y+2,(read_disc(Disc1,address+(help2*text_offset)+help+40)));
+    if (event>1) put_char(help,3,(read_disc(Disc1,address+(help2*80)+help+60)));
   }
   wait_1m(true,true);
 }
@@ -2387,13 +2406,13 @@ int16_t freeRam() // Free RAM in bytes
   return (int16_t)&v-(__brkval==0? (int16_t)&__heap_start:(int16_t)__brkval);
 }
 
-uint8_t read_disk(uint8_t disk_number,uint16_t address) // Read an EEPROM
+uint8_t read_disc(uint8_t disc_number,uint16_t address) // Read an EEPROM
 {
-  Wire.beginTransmission(disk_number);
+  Wire.beginTransmission(disc_number);
   Wire.write((uint16_t)(address >> 8));   
   Wire.write((uint16_t)(address & 0xFF)); 
   Wire.endTransmission();
-  Wire.requestFrom(disk_number,1);
+  Wire.requestFrom(disc_number,1);
   return Wire.read();
 }
 
