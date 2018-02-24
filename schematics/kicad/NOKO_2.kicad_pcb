@@ -4182,7 +4182,7 @@
   (gr_text "by Nikolai Radke" (at 130.9 94.7 90) (layer B.SilkS)
     (effects (font (size 1.5 1.5) (thickness 0.3) italic) (justify mirror))
   )
-  (gr_text "NOKO 2.2" (at 128.5 94 90) (layer B.SilkS)
+  (gr_text "NOKO 2.0" (at 128.5 94 90) (layer B.SilkS)
     (effects (font (size 2 2) (thickness 0.5) italic) (justify mirror))
   )
   (gr_text "by Nikolai Radke" (at 131.7 94.7 90) (layer F.SilkS)
@@ -4326,7 +4326,7 @@
   (gr_circle (center 91.9 67.7) (end 95.2 67.9) (layer F.SilkS) (width 0.2) (tstamp 5A4A390F))
   (gr_circle (center 91.9 140.5) (end 93.5 140.5) (layer Edge.Cuts) (width 0.15))
   (gr_circle (center 91.9 140.5) (end 95.2 140.7) (layer F.SilkS) (width 0.2))
-  (gr_text "NOKO 2.2" (at 129.05 94 90) (layer F.SilkS)
+  (gr_text "NOKO 2.0" (at 129.05 94 90) (layer F.SilkS)
     (effects (font (size 2 2) (thickness 0.5) italic))
   )
 
