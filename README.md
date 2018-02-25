@@ -54,9 +54,6 @@ NOKO/
 |   └── VoiceSet_226/
 |       Enhanced voice set.
 | 
-├── pcb/
-|   The gerber files for your own easy-to-build NOKO-on-a-pcb. BETA!  
-|
 ├── schematics/
 |   The Schematics for the NOKO parts, the NOKO sewing pattern and shopping lists.
 |   └── geda/
