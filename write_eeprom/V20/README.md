@@ -72,9 +72,9 @@ Every phrase starts with *Wusstest Du, dass...* in German and *Did you know that
 * **10000-17999** are for the quotations:    
 Just **4x20** chars. NOKO pretends to be sophisticated.
 
-* **18000-20071** are for the poems:   
+* **18000-20079** are for the poems:   
 Again **4x20**. Try to be lyrical.
 
-* **20072-XXX** 20 chars for author's name and 20 chars for the story title
+* **20080-XXX** 20 chars for author's name and 20 chars for the story title
 
-if you want to write less items, just change the starting adresses in *NOKO.ino*. Right now, the swearword generator needs 4000 chars, so the phrases always start at 4000. Change the adresses of the quotations and poems in line **95 and 96**.
+if you want to write less items, just change the starting adresses in *NOKO.ino*.
