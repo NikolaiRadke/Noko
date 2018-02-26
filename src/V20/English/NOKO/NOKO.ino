@@ -1,11 +1,11 @@
- /* NOKO V2.0 23.02.2018 - Nikolai Radke
+ /* NOKO V2.0 24.02.2018 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English/PCB
  * NOTE: Does NOT run without the Si4703 Radio Module! Uncommend line 88 if it's not present.
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.382 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 27.414 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-230218"
+#define Firmware "-240218"
 #define Version 20  // 2.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -98,6 +98,7 @@
 #define phrase_address 4000    // Starting address of the phrases in 24LC256
 #define quote_address 10000    // Quotations
 #define poem_address  18000    // Poems
+#define story_address 20080    // Story name and author
 
 // Timezone GMT+1=1
 #define TZ 1 
@@ -1392,23 +1393,27 @@ void menue_MP3(uint8_t modus)
         if (help<10) print_zero();
         lcd.print(help);  
       }    
-      if (modus==1) // Story menu "Play story"
+      if (modus==1) // Story menu "Geschichten hören"
       {
         for (help=0;help<20;help++) // Print name and author
         {
-          put_char(help,1,(read_disc(Disc0,291+((story-1)*40)+help)));
-          put_char(help,2,(read_disc(Disc0,291+((story-1)*40)+help+20)));
+          put_char(help,1,(read_disc(Disc1,story_address+((story-1)*40)+help)));
+          put_char(help,2,(read_disc(Disc1,story_address+((story-1)*40)+help+20)));
         }  
       }
       if (modus==2) // MP3 menue "Play own files"
       {    
-        lcd.setCursor(2,1);
-        if (story_on) lcd.print(F("Story")); // Is a story running?
+        lcd.setCursor(4,1);
+        if (story_on) lcd.print(F(" Geschichte")); // Is a story running?
         else
         {
           powerdown_delay(100); // Read filename. Only 8 chars possible :-(
           mp3.currentFileName(name_buffer,sizeof(name_buffer));
-          lcd.print(name_buffer);
+          for (help=0;help<11;help++)
+          {
+            lcd.print(name_buffer[help]);
+            if (help==7) lcd.print(char(46));
+          }
         }
         if (file_on)
         {

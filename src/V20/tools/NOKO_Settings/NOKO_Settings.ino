@@ -1,5 +1,5 @@
 /*
- * NOKO settings V2.0 24.04.2018 - Nikolai Radke
+ * NOKO settings V2.0 24.02.2018 - Nikolai Radke
  * 
  * This sketch writes the presets into Arduino EEPROM and never or rare used 
  * constants into the AT24C32-EEPROM. 
@@ -43,13 +43,12 @@
  * AT24C32:
  * birth_day        0  = Birthday day
  * birth_month      1  = Birhtday month
- * max_stories      2 = Number of stories; Max 95
+ * max_stories      2 = Number of stories
  * Byte 3-19        free
  * Byte 20-39       Owner name
  * Byte 40-79       Owner email
- * Byte 80-99       Reserverd for... whatever the future tells me
- * Byte 100-290     Length of story mm:ss
- * Byte 291-4091    Author and title of the stories 2 x 20 Byte blocks
+ * Byte 80-4091     Reserverd for... whatever the future tells me.
+
  */
 
 #include <Wire.h>

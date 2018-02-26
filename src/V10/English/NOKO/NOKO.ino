@@ -5,7 +5,7 @@
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.138 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 27.164 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -1419,7 +1419,11 @@ void menue_MP3(uint8_t modus)
         {
           powerdown_delay(100); // Read filename. Only 8 chars possible :-(
           mp3.currentFileName(name_buffer,sizeof(name_buffer));
-          lcd.print(name_buffer);
+          for (help=0;help<11;help++)
+          {
+            lcd.print(name_buffer[help]);
+            if (help==7) lcd.print(char(46));
+          }
         }
         if (file_on)
         {
