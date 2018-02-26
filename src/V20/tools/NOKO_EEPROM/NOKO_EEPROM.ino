@@ -1,11 +1,11 @@
 /*
- * NOKO Settings Disk1 V1.02 24.08.2017 - Nikolai Radke
+ * NOKO EEPROM writer V2.0 26.02.2017 - Nikolai Radke
  * 
  * This sketch writes the event poems, phrases and stuff into 24LC256.
  * Umlaute are converted, NOKOs LCD uses another charset!
  * #=ä, $=ö, %=ü, *=ß. I never used capital letters.
  * 
- * NOTE: Flashing takes about 20 Minutes!
+ * NOTE: Flashing takes about 18 Minutes!
  *       If you are using Windows10, uncommend line 17.
  * 
  * See README in folder write_eeprom..
