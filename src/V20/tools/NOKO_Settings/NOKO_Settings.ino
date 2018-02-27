@@ -1,5 +1,5 @@
 /*
- * NOKO settings V2.0 24.02.2018 - Nikolai Radke
+ * NOKO settings V2.0 27.02.2018 - Nikolai Radke
  * 
  * This sketch writes the presets into Arduino EEPROM and never or rare used 
  * constants into the AT24C32-EEPROM. 
@@ -11,7 +11,7 @@
  * Arduino-EEPROM:
  * The variables are described in the NOKO sketch.
  * offset           0 = 0
- * quiet            1 = 0
+ * equalizer        1 = 0
  * led_val          2 = 6
  * alarm_on         3 = 0
  * alarm_mm         4 = 9
