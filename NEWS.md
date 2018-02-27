@@ -1,6 +1,11 @@
 # Newsblog
 
 ## 2018  
+* **27.03.2018** Firmware **2.0-270218**  
+  Found some time today to do a little work, that had to be done!  
+  * Enhancement: Added an equalizer menue fot the MP3 Module. See settings menue.  
+  * Enhancement: Added two navigation buttons, +10 and -10 to the player for faster file browsing.  
+  * Removed: The almost obsolete quiet mode is gone. The equalizier is now in his place. If you want NOKO to be quiet, use the poti.  
 * **26.02.2018** Firmware **2.0-260218** - Bugfix: Fixed wrong story information adressing. Sorry, you need to flash again.   
 * **24.02.2018** Firmware **2.0-240218** There it is. Story informations are now stored in the not-optional-anmymore 24LC256.  
 * **23.02.2018** Firmware **X.0-230218** - Enhancement: NOKO shows the duration of a MP3 or a story by his own! Typing the times into NOKO_EEPROM_Disk0.ino is not needed anymore. In an upcoming firmware of V2.0 the story titles and authors will be written to 24LC256 to store more stories.  
