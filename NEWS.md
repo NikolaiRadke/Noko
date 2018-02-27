@@ -8,7 +8,7 @@
   * Removed: The almost obsolete quiet mode is gone. The equalizier is now in his place. If you want NOKO to be quiet, use the poti.  
   * Bugfix: Very small code cleanup.  
 * **26.02.2018** Firmware **2.0-260218** - Bugfix: Fixed wrong story information adressing. Sorry, you need to flash again.   
-* **24.02.2018** Firmware **2.0-240218** There it is. Story informations are now stored in the not-optional-anmymore 24LC256.  
+* **24.02.2018** Firmware **2.0-240218** - There it is. Story informations are now stored in the not-optional-anmymore 24LC256.  
 * **23.02.2018** Firmware **X.0-230218** - Enhancement: NOKO shows the duration of a MP3 or a story by his own! Typing the times into NOKO_EEPROM_Disk0.ino is not needed anymore. In an upcoming firmware of V2.0 the story titles and authors will be written to 24LC256 to store more stories.  
 * **09.02.2018** Firmware **X.0-080218** - Instead of NewTone library, which caused some troubles, NOKO now uses TimerFreeTone library. NOKO has his lost flash space back and tone generation works great.   
 * **08.02.2018** Added Firmware **2.0-080218** - Bugfix: I encountered too much troubles with the tone generation on the PCB. Switched back from the beloved NewTone library to standard tone library. Now it is working fine, but takes 1500 Bytes more flash. Sight.  
