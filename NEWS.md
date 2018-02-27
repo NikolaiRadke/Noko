@@ -1,6 +1,7 @@
 # Newsblog
 
 ## 2018  
+* **26.02.2018** Firmware **2.0-260218** - Bugfix: Fixed wrong story information adressing. Sorry, you need to flash again.   
 * **24.02.2018** Firmware **2.0-240218** There it is. Story informations are now stored in the not-optional-anmymore 24LC256.  
 * **23.02.2018** Firmware **X.0-230218** - Enhancement: NOKO shows the duration of a MP3 or a story by his own! Typing the times into NOKO_EEPROM_Disk0.ino is not needed anymore. In an upcoming firmware of V2.0 the story titles and authors will be written to 24LC256 to store more stories.  
 * **09.02.2018** Firmware **X.0-080218** - Instead of NewTone library, which caused some troubles, NOKO now uses TimerFreeTone library. NOKO has his lost flash space back and tone generation works great.   
