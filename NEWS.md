@@ -2,7 +2,7 @@
 
 ## 2018  
 * **27.03.2018** Firmware **2.0-270218**  
-  Found some time today to do a little work, that had to be done!  
+  Found some time today to do a little work at the player.
   * Enhancement: Added an equalizer menue fot the MP3 Module. See settings menue.  
   * Enhancement: Added two navigation buttons, +10 and -10 to the player for faster file browsing.  
   * Removed: The almost obsolete quiet mode is gone. The equalizier is now in his place. If you want NOKO to be quiet, use the poti.  
