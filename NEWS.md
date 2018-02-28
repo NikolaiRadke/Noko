@@ -1,7 +1,7 @@
 # Newsblog
 
 ## 2018  
-* **28.02.2018** Firmware **1.0-280218** 
+* **28.02.2018** Firmware **1.0-280218**  
   PCB NOKOs got the new update yesterday, today it's time for handmade NOKO.  
   * Enhancement: Older NOKOs got the equalizer, too.  
   * Removed: The obsolete quiet mode.  
