@@ -111,7 +111,7 @@ NOKO/
     ├──  V10/
     |    Old version, working with this wiki.  
     └──  V20/
-         New upcoming verion für PCB NOKOs.
+         New upcoming version für PCB NOKOs.
 ```
 ### Let's get started!
 
