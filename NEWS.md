@@ -1,7 +1,11 @@
 # Newsblog
 
 ## 2018  
-* **27.03.2018** Firmware **2.0-270218**  
+* **28.02.2018** Firmware **1.0-280218** 
+  PCB NOKOs got the new update yesterday, today it's time for handmade NOKO.  
+  * Enhancement: Older NOKOs got the equalizer, too.  
+  * Removed: The obsolete quiet mode.  
+* **27.02.2018** Firmware **2.0-270218**  
   Found some time today to do a little work at the player.
   * Enhancement: Added an equalizer menue fot the MP3 Module. See settings menue.  
   * Enhancement: Added two navigation buttons, +10 and -10 to the player for faster file browsing.  
