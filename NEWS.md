@@ -1,6 +1,7 @@
 # Newsblog
 
 ## 2018  
+* **01.03.2018** Testing firmware and tools to be released.  
 * **28.02.2018** Firmware **1.0-280218**  
   PCB NOKOs got the new update yesterday, today it's time for handmade NOKO.  
   * Enhancement: Older NOKOs got the equalizer, too.  
