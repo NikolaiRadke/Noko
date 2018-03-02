@@ -2,7 +2,7 @@
 
 The DIY-**NOKO Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. NOKO is for everyone. What's new? See the [newsblog](https://github.com/NikolaiRadke/NOKO/tree/master/NEWS.md).  
 
-**06.02.2018** - The PCB is working great! There are only small issues left. When everthing ist ready, i will make a PCB fork with it's own wiki. Stay tuned...   
+**01.03.2018** - NOKO will get a new 3D-printed casing for easy assembly. No more drilling, sewing, grinding and cursing.  
   
 ![NOKO Orange](http://www.nikolairadke.de/NOKO/noko_echt.png)  
 
@@ -111,7 +111,7 @@ NOKO/
     ├──  V10/
     |    Old version, working with this wiki.  
     └──  V20/
-         New upcoming verion für PCB NOKOs.
+         New upcoming version for PCB NOKOs.
 ```
 ### Let's get started!
 

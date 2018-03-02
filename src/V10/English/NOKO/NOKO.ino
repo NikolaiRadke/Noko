@@ -1,11 +1,11 @@
- /* NOKO V1.0 09.02.2018 - Nikolai Radke
+ /* NOKO V1.0 02.03.2018 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English
  * NOTE: Does NOT run without the Si4703 Radio Module! Uncommend line 88 if it's not present.
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.138 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 27.248 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -13,7 +13,7 @@
  * These options save flash but are not needed since IDE 1.6.10. Optiboot is still recommended.
  * See https://github.com/NikolaiRadke/NOKO/blob/master/howto_compile/README.md
  * 
- * char()-list: 32=space 37=% 46=. 47=/ 48=0 58=: 68=D 78=N 80=P 82=R 83=S 86=V 87=W
+ * char()-list: 32=space 37=% 46=. 47=/ 48=0 58=: 68=D 78=N 80=P 82=R 83=S 86=V 87=W 88=X
  *              110=n 120=x | 225=ä 226=ß 239=ö 245=ü (German only)
  *         
  * TODO:
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-090218"
+#define Firmware "-020318"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -195,6 +195,7 @@ uint8_t  night_mm,night_hh;      // Nightmode from hh:mm
 uint8_t  night_to_mm,night_to_hh;// To hh:mm
 uint8_t  distance_val;           // Ultrasonic reaction distance 0-9 
 uint8_t  event_val;              // Chance of time event 0-9
+uint8_t  equalizer;              // Equalizer mode of MP3 module
 
 boolean  distance_now=false;     // Has there been am ultrasonic event this minute?
 boolean  distance_light;         // Swich on LCD light with ultrasonic?
@@ -218,7 +219,6 @@ boolean  night_now;              // Is it nighttime? (Time of Nightmode)
 boolean  night_over;             // Has the nightmode switched?
 boolean  nightmode_on;           // Is nightmode set?
 boolean  night_lcd_dimm;         // Will the display mute at nighttime?
-boolean  quiet;                  // All sound off?
 boolean  charging;               // Is NOKO's battery charging?
 
 uint16_t file=1;                 // Selected MP3
@@ -292,25 +292,10 @@ init();
   PORTD=B01000000;  // D6 MOSFET HIGH: Turn off amplifier to prevent startup noise
   //PORTB=B00000000; 
   PORTC=B00000001;  // A0: INPUT_PULLUP 
-
-  // Start JQ6500
-  mp3.begin(9600);
-  mp3.pause();
-  mp3.reset();
-  NewDelay(500);
-  mp3.setVolume(vol_mp3);
-  mp3.setLoopMode(MP3_LOOP_NONE); // Play only once
-  
-  // Start Radio
-  #ifdef def_radio
-    Radio.powerOn();  // Needs to start once!
-    Radio.setVolume(vol_radio);
-    Radio.powerOff();
-  #endif
  
   // Read Arduino EEPROM
   offset=EEPROM.read(0)*30;
-  quiet=read_EEPROM(1); 
+  equalizer=read_EEPROM(1);
   led_val=read_EEPROM(2);
   alarm_on=read_EEPROM(3);
   alarm_mm=read_EEPROM(4);
@@ -340,6 +325,22 @@ init();
     max_stories=read_disc(Disc0,2);      // Number of stories
   #else
     max_stories=0;
+  #endif
+
+  // Start JQ6500
+  mp3.begin(9600);
+  mp3.pause();
+  mp3.reset();
+  NewDelay(500);
+  mp3.setVolume(vol_mp3);
+  mp3.setLoopMode(MP3_LOOP_NONE); // Play only once
+  mp3.setEqualizer(equalizer);
+  
+  // Start Radio
+  #ifdef def_radio
+    Radio.powerOn();  // Needs to start once!
+    Radio.setVolume(vol_radio);
+    Radio.powerOff();
   #endif
   
   // Start RTC and switch off useless functions for power saving
@@ -435,7 +436,7 @@ while(1)
       check_summertime();                     // Check for summertime
     }
     if (!lcd_off) draw_time();                // Draw clock
-    if (!(night_now) && (!quiet)) 
+    if (!night_now) 
     {
       if ((power<10) && (!charging))          // Read battery power
       {
@@ -509,7 +510,7 @@ uint8_t read_button(boolean silent)  // Read pressed button und debounce | silen
       powerdown_delay(pwd_delay);
       if (analogRead(Buttons)>150)
       {
-       if ((!(mp3_busy)) && (!quiet) && (!silent) && (!mp3_pause))
+       if ((!mp3_busy) && (!silent) && (!mp3_pause))
          if (newrandom(1,5)==4) JQ6500_play(newrandom(voice_nose_start,voice_sensor_start));
        return 4;
       }
@@ -528,7 +529,7 @@ uint8_t read_button(boolean silent)  // Read pressed button und debounce | silen
     {
       if (analogRead(Buttons)>0)
       {
-        if ((!(mp3_busy)) && (!quiet) && (!silent) && (!mp3_pause))
+        if ((!mp3_busy) && (!silent) && (!mp3_pause))
           if (newrandom(1,8)==4) JQ6500_play(newrandom(voice_nose_start,voice_sensor_start));
         powerdown_delay(pwd_delay);
         return 1;
@@ -850,7 +851,6 @@ void draw_time() // Draw clock, power level and flags
   lcd.setCursor(17,2);
   if (alarm_on) lcd.print(char(244));
   if (mp3_pause) lcd.print(char(112));
-  if (quiet) lcd.print(char(83));
   if ((mp3_on) || (aux_on) || (radio_on)) lcd.print(char(80));
   //--- power level and charging
   power=analogRead(Battery); // Calculate power level from 5 measurements
@@ -964,7 +964,7 @@ void check_ultra() // Ultrasonic event: Distance_val= 0..9 * 10cm
       lcd.backlight();              // Turn on light and set timer
       lcd_dimm_time=millis();
     }
-    if ((!night_now) && (!distance_now) && (!radio_on) && (!mp3_pause) && (!quiet) && (!(mp3_busy)))
+    if ((!night_now) && (!distance_now) && (!radio_on) && (!mp3_pause) && (!mp3_busy))
     {
       JQ6500_play(newrandom(voice_sensor_start,voice_time_start)); // Play random voice event.
       distance_now=true; // Set ultra_evet flag to prevent more events than one in a minute
@@ -1053,12 +1053,6 @@ void menue_Main() // Main menue
   powerdown_delay(80); // Debounce
   lcd.noBlink();
   lcd.clear();
-  if (quiet) // Sound off? Disable play menue
-  {
-    lcd.print(char(120));
-    menue=1;
-    help=1;
-  }    
   lcd.setCursor(2,0);
   lcd.print(F("Play something")); // Play menue
   lcd.setCursor(2,1);
@@ -1419,7 +1413,11 @@ void menue_MP3(uint8_t modus)
         {
           powerdown_delay(100); // Read filename. Only 8 chars possible :-(
           mp3.currentFileName(name_buffer,sizeof(name_buffer));
-          lcd.print(name_buffer);
+          for (help=0;help<11;help++)
+          {
+            lcd.print(name_buffer[help]);
+            if (help==7) lcd.print(char(46));
+          }
         }
         if (file_on)
         {
@@ -1977,19 +1975,18 @@ void menue_Settings2() // "more...": More settings
   init_menue();
   lcd.print(F("Power save     [ ]")); // Battery saving, not only lights out
   lcd.setCursor(2,1);
-  lcd.print(F("Silent         [ ]")); // No sounds at all
-  lcd.setCursor(2,2);
   lcd.print(F("Distance light [ ]")); // Use ultrasonic to turn on light when it's off
+  lcd.setCursor(2,2);
+  lcd.print(F("Equalizer..."));       // Equalizer menue
   lcd.setCursor(2,3);
   lcd.print(F("My NOKO"));            // About NOKO menue
   while (selected!=4)
   {
     put_char(18,0,powersave? 88:32);
-    put_char(18,1,quiet? 88:32);
-    put_char(18,2,distance_light? 88:32);
+    put_char(18,1,distance_light? 88:32);
     put_char(0,menue,126);
     lcd.setCursor(18,menue);
-    (menue<3)? lcd.blink():lcd.noBlink();  
+    (menue<2)? lcd.blink():lcd.noBlink();  
     wait_1m(false,true);
     switch(selected) 
     {
@@ -2001,23 +1998,12 @@ void menue_Settings2() // "more...": More settings
             write_EEPROM(10,powersave);
             powerdown_delay(pwd_delay);
             break;
-          case 1: // Toggle sound
-            lcd.noBlink();
-            if (!quiet)
-            {
-              radio_off();
-              put_char(18,1,46);
-              mp3_off();
-              aux_off();
-            }
-            quiet=!quiet;
-            write_EEPROM(1,quiet);
-            break;
-          case 2: // Set to turn on LCD light with ultrasonic
+          case 1: // Set to turn on LCD light with ultrasonic
             distance_light=!distance_light; 
             write_EEPROM(27,distance_light);
             powerdown_delay(pwd_delay);
             break;
+          case 2: menue_Equalizer(); break;
           case 3: menue_NOKO(); break;
         }
         break;
@@ -2031,6 +2017,37 @@ void menue_Settings2() // "more...": More settings
         break;
     }
   }
+}
+
+void menue_Equalizer() // Set equalizer mode of MP3 module
+{
+   uint8_t menue=0;
+   print_icon(custom_char[15]);
+   lcd.blink();
+   lcd.print(F("Equalizer"));
+   lcd.setCursor(0,1);
+   lcd.print(F("Normal  [ ] Pop  [ ]"));
+   lcd.setCursor(0,2);
+   lcd.print(F("Rock    [ ] Jazz [ ]"));
+   lcd.setCursor(0,3);
+   lcd.print(F("Classic [ ] Bass [ ]"));
+   while (selected!=4)
+   {
+     put_char(equalizer%2==0? 9:18,(equalizer/2)+1,88);
+     lcd.setCursor(menue%2==0? 9:18,(menue/2)+1);
+     wait_1m(false,false);   
+     switch(selected)
+     {
+        case 1:
+          put_char(equalizer%2==0? 9:18,(equalizer/2)+1,32);
+          equalizer=menue;         
+          mp3.setEqualizer(equalizer);
+          write_EEPROM(1,equalizer);
+          break;
+        case 2: if (menue<5) menue++; break;
+        case 3: if (menue>0) menue--; break;
+     }
+   }
 }
 
 void menue_NOKO() // "My NOKO": About NOKO and secret sysinfo
@@ -2268,7 +2285,7 @@ void party() // Birthdaytime! Party! Party!
     if (radio_on) Radio.powerOff();
   #endif
   if (aux_on) turnOff_aux;
-  if ((!quiet) && (!mp3_on)) JQ6500_play(voice_birthday); // Play birthday song 
+  if (!mp3_on) JQ6500_play(voice_birthday); // Play birthday song 
   NewDelay(2000);
   minute_now=minute();
   while (((minute_now==minute()) || (mp3_busy)) && (selected!=4))
@@ -2389,7 +2406,7 @@ int16_t freeRam() // Free RAM in bytes
   return (int16_t)&v-(__brkval==0? (int16_t)&__heap_start:(int16_t)__brkval);
 }
 
-uint8_t read_disc(uint8_t disc_number,uint16_t address) // Read an EEPROM
+uint8_t read_disc(int8_t disc_number,uint16_t address) // Read an EEPROM
 {
   Wire.beginTransmission(disc_number);
   Wire.write((uint16_t)(address >> 8));   

@@ -1,19 +1,19 @@
 /*
- * NOKO settings EEPROM and Disk0 V1.2 12.01.2018 - Nikolai Radke
+ * NOKO settings EEPROM and Disc0 V1.3 01.03.2018 - Nikolai Radke
  * 
  * This sketch writes the presets into Arduino EEPROM and the owner name in email
  * into the AT24C32-EEPROM. If there are stories on the SD card an def_stories is
  * set, additional informations can be written to AT24C32, which is limited 
  * to 4kb. 
  * 
- * NOTE: If you are using Windows10, uncommend line 66.
+ * NOTE: If you are using Windows10, set definition in line 72.
  * 
  * To write these information, see README in folder write_eeprom.
  * 
  * Arduino-EEPROM:
  * The variables are described in the NOKO sketch.
  * offset           0 = 0
- * quiet            1 = 0
+ * equalizer        1 = 0
  * led_val          2 = 6
  * alarm_on         3 = 0
  * alarm_mm         4 = 9
@@ -45,7 +45,7 @@
  * AT24C32:
  * birth_day        0  = Birthday day
  * birth_month      1  = Birhtday month
- * max_stories      2 = Number of stories; Max 95
+ * max_stories      2  = Number of stories; Max 95
  * Byte 3-19        free
  * Byte 20-39       Owner name
  * Byte 40-79       Owner email
@@ -60,7 +60,7 @@
 #include "DS3231RTC.h"
 
 // Hardware address
-#define Disk0 0x57  // AH24C32
+#define Disc0 0x57  // AH24C32
 
 // Story feature. Comment out to disable
 #define def_stories // Stories on SD card?
@@ -82,7 +82,7 @@
 #define birth_day   7   // 07. December 
 #define birth_month 12  // That's my birthday. Keep it in your mind... :-)
 
-// Number of Stories
+// Number of stories
 #define max_stories 40 // Max 95
 
 uint16_t addr,c;
@@ -140,27 +140,27 @@ void setup()
   EEPROM.update(28,0);
   
   // Write AT24C32
-  writeDisk(Disk0,0,birth_day);
+  writeDisc(Disc0,0,birth_day);
   delay(10);
-  writeDisk(Disk0,1,birth_month);
+  writeDisc(Disc0,1,birth_month);
   delay(10);
 
   // Write owner name
   for (addr=0;addr<20;addr++)
   {
-    writeDisk(Disk0,addr+20,name[addr]);
+    writeDisc(Disc0,addr+20,name[addr]);
     delay(10);
   }
 
   // Write owner email
   for (addr=0;addr<40;addr++)
   {
-    writeDisk(Disk0,addr+40,email[addr]);
+    writeDisc(Disc0,addr+40,email[addr]);
     delay(10);
   }
 
   // Write number of stories
-  writeDisk(Disk0,2,max_stories);
+  writeDisc(Disc0,2,max_stories);
   delay(10);
 
    // Starting adress of stories
@@ -179,7 +179,7 @@ void loop()
       case 37:c=245;break; // %=ü
       case 42:c=226;break; // *=ß
     }
-    writeDisk(Disk0,addr,c);
+    writeDisc(Disc0,addr,c);
     // delay(30);
     addr++;
   #else
@@ -227,9 +227,9 @@ bool check_summertime() // Check summertime
     return false;
 }
 
-void writeDisk(uint8_t disknumber, uint16_t adresse, uint8_t data) // Write to disk
+void writeDisc(uint8_t discnumber, uint16_t adresse, uint8_t data) // Write to disc
 {
-  Wire.beginTransmission(disknumber);
+  Wire.beginTransmission(discnumber);
   Wire.write((uint16_t)(adresse >> 8));   
   Wire.write((uint16_t)(adresse & 0xFF)); 
   Wire.write(data);
