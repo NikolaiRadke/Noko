@@ -1,11 +1,11 @@
- /* NOKO V1.0 28.02.2018 - Nikolai Radke
+ /* NOKO V1.0 02.03.2018 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module! Uncommend line 88 if it's not present.
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.348 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 27.360 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -13,7 +13,7 @@
  * These options save flash but are not needed since IDE 1.6.10. Optiboot is still recommended.
  * See https://github.com/NikolaiRadke/NOKO/blob/master/howto_compile/README.md
  * 
- * char()-list: 32=space 37=% 46=. 47=/ 48=0 58=: 68=D 78=N 80=P 82=R 83=S 86=V 87=W
+ * char()-list: 32=space 37=% 46=. 47=/ 48=0 58=: 68=D 78=N 80=P 82=R 83=S 86=V 87=W 88=X
  *              110=n 120=x | 225=ä 226=ß 239=ö 245=ü (German only)
  *         
  * TODO:
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-280218"
+#define Firmware "-020318"
 #define Version 10  // 1.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
@@ -292,21 +292,6 @@ init();
   PORTD=B01000000;  // D6 MOSFET HIGH: Turn off amplifier to prevent startup noise
   //PORTB=B00000000; 
   PORTC=B00000001;  // A0: INPUT_PULLUP 
-
-  // Start JQ6500
-  mp3.begin(9600);
-  mp3.pause();
-  mp3.reset();
-  NewDelay(500);
-  mp3.setVolume(vol_mp3);
-  mp3.setLoopMode(MP3_LOOP_NONE); // Play only once
-  
-  // Start Radio
-  #ifdef def_radio
-    Radio.powerOn();  // Needs to start once!
-    Radio.setVolume(vol_radio);
-    Radio.powerOff();
-  #endif
  
   // Read Arduino EEPROM
   offset=EEPROM.read(0)*30;
@@ -340,6 +325,22 @@ init();
     max_stories=read_disc(Disc0,2);      // Number of stories
   #else
     max_stories=0;
+  #endif
+
+   // Start JQ6500
+  mp3.begin(9600);
+  mp3.pause();
+  mp3.reset();
+  NewDelay(500);
+  mp3.setVolume(vol_mp3);
+  mp3.setLoopMode(MP3_LOOP_NONE); // Play only once
+  mp3.setEqualizer(equalizer);
+  
+  // Start Radio
+  #ifdef def_radio
+    Radio.powerOn();  // Needs to start once!
+    Radio.setVolume(vol_radio);
+    Radio.powerOff();
   #endif
   
   // Start RTC and switch off useless functions for power saving
@@ -2422,7 +2423,7 @@ int16_t freeRam() // Free RAM in bytes
   return (int16_t)&v-(__brkval==0? (int16_t)&__heap_start:(int16_t)__brkval);
 }
 
-uint8_t read_disc(uint8_t disc_number,uint16_t address) // Read an EEPROM
+uint8_t read_disc(int8_t disc_number,uint16_t address) // Read an EEPROM
 {
   Wire.beginTransmission(disc_number);
   Wire.write((uint16_t)(address >> 8));   

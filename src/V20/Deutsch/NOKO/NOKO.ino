@@ -1,11 +1,11 @@
- /* NOKO V2.0 27.02.2018 - Nikolai Radke
+ /* NOKO V2.0 02.03.2018 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module! Uncommend line 88 if it's not present.
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.954 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 27.956 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-270218"
+#define Firmware "-020318"
 #define Version 20  // 2.0 - PCB
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
@@ -2453,7 +2453,7 @@ int16_t freeRam() // Free RAM in bytes
   return (int16_t)&v-(__brkval==0? (int16_t)&__heap_start:(int16_t)__brkval);
 }
 
-uint8_t read_disc(uint8_t disc_number,uint16_t address) // Read an EEPROM
+uint8_t read_disc(int8_t disc_number,uint16_t address) // Read an EEPROM
 {
   Wire.beginTransmission(disc_number);
   Wire.write((uint16_t)(address >> 8));   
