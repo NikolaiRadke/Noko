@@ -34,7 +34,7 @@ The program sends the content of the text file **Disc0** or **Disc1** via Arduin
 3. Write the text file to EEPROM with the command  
 ``` write_Disc0 > COM1 ```  
 or  
-``` ./write_Disc1 > COM1 ```  
+``` write_Disc1 > COM1 ```  
 If another USB port is used by NOKO, modify COM1 to COM2 or whatever the IDE tells you. The program sends the content of the text file **Disc0** or **Disc1** via Arduino to the EEPROM. You can watch your Arduino's RX and TX LEDs blinking furiously. This may take a while, Disc1 needs about 20 minutes... *yawn*
 
 ## Windows 8  
