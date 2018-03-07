@@ -4,8 +4,6 @@
  * This sketch writes the presets into Arduino EEPROM and never or rare used 
  * constants into the AT24C32-EEPROM. 
  * 
- * NOTE: If you are using Windows10, uncommend line 66.
- * 
  * To write these information, see README in folder write_eeprom.
  * 
  * Arduino-EEPROM:
@@ -64,9 +62,6 @@
 // Set Timezone
 #define zz 1        // Timezone 1 = UTC+1 | CET - Summertime/CEST will be calculated!
 
-// Set your OS. Only Windows 10 needs this option.
-//#define Windows10
-
 // Personal informations
 //            "                    "
 #define name  "Nikolai Radke       "
@@ -96,12 +91,7 @@ void setup()
 {
   // Read time from computer
   if (getDate(__DATE__) && getTime(__TIME__)) RTC.write(tm);
-  
-  #ifdef Windows10
-    Serial.begin(115200);
-  #else
-    Serial.begin(9600);
-  #endif
+
   Wire.begin();
   delay(100);
      
