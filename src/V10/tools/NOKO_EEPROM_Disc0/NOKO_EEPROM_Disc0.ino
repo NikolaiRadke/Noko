@@ -6,7 +6,7 @@
  * set, additional informations can be written to AT24C32, which is limited 
  * to 4kb. 
  * 
- * NOTE: If you are using Windows10, set definition in line 72.
+ * NOTE: If you are using Windows10, set definition in line 73.
  * 
  * To write these information, see README in folder write_eeprom.
  * 
