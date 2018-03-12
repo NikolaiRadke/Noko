@@ -1,7 +1,8 @@
 # Newsblog
 
 ## 2018  
-* **02.03.2013** Firmware **X.0-020318** - Bugfix: No more compiling warnings. I sacrificed two precious bytes for your relief.  
+* **07.03.2018** Firmware **X.0-070318** - Enhancement: You can select weekdays for the alarm. Very handy!  
+* **02.03.2018** Firmware **X.0-020318** - Bugfix: No more compiling warnings. I sacrificed two precious bytes for your relief.  
 * **01.03.2018** Testing firmware and tools to be released. The manual got an update too.  
 * **28.02.2018** Firmware **1.0-280218**  
   PCB NOKOs got the new update yesterday, today it's time for handmade NOKO.  

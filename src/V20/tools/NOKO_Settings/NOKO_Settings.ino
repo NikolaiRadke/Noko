@@ -1,10 +1,8 @@
 /*
- * NOKO settings V2.0 27.02.2018 - Nikolai Radke
+ * NOKO settings V2.0 07.03.2018 - Nikolai Radke
  * 
  * This sketch writes the presets into Arduino EEPROM and never or rare used 
  * constants into the AT24C32-EEPROM. 
- * 
- * NOTE: If you are using Windows10, uncommend line 66.
  * 
  * To write these information, see README in folder write_eeprom.
  * 
@@ -30,7 +28,7 @@
  * radio_freq_high  17 = 89
  * radio_freq_low   18 = 9
  * alarm_mp3        19 = 2
- * firmware         20 = 20 -> 2.0 - will stay without offset.
+ * firmware         20 = 20 -> 2.0 - will stay without offset
  * radio_station_1h 21 = 101
  * radio_station_1l 22 = 3
  * radio_station_2h 23 = 89
@@ -39,15 +37,17 @@
  * radio_station_3l 26 = 0
  * distance_ligh    27 = 1
  * night_lcd_dimm   28 = 0
+ * alarm_days       29 = 82 - Mon, Tue, Wed, Thu, Fri
  * 
  * AT24C32:
  * birth_day        0  = Birthday day
  * birth_month      1  = Birhtday month
- * max_stories      2 = Number of stories
+ * max_stories_h    2 = Number of stories, high byte
+ * max_stories_l    3 = low byte
  * Byte 3-19        free
  * Byte 20-39       Owner name
  * Byte 40-79       Owner email
- * Byte 80-4091     Reserverd for... whatever the future tells me.
+ * Byte 80-4091     Reserverd for... whatever the future tells me
 
  */
 
@@ -61,9 +61,6 @@
 
 // Set Timezone
 #define zz 1        // Timezone 1 = UTC+1 | CET - Summertime/CEST will be calculated!
-
-// Set your OS. Only Windows 10 needs this option
-//#define Windows10
 
 // Personal informations
 //            "                    "
@@ -82,7 +79,7 @@
 uint8_t  high,low;
 uint16_t addr,c;
 
-// Needed to parse __DATE__ but does not touch NOKOs language
+// Needed to parse __DATE__ but does not touch NOKOs language.
 const char *monthName[12] = {
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -94,12 +91,7 @@ void setup()
 {
   // Read time from computer
   if (getDate(__DATE__) && getTime(__TIME__)) RTC.write(tm);
-  
-  #ifdef Windows10
-    Serial.begin(115200);
-  #else
-    Serial.begin(9600);
-  #endif
+
   Wire.begin();
   delay(100);
      
@@ -124,7 +116,7 @@ void setup()
   EEPROM.update(17,99);
   EEPROM.update(18,25);
   EEPROM.update(19,2);
-  EEPROM.update(20,10);
+  EEPROM.update(20,20);
   EEPROM.update(21,101);
   EEPROM.update(22,30);
   EEPROM.update(23,89);
@@ -133,6 +125,7 @@ void setup()
   EEPROM.update(26,0);
   EEPROM.update(27,1);
   EEPROM.update(28,0);
+  EEPROM.update(29,62);
   
   // Write constants to AT24C32
   writeDisc(Disc0,0,birth_day);

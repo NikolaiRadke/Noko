@@ -30,7 +30,7 @@ The program sends the content of the text file **EEPROM** via Arduino to the EEP
 
 2. Chance the directoy to ` NOKO/write_eeprom/  `  
 
-3. Write the text file to EEPROM with the command  ``` ./write_eeprom > COM1 ```  
+3. Write the text file to EEPROM with the command  ``` write_eeprom > COM1 ```  
 If another USB port is used by NOKO, modify COM1 to COM2 or whatever the IDE tells you. The program sends the content of the text file **EEPROM** via Arduino to the EEPROM. You can watch your Arduino's RX and TX LEDs blinking furiously. This may take a while, Disk1 needs about 18 minutes... *yawn*
 
 ## Windows 8  

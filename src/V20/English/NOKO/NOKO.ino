@@ -1,11 +1,11 @@
- /* NOKO V2.0 02.03.2018 - Nikolai Radke
+ /* NOKO V2.0 07.03.2018 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - English/PCB
  * NOTE: Does NOT run without the Si4703 Radio Module! Uncommend line 88 if it's not present.
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.808 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 28.256 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-270218"
+#define Firmware "-070318"
 #define Version 20  // 2.0
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "My NOKO" menu
 
@@ -179,6 +179,7 @@ uint8_t  birth_day,birth_month;  // Birthday gt=day, gm=month
 uint8_t  alarm_type;             // Whicht type of alarm
 uint8_t  alarm_tone,alarm_mp3;   // Which tone and mp3
 uint8_t  alarm_mm,alarm_hh;      // Alarm time hh:mm
+uint8_t  alarm_days;             // 8 bit boolean for the weekdays
 uint8_t  night_mm,night_hh;      // Nightmode from hh:mm
 uint8_t  night_to_mm,night_to_hh;// To hh:mm
 uint8_t  distance_val;           // Ultrasonic reaction distance 0-9 
@@ -305,6 +306,7 @@ init();
     radio_station[help]=(read_EEPROM(21+(help*2))*10)+(read_EEPROM(22+(help*2)));
   distance_light=read_EEPROM(27);
   night_lcd_dimm=read_EEPROM(28);
+  alarm_days=read_EEPROM(29);
 
   //  Read AT24C32 
   birth_day=read_disc(Disc0,0);          // Birthday day
@@ -967,7 +969,7 @@ boolean check_alarm() // Is it time for the alarm?
   if ((alarm_on) && (!alarm_now)) // Prevent double check
   {
     read_time();                  // Read internal time
-    if (!alarm_mute)              // Is alarm allowed?
+    if ((!alarm_mute) && (alarm_days & (1<<weekday()-1))) // Is alarm allowed and day selected?
       if ((alarm_mm==tm.Minute) && (alarm_hh==tm.Hour)) 
       {
         alarm();                  // Yes! Alarm!
@@ -1555,8 +1557,8 @@ void menue_Alarm()  // Set alarm. No alarm allowed in this menue
   lcd.print(char(58));
   if (alarm_mm<10) print_zero();
   lcd.print(alarm_mm);
-  lcd.setCursor(0,1);
-  lcd.print(F("New alarm time"));
+  lcd.setCursor(2,2);
+  lcd.print(F("Days     [       ]"));
   lcd.setCursor(2,3);
   lcd.print(F("Alarm tone [     ]"));
   lcd.setCursor(14,3);
@@ -1569,24 +1571,43 @@ void menue_Alarm()  // Set alarm. No alarm allowed in this menue
   lcd.blink();
   while(selected!=4)
   {
-    put_char(0,(menue<5)? 3:2,32);
-    put_char(0,(menue<5)? 2:3,126);
-    lcd.setCursor(2,2);  
+    lcd.setCursor(12,2);
+    lcd.print(bool(alarm_days & 2)? char(77):char(32));  // M
+    lcd.print(bool(alarm_days & 4)? char(84):char(32));  // T
+    lcd.print(bool(alarm_days & 8)? char(87):char(32));  // W 
+    lcd.print(bool(alarm_days & 16)? char(84):char(32)); // T
+    lcd.print(bool(alarm_days & 32)? char(70):char(32)); // F
+    lcd.print(bool(alarm_days & 64)? char(83):char(32)); // S
+    lcd.print(bool(alarm_days & 1)? char(83):char(32));  // S
+    put_char(0,1,32);
+    put_char(0,2,32);
+    put_char(0,3,32);
+    if (menue<5) put_char(0,1,126);
+    else if (menue<12) put_char(0,2,126);
+    else put_char(0,3,126);
+    lcd.setCursor(2,1);  
     if (alarm_hh<10) print_zero();
     lcd.print(alarm_hh);
     lcd.print(char(58));
     if (alarm_mm<10) print_zero();
     lcd.print(alarm_mm);
-    print_space(7,2,6);
+    print_space(11,1,4);
     (alarm_on)? lcd.print(F("[on ]")):lcd.print(F("[off]")); // Alarm on/off?
     switch(menue)
     {
-      case 0: lcd.setCursor(2,2); break;
-      case 1: lcd.setCursor(3,2); break;
-      case 2: lcd.setCursor(5,2); break;
-      case 3: lcd.setCursor(6,2); break;
-      case 4: lcd.setCursor(14,2); break;
-      case 5: lcd.setCursor(14,3); break;
+      case 0: lcd.setCursor(2,1); break;
+      case 1: lcd.setCursor(3,1); break;
+      case 2: lcd.setCursor(5,1); break;
+      case 3: lcd.setCursor(6,1); break;
+      case 4: lcd.setCursor(16,1); break;
+      case 5: lcd.setCursor(12,2); break;
+      case 6: lcd.setCursor(13,2); break;
+      case 7: lcd.setCursor(14,2); break;
+      case 8: lcd.setCursor(15,2); break;
+      case 9: lcd.setCursor(16,2); break;
+      case 10: lcd.setCursor(17,2); break;
+      case 11: lcd.setCursor(18,2); break;     
+      case 12: lcd.setCursor(14,3); break;
     }
     wait_1m(false,true);
     switch(selected)
@@ -1601,13 +1622,20 @@ void menue_Alarm()  // Set alarm. No alarm allowed in this menue
           case 2: (alarm_mm<49)? alarm_mm+=10:alarm_mm%=10; break;
           case 3: (alarm_mm%10==9)? alarm_mm-=9:alarm_mm++; break;
           case 4: alarm_on=!alarm_on; break;
-          case 5:
+          case 5: bool(alarm_days & 2)? alarm_days &= ~(2):alarm_days |= 2; break;
+          case 6: bool(alarm_days & 4)? alarm_days &= ~(4):alarm_days |= 4; break;
+          case 7: bool(alarm_days & 8)? alarm_days &= ~(8):alarm_days |= 8; break;
+          case 8: bool(alarm_days & 16)? alarm_days &= ~(16):alarm_days |= 16; break;
+          case 9: bool(alarm_days & 32)? alarm_days &= ~(32):alarm_days |= 32; break;
+          case 10: bool(alarm_days & 64)? alarm_days &= ~(64):alarm_days |= 64; break;
+          case 11: bool(alarm_days & 1)? alarm_days &= ~(1):alarm_days |= 1; break;
+          case 12:
             lcd.noBlink();
             menue_AlarmType();
             break;
         }
         break;
-      case 2: if (menue<5) menue++; break;
+      case 2: if (menue<12) menue++; break;
       case 3: if (menue>0) menue--; break;
     }
   }
@@ -1616,6 +1644,7 @@ void menue_Alarm()  // Set alarm. No alarm allowed in this menue
     write_EEPROM(3,alarm_on);
     write_EEPROM(4,alarm_mm);
     write_EEPROM(5,alarm_hh);
+    write_EEPROM(29,alarm_days);
   }
   lcd.createChar(0,custom_char[0]);
   alarm_now=false;

@@ -21,7 +21,7 @@ used by this library. However, NOKO uses newdelay() to save a lot of flash space
 added. 
 
 si4703_init()       Modified for NOKO with direct port manipulation
-newdelay()          Was added - safes flash!
+newdelay()          Was added - saves flash!
 powerOff()          Was added
 setSoftMuteOff()    Was added (but unused)
 setSoftMuteOn()     Was added (but unused)

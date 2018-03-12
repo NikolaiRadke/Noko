@@ -8,14 +8,14 @@ void setup() {
   Serial.begin (9600);
   Serial.println ("Looking for I2C-devices...");
   Wire.begin();
-  for (byte adress=8; adress<120; adress++)
+  for (byte address=8; address<120; address++)
   {
-    Wire.beginTransmission(adress);
+    Wire.beginTransmission(address);
     if (Wire.endTransmission()==0)
     {
       Serial.print(number+1);
       Serial.print(". Device: 0x");
-      Serial.println(adress, HEX);
+      Serial.println(address, HEX);
       number++;
     }
   }

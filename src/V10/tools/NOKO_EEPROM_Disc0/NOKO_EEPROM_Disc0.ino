@@ -1,12 +1,12 @@
 /*
- * NOKO settings EEPROM and Disc0 V1.3 01.03.2018 - Nikolai Radke
+ * NOKO settings EEPROM and Disc0 V1.4 07.03.2018 - Nikolai Radke
  * 
  * This sketch writes the presets into Arduino EEPROM and the owner name in email
  * into the AT24C32-EEPROM. If there are stories on the SD card an def_stories is
  * set, additional informations can be written to AT24C32, which is limited 
  * to 4kb. 
  * 
- * NOTE: If you are using Windows10, set definition in line 72.
+ * NOTE: If you are using Windows10, set definition in line 73.
  * 
  * To write these information, see README in folder write_eeprom.
  * 
@@ -41,6 +41,7 @@
  * radio_station_3l 26 = 0
  * distance_ligh    27 = 1
  * night_lcd_dimm   28 = 0
+ * alarm_days       29 = 82 - Mon, Tue, Wed, Thu, Fri
  * 
  * AT24C32:
  * birth_day        0  = Birthday day
