@@ -1,6 +1,7 @@
 # Newsblog
 
 ## 2018  
+* **13.03.2018** The german manual got an update. All new functions are described now.  
 * **07.03.2018** Firmware **X.0-070318** - Enhancement: You can select weekdays for the alarm. Very handy!  
 * **02.03.2018** Firmware **X.0-020318** - Bugfix: No more compiling warnings. I sacrificed two precious bytes for your relief.  
 * **01.03.2018** Testing firmware and tools to be released. The manual got an update too.  
