@@ -150,6 +150,7 @@
 #define turnOn_aux      PORTD |= (1<<7)   // AUX HIGH=on
 #define turnOff_aux     PORTD &= ~(1<<7)  // AUX LOW=off
 #define mp3_busy        (analogRead(1)>1) // Busy=HIGH?
+// #define mp3_busy     PIND & (1<<4)     // Digital reading on D4
 
 // Libraries
 #include <avr/power.h>
@@ -306,7 +307,8 @@ init();
     radio_station[help]=(read_EEPROM(21+(help*2))*10)+(read_EEPROM(22+(help*2)));
   distance_light=read_EEPROM(27);
   night_lcd_dimm=read_EEPROM(28);
-  max_stories=(read_EEPROM(17)*29)+(read_EEPROM(30));
+  //max_stories=(read_EEPROM(17)*29)+(read_EEPROM(30));
+  max_stories=99;
   alarm_days=read_EEPROM(29);
 
   //  Read AT24C32 
