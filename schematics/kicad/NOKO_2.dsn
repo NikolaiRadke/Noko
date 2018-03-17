@@ -1116,7 +1116,7 @@
       (pins C1-1 R4-1 J1-3 U3-8 U3-2)
     )
     (net 5V
-      (pins C13-1 Q1-3 U6-8 P7-3 P8-4 C3-1 C10-1 U1-1 M2-15 M2-14 M3-2 U5-27)
+      (pins C13-1 Q1-3 U6-8 P7-3 P8-4 C3-1 C10-1 U1-3 M2-15 M2-14 M3-2 U5-27)
     )
     (net "Net-(C5-Pad1)"
       (pins U3-4 C5-1)
@@ -1326,7 +1326,7 @@
       (pins P1-1 U2-5 U2-16)
     )
     (net A6
-      (pins J1-2 U1-3 U5-25)
+      (pins J1-2 U1-1 U5-25)
     )
     (net A_D+
       (pins U5-32 M1-7)
