@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /home/stoth05/Dokumente/Github/NOKO/schematics/kicad/NOKO_2.sch)
-    (date "Fr 16 Mär 2018 20:02:58 CET")
+    (date "Sa 17 Mär 2018 17:07:53 CET")
     (tool "Eeschema 4.0.6+dfsg1-1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
