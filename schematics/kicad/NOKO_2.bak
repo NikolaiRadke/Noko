@@ -1,4 +1,5 @@
 EESchema Schematic File Version 2
+LIBS:NOKO_2-rescue
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -552,7 +553,7 @@ F 1 "D" H 9300 5750 50  0000 C CNN
 F 2 "Diodes_THT:D_DO-41_SOD81_P7.62mm_Horizontal" H 9300 5850 50  0001 C CNN
 F 3 "" H 9300 5850 50  0000 C CNN
 	1    9300 5850
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L GND #PWR01
@@ -1397,7 +1398,7 @@ Wire Wire Line
 Wire Wire Line
 	4800 750  4800 700 
 $Comp
-L MT3608 U1
+L MT3608-RESCUE-NOKO_2 U1
 U 1 1 5A6F4110
 P 2300 2650
 F 0 "U1" H 2200 2550 60  0000 C CNN
