@@ -17,7 +17,7 @@
 //#define Windows10
 
 uint16_t addr=0;
-uint8_t  c;
+uint8_t  low,c;
 
 
 void setup() 
@@ -35,19 +35,26 @@ void loop()
 {
   while(Serial.available()==0);
   c=Serial.read();
-  switch(c) // Convert Umlaute
+  low=c & 0x00FF;
+  if (low!=0xC3)
   {
-      case 35:c=225;break; // #=ä
-      case 36:c=239;break; // $=ö
-      case 37:c=245;break; // %=ü
-      case 42:c=226;break; // *=ß
+    writeDisc(Disc1,addr,low);
+    addr++;
   }
-  writeDisk(Disc1,addr,c);
-  addr++;
 }
 
-void writeDisk(uint8_t discnumber, uint16_t address, uint8_t data) 
+void writeDisc(uint8_t discnumber, uint16_t address, uint8_t data) 
 {
+  switch (data)                 // Converting German character. Set your own language here
+  {
+    case 0x84: data=1;   break; // Ä -> Not in LCD charset, custom character
+    case 0xA4: data=225; break; // ä
+    case 0x96: data=2;   break; // Ö -> As above
+    case 0xB6: data=239; break; // ö
+    case 0x9C: data=3;   break; // Ü -> The same
+    case 0xBC: data=245; break; // ü
+    case 0x9F: data=226; break; // ß
+  }
   Wire.beginTransmission(discnumber);
   Wire.write((uint16_t)(address >> 8));   
   Wire.write((uint16_t)(address & 0xFF)); 

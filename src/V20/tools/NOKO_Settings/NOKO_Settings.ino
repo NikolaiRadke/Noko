@@ -1,5 +1,5 @@
 /*
- * NOKO settings V2.0 07.03.2018 - Nikolai Radke
+ * NOKO settings V2.1 19.03.2018 - Nikolai Radke
  * 
  * This sketch writes the presets into Arduino EEPROM and never or rare used 
  * constants into the AT24C32-EEPROM. 
@@ -63,11 +63,11 @@
 #define zz 1        // Timezone 1 = UTC+1 | CET - Summertime/CEST will be calculated!
 
 // Personal informations
-//            "                    "
-#define name  "Nikolai Radke       "
-
-//            "                                        "
-#define email "kontakt@            nikolairadke.de     "
+//              "                    "
+#define myname  "Nikolai Radke       "
+   
+//              "                                        "
+#define myemail "kontakt@            nikolairadke.de     "
 
 // Birthday: gt=day, gm=month
 #define birth_day   7   // 07. December 
@@ -76,8 +76,8 @@
 // Number of Stories
 #define max_stories 40  //
 
-uint8_t  high,low;
-uint16_t addr,c;
+uint8_t  high,low,help;
+uint16_t addr;
 
 // Needed to parse __DATE__ but does not touch NOKOs language.
 const char *monthName[12] = {
@@ -89,6 +89,7 @@ tmElements_t tm;
 
 void setup() 
 {
+  Serial.begin(9600);
   // Read time from computer
   if (getDate(__DATE__) && getTime(__TIME__)) RTC.write(tm);
 
@@ -140,17 +141,26 @@ void setup()
   delay(10);
 
   // Write owner name
-  for (addr=0;addr<20;addr++)
+  addr=20;
+  for (help=0;help<strlen(myname);help++)
   {
-    writeDisc(Disc0,addr+20,name[addr]);
-    delay(10);
+    low=myname[help] & 0x00FF;
+    if (low!=0xC3)
+    {
+      writeDisc(Disc0,addr,low);
+      addr++;
+    }
   }
 
   // Write owner email
-  for (addr=0;addr<40;addr++)
+  for (help=0;help<strlen(myemail);help++)
   {
-    writeDisc(Disc0,addr+40,email[addr]);
-    delay(10);
+    low=myemail[help] & 0x00FF;
+    if (low!=0xC3)
+    {
+      writeDisc(Disc0,addr,low);
+      addr++;
+    }
   }
 }
 
@@ -199,6 +209,16 @@ bool check_summertime() // Check summertime
 
 void writeDisc(uint8_t discnumber, uint16_t address, uint8_t data) // Write to disc
 {
+  switch (data)                 // Converting German character. Set your own language here
+  {
+    case 0x84: data=1;   break; // Ä -> Not in LCD charset, custom character
+    case 0xA4: data=225; break; // ä
+    case 0x96: data=2;   break; // Ö -> As above
+    case 0xB6: data=239; break; // ö
+    case 0x9C: data=3;   break; // Ü -> The same
+    case 0xBC: data=245; break; // ü
+    case 0x9F: data=226; break; // ß
+  }
   Wire.beginTransmission(discnumber);
   Wire.write((uint16_t)(address >> 8));   
   Wire.write((uint16_t)(address & 0xFF)); 
@@ -206,4 +226,5 @@ void writeDisc(uint8_t discnumber, uint16_t address, uint8_t data) // Write to d
   Wire.endTransmission();
   delay(5);
 }
+
 

@@ -1,4 +1,4 @@
- /* NOKO Diagnostics V0.8 03.02.2017 - Nikolai Radke
+ /* NOKO Diagnostics V0.9 19.03.2017 - Nikolai Radke
   *  
   *  Sketch for testing NOKO functions.
   *  This sketch aims to be easy. Clear source code and no libraries.
@@ -12,8 +12,8 @@
 #include <SoftwareSerial.h>
 
 #define Radio 0x10        // Si4703 radio
-#define Disk1 0x50        // 24LC256 32 kBye EEPROM
-#define Disk0 0x57        // AH24C32 4 kByte EEPROM
+#define Disc1 0x50        // 24LC256 32 kBye EEPROM
+#define Disc0 0x57        // AH24C32 4 kByte EEPROM
 #define RTC   0x68        // Real time clock DS3231
 
 #define Freq  997         // Radio station
@@ -76,12 +76,12 @@ void setup()
         Serial.println(F(" Radio found"));
         radio=true;
       }
-      if (help==Disk1) 
+      if (help==Disc1) 
       {
         Serial.println(F(" 24LCXXX found"));
         eeprom=true;
       }
-      if (help==Disk0) 
+      if (help==Disc0) 
       {
         Serial.println(F(" AT24C32 found"));
         rtc_eeprom=true;
@@ -299,14 +299,14 @@ void loop()
   Serial.println("\nDone.\n");
 }
 
-byte readDisk(uint8_t disknummer, int adresse) // Read an EEPROM
+uint8_t readDisc(uint8_t discnumber, uint16_t address) // Read an EEPROM
 {
   uint8_t rdata = 0xFF; 
-  Wire.beginTransmission(disknummer);
-  Wire.write((int)(adresse >> 8));   
-  Wire.write((int)(adresse & 0xFF)); 
+  Wire.beginTransmission(discnumber);
+  Wire.write((int)(address >> 8));   
+  Wire.write((int)(address & 0xFF)); 
   Wire.endTransmission();
-  Wire.requestFrom(disknummer,1);
+  Wire.requestFrom(discnumber,1);
   if (Wire.available()) rdata = Wire.read();
   return rdata;
 }
@@ -316,7 +316,7 @@ void si4703_readRegisters()
 {
   Wire.requestFrom(Radio,32);      // Read all 32 bytes
   while(Wire.available()<32) ; 
-  for(byte x=0x0A;;x++) 
+  for(uint8_t x=0x0A;;x++) 
   { 
     if(x==0x10) x=0;              // Loop back to zero
     si4703_registers[x]=Wire.read()<<8;
@@ -328,13 +328,14 @@ void si4703_readRegisters()
 void si4703_updateRegisters() 
 {
   Wire.beginTransmission(Radio);             // Writing begins with 0x02
-  for (byte regSpot=0x02 ;regSpot<0x08;regSpot++) 
+  for (uint8_t regSpot=0x02 ;regSpot<0x08;regSpot++) 
   {
-    byte high_byte=si4703_registers[regSpot] >> 8;
-    byte low_byte=si4703_registers[regSpot] & 0x00FF;
+    uint8_t high_byte=si4703_registers[regSpot] >> 8;
+    uint8_t low_byte=si4703_registers[regSpot] & 0x00FF;
     Wire.write(high_byte);                  // Upper 8 bits
     Wire.write(low_byte);                   // Lower 8 bits
   }
   Wire.endTransmission();
 }
+
 

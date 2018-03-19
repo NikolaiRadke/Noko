@@ -1,11 +1,11 @@
- /* NOKO V2.0 07.03.2018 - Nikolai Radke
+ /* NOKO V2.0 19.03.2018 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module! Uncommend line 88 if it's not present.
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.414 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 28.508 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-070318"
+#define Firmware "-190318"
 #define Version 20  // 2.0 - PCB
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
@@ -226,7 +226,7 @@ const uint8_t event_trigger[10]={0,120,60,45,30,15,10,5,3,1};
 
 // Custom characters. Number set was made by Ishan Karve. Awesome!
 // Putting this array into PROGMEM caused strange output. Bizarre.
-uint8_t custom_char[19][8]=
+uint8_t custom_char[22][8]=
 {
   {B00111,B01111,B11111,B11111,B11111,B11111,B11111,B11111},
   {B11111,B11111,B11111,B00000,B00000,B00000,B00000,B00000},
@@ -246,7 +246,11 @@ uint8_t custom_char[19][8]=
   {B00001,B00011,B00101,B01001,B01001,B01011,B11011,B11000}, // Note
   {B00000,B01110,B10101,B10111,B10001,B01110,B00000,B00000}, // Clock
   {B00100,B01110,B01110,B01110,B11111,B00000,B00100,B00000}, // Bell
-  {B00011,B00110,B01100,B11100,B01100,B00110,B00011,B00000}  // Moon
+  {B00011,B00110,B01100,B11100,B01100,B00110,B00011,B00000}, // Moon
+  
+  {B10001,B01110,B10001,B10001,B10001,B11111,B10001,B10001}, // German Ä
+  {B10001,B01110,B10001,B10001,B10001,B10001,B10001,B01110}, // German Ö
+  {B01010,B00000,B10001,B10001,B10001,B10001,B10001,B01110}  // German Ü
 };
 
 tmElements_t tm;
@@ -458,6 +462,7 @@ while(1)
       { 
         distance_off=!distance_off;
         draw_time();
+        event();
       }
       break;
     case 3:                                   // Left: toggle display & power save
@@ -584,6 +589,13 @@ void init_char() // Read custom chars again
   lcd.clear();
   for (uint8_t help=0;help<8;help++)
     lcd.createChar(help,custom_char[help]);
+}
+
+void init_special_char()
+{
+  lcd.createChar(1,custom_char[19]);
+  lcd.createChar(2,custom_char[20]);
+  lcd.createChar(3,custom_char[21]);
 }
 
 void clearnum(uint8_t x,uint8_t y) // Delete a big number at x,y
@@ -1179,7 +1191,6 @@ void menue_Radio() // Radio menue "Radio hoeren"
   lcd.createChar(1,custom_char[9]);
   lcd.createChar(2,custom_char[11]);
   lcd.createChar(3,custom_char[12]);
-  lcd.createChar(4,custom_char[8]);
   print_icon(custom_char[15]);
   while (selected!=4)
   {
@@ -1192,7 +1203,8 @@ void menue_Radio() // Radio menue "Radio hoeren"
     lcd.print(F("[1|s] [2|s] [3|s] "));
     print_space(1,1,19);
     lcd.blink();
-    put_char(9,2,radio_on? 1:4);
+    lcd.createChar(1,custom_char[radio_on? 9:8]);
+    put_char(9,2,1);
     lcd.setCursor(2,0);
     lcd.print(float(radio_freq)/10,2);
     print_onespace();
@@ -1341,19 +1353,19 @@ void menue_MP3(uint8_t modus)
   uint16_t file_length,index_start,index,max_index;
   boolean must_update=true;
   char name_buffer[12];
-  lcd.createChar(1,custom_char[9]);
-  lcd.createChar(2,custom_char[10]);
-  lcd.createChar(3,custom_char[8]);
-  lcd.createChar(4,custom_char[11]);
-  lcd.createChar(5,custom_char[12]);
+  init_special_char();
+  lcd.createChar(4,custom_char[8]);
+  lcd.createChar(5,custom_char[10]);
+  lcd.createChar(6,custom_char[11]);
+  lcd.createChar(7,custom_char[12]);
   print_icon(custom_char[15]);
   lcd.setCursor(1,3);
   put_char(1,3,91);
-  lcd.print(char(4));
+  lcd.print(char(6));
   lcd.print(F("][<][ ][ ][>]["));
-  lcd.print(char(5));
+  lcd.print(char(7));
   lcd.print(char(93));
-  put_char(11,3,2);
+  put_char(11,3,5);
   if (mp3_pause) menue=2;
   if (!mp3_on) while (mp3_busy);
   lcd.blink();
@@ -1439,7 +1451,8 @@ void menue_MP3(uint8_t modus)
       if (modus==3) lcd.print(F("Keine MP3s"));// No MP3s found!
       lcd.setCursor(12,0);
       if (mp3_pause) lcd.print(F("   PAUSE"));
-      put_char(8,3,((mp3_busy) || (mp3_pause))? 1:3);
+      lcd.createChar(4,custom_char[((mp3_busy) || (mp3_pause))? 9:8]);
+      put_char(8,3,4);
     }
     lcd.setCursor(2+(menue*3),3);
     wait_1m(true,true);
@@ -2129,6 +2142,7 @@ void menue_Equalizer() // Set equalizer mode of MP3 module
 void menue_NOKO() // "Mein NOKO": About NOKO and secret sysinfo
 {
   uint8_t help;
+  init_special_char();
   print_icon(custom_char[13]);
   lcd.print(F("Dieser NOKO geh rt"));
   put_char(17,0,239);
@@ -2140,6 +2154,7 @@ void menue_NOKO() // "Mein NOKO": About NOKO and secret sysinfo
     lcd.print(char(read_disc(Disc0,20+help)));   
   }
   wait_1m(false,false);
+  init_char();
   lcd.createChar(0,custom_char[0]);
   lcd.clear();
   bignum(0,0,11); // Draw "NOKO"
@@ -2215,7 +2230,11 @@ void event() // Time bases events
   if (lcd_off) help2=10;            // If display is turned off, only start the voice event
   lcd.noBlink();
   if ((help2<8) && (lcd_dimm) && !((nightmode_on) && (night_now))) lcd.backlight();
-  if (help2<5) lcd.clear();
+  if (help2<5) 
+  {
+    lcd.clear();
+    init_special_char();
+  }
   switch(help2)
   {
     #ifdef def_external_eeprom      // External EEPROM
