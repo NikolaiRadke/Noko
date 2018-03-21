@@ -98,7 +98,7 @@ void setup()
 
 void loop()
 {
-  Serial.println(F("NOKO Diagnostics V0.8\n\n"));
+  Serial.println(F("NOKO Diagnostics V0.9\n\n"));
   Serial.print(F("Display ["));
   Serial.print(lcd? "X":" ");
   Serial.print(F("] Radio ["));
@@ -226,13 +226,13 @@ void loop()
     case '8':
       Serial.println(F("Reading first 100 characters from EEPROM:"));
       for (help=0;help<100;help++)
-        Serial.print(char(readDisk(Disk1,help)));
+        Serial.print(char(readDisc(Disc1,help)));
       Serial.println();
       break;
     case '9':
       Serial.println(F("Reading owner name and email address:"));
       for (help=20;help<80;help++)
-        Serial.print(char(readDisk(Disk0,help)));
+        Serial.print(char(readDisc(Disc0,help)));
       Serial.println();
       break;
     case 'a':

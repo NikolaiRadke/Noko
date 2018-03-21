@@ -311,8 +311,7 @@ init();
     radio_station[help]=(read_EEPROM(21+(help*2))*10)+(read_EEPROM(22+(help*2)));
   distance_light=read_EEPROM(27);
   night_lcd_dimm=read_EEPROM(28);
-  //max_stories=(read_EEPROM(17)*29)+(read_EEPROM(30));
-  max_stories=99;
+  max_stories=(read_EEPROM(17)*29)+(read_EEPROM(30));
   alarm_days=read_EEPROM(29);
 
   //  Read AT24C32 
