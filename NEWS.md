@@ -1,6 +1,7 @@
 # Newsblog
 
 ## 2018  
+* **19.03.2018** German version V2.0 now has full Umlaute support.  
 * **13.03.2018** The german manual got an update. All new functions are described now.  
 * **07.03.2018** Firmware **X.0-070318** - Enhancement: You can select weekdays for the alarm. Very handy!  
 * **02.03.2018** Firmware **X.0-020318** - Bugfix: No more compiling warnings. I sacrificed two precious bytes for your relief.  
