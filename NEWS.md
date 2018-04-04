@@ -1,6 +1,7 @@
 # Newsblog
 
 ## 2018  
+* **04.04.2018** My hoster was offline for more than two weeks. I moved to a new one. The graphics in the GitHub will be back soon. What a waste of time...  
 * **19.03.2018** German version V2.0 now has full Umlaute support.  
 * **13.03.2018** The german manual got an update. All new functions are described now.  
 * **07.03.2018** Firmware **X.0-070318** - Enhancement: You can select weekdays for the alarm. Very handy!  
