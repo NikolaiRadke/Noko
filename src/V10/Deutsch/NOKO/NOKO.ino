@@ -1,11 +1,11 @@
- /* NOKO V1.0 07.03.2018 - Nikolai Radke
+ /* NOKO V1.0 06.04.2018 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module! Uncommend line 88 if it's not present.
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 27.814 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 27.826 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -2023,7 +2023,7 @@ void menue_Settings2() // "weiter...":  More settings
   lcd.setCursor(2,1);
   lcd.print(F("Distanzlicht   [ ]")); // Use ultrasonic to turn on light when it's off
   lcd.setCursor(2,2);
-  lcd.print(F("Equalizer..."));       // Equalizer menue
+  lcd.print(F("Equalizer & Upload")); // Equalizer menue and upload mode
   lcd.setCursor(2,3);
   lcd.print(F("Mein NOKO"));          // About NOKO menue
   while (selected!=4)
@@ -2070,7 +2070,7 @@ void menue_Equalizer() // Set equalizer mode of MP3 module
    uint8_t menue=0;
    print_icon(custom_char[15]);
    lcd.blink();
-   lcd.print(F("Equalizer"));
+   lcd.print(F("Equalizer & Upload"));
    lcd.setCursor(0,1);
    lcd.print(F("Normal  [ ] Pop  [ ]"));
    lcd.setCursor(0,2);
@@ -2080,8 +2080,8 @@ void menue_Equalizer() // Set equalizer mode of MP3 module
    while (selected!=4)
    {
      put_char(equalizer%2==0? 9:18,(equalizer/2)+1,88);
-     lcd.setCursor(menue%2==0? 9:18,(menue/2)+1);
-     wait_1m(false,false);   
+     lcd.setCursor(menue%2==0? 9:18,(menue/2)+1);  
+     selected=read_button(false);
      switch(selected)
      {
         case 1:
@@ -2093,6 +2093,7 @@ void menue_Equalizer() // Set equalizer mode of MP3 module
         case 2: if (menue<5) menue++; break;
         case 3: if (menue>0) menue--; break;
      }
+     powerdown_delay(pwd_delay);
    }
 }
 

@@ -60,7 +60,7 @@
 #define Disc0 0x57  // AH24C32
 
 // Set Timezone
-#define zz 1        // Timezone 1 = UTC+1 | CET - Summertime/CEST will be calculated!
+#define tz 1        // Timezone 1 = UTC+1 | CET - Summertime/CEST will be calculated!
 
 // Personal informations
 //              "                    "
@@ -201,7 +201,7 @@ bool check_summertime() // Check summertime
 {
   if ((tm.Month<3) || (tm.Month>10)) return false;
   if ((tm.Month>3) && (tm.Month<10)) return true;
-  if (tm.Month==3 && (tm.Hour + 24 * tm.Day)>=(1 + zz + 24*(31 - (5 * tm.Year /4 + 4) % 7)) || tm.Month==10 && (tm.Hour + 24 * tm.Day)<(1 + zz + 24*(31 - (5 * tm.Year /4 + 1) % 7))) 
+  if (tm.Month==3 && (tm.Hour + 24 * tm.Day)>=(1 + tz + 24*(31 - (5 * tm.Year /4 + 4) % 7)) || tm.Month==10 && (tm.Hour + 24 * tm.Day)<(1 + tz + 24*(31 - (5 * tm.Year /4 + 1) % 7))) 
     return true; 
   else 
     return false;
