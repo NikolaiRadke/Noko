@@ -2,7 +2,7 @@
 
 The DIY-**NOKO Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. NOKO is for everyone. What's new? See the [newsblog](https://github.com/NikolaiRadke/NOKO/tree/master/NEWS.md).  
 
-**26.12.2018** - The 3D printable casing is ready! Stay tuned for a new 2.0 repository!    
+**26.04.2018** - The 3D printable casing is ready! Stay tuned for a new 2.0 repository!    
   
 ![NOKO Orange](http://www.nikolairadke.de/NOKO/noko_echt.png)  
 
