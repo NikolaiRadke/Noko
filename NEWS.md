@@ -1,6 +1,7 @@
 # Newsblog
 
 ## 2018  
+* **30.04.2018** Firmware **X.0-300418** Slightly optimized random generator.  
 * **26.04.2018** Good news: The 3D printable casing is ready! Stay tuned for a new 2.0 repository!  
 * **06.04.2018** Firmware **X.0-060418** When uploading files NOKO should be quiet. The equalizer menu sets NOKO in upload mode.  
 * **04.04.2018** My hoster was offline for more than two weeks. I moved to a new one. The graphics in the GitHub are back now. What a waste of time...  
