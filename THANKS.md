@@ -20,7 +20,7 @@ Active supporters:
 - **"jlegen"** - for supporting Thomas with the pcb design.  
 - **Thomas "teuler"** - for supporting Thomas with the pcb design.  
 - **Ralf Warmuth** - corrections.  
-- **BigAngelina** - ideas and testing.  
+- **BigAngelina** - ideas,testing and the (horray!) 3D casing.  
 - **Issue-Community** - ideas, inspirations and (alas!) bugs.  
 
 Used ressources:  
