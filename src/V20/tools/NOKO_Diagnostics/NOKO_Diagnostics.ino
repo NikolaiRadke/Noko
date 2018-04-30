@@ -315,7 +315,6 @@ uint8_t readDisc(uint8_t discnumber, uint16_t address) // Read an EEPROM
 void si4703_readRegisters()
 {
   Wire.requestFrom(Radio,32);      // Read all 32 bytes
-  while(Wire.available()<32) ; 
   for(uint8_t x=0x0A;;x++) 
   { 
     if(x==0x10) x=0;              // Loop back to zero

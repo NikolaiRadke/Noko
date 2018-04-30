@@ -5,7 +5,7 @@
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.510 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 28.490 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -876,7 +876,6 @@ void draw_time() // Draw clock, power level and flags
   // Voltage: min_V to max_V
   power=(uint16_t)(((power/5)*(5.0/1024)-min_V)/((max_V-min_V)/100)); 
   power=constrain(power,1,99);
-  power=99;
   // >57% Voltage are about 92% of overall capacity. Drops at 3,63V
   if (power>57) power=map(power,57,99,8,99); 
   else power=map(power,1,56,1,8);
