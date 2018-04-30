@@ -39,3 +39,4 @@ void TimerFreeTone(uint8_t pin, uint16_t frequency, unsigned int duration, uint8
 		delayMicroseconds(frequency - duty); // Square wave duration (how long to leave pin low).
 	}
 }
+

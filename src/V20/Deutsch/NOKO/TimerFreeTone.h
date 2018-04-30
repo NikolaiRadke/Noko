@@ -67,3 +67,4 @@
   
 	void TimerFreeTone(uint8_t pin, uint16_t frequency, unsigned int duration, uint8_t volume = 10);
 #endif
+

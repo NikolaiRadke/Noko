@@ -1,11 +1,11 @@
- /* NOKO V2.0 06.04.2018 - Nikolai Radke
+ /* NOKO V2.0 30.04.2018 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module! Uncommend line 88 if it's not present.
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.484 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 28.510 (1.8.2 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-060418"
+#define Firmware "-300418"
 #define Version 20  // 2.0 - PCB
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
@@ -727,7 +727,7 @@ void powerup()  // Power save off
 uint8_t newrandom(uint8_t a,uint8_t b) // Better XOR random number generator 
 {
     uint16_t rnd;
-    rnd+=micros();
+    rnd+=analogRead(6)+micros();
     rnd^=rnd<<2;rnd^=rnd>>7;rnd^=rnd<<7;
     return (rnd/65535.0)*(b-a)+a;
 }
@@ -876,6 +876,7 @@ void draw_time() // Draw clock, power level and flags
   // Voltage: min_V to max_V
   power=(uint16_t)(((power/5)*(5.0/1024)-min_V)/((max_V-min_V)/100)); 
   power=constrain(power,1,99);
+  power=99;
   // >57% Voltage are about 92% of overall capacity. Drops at 3,63V
   if (power>57) power=map(power,57,99,8,99); 
   else power=map(power,1,56,1,8);
@@ -2522,5 +2523,6 @@ void write_EEPROM(uint8_t address, uint8_t data) // Write internal EEPROM with o
 {
   EEPROM.update(address+offset,data);
 }
+
 
 
