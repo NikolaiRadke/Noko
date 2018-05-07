@@ -18,8 +18,10 @@ if another USB port is used by NOKO, modify /dev/USB0 to /dev/USB1 or whatever t
 
 5. Write the text file to EEPROM with the command  
 ``` ./write_Disc0 > /dev/ttyUSB0 ```  
-or  
+or 
 ``` ./write_Disc1 > /dev/ttyUSB0 ```  
+or, if you want to see the progress in your console:  
+``` ./write_Disc1 | tee /dev/ttyUSB0 ```  
 The program sends the content of the text file **Disc0** or **Disc1** via Arduino to the EEPROM. You can watch your Arduino's RX and TX LEDs blinking furiously. This may take a while, Disc1 needs about 20 minutes... *yawn*
 
 ### NOTE 
