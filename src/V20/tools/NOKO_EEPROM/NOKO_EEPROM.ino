@@ -1,5 +1,5 @@
 /*
- * NOKO EEPROM writer V2.0 26.02.2017 - Nikolai Radke
+ * NOKO EEPROM writer V2.0 26.02.2018 - Nikolai Radke
  * 
  * This sketch writes the event poems, phrases and stuff into 24LC256.
  * Umlaute are converted, NOKOs LCD uses another charset!
