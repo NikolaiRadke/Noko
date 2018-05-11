@@ -1,4 +1,4 @@
-# Voice set for NOKO - German | enhanced 226 files Version
+# Male voice set for NOKO - German | enhanced 226 files Version
 
 Copy these mp3s into the folder **001** on your microSD card. Strictly observe the sequence!
 021.mp3 must be copied as the 21st file. See the [Wiki](https://github.com/NikolaiRadke/NOKO/wiki/SDKarte) for more detailed instructions.
