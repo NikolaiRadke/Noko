@@ -2,7 +2,7 @@
 
 The DIY-**NOKO Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. NOKO is for everyone. What's new? See the [newsblog](https://github.com/NikolaiRadke/NOKO/tree/master/NEWS.md).  
 
-**30.04.2018** - Right now i am working on the new NOKO_2 repository. When it is ready, this repro will only focus on version 2 NOKO - which certainly will maintained for a while.  
+**11.05.2018** - The female voice set is ready! Note if you are planing to chance your set, you need to reinstall **all** of your MP3-files to your card again. Stupid module...  
   
 ![NOKO Orange](http://www.nikolairadke.de/NOKO/noko_echt.png)  
 
