@@ -13,4 +13,4 @@ Copy these mp3s into the folder **001** on your microSD card. Strictly observe t
 | 151-225 | Time based events        |
 | 226     | Birthday song            |
 
-011-225 have been spoken by my fellow actress [Norma Anthes](https://norma-anthes.de). Thanks, lady!)
+011-225 have been spoken by my fellow actress [Norma Anthes](http://norma-anthes.de). Thanks, lady!)
