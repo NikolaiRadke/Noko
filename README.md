@@ -46,13 +46,19 @@ NOKO/
 |       Source documents for Scribus with all illustrations and fonts.
 |
 ├── mp3/
-|   Voice sets for NOKO in German. English needed? Contribute!
-|   ├── alternative/
-|   |   Some less rude voice files.
-|   ├── VoiceSet_111/
-|   |   Voice set for older NOKOs.
-|   └── VoiceSet_226/
-|       Enhanced voice set.
+|   Female and male voice sets for NOKO in German. English needed? Contribute!
+|   ├── Female/  
+|   |   Female voice set for NOKOs.
+|   |   └── VoiceSet_226/
+|   |       New voice files.
+|   └── Male/
+|       Male voice sets
+|       ├── alternative/
+|       |   Some less rude voice files.
+|       ├── VoiceSet_111/
+|       |   Voice set for older NOKOs.
+|       └── VoiceSet_226/
+|           Enhanced voice set.
 | 
 ├── schematics/
 |   The Schematics for the NOKO parts, the NOKO sewing pattern and shopping lists.
