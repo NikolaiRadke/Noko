@@ -149,7 +149,7 @@
 #define turnOff_amp     PORTD |= (1<<6)   // Amplifier HIGH=off
 #define turnOn_aux      PORTD |= (1<<7)   // AUX HIGH=on
 #define turnOff_aux     PORTD &= ~(1<<7)  // AUX LOW=off
-#define mp3_busy        (analogRead(1)>1) // Busy=HIGH?
+#define mp3_busy        PIND & (1<<4)     // Digital reading on D4
 // #define mp3_busy     PIND & (1<<4)     // Digital reading on D4
 
 // Libraries

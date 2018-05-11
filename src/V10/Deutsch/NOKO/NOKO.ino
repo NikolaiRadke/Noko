@@ -109,7 +109,7 @@
 #define vol_mp3       30  // JQ6500 volume 0-30
 #define vol_radio     10  // Si4703 volume 0-15
 #define def_sysinfo       // Sysinfo menu. Comment out for additional 640 bytes
-//#define busy_analog     // Set if reading the busy signal analog via A1
+#define busy_analog     // Set if reading the busy signal analog via A1
 
 // Choose your voice set              
 //#define voice_set_111   // Old set with 111 files
@@ -287,7 +287,7 @@ init();
   power_timer2_disable();
   
   // Portdefinitions. Direct manipulation is much faster and saves flash
-  DDRD=B11101000;   // D7-D0 | 1=OUTPUT
+  DDRD=B11111000;   // D7-D0 | 1=OUTPUT
   DDRB=B00101100;   // D13-D8
   DDRC=B00001100;   // A7-A0 | Set unused analog pins to output to prevent catching noise from open ports
   PORTD=B01000000;  // D6 MOSFET HIGH: Turn off amplifier to prevent startup noise
@@ -385,14 +385,14 @@ init();
   sound_on();
   play_tone(600,80,false,80);
   play_tone(880,150,false,150);
-  turnOff_amp;
+  //turnOff_amp;
   
   read_time(); // Read RTC
   night_over=check_night(); // Has nightmode switched before startup?
-
+  
   max_files=mp3.countFiles(MP3_SRC_SDCARD)-(voice_birthday+max_stories); // Number own of files on SD card
+  
 }
-
 // MAIN LOOP
 while(1)
 {
@@ -532,8 +532,8 @@ uint8_t read_button(boolean silent)  // Read pressed button und debounce | silen
     {
       if (analogRead(Buttons)>0)
       {
-        if ((!mp3_busy) && (!silent) && (!mp3_pause))
-          if (newrandom(1,8)==4) JQ6500_play(newrandom(11,voice_nose_start)); 
+        if ((!silent) && (!mp3_pause))
+          JQ6500_play(newrandom(11,voice_nose_start)); 
         powerdown_delay(pwd_delay);
         return 1;
       }
@@ -2442,7 +2442,6 @@ void JQ6500_play(uint16_t file) // Plays MP3 number v
 {
   sound_on(); // Amplifier on
   mp3.playFileByIndexNumber(file);
-  powerdown_delay(100);
   if (file_on) mp3.setLoopMode(MP3_LOOP_FOLDER);
   if (story_on) mp3.setLoopMode(MP3_LOOP_NONE);  
 }
