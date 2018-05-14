@@ -1,6 +1,7 @@
 # Newsblog
 
 ## 2018  
+* **14.05.2018** See NOKO and me at the Maker Faire 2018 in Berlin: 25.10.2018-28.10.2018, FEZ!  
 * **11.05.2018** The female voice set ist finished.  
 * **30.04.2018** Firmware **X.0-300418** Slightly optimized random generator.  
 * **26.04.2018** Good news: The 3D printable casing is ready! Stay tuned for a new 2.0 repository!  
