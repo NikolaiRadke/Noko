@@ -109,7 +109,6 @@
 #define vol_mp3       30  // JQ6500 volume 0-30
 #define vol_radio     10  // Si4703 volume 0-15
 #define def_sysinfo       // Sysinfo menu. Comment out for additional 640 bytes
-#define busy_analog     // Set if reading the busy signal analog via A1
 
 // Choose your voice set              
 //#define voice_set_111   // Old set with 111 files
