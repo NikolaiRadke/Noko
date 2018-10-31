@@ -1,8 +1,9 @@
 # Newsblog
 
 ## 2018  
+* **26.08.2018** See NOKO and me at Wissensnacht Ruhr Gelsenkirchen: 28.08.2018.  
 * **25.08.2018** New IDE 1.8.6 is out! Together with old AVR Core 1.6.18 ocde size is reduced by about 400 bytes!  
-* **24.08.2018** See NOKO and me at the Maker Faire Hannover: 14.09.2018-16.09.2018  
+* **24.08.2018** See NOKO and me at the Maker Faire Hannover: 15.09.2018-16.09.2018.  
 * **14.05.2018** See NOKO and me at the Maker Faire Berlin: 25.05.2018-28.05.2018, FEZ!  
 * **11.05.2018** The female voice set ist finished.  
 * **30.04.2018** Firmware **X.0-300418** Slightly optimized random generator.  
