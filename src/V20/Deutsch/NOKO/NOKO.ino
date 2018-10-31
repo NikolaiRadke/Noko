@@ -5,7 +5,7 @@
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.072 (1.8.6 | AVR Core 1.6.18 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 28.072 (1.8.6 | AVR Core 1.6.23 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -106,15 +106,22 @@
 // Developer options
 #define pwd_delay     50  // Button debounce
 #define reaction_time 70  // Startup time for the amplifier
-#define sensor        25  // Ultrasonic: with cover 10, without 25
+#define sensor        10  // Ultrasonic: with cover 10, without 25
 #define vol_mp3       30  // JQ6500 volume 0-30
 #define vol_radio     10  // Si4703 volume 0-15
 #define def_sysinfo       // Sysinfo menu. Comment out for additional 640 bytes
 
-// Choose your voice set              
-#define voice_set_226     // New set with 226 files
+// Choose your voice set         
+#define voice_set_111   // Old set with 111 files     
+//#define voice_set_226     // New set with 226 files
 //#define own_set         // Define your own set below
 
+#ifdef voice_set_111
+  #define voice_nose_start    31  // Starts with 31.mp3
+  #define voice_sensor_start  61
+  #define voice_time_start    81
+  #define voice_birthday      111
+#endif
 #ifdef voice_set_226
   #define voice_nose_start    51
   #define voice_sensor_start  101
