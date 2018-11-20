@@ -1,4 +1,4 @@
- /* NOKO Diagnostics V0.9 19.03.2017 - Nikolai Radke
+ /* NOKO Diagnostics V0.9 20.11.2019 - Nikolai Radke
   *  
   *  Sketch for testing NOKO functions.
   *  This sketch aims to be easy. Clear source code and no libraries.
@@ -297,6 +297,7 @@ void loop()
   Serial.read();
   delay(100);
   Serial.println("\nDone.\n");
+  while(Serial.available()) Serial.read();
 }
 
 uint8_t readDisc(uint8_t discnumber, uint16_t address) // Read an EEPROM
@@ -336,5 +337,3 @@ void si4703_updateRegisters()
   }
   Wire.endTransmission();
 }
-
-
