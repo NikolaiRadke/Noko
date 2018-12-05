@@ -1,6 +1,6 @@
 # Setting up a serial connection and writing to EEPROMs
 
-Open the NOKO writer sketch **NOKO_Disk1.ino** in the Arduino IDE and start it. 
+Open the NOKO writer sketch **write_eeprom.ino** in the Arduino IDE and start it. You can see the progress on your console.  
 
 ## Linux
 
@@ -19,7 +19,7 @@ if another USB port is used by NOKO, modify /dev/USB0 to /dev/USB1 or whatever t
 ``` ./write_eeprom > /dev/ttyUSB0 ```  
 or, if you want to see the progress in your console,    
 ``` ./write_eeprom | tee /dev/ttyUSB0 ```  
-The program sends the content of the text file **EEPROM** via Arduino to the EEPROM. You can watch your Arduino's RX and TX LEDs blinking furiously. This may take a while, Disk1 needs about 18 minutes... *yawn*
+The program sends the content of the text file **EEPROM** via Arduino to the EEPROM. You can watch your Arduino's RX and TX LEDs blinking furiously. This may take a while, the file needs about 18 minutes to be written... *yawn*
 
 ### NOTE 
 *write_eeprom* was compiled with *x86_64*. For other platforms, see *write_eeprom.c* comments to compile it for yourself.
@@ -31,7 +31,7 @@ The program sends the content of the text file **EEPROM** via Arduino to the EEP
 2. Chance the directoy to ` NOKO/write_eeprom/  `  
 
 3. Write the text file to EEPROM with the command  ``` write_eeprom > COM1 ```  
-If another USB port is used by NOKO, modify COM1 to COM2 or whatever the IDE tells you. The program sends the content of the text file **EEPROM** via Arduino to the EEPROM. You can watch your Arduino's RX and TX LEDs blinking furiously. This may take a while, Disk1 needs about 18 minutes... *yawn*
+If another USB port is used by NOKO, modify COM1 to COM2 or whatever the IDE tells you. The program sends the content of the text file **EEPROM** via Arduino to the EEPROM. You can watch your Arduino's RX and TX LEDs blinking furiously. This may take a while, the file needs about 18 minutes to be written... *yawn*
 
 ## Windows 8  
 
@@ -41,7 +41,7 @@ Users report troubles writing an EEPROM with the provided tools. Please try anot
 
 Like written above, but first Windows 10 needs another **baud rate**. You need admin rights.  
  
-or **Line 17** in **NOKO_Disk1.ino**.  
+or **Line 17** in **write_eeprom.ino**.  
   
 2. *Right click Start* -> *Device Manager* -> *Ports* -> *USB Serial Port (COMX)* -> *Right click Port Settings*  
 
@@ -52,7 +52,7 @@ or **Line 17** in **NOKO_Disk1.ino**.
 ### NOTE 
 *write_eeprom.exe* was compiled with *x86_64*. For other platforms, see *write_eeprom.c* comments to compile it for yourself.
 
-## The textfiles DISK0 and DISK1
+## The textfile EEPROM
 
 ### EEPROM format
 * **0000-3999** are for the swearword generator:  
