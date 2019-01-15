@@ -1,6 +1,7 @@
 # Newsblog
 
 ## 2018  
+* **15.01.2018** New IDE 1.8.8 is working but still has AVR Core 1.6.23.  
 * **20.11.2018** Small improvements for write_eeprom tool. Thanks to jlegen.  
 * **19.11.2018** New IDE 1.8.7 tested. Works with new AVR Core 1.6.23. Finally.  
 * **26.08.2018** See NOKO and me at Wissensnacht Ruhr Gelsenkirchen: 28.08.2018.  
