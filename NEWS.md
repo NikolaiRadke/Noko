@@ -1,5 +1,9 @@
 # Newsblog
 
+## 2019
+* **14.04.2018** Firmware **X.0-140418** Fixed old and rare nightmode bug.  
+* **13.04.2018** New IDE 1.8.9 is working.  
+
 ## 2018  
 * **15.01.2018** New IDE 1.8.8 is working but still has AVR Core 1.6.23.  
 * **20.11.2018** Small improvements for write_eeprom tool. Thanks to jlegen.  
