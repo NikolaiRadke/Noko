@@ -1,11 +1,11 @@
- /* NOKO V2.0 30.04.2018 - Nikolai Radke
+ /* NOKO V2.0 14.04.2019 - Nikolai Radke
  *
  * Sketch for NOKO-Monster - Deutsch
  * NOTE: Does NOT run without the Si4703 Radio Module! Uncommend line 88 if it's not present.
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.072 (1.8.7 | AVR Core 1.6.23 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 28.072 (1.8.8 | AVR Core 1.6.23 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
@@ -80,7 +80,7 @@
 */
 
 // Softwareversion
-#define Firmware "-300418"
+#define Firmware "-140419"
 #define Version 20  // 2.0 - PCB
 #define Build_by "by Nikolai Radke" // Your Name. Max. 20 chars, appears in "Mein NOKO" menu
 
@@ -953,7 +953,7 @@ boolean check_night() // Is it nighttime?
     {
       if (night_mm<=night_to_mm)
         if ((tm.Minute>=night_mm) && (tm.Minute<=night_to_mm)) yes=true;
-      if (night_hh>night_to_mm)
+      if (night_mm>night_to_mm)
         if ((tm.Minute<=night_to_mm) || (tm.Minute>=night_to_mm)) yes=true;
     }
     if ((tm.Hour==night_hh) && (tm.Minute>=night_mm)) yes=true;
