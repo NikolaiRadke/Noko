@@ -5,7 +5,7 @@
  * The main loop controls the timing events and gets interrupted by the read_button()-funtion.
  * Otherwise NOKO falls asleep with powerdown_delay() for 120ms. This saves a lot of power.
  * 
- * Flash-Usage: 28.072 (1.8.8 | AVR Core 1.6.23 | Linux x86_64, Windows 10 | Compiler options)
+ * Flash-Usage: 27.544 (1.8.10 | AVR Core 1.8.1 | Linux x86_64, Windows 10 | Compiler options)
  * 
  * Optional:
  * Compiler Options:   -funsafe-math-optimizations -mcall-prologues -maccumulate-args
