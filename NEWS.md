@@ -1,8 +1,9 @@
 # Newsblog
 
 ## 2019
-* **14.04.2018** Firmware **X.0-140418** Fixed old and rare nightmode bug.  
-* **13.04.2018** New IDE 1.8.9 is working.  
+* **18.09.2019** New IDE 1.8.10 is out. Saves about 500 bytes - that's quit a lot!  
+* **14.04.2019** Firmware **X.0-140418**. Fixed old and rare nightmode bug.  
+* **13.04.2019** New IDE 1.8.9 is working.  
 
 ## 2018  
 * **15.01.2018** New IDE 1.8.8 is working but still has AVR Core 1.6.23.  
