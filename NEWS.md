@@ -1,7 +1,7 @@
 # Newsblog
 
 ## 2019
-* **18.09.2019** New IDE 1.8.10 is out. Saves about 500 bytes - that's quit a lot!  
+* **18.09.2019** New IDE 1.8.10 is out. Saves about 500 bytes - that's quite a lot!  
 * **14.04.2019** Firmware **X.0-140418**. Fixed old and rare nightmode bug.  
 * **13.04.2019** New IDE 1.8.9 is working.  
 
