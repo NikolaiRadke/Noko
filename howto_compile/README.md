@@ -1,4 +1,4 @@
-# Compiling instructions for NOKO
+# Compiling instructions for Noko
 ### NOTE: These options are used globally for all sketches.
 
 **Prerequisits**  
@@ -9,7 +9,7 @@ Linux: with IDE 1.6.6-1.6.9 use AVR Core 1.6.9 and see intructions below.
 Windows: IDE 1.6.6-1.6.9 will *not* work without Optiboot. Install Optiboot and see intructions below.
 
 ### Note:
-The sketch will **not** run without the Si4703 radio module. If you want to test it anyway, you have to modify *NOKO.ino*. Change the line  
+The sketch will **not** run without the Si4703 radio module. If you want to test it anyway, you have to modify *Noko.ino*. Change the line  
 ```#define def_radio 1           // Using Radio?```   
 in the beginning of the sketch into   
 ```//#define def_radio 1           // Using Radio?```    
@@ -20,7 +20,7 @@ Now, the radio functions are commented out and disabled.
 
 ### platform.txt
 
-To compile NOKO.ino, you need to modify the file configuration file platform.txt.  
+To compile Noko.ino, you need to modify the file configuration file platform.txt.  
 - In Linux, it can be found under 
 `/usr/share/arduino/hardware/arduino/avr/platform.txt`
 
