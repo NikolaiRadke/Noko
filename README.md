@@ -47,11 +47,11 @@ Noko/
 |
 ├── mp3/
 |   Female and male voice sets for Noko in German. English needed? Contribute!
-|   ├── Female/  
+|   ├── female/  
 |   |   Female voice set for Nokos.
 |   |   └── VoiceSet_226/
 |   |       New voice files.
-|   └── Male/
+|   └── male/
 |       Male voice sets
 |       ├── alternative/
 |       |   Some less rude voice files.
