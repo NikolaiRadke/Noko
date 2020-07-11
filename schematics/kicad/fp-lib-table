@@ -1,3 +1,0 @@
-(fp_lib_table
-  (lib (name NOKO_2)(type KiCad)(uri "$(KIPRJMOD)/NOKO_2.pretty")(options "")(descr ""))
-)
