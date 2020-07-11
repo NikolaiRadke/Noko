@@ -68,11 +68,11 @@ Noko/
 ├── src/
 |   Arduino sketches. V10 for the Noko of this Wiki, V20 for PCB Nokos.  
 |   ├── V10/
-|   |   ├── Deutsch/
+|   |   ├── deutsch/
 |   |   |   German version
 |   |   |   └── Noko/
 |   |   |       Main sourcecode with all the required libraries.
-|   |   ├── English/
+|   |   ├── english/
 |   |   |   English version. 
 |   |   |   └── Noko/
 |   |   |       Same files but translated. 
@@ -90,11 +90,11 @@ Noko/
 |   |       └── Noko_Time/
 |   |           Simple tool to set the current time without touching the EEPROM
 |   └── V20/
-|       ├── Deutsch/
+|       ├── deutsch/
 |       |   German version
 |       |   └── Noko/
 |       |       Main sourcecode with all the required libraries.
-|       ├── English/
+|       ├── english/
 |       |   English version. 
 |       |   └── Noko/
 |       |       Same files but translated. 
