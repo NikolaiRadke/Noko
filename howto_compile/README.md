@@ -92,12 +92,12 @@ Without OptiBoot:
 * X in ttyUSBX is the number of your USB-port connected to the Arduino. In most cases, ist is *ttyUSB0*. If not, look into the Arduino-IDE for the correct number.  
   
 ### Linux Updater  
-Just run **NOKOFlash** in [howto_compile/precompiled/Flashtool](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled/Flashtool) and select the firmware of your choice. Needs *avrdude* (see above). The GUI was written in TCL/TK and should run on every modern Linux Distribution and OSX. Maybe the *tk* package ist needed, if it does not run at once.   
+Just run **nokoflash** in [howto_compile/precompiled/Flashtool](https://github.com/NikolaiRadke/Noko/tree/master/howto_compile/precompiled/flashtool) and select the firmware of your choice. Needs *avrdude* (see above). The GUI was written in TCL/TK and should run on every modern Linux Distribution and OSX. Maybe the *tk* and *wish* packages are needed, if it does not run at once.   
 
-Try *Blink.hex* to test the tool :-)  
+Try *blink.hex* to test the tool :-)  
 
 ### Windows (Stupid stupid Windows)
-Get *avrdude* either from sourceforge or better, because you need libusb0.dll as well, from [howto_compile/precompiled/avrdude_win](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled/avrdude_win). Copy the files to your machine and add the hex-file of your choice from [howto_compile/precompiled](https://github.com/NikolaiRadke/NOKO/tree/master/howto_compile/precompiled) into the same directory. Open the command prompt with admin rights und use the following command:  
+Get *avrdude* either from sourceforge or better, because you need libusb0.dll as well, from [howto_compile/precompiled/avrdude_win](https://github.com/NikolaiRadke/Noko/tree/master/howto_compile/precompiled/avrdude_win). Copy the files to your machine and add the hex-file of your choice from [howto_compile/precompiled](https://github.com/NikolaiRadke/Noko/tree/master/howto_compile/precompiled) into the same directory. Open the command prompt with admin rights und use the following command:  
 
 With OptiBoot:  
 ```avrdude v -patmega328p -carduino -P\\.\COMX -b115200 -D -Uflash:w:XXXXX.hex:i```  
