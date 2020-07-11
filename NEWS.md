@@ -1,6 +1,8 @@
 # Newsblog
   
-## 2020
+## 2020  
+  
+* **10.07.2020** Tested new IDE 1.8.13. Works good.  
 * **10.06.2020** This repository gets a rework.  
 
 ## 2019
