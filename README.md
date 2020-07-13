@@ -2,7 +2,7 @@
   
 **Note: This Repository is getting a rework.**
 
-The DIY-**Noko Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. Noko is for everyone. What's new? See the [newsblog](https://github.com/NikolaiRadke/NOKO/tree/master/NEWS.md).  
+The DIY-**Noko Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. Noko is for everyone. What's new? See the [newsblog](https://github.com/NikolaiRadke/Noko/tree/master/NEWS.md).  
   
 ![Noko Orange](http://www.nikolairadke.de/NOKO/noko_echt.png)  
 
@@ -66,58 +66,30 @@ Noko/
 |       Source documents for gEDA.
 |
 ├── src/
-|   Arduino sketches. V10 for the Noko of this Wiki, V20 for PCB Nokos.  
-|   ├── V10/
-|   |   ├── deutsch/
-|   |   |   German version
-|   |   |   └── Noko/
-|   |   |       Main sourcecode with all the required libraries.
-|   |   ├── english/
-|   |   |   English version. 
-|   |   |   └── Noko/
-|   |   |       Same files but translated. 
-|   |   └── tools/
-|   |       Tools for using components and diagnostic.    
-|   |       ├── I2C-Scanner/
-|   |       |   Sketch to scan adresses of all connected I2C-devices.
-|   |       ├── Noko_Diagnostics/
-|   |       |   Tool to test Noko functions via serial monitor.
-|   |       ├── Noko_Disk1/
-|   |       |   Sketch to write the Disk1 textfile into 24LC256-EEPROMs.
-|   |       ├── Noko_EEPROM_Disk0/
-|   |       |   Sketch to write Noko presets into the Arduino EEPROM and the Disk0 textfile into the
-|   |       |   AH24C32 EEPROM.
-|   |       └── Noko_Time/
-|   |           Simple tool to set the current time without touching the EEPROM
-|   └── V20/
-|       ├── deutsch/
-|       |   German version
-|       |   └── Noko/
-|       |       Main sourcecode with all the required libraries.
-|       ├── english/
-|       |   English version. 
-|       |   └── Noko/
-|       |       Same files but translated. 
-|       └── tools/
-|           Tools for using components and diagnostic.    
-|           ├── I2C-Scanner/
-|           |   Sketch to scan adresses of all connected I2C-devices.
-|           ├── Noko_Diagnostics/
-|           |   Tool to test Noko functions via serial monitor.
-|           ├── Noko_EEPROM/
-|           |   Sketch to write the textfile EEPROM into 24LC256-EEPROMs.
-|           ├── Noko_Settings/
-|           |   Sketch to write Noko presets into the Arduino EEPROM and the constants into the
-|           |   AH24C32 EEPROM.
-|           └── Noko_Time/
-|               Simple tool to set the current time without touching the EEPROM.
-|    
+|   Arduino sketches.
+|   ├── deutsch/
+|   |   German version
+|   |   └── Noko/
+|   |       Main sourcecode with all the required libraries.
+|   ├── english/
+|   |   English version. 
+|   |   └── Noko/
+|   |       Same files but translated. 
+|   └── tools/
+|       Tools for using components and diagnostic.    
+|       ├── I2C-Scanner/
+|       |   Sketch to scan adresses of all connected I2C-devices.
+|       ├── Noko_Diagnostics/
+|       |   Tool to test Noko functions via serial monitor.
+|       ├── Noko_Disk1/
+|       |   Sketch to write the Disk1 textfile into 24LC256-EEPROMs.
+|       ├── Noko_EEPROM_Disk0/
+|       |   Sketch to write Noko presets into the Arduino EEPROM and the Disk0 textfile into the
+|       |   AH24C32 EEPROM.
+|       └── Noko_Time/
+|           Simple tool to set the current time without touching the EEPROM
 └── write_EEPROM/
     Tools to write data through serial connection to the Arduino and the EEPROMs. 
-    ├──  V10/
-    |    Old version, working with this wiki.  
-    └──  V20/
-         New upcoming version for PCB Nokos.
 ```
 ### Let's get started!
 
