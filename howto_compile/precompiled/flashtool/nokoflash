@@ -7,17 +7,17 @@ set Filename ""
 set Error ""
 
 # Main window
-wm title . "NOKO Flash Tool"
+wm title . "Noko Flash Tool"
 . configure -menu .menubar
 wm maxsize . 320 220
 wm minsize . 320 220
 bind . {<Key F1>} {showAbout}
 
 # Widgets
-label .l1 -text "NOKO Flasher" -font {-family sans -size 16}
+label .l1 -text "Noko Flasher" -font {-family sans -size 16}
 entry .e1 -textvariable Name -background white
 button .b1 -text "HEX File" -command {
-    set Filename [tk_getOpenFile -title "Choose NOKO HEX file" -filetypes {{{HEX} {*.hex}} {{Alle} {*}}}]
+    set Filename [tk_getOpenFile -title "Choose Noko HEX file" -filetypes {{{HEX} {*.hex}} {{Alle} {*}}}]
     set Name [file tail $Filename]
     .t1 insert end "To upload $Name press FLASH.\n"
 }
@@ -66,13 +66,13 @@ menu .menubar.optiboot -tearoff 0
 .menubar.optiboot add radiobutton -label "No Optiboot" -variable Baud -value 57600
 menu .menubar.help -tearoff 0
 .menubar add cascade -label Help -menu .menubar.help -underline 0
-.menubar.help add command -label "About NOKO Flasher..." \
+.menubar.help add command -label "About Noko Flasher..." \
     -accelerator F1 -underline 0 -command showAbout
 
 # Info box
 proc showAbout {} {
-    tk_messageBox -message "NOKO Flash Tool\nVersion 1.0\nUses AVRDude 6.2" \
+    tk_messageBox -message "Noko Flash Tool\nVersion 1.0\nUses AVRDude 6.2" \
         -title {About Hello}
 }
 
-tk appname "NOKOFlash"
+tk appname "Nokoflash"
