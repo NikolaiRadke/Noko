@@ -1,7 +1,5 @@
 # ![Noko](http://www.nikolairadke.de/NOKO/noko_back.jpg)
   
-**Note: This Repository is getting a rework.**
-
 The DIY-**Noko Monster**, lovely and naughty, ready to build on your own. And everyone is invited to **contribute**. Noko is for everyone. What's new? See the [newsblog](https://github.com/NikolaiRadke/Noko/tree/master/NEWS.md).  
   
 ![Noko Orange](http://www.nikolairadke.de/NOKO/noko_echt.png)  
